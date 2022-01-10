@@ -1,0 +1,50 @@
+---
+
+- name: Create patroni config directory
+  file:
+    path: "{{ patroni_config_dir }}"
+    state: directory
+    owner: "{{ patroni_system_user }}"
+    group: "{{ patroni_system_group }}"
+    mode: 0750
+  when: patroni_install_from_pip
+
+- name: Create patroni log directory
+  file:
+    path: "{{ patroni_log_dir }}"
+    state: directory
+    owner: "{{ patroni_system_user }}"
+    group: "{{ patroni_system_group }}"
+    mode: 0750
+  when: patroni_log_destination |d('stderr', true) != 'stderr'
+
+- name: Prepare callback scripts
+  copy:
+    src: "{{ patroni_postgresql_callbacks_dir }}/{{ item.event }}"
+    dest: "{{ item.script }}"
+    owner: "{{ patroni_system_user }}"
+    group: "{{ patroni_system_group }}"
+    mode: 0750
+    backup: "{{ patroni_backup_on_copy }}"
+  with_items:
+    - "{{ patroni_postgresql_callbacks }}"
+  when: not( (item.script is none) or (item.script | trim | length == 0) )
+
+- name: Create patroni unit file
+  template:
+    src: patroni.service.j2
+    dest: /etc/systemd/system/patroni.service
+    owner: root
+    group: root
+    mode: 0644
+  when: patroni_install_from_pip
+
+- name: Create patroni configuration file
+  template:
+    src: patroni.yml.j2
+    dest: "{{ patroni_config_dir }}/{{ patroni_config_file }}"
+    owner: "{{ patroni_system_user }}"
+    group: "{{ patroni_system_group }}"
+    mode: 0600
+  notify:
+    - restart patroni

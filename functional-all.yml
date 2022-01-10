@@ -14,3 +14,12 @@
     - andrewrothstein.etcd-cluster
   tags: 
     - etcd
+
+- hosts:
+    - postgres
+  become: true
+  gather_facts: false
+  roles:
+    - kostiantyn-nemchenko.patroni
+  tags:
+    - patroni
