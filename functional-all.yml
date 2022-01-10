@@ -1,0 +1,16 @@
+---
+- name: "Gather facts on all servers"
+  hosts:
+    - all
+  become: true
+  gather_facts: true
+
+- hosts:
+    - etcd
+    - etcd_master
+  become: true
+  gather_facts: false
+  roles:
+    - andrewrothstein.etcd-cluster
+  tags: 
+    - etcd
