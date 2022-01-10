@@ -1,0 +1,3 @@
+---
+etcd_os: darwin
+etcd_archive_suffix: zip

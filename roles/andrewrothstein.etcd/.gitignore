@@ -1,0 +1,6 @@
+**~
+requirements.yml
+Dockerfile.*
+*.retry
+*.gz
+**.swp

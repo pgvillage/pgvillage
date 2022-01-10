@@ -1,0 +1,4 @@
+---
+etcd_os: windows
+etcd_archive_suffix: zip
+etcd_exe_suffix: .exe
