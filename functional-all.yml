@@ -20,6 +20,17 @@
   become: true
   gather_facts: false
   roles:
+    - postgresql
+  tags:
+    - postgres
+    - postgresql
+    - pg
+
+- hosts:
+    - postgres
+  become: true
+  gather_facts: false
+  roles:
     - kostiantyn-nemchenko.patroni
   tags:
     - patroni
