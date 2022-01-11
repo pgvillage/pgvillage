@@ -43,3 +43,23 @@
     - kostiantyn-nemchenko.patroni
   tags:
     - patroni
+
+- hosts:
+    - postgres
+  become: true
+  gather_facts: false
+  roles:
+    - dudefellah.pgbackrest
+  tags:
+    - pgbr
+    - pgbackrest
+
+- hosts:
+    - postgres
+  become: true
+  gather_facts: false
+  roles:
+    - islander.wal_g
+  tags:
+    - wal_g
+    - walg
