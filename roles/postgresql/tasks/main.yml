@@ -1,4 +1,3 @@
 ---
 - include_tasks: rhsm.yml
 - include_tasks: install.yml
-- include_tasks: configdir.yml

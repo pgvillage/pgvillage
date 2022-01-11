@@ -12,22 +12,7 @@ postgresql_rhsm_product: "Postgresql{{ postgresql_version }}_8Server"
 
 postgresql_base_dir: "/var/lib/pgsql/{{ postgresql_version }}"
 postgresql_datadir: "{{ postgresql_base_dir }}/data"
-postgresql_confdir: "{{ postgresql_base_dir }}/conf"
-postgresql_customconf: "{{ postgresql_confdir }}/custom.conf"
 postgresql_pgconf: "{{ postgresql_datadir }}/postgresql.conf"
 
 postgresql_user: postgres
 postgresql_group: "{{ postgresql_user }}"
-postgresql_custom_config:
-  logging: |
-    log_truncate_on_rotation='on'
-    log_rotation_size='1GB'
-    syslog_facility='LOCAL1'
-    syslog_ident='pg{{ postgresql_version }}'
-    log_min_messages='warning'
-    log_min_error_statement='error'
-    log_connections='on'
-    log_disconnections='on'
-    log_error_verbosity='verbose'
-    log_statement='ddl'
-    logging_collector = 'on'
