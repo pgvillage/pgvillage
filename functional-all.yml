@@ -16,6 +16,15 @@
     - etcd
 
 - hosts:
+    - backup
+  become: true
+  gather_facts: false
+  roles:
+    - atosatto.minio
+  tags: 
+    - minio
+
+- hosts:
     - postgres
   become: true
   gather_facts: false
