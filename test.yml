@@ -1,0 +1,13 @@
+---
+- hosts:
+    - backup
+  become: true
+  gather_facts: false
+  tasks:
+  - name: Check the status of the stanza
+    command: ls /
+    register: stanza_check
+  - name: debug
+    debug:
+      var: stanza_check
+
