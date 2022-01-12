@@ -1,0 +1,9 @@
+---
+# defaults file for wal-g
+walg_release: "1.1"
+walg_bin_path: "/opt/wal-g/{{ walg_release }}/"
+walg_owner: root
+walg_pkg_arch: amd64
+walg_distribution: "wal-g-pg-ubuntu-18.04"
+walg_exe_name: "{{ walg_distribution }}-{{ walg_pkg_arch }}"
+walg_exe_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_release }}/{{walg_exe_name}}"

@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: wal-g
-  author: islander
-  description: A role to install wal-g archival restoration tool.
+  author: Sebastiaan Mannem
+  description: A role to install and configure wal-g archival restoration tool.
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value

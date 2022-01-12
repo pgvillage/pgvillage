@@ -59,7 +59,7 @@
   become: true
   gather_facts: false
   roles:
-    - islander.wal_g
+    - wal_g
   tags:
     - wal_g
     - walg
