@@ -2,8 +2,80 @@
 # defaults file for wal-g
 walg_release: "1.1"
 walg_bin_path: "/opt/wal-g/{{ walg_release }}/"
-walg_owner: root
+walg_user: postgres
+walg_group: postgres
+walg_binary_owner: root
 walg_pkg_arch: amd64
 walg_distribution: "wal-g-pg-ubuntu-18.04"
 walg_exe_name: "{{ walg_distribution }}-{{ walg_pkg_arch }}"
 walg_exe_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_release }}/{{walg_exe_name}}"
+
+# wal-g scheduling with cron
+walg_cron_minute: "0"
+walg_cron_hour: "20"
+walg_cron_day_ot_month: "*"
+walg_cron_dom: "*"
+walg_cron_dow: "*"
+walg_cron_month: "*"
+walg_cron_mailto: "{{ walg_user }}@{{ inventory_hostname }}"
+walg_cron_logfolder: "/var/log/wal-g"
+
+walg_cronvars:
+  - name: MAILTO
+    value: "{{ walg_cron_mailto }}"
+  - name: LOGFILE
+    value: "{{ walg_cron_logfolder }}"
+
+# Set to correct values!!!
+walg_aws_access_key: "AWSKEY"
+walg_aws_secret_key: "AWSSECRET"
+walg_aws_endpoint: "https://{{ walg_bucket_name }}.s3.Region.amazonaws.com/{{walg_aws_access_key}}"
+walg_aws_ca_file: ~/.wal-g/certs/minio.crt
+walg_pg_datadir: "/var/lib/pgsql/12/data" 
+walg_pg_bindir: /usr/pgsql/12/bin
+walg_pg_hostname: /var/run/postgresql
+walg_bucket_name: walg
+walg_delta_max_steps: 7
+walg_download_concurrency: 2
+walg_upload_concurrency: 2
+walg_upload_disk_concurrency: 2
+walg_compression_method: lz4
+# Keep  days of backups
+walg_retention_days: 7
+# Keep 1 full backup and all of its delta backups (only when WALG_RETENTION_DAYS not set)
+walg_retention_full_backups: ""
+# Keep 7 backups, either full or differential (only when WALG_RETENTION_DAYS and WALG_RETENTION_FULL_BACKUPS not set)
+walg_retention_backups: ""
+# Set to DEVEL for extra logging from wal-g
+walg_log_level: NORMAL
+# Set to DEVEL for extra logging in S3 communication
+s3_log_level: NORMAL
+
+# Below map is derived from above parameters and is one-on-one converted into a defaults file in /etc/defaults/walg
+# which is sourced by all the scripts.
+# Usually one would just change the above parameters, but for some situations, one might change the entire maps (like when google buckets would be used).
+walg_defaults:
+  AWS_ACCESS_KEY_ID: "{{ walg_aws_access_key }}"
+  AWS_SECRET_ACCESS_KEY: "{{ walg_aws_secret_key }}"
+  AWS_ENDPOINT: "https://{{ walg_aws_endpoint }}"
+  AWS_S3_FORCE_PATH_STYLE: true
+  PGDATA: "{{ walg_pg_datadir }}"
+  PGBIN: "{{ walg_pg_bindir }}"
+  PGHOST: "{{ walg_pg_hostname }}"
+  WALG_S3_PREFIX: "s3://{{ walg_bucket_name }}"
+  WALG_S3_CA_CERT_FILE: "{{ walg_aws_ca_file }}"
+  WALG_DELTA_MAX_STEPS: "{{ walg_delta_max_steps }}"
+  WALG_DOWNLOAD_CONCURRENCY: "{{ walg_download_concurrency }}"
+  WALG_UPLOAD_CONCURRENCY: "{{ walg_upload_concurrency }}"
+  WALG_UPLOAD_DISK_CONCURRENCY: "{{ walg_upload_disk_concurrency }}"
+  # specify encrytpion algoritm
+  WALG_COMPRESSION_METHOD: "{{ walg_compression_method }}"
+  WALG_RETENTION_DAYS: "{{ walg_retention_days }}"
+  # Keep 1 full backup and all of its delta backups (only when WALG_RETENTION_DAYS not set)
+  WALG_RETENTION_FULL_BACKUPS: "{{ walg_retention_full_backups }}"
+  # Keep 7 backups, either full or differential (only when WALG_RETENTION_DAYS and WALG_RETENTION_FULL_BACKUPS not set)
+  WALG_RETENTION_BACKUPS: "{{ walg_retention_backups }}"
+  # use for extra logging from wal-g
+  WALG_LOG_LEVEL: "{{ walg_log_level }}"
+  # use for extra logging in S3 communication
+  S3_LOG_LEVEL: "{{ s3_log_level }}"

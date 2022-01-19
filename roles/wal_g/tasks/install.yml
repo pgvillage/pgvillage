@@ -7,16 +7,16 @@
 
 - name: create wal-g folder
   become: yes
-  become_user: "{{ walg_owner }}"
+  become_user: "{{ walg_binary_owner }}"
   file:
     state: directory
     dest: "{{ walg_bin_path }}"
-    owner: "{{ walg_owner }}"
+    owner: "{{ walg_binary_owner }}"
     mode: "0755"
 
 - name: Download wal-g
   become: yes
-  become_user: "{{ walg_owner }}"
+  become_user: "{{ walg_binary_owner }}"
   get_url:
     url: "{{ walg_exe_url }}"
     dest: "{{ walg_bin_path }}"
@@ -24,7 +24,7 @@
 
 - name: Install wal-g binary
   become: yes
-  become_user: "{{ walg_owner }}"
+  become_user: "{{ walg_binary_owner }}"
   file:
     state: link
     src: "{{ walg_bin_path }}/{{ walg_exe_name }}"

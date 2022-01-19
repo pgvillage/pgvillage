@@ -21,7 +21,7 @@ walg_bin_path: /usr/local/bin
 Installation path for `wal-g` (default: /usr/local/bin)
 
 ```
-walg_owner: root
+walg_binary_owner: root
 ```
 
 Owner of the `wal-g` binary.

@@ -1,0 +1,45 @@
+---
+
+- name: Create logfolder
+  file:
+    dest: "{{ walg_cron_logfolder }}"
+    state: directory
+    owner: "{{ walg_user }}"
+    group: "{{ walg_group }}"
+
+
+- name: install defaults configuration
+  become: yes
+  become_user: root
+  template:
+    src: 'wal-g.default.j2'
+    dest: '/etc/default/wal-g'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+
+- name: Ensure a job that runs at 2 and 5 exists. Creates an entry like "0 5,2 * * ls -alh > /dev/null"
+  ansible.builtin.cron:
+    name: "backup"
+    minute: "{{ walg_cron_minute }}"
+    hour: "{{ walg_cron_hour }}"
+    dom: "{{ walg_cron_dom }}"
+    dow: "{{ walg_cron_dow }}"
+    month: "{{ walg_cron_month }}"
+    job: "/opt/wal-g/scripts/backup.sh"
+    user: "{{ walg_user }}"
+    cron_file: wal-g
+
+- name: Set cronvars
+  cronvar:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  loop: "{{walg_cronvars}}"
+
+- name: Copy scripts folder
+  copy:
+    src: scripts
+    dest: /opt/wal-g
+    owner: 'root'
+    group: 'root'
+    mode: 0755
