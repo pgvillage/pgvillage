@@ -17,6 +17,12 @@ walg_cron_day_ot_month: "*"
 walg_cron_dom: "*"
 walg_cron_dow: "*"
 walg_cron_month: "*"
+# By using `etcdctl lock`, we enforce backup to run on only ones (on a node) at a time.
+# The backup script sleeps for 10 seconds if this is a primary node, so standbys will have preference.
+# The backup script has a protection against running multiple backups per {{ walg_backup_skip_window }}.
+# So, iin short: only one backup will be taken every {{ walg_backup_skip_window }} hours,
+# and it will be taken from a standby unless only the master is available...
+walg_cron_command: "/opt/wal-g/scripts/backup_locked.sh"
 walg_cron_mailto: "{{ walg_user }}@{{ inventory_hostname }}"
 walg_cron_logfolder: "/var/log/wal-g"
 
@@ -40,6 +46,8 @@ walg_download_concurrency: 2
 walg_upload_concurrency: 2
 walg_upload_disk_concurrency: 2
 walg_compression_method: lz4
+# SKip backup when there are backups your than 23 hours:
+walg_backup_skip_window: 23
 # Keep  days of backups
 walg_retention_days: 7
 # Keep 1 full backup and all of its delta backups (only when WALG_RETENTION_DAYS not set)
@@ -57,7 +65,7 @@ s3_log_level: NORMAL
 walg_defaults:
   AWS_ACCESS_KEY_ID: "{{ walg_aws_access_key }}"
   AWS_SECRET_ACCESS_KEY: "{{ walg_aws_secret_key }}"
-  AWS_ENDPOINT: "https://{{ walg_aws_endpoint }}"
+  AWS_ENDPOINT: "{{ walg_aws_endpoint }}"
   AWS_S3_FORCE_PATH_STYLE: true
   PGDATA: "{{ walg_pg_datadir }}"
   PGBIN: "{{ walg_pg_bindir }}"
@@ -70,6 +78,7 @@ walg_defaults:
   WALG_UPLOAD_DISK_CONCURRENCY: "{{ walg_upload_disk_concurrency }}"
   # specify encrytpion algoritm
   WALG_COMPRESSION_METHOD: "{{ walg_compression_method }}"
+  WALG_BACKUP_SKIP_WINDOW: "{{ walg_backup_skip_window }}"
   WALG_RETENTION_DAYS: "{{ walg_retention_days }}"
   # Keep 1 full backup and all of its delta backups (only when WALG_RETENTION_DAYS not set)
   WALG_RETENTION_FULL_BACKUPS: "{{ walg_retention_full_backups }}"
