@@ -25,12 +25,15 @@ walg_cron_month: "*"
 walg_cron_command: "/opt/wal-g/scripts/backup_locked.sh"
 walg_cron_mailto: "{{ walg_user }}@{{ inventory_hostname }}"
 walg_cron_logfolder: "/var/log/wal-g"
+walg_cron_path: "/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
 
 walg_cronvars:
   - name: MAILTO
     value: "{{ walg_cron_mailto }}"
   - name: LOGFILE
     value: "{{ walg_cron_logfolder }}"
+  - name: PATH
+    value: "{{ walg_cron_path }}"
 
 # Set to correct values!!!
 walg_aws_access_key: "AWSKEY"

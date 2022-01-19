@@ -34,6 +34,7 @@
   cronvar:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
+    cron_file: wal-g
   loop: "{{walg_cronvars}}"
 
 - name: Copy scripts folder
