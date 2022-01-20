@@ -3,7 +3,7 @@ set -e
 
 echo
 # WAL-g config laden
-eval $(sed '/#/d;s/^/export /' /etc/default/wal-g)
+eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
 
 if [ "${WALG_RETENTION_DAYS}" ]; then
   # Wat was de datum 

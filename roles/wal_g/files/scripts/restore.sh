@@ -29,11 +29,12 @@ latest_backup_before() {
 
 latest_backup() {
   # Dit commando geeft het eerste veld op de laatste terug. Dat is de naam van de laatste backup.
+  # shellcheck disable=SC2016
   /usr/local/bin/wal-g backup-list | sed -n '${s/ .*//;p}'
 }
 
 # WAL-g config laden
-eval $(sed '/#/d;s/^/export /' /etc/default/wal-g)
+eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
 
 # PGRESTORE wordt ingesteld op:
 # - parameter 1, of
