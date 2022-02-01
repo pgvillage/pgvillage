@@ -1,0 +1,10 @@
+---
+
+- name: Start stolon systemd services
+  become: yes
+  systemd:
+    name: "{{ item }}.service"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  loop: "{{ stolon_services }}"

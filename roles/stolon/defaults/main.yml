@@ -1,0 +1,60 @@
+---
+# defaults file for stolon
+stolon_release: "v0.17.0"
+stolon_opt_path: "/opt/stolon/{{ stolon_release }}/"
+stolon_binary_owner: root
+stolon_user: postgres
+stolon_group: postgres
+stolon_logfolder: /var/log/stolon
+stolon_pkg_arch: amd64
+stolon_bin_path: "{{ stolon_opt_path }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}/bin"
+stolon_release_url: "https://github.com/sorintlab/stolon/releases/download/{{ stolon_release }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}.tar.gz"
+
+stolon_binaries:
+  - stolon-keeper
+  - stolonctl
+  - stolon-proxy
+  - stolon-sentinel
+stolon_services:
+  - stolon-keeper
+  - stolon-proxy
+  - stolon-sentinel
+
+stolon_pg_version: 12
+stolon_cluster_name: stolon-cluster
+stolon_store_backend: etcdv3
+stolon_port: 25432
+stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
+stolon_pg_su_password: supassword
+stolon_pg_repl_username: repluser
+stolon_pg_repl_password: replpassword
+#stolon_pg_listen_address: "{{ ansible_default_ipv4.address }}"
+stolon_pg_listen_address: localhost
+stolon_pg_port: 5432
+stolon_pg_bin_path: "/usr/pgsql-{{ stolon_pg_version }}/bin/"
+stolon_proxy_listen_address: "{{ ansible_default_ipv4.address }}"
+
+stolon_defaults:
+  stolonctl:
+    cluster_name: "{{ stolon_cluster_name }}"
+    store_backend: "{{ stolon_store_backend }}"
+  stsentinel:
+    cluster_name: "{{ stolon_cluster_name }}"
+    store_backend: "{{ stolon_store_backend }}"
+  stkeeper:
+    cluster_name: "{{ stolon_cluster_name }}"
+    store_backend: "{{ stolon_store_backend }}"
+    data_dir: "{{ stolon_data_dir }}"
+    pg_su_password: "{{ stolon_pg_su_password }}"
+    pg_repl_username: "{{ stolon_pg_repl_username }}"
+    pg_repl_password: "{{ stolon_pg_repl_password }}"
+    pg_listen_address: "{{ stolon_pg_listen_address }}"
+    pg_port: "{{ stolon_pg_port }}"
+    pg_bin_path: "{{ stolon_pg_bin_path }}"
+  stproxy:
+    cluster_name: "{{ stolon_cluster_name }}"
+    store_backend: "{{ stolon_store_backend }}"
+    port: "{{ stolon_port }}"
+    listen-address: "{{ stolon_proxy_listen_address }}"
+    
+

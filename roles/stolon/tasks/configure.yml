@@ -1,0 +1,19 @@
+---
+
+- name: install defaults configuration
+  become: yes
+  become_user: root
+  template:
+    src: 'stolon.default.j2'
+    dest: '/etc/default/stolon'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+
+- name: Init when needed
+  become: yes
+  become_user: "{{ stolon_user }}"
+  script: files/initscript.sh 
+  args:
+    creates: "{{ stolon_data_dir }}/PG_VERSION"
+    executable: /bin/bash

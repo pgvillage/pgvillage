@@ -49,6 +49,15 @@
   become: true
   gather_facts: false
   roles:
+    - stolon
+  tags:
+    - stolon
+
+- hosts:
+    - postgres
+  become: true
+  gather_facts: false
+  roles:
     - dudefellah.pgbackrest
   tags:
     - pgbr

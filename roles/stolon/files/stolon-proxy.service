@@ -1,0 +1,18 @@
+# This is an example systemd config file for Patroni
+# You can copy it to "/etc/systemd/system/patroni.service",
+
+[Unit]
+Description=Runners to orchestrate a high-availability PostgreSQL
+After=syslog.target network.target
+
+[Service]
+Type=simple
+
+User=postgres
+Group=postgres
+
+EnvironmentFile=-/etc/default/stolon
+ExecStart=/usr/local/bin/stolon-proxy
+
+[Install]
+WantedBy=multi-user.target

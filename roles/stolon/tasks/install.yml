@@ -1,0 +1,52 @@
+---
+# tasks file for stolon
+- name: Fail for unsupported architecture
+  fail:
+    msg: "Can't install stolon: unsupported arch ({{ ansible_architecture }})."
+  when: ansible_architecture != "x86_64"
+
+- name: create stolon folder
+  become: yes
+  become_user: "{{ stolon_binary_owner }}"
+  file:
+    state: directory
+    dest: "{{ stolon_opt_path }}"
+    owner: "{{ stolon_binary_owner }}"
+    mode: "0755"
+
+- name: Download stolon
+  become: yes
+  become_user: "{{ stolon_binary_owner }}"
+  get_url:
+    url: "{{ stolon_release_url }}"
+    dest: "{{ ansible_env.HOME }}"
+    mode: "0755"
+  register: stolon_download
+
+- name: Unarchive stolon archive
+  become: yes
+  become_user: "{{ stolon_binary_owner }}"
+  unarchive:
+    src: "{{ stolon_download.dest }}"
+    dest: "{{ stolon_opt_path }}"
+    remote_src: yes
+    creates: "{{ stolon_opt_path }}/stolon-v0.17.0-linux-amd64/bin/stolon-keeper"
+
+- name: Install stolon binaries
+  become: yes
+  become_user: root
+  file:
+    state: link
+    src: "{{ stolon_bin_path }}/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    force: yes
+  loop: "{{ stolon_binaries }}"
+
+- name: Install stolon systemd services
+  become: yes
+  become_user: root
+  copy:
+    src: "{{ item }}.service"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    force: yes
+  loop: "{{ stolon_services }}"
