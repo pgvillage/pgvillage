@@ -36,7 +36,7 @@
     - pg
 
 - hosts:
-    - postgres
+    - hacluster
   become: true
   gather_facts: false
   roles:
@@ -45,7 +45,7 @@
     - patroni
 
 - hosts:
-    - postgres
+    - hacluster
   become: true
   gather_facts: false
   roles:
@@ -54,7 +54,7 @@
     - stolon
 
 - hosts:
-    - postgres
+    - hacluster
   become: true
   gather_facts: false
   roles:
@@ -64,7 +64,7 @@
     - pgbackrest
 
 - hosts:
-    - postgres
+    - hacluster
   become: true
   gather_facts: false
   roles:
@@ -72,3 +72,13 @@
   tags:
     - wal_g
     - walg
+
+- hosts:
+    - monitoring
+  become: true
+  gather_facts: false
+  roles:
+    - pgwatch2
+    - cloudalchemy.grafana
+  tags:
+    - pgwatch2

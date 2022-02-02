@@ -1,0 +1,7 @@
+---
+- name: restart pgwatch2
+  systemd:
+    daemon_reload: true
+    name: pgwatch2.service
+    enabled: true
+    state: restarted

@@ -1,0 +1,14 @@
+[Unit]
+Description=Pgwatch2 Gathering Daemon
+After=network-online.target
+# If you're using the config DB approach and when on the same machine then it's a good idea to launch after Postgres
+#After=postgresql@12-main.service
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/pgwatch2-daemon -c /etc/pgwatch2/config/instances.yaml -m /etc/pgwatch2/metrics --datastore=postgres --pg-metric-store-conn-str=postgresql://{{ pgwatch2_db_user }}:{{ pgwatch2_db_pass }}@{{ pgwatch2_db_host }}:{{ pgwatch2_db_port }}/{{ pgwatch2_db_name }}
+Restart=on-failure
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

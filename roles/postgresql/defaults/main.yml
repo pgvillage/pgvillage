@@ -3,10 +3,11 @@
 
 postgresql_version: 12
 postgresql_packages:
-  - { name: "postgresql{{ postgresql_version|replace('.','') }}",         state: "present" }
-  - { name: "postgresql{{ postgresql_version|replace('.','') }}-server",  state: "present" }
-  - { name: "postgresql{{ postgresql_version|replace('.','') }}-contrib", state: "present" }
-  - { name: "postgresql{{ postgresql_version|replace('.','') }}-devel",   state: "present" }
+  - { name: "postgresql{{ postgresql_version|replace('.','') }}",           state: "present" }
+  - { name: "postgresql{{ postgresql_version|replace('.','') }}-server",    state: "present" }
+  - { name: "postgresql{{ postgresql_version|replace('.','') }}-contrib",   state: "present" }
+  - { name: "postgresql{{ postgresql_version|replace('.','') }}-devel",     state: "present" }
+  - { name: "postgresql{{ postgresql_version|replace('.','') }}-plpython3", state: "present" }
 
 postgresql_rhsm_product: "Postgresql{{ postgresql_version }}_8Server"
 

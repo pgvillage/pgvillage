@@ -1,0 +1,8 @@
+---
+#pgwatch2_deb_url: "https://github.com/cybertec-postgresql/pgwatch2/releases/download/v1.8.0/pgwatch2_v1.8.0-SNAPSHOT-064fdaf_linux_64-bit.deb"
+pgwatch2_rpm_url: "https://github.com/cybertec-postgresql/pgwatch2/releases/download/v1.8.5/pgwatch2_v1.8.5-SNAPSHOT-b39dfdf_linux_64-bit.rpm"
+pgwatch2_db_user: pgwatch2
+pgwatch2_db_host: localhost
+pgwatch2_db_port: 5432
+pgwatch2_db_name: pgwatch2_metrics
+pgwatch2_grafana_user: pgwatch2_grafana
