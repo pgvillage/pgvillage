@@ -1,0 +1,18 @@
+#  This service is a simple python script to check availability.
+#
+# The service connects to Postgres and tries to run a quary to update a timestamp in a table called last.
+# If the query fails, it keeps trying to read the value, and once it does, it logs the duration of failed attempts.
+
+[Unit]
+Description=Availability checker %I
+DefaultDependencies=no
+Before=initrd-switch-root.target
+After=syslog.target network.target
+
+[Service]
+EnvironmentFile=-/etc/default/avchecker_%I
+ExecStart={{ avchecker_path }}/avchecker.py
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+---
+
+- name: Start avchecker@ systemd services
+  become: yes
+  systemd:
+    name: "avchecker@{{ item.key }}.service"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  loop: "{{ avchecker_defaults | dict2items }}"

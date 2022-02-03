@@ -1,0 +1,8 @@
+---
+# tasks file for avchecker
+- include_tasks: install.yml
+  when: avchecker_defaults | length > 0
+- include_tasks: configure.yml
+  when: avchecker_defaults | length > 0
+- include_tasks: start.yml
+  when: avchecker_defaults | length > 0

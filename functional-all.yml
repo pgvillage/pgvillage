@@ -54,6 +54,16 @@
     - stolon
 
 - hosts:
+    - app
+  become: true
+  gather_facts: false
+  roles:
+    - avchecker
+  tags:
+    - avchecker
+    - availability_checker
+
+- hosts:
     - hacluster
   become: true
   gather_facts: false

@@ -1,0 +1,28 @@
+---
+- name: create installdir
+  file:
+    name: "{{ avchecker_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install script
+  copy:
+    src: avchecker.py
+    dest: "{{ avchecker_path }}/avchecker.py"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install prereqs
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ avchecker_rpm_packages }}"
+
+- name: Install avchecker@ systemd service
+  template:
+    src: "avchecker@.service"
+    dest: "/etc/systemd/system/avchecker@.service"
+    force: yes
