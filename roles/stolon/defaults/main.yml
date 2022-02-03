@@ -28,8 +28,7 @@ stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
 stolon_pg_su_password: supassword
 stolon_pg_repl_username: repluser
 stolon_pg_repl_password: replpassword
-#stolon_pg_listen_address: "{{ ansible_default_ipv4.address }}"
-stolon_pg_listen_address: localhost
+stolon_pg_listen_address: "{{ ansible_default_ipv4.address }}"
 stolon_pg_port: 5432
 stolon_pg_bin_path: "/usr/pgsql-{{ stolon_pg_version }}/bin/"
 stolon_proxy_listen_address: "{{ ansible_default_ipv4.address }}"
