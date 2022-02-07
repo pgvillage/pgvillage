@@ -43,6 +43,7 @@ walg_aws_ca_file: ~/.wal-g/certs/minio.crt
 walg_pg_datadir: "/var/lib/pgsql/12/data" 
 walg_pg_bindir: /usr/pgsql/12/bin
 walg_pg_hostname: /var/run/postgresql
+walg_pg_password: postgres_password
 walg_bucket_name: walg
 walg_delta_max_steps: 7
 walg_download_concurrency: 2
@@ -73,6 +74,7 @@ walg_defaults:
   PGDATA: "{{ walg_pg_datadir }}"
   PGBIN: "{{ walg_pg_bindir }}"
   PGHOST: "{{ walg_pg_hostname }}"
+  PGPASSWORD: "{{ walg_pg_password }}"
   WALG_S3_PREFIX: "s3://{{ walg_bucket_name }}"
   WALG_S3_CA_CERT_FILE: "{{ walg_aws_ca_file }}"
   WALG_DELTA_MAX_STEPS: "{{ walg_delta_max_steps }}"
