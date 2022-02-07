@@ -11,7 +11,7 @@ Type=simple
 User=postgres
 Group=postgres
 
-EnvironmentFile=-/etc/default/stolon
+EnvironmentFile=-/etc/sysconfig/stolon-stkeeper
 ExecStart=/usr/local/bin/stolon-keeper
 
 # only kill the stolon process, not it's children, so it will gracefully stop postgres. We need to test this.

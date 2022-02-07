@@ -1,0 +1,4 @@
+# {{ item.key | upper() }}
+{% for name, value in item.value.items() %}
+{{ item.key | upper() }}_{{ name | upper() | replace('-','_') }}={{ value }}
+{% endfor %}

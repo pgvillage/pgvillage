@@ -16,9 +16,9 @@ stolon_binaries:
   - stolon-proxy
   - stolon-sentinel
 stolon_services:
-  - stolon-keeper
-  - stolon-proxy
-  - stolon-sentinel
+  - keeper
+  - proxy
+  - sentinel
 
 stolon_pg_version: 12
 stolon_cluster_name: stolon-cluster
@@ -33,10 +33,7 @@ stolon_pg_port: 5432
 stolon_pg_bin_path: "/usr/pgsql-{{ stolon_pg_version }}/bin/"
 stolon_proxy_listen_address: "{{ ansible_default_ipv4.address }}"
 
-stolon_defaults:
-  stolonctl:
-    cluster_name: "{{ stolon_cluster_name }}"
-    store_backend: "{{ stolon_store_backend }}"
+stolon_sysconfig:
   stsentinel:
     cluster_name: "{{ stolon_cluster_name }}"
     store_backend: "{{ stolon_store_backend }}"
@@ -56,4 +53,3 @@ stolon_defaults:
     port: "{{ stolon_proxy_port }}"
     listen-address: "{{ stolon_proxy_listen_address }}"
     
-

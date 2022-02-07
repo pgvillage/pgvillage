@@ -1,7 +1,0 @@
-{% for chapter, values in stolon_defaults.items() %}
-# {{ chapter | upper() }}
-{% for key, value in values.items() %}
-{{ chapter | upper() }}_{{ key | upper() | replace('-','_') }}={{ value }}
-{% endfor %}
-
-{% endfor %}

@@ -1,19 +1,34 @@
 ---
 
-- name: install defaults configuration
+- name: install sysconfig configuration
   become: yes
   become_user: root
   template:
-    src: 'stolon.default.j2'
-    dest: '/etc/default/stolon'
+    src: 'stolon.sysconfig.j2'
+    dest: '/etc/sysconfig/stolon-{{ item.key }}'
     owner: 'root'
     group: 'root'
     mode: 0644
+  loop: "{{ stolon_sysconfig | dict2items }}"
+  notify: "Restart stolon-{{ item.key }}"
+
+- name: Install stolon systemd services
+  become: yes
+  become_user: root
+  template:
+    src: "stolon-{{ item }}.service.j2"
+    dest: "/etc/systemd/system/stolon-{{ item }}.service"
+    force: yes
+  loop: "{{ stolon_services }}"
+  notify: "Restart stolon-st{{ item }}"
 
 - name: Init when needed
   become: yes
   become_user: "{{ stolon_user }}"
-  script: files/initscript.sh 
+  shell: /usr/local/bin/stolonctl status || /usr/local/bin/stolonctl init -y
   args:
     creates: "{{ stolon_data_dir }}/PG_VERSION"
     executable: /bin/bash
+  environment:
+    STOLONCTL_CLUSTER_NAME: "{{ stolon_cluster_name }}"
+    STOLONCTL_STORE_BACKEND: "{{ stolon_store_backend }}"

@@ -42,11 +42,3 @@
     force: yes
   loop: "{{ stolon_binaries }}"
 
-- name: Install stolon systemd services
-  become: yes
-  become_user: root
-  copy:
-    src: "{{ item }}.service"
-    dest: "/etc/systemd/system/{{ item }}.service"
-    force: yes
-  loop: "{{ stolon_services }}"

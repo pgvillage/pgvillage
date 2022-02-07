@@ -11,8 +11,8 @@ Type=simple
 User=postgres
 Group=postgres
 
-EnvironmentFile=-/etc/default/stolon
-ExecStart=/usr/local/bin/stolon-sentinel
+EnvironmentFile=-/etc/sysconfig/stolon-stproxy
+ExecStart=/usr/local/bin/stolon-proxy
 
 [Install]
 WantedBy=multi-user.target

@@ -1,9 +1,11 @@
 ---
+- name: Flush handlers
+  meta: flush_handlers
 
 - name: Start stolon systemd services
   become: yes
   systemd:
-    name: "{{ item }}.service"
+    name: "stolon-{{ item }}.service"
     state: started
     enabled: yes
     daemon_reload: yes

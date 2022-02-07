@@ -1,2 +1,29 @@
 ---
 # handlers file for stolon
+
+- name: Restart stolon-stkeeper
+  become: yes
+  systemd:
+    name: "stolon-keeper.service"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  throttle: 1
+
+- name: Restart stolon-stsentinel
+  become: yes
+  systemd:
+    name: "stolon-sentinel.service"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  throttle: 1
+
+- name: Restart stolon-stproxy
+  become: yes
+  systemd:
+    name: "stolon-proxy.service"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  throttle: 1
