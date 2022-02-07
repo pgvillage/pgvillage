@@ -23,7 +23,7 @@ stolon_services:
 stolon_pg_version: 12
 stolon_cluster_name: stolon-cluster
 stolon_store_backend: etcdv3
-stolon_port: 25432
+stolon_proxy_port: 25432
 stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
 stolon_pg_su_password: supassword
 stolon_pg_repl_username: repluser
@@ -53,7 +53,7 @@ stolon_defaults:
   stproxy:
     cluster_name: "{{ stolon_cluster_name }}"
     store_backend: "{{ stolon_store_backend }}"
-    port: "{{ stolon_port }}"
+    port: "{{ stolon_proxy_port }}"
     listen-address: "{{ stolon_proxy_listen_address }}"
     
 
