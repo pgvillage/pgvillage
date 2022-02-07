@@ -52,4 +52,16 @@ stolon_sysconfig:
     store_backend: "{{ stolon_store_backend }}"
     port: "{{ stolon_proxy_port }}"
     listen-address: "{{ stolon_proxy_listen_address }}"
-    
+
+stolon_custom_config: {}
+# More info:
+# - https://github.com/sorintlab/stolon/blob/master/doc/cluster_spec.md):
+# - https://github.com/sorintlab/stolon/blob/master/doc/postgres_parameters.md
+# - https://github.com/sorintlab/stolon/blob/master/doc/custom_pg_hba_entries.md
+#
+# Example:
+#stolon_custom_config:
+#  pgParameters:
+#    log_min_duration_statement : 1s
+#  pgHBA
+#    - host appdb appuser samenet cert

@@ -1,5 +1,13 @@
 ---
 
+- name: Create stolon datadir
+  file:
+    state: directory
+    owner: "{{ stolon_user }}"
+    group: "{{ stolon_group }}"
+    path: "{{ stolon_data_dir }}"
+    mode: "0755"
+
 - name: install sysconfig configuration
   become: yes
   become_user: root
@@ -11,6 +19,17 @@
     mode: 0644
   loop: "{{ stolon_sysconfig | dict2items }}"
   notify: "Restart stolon-{{ item.key }}"
+
+- name: install custom_config file
+  become: yes
+  become_user: root
+  template:
+    src: 'custom_config.yml.j2'
+    dest: '{{ stolon_data_dir }}/custom_config.yml'
+    owner: '{{ stolon_user }}'
+    group: '{{ stolon_group }}'
+    mode: 0644
+  notify: Update cluster spec
 
 - name: Install stolon systemd services
   become: yes
@@ -25,10 +44,11 @@
 - name: Init when needed
   become: yes
   become_user: "{{ stolon_user }}"
-  shell: /usr/local/bin/stolonctl status || /usr/local/bin/stolonctl init -y
+  shell: /usr/local/bin/stolonctl status || /usr/local/bin/stolonctl init -y stolon_user
   args:
     creates: "{{ stolon_data_dir }}/PG_VERSION"
     executable: /bin/bash
   environment:
     STOLONCTL_CLUSTER_NAME: "{{ stolon_cluster_name }}"
     STOLONCTL_STORE_BACKEND: "{{ stolon_store_backend }}"
+    STOLONCTL_INITIAL_CLUSTER_SPEC: "{{ stolon_data_dir }}/custom_config.yml"

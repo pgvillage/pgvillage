@@ -27,3 +27,13 @@
     enabled: yes
     daemon_reload: yes
   throttle: 1
+
+- name: Update cluster spec
+  become: yes
+  become_user: "{{ stolon_user }}"
+  shell:
+    cmd: '/usr/local/bin/stolonctl update --patch --file "{{ stolon_data_dir }}/custom_config.yml"'
+  environment:
+    STOLONCTL_CLUSTER_NAME: "{{ stolon_cluster_name }}"
+    STOLONCTL_STORE_BACKEND: "{{ stolon_store_backend }}"
+  throttle: 1
