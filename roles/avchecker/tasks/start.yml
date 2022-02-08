@@ -1,5 +1,8 @@
 ---
 
+- name: Flush handlers
+  meta: flush_handlers
+
 - name: Start avchecker@ systemd services
   become: yes
   systemd:

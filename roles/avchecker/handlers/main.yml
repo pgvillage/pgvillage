@@ -1,2 +1,11 @@
 ---
 # handlers file for avchecker
+
+- name: Restart avchecker@ services
+  become: yes
+  systemd:
+    name: "avchecker@{{ item.key }}.service"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  loop: "{{ avchecker_defaults | dict2items }}"
