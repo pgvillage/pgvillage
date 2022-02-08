@@ -32,6 +32,7 @@ stolon_pg_listen_address: "{{ ansible_default_ipv4.address }}"
 stolon_pg_port: 5432
 stolon_pg_bin_path: "/usr/pgsql-{{ stolon_pg_version }}/bin/"
 stolon_proxy_listen_address: "{{ ansible_default_ipv4.address }}"
+stolon_uid: "{{ inventory_hostname_short | replace('-', '_') }}"
 
 stolon_sysconfig:
   stsentinel:
@@ -47,6 +48,7 @@ stolon_sysconfig:
     pg_listen_address: "{{ stolon_pg_listen_address }}"
     pg_port: "{{ stolon_pg_port }}"
     pg_bin_path: "{{ stolon_pg_bin_path }}"
+    uid: "{{ stolon_uid }}"
   stproxy:
     cluster_name: "{{ stolon_cluster_name }}"
     store_backend: "{{ stolon_store_backend }}"
