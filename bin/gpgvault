@@ -1,0 +1,5 @@
+#!/bin/bash
+# To generate a GPG passwordstore, please check https://www.thepolyglotdeveloper.com/2018/12/manage-passwords-gpg-command-line-pass/
+# This requires pass, so checkout https://www.passwordstore.org/ too
+URL=$(git remote get-url --push origin | sed 's/^.*@//;s|:|/|')
+pass "$URL"

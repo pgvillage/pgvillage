@@ -1,0 +1,10 @@
+#!/bin/bash
+# See https://www.thepolyglotdeveloper.com/2018/12/manage-passwords-gpg-command-line-pass/ for more info
+
+[ -e ~/.gnupg/trustdb.gpg ] || gpg --full-generate-key
+GPGID=$(gpg --list-keys | grep -E '^ ' | xargs 2>/dev/null)
+
+[ -e ~/.password-store/.gpg-id ] || pass init "${GPGID}"
+URL=$(git remote get-url --push origin | sed 's/^.*@//;s|:|/|')
+
+[ -e "~/.password-store/${URL}" ] || pass insert "$URL"
