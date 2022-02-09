@@ -1,0 +1,13 @@
+---
+# defaults file for minio_client
+__minio_client_endpoint_defaults:
+  accessKey: "AWSKEY"
+  secretKey: "AWSSECRET"
+  url: "https://{{ inventory_hostname }}"
+  api: S3v4
+  path: auto
+
+minio_client_endpoint: {}
+
+minio_client_buckets:
+  - mybucket

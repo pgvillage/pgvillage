@@ -1,0 +1,35 @@
+---
+# tasks file for minio_client
+- getent:
+    database: passwd
+    key: "minio"
+    split: ":"
+
+- name: Create mc config dir
+  file:
+    dest: "{{ getent_passwd['minio'][4] }}/.mc"
+    state: directory
+    mode: 0700
+    owner: minio
+
+- name: Create mc config file
+  template:
+    src: mc.config.json.j2
+    dest: "{{ getent_passwd['minio'][4] }}/.mc/config.json"
+    mode: 0600
+    owner: minio
+  vars:
+    minio_client_config:
+      version: "10"
+      aliases:
+        minio: "{{ __minio_client_endpoint_defaults | combine(minio_client_endpoint) }}"
+
+- name: Create buckets
+  local_action:
+    module: s3_bucket
+    aws_access_key: '{{ minio_client_endpoint.accessKey }}'
+    aws_secret_key: '{{ minio_client_endpoint.secretKey }}'
+    s3_url: '{{ minio_client_endpoint.url }}'
+    name: '{{ item }}'
+    validate_certs: false
+  loop: '{{ minio_client_buckets }}'

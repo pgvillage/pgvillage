@@ -20,7 +20,7 @@
   become: true
   gather_facts: false
   roles:
-    - atosatto.minio
+    - minio_client
   tags: 
     - minio
 
