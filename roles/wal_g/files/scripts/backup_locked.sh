@@ -8,7 +8,7 @@ eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
 
 # log output to a logfile in the logdir
 WALG_LOG_FOLDER=${WALG_LOG_FOLDER:-/var/log/wal-g}
-exec > "$WALG_LOG_FOLDER/$(basename $0 .sh).log"
+exec >> "$WALG_LOG_FOLDER/$(date +%Y%m%d)_$(basename $0 .sh).log"
 
 PGROLE=$(psql -tc "select case when pg_is_in_recovery() then 'standby' else 'primary' end;" | xargs)
 echo "Postgres role is ${PGROLE}"

@@ -6,7 +6,7 @@ ZIP=$2
 LOGDIR=$3
 
 # log output to a logfile in the logdir
-exec > "$LOGDIR/$(basename $0 .sh).log"
+exec >> "$WALG_LOG_FOLDER/$(date +%Y%m%d)_$(basename $0 .sh).log"
 
 echo "Deleting all files in '$LOGDIR' older than $RETAIN days."
 find "$LOGDIR" -mtime "+$RETAIN" -delete

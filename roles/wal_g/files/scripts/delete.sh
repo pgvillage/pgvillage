@@ -7,7 +7,7 @@ eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
 
 # log output to a logfile in the logdir
 WALG_LOG_FOLDER=${WALG_LOG_FOLDER:-/var/log/wal-g}
-exec > "$WALG_LOG_FOLDER/$(basename $0 .sh).log"
+exec >> "$WALG_LOG_FOLDER/$(date +%Y%m%d)_$(basename $0 .sh).log"
 
 if [ "${WALG_RETENTION_DAYS}" ]; then
   # Wat was de datum 
