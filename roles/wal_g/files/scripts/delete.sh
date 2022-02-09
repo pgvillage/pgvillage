@@ -5,6 +5,10 @@ echo
 # WAL-g config laden
 eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
 
+# log output to a logfile in the logdir
+WALG_LOG_FOLDER=${WALG_LOG_FOLDER:-/var/log/wal-g}
+exec > "$WALG_LOG_FOLDER/$(basename $0 .sh).log"
+
 if [ "${WALG_RETENTION_DAYS}" ]; then
   # Wat was de datum 
   BEFORE=$(date --date="${WALG_RETENTION_DAYS} days ago" --iso-8601)"T00:00:00Z"
@@ -34,5 +38,3 @@ else
   echo 'Nothing to do. WALG_RETENTION_DAYS, WALG_RETENTION_FULL_BACKUPS, and WALG_RETENTION_BACKUPS are all not set.'
   exit 1
 fi
-
-

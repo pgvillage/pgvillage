@@ -2,7 +2,7 @@
 
 - name: Create logfolder
   file:
-    dest: "{{ walg_cron_logfolder }}"
+    dest: "{{ walg_logfolder }}"
     state: directory
     owner: "{{ walg_user }}"
     group: "{{ walg_group }}"

@@ -1,8 +1,14 @@
 #!/bin/bash
 set -e
 
+SCRIPTDIR=$(dirname $0)
+
 # WAL-g config laden
 eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
+
+# log output to a logfile in the logdir
+WALG_LOG_FOLDER=${WALG_LOG_FOLDER:-/var/log/wal-g}
+exec > "$WALG_LOG_FOLDER/$(basename $0 .sh).log"
 
 # if there are existing backups younger then WALG_BACKUP_SKIP_WINDOW, then we can skip backup.
 SKIP_AFTER=$(date -d "0${WALG_BACKUP_SKIP_WINDOW} hour ago" --iso-8601=seconds)
@@ -13,10 +19,10 @@ if [ "${BACKUPS_SINCE}" -gt 0 ]; then
   exit
 fi
 
-/opt/wal-g/scripts/delete.sh
+"$SCRIPTDIR/maintenance.sh"
 
 echo
 echo "Pushing backup"
 /usr/local/bin/wal-g backup-push "${PGDATA}"
 
-/opt/wal-g/scripts/delete.sh
+"$SCRIPTDIR/maintenance.sh"
