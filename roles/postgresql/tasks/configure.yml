@@ -1,0 +1,28 @@
+---
+
+- name: Create log directory
+  file:
+    dest: "{{ postgresql_log_directory }}"
+    state: directory
+    owner: "{{ postgresql_user }}"
+    group: "{{ postgresql_group }}"
+    mode: "{{ 0755 }}"
+  when: not postgresql_log_directory.startswith(postgresql_datadir)
+
+- name: "Postgres maintenance jobs"
+  cron:
+    name: "{{ item.name }}"
+    user: "{{ postgresql_user }}"
+    minute: "{{ item.minute | default('*') }}"
+    hour: "{{ item.hour | default('*') }}"
+    day: "{{ item.day | default('*') }}"
+    weekday: "{{ item.weekday | default('*') }}"
+    job: "{{ item.command }}"
+    cron_file: postgresql
+  loop: "{{ postgresql_jobs }}"
+
+- name: Set mailto for postgres cron
+  cronvar:
+    name: MAILTO
+    value: "{{ postgresql_cron_mailto }}"
+    user: "{{ postgresql_user }}"

@@ -15,5 +15,18 @@ postgresql_base_dir: "/var/lib/pgsql/{{ postgresql_version }}"
 postgresql_datadir: "{{ postgresql_base_dir }}/data"
 postgresql_pgconf: "{{ postgresql_datadir }}/postgresql.conf"
 
+postgresql_log_directory: "{{ postgresql_datadir }}/log"
+postgresql_log_dir_mode: "0755"
+postgresql_log_retention: 14
+postgresql_zip_retention: 2
+
+postgresql_cron_mailto: "{{ postgresql_user }}@{{ inventory_hostname }}"
+
 postgresql_user: postgres
 postgresql_group: "{{ postgresql_user }}"
+
+postgresql_jobs:
+- name: Log cleanup
+  minute: 20
+  hour: 3
+  command: '~/bin/log_cleanup.sh "{{ postgresql_log_retention }}" "{{ postgresql_zip_retention }}" "{{ postgresql_log_directory }}"'

@@ -7,3 +7,13 @@
   with_items:
     - "{{ postgresql_packages }}"
 
+- getent:
+    database: passwd
+    key: "{{ postgresql_user }}"
+    split: ":"
+
+- name: Deploy scripts
+  copy:
+    src: bin/
+    dest: "{{ getent_passwd[postgresql_user][4] }}/bin"
+    mode: preserve
