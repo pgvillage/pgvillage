@@ -36,6 +36,42 @@ stolon_pg_bin_path: "/usr/pgsql-{{ stolon_pg_version }}/bin/"
 stolon_proxy_listen_address: "{{ ansible_default_ipv4.address }}"
 stolon_uid: "{{ inventory_hostname_short | replace('-', '_') }}"
 
+# Used to automatically size min_wal_size
+stolon_wal_dir_mp: "/var"
+# Autoconfig ratios
+stolon_shared_buffers_ratio: 0.25
+stolon_eff_cache_ratio: 0.75
+stolon_min_wal_size_ratio: 0.25
+stolon_max_wal_size_ratio: 0.75
+stolon_workers_ratio: 1
+stolon_parallel_ratio: 1
+stolon_gather_ratio: 0.5
+
+# Autoconfig calculations
+stolon_share_buffers: "{{ [ ( ansible_memtotal_mb|int * stolon_shared_buffers_ratio) | int, 8] | max }}MB"
+stolon_effective_cache_size: "{{ [ ( ansible_memtotal_mb|int * stolon_eff_cache_ratio) | int, 1] | max }}MB"
+stolon_min_wal_size: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_min_wal_size_ratio / 1048576) | int, 80] | max }}MB"
+stolon_max_wal_size: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_max_wal_size_ratio / 1048576) | int, 1024] | max }}MB"
+stolon_max_worker_processes: "{{ [ansible_processor_vcpus|int * stolon_workers_ratio|int, 2] | max }}"
+stolon_max_parallel_workers: "{{ [ansible_processor_vcpus|int * stolon_parallel_ratio|int, 2] | max }}"
+stolon_max_parallel_workers_per_gather: "{{ [ansible_processor_vcpus|int * stolon_gather_ratio|int, 1] | max }}"
+
+# You can easilly set this to another profile if you want to. Or define your own...
+stolon_autoconfig: '{{ stolon_autoconfig_default }}'
+
+stolon_pg_parameters: "{{ stolon_autoconfig | combine(stolon_extra_pg_parameters) }}"
+stolon_extra_pg_parameters: {}
+
+stolon_pg_hba: []
+
+stolon_custom_config:
+  pgParameters: "{{ stolon_pg_parameters }}"
+  pgHBA: "{{ stolon_pg_hba }}"
+# More info:
+# - https://github.com/sorintlab/stolon/blob/master/doc/cluster_spec.md):
+# - https://github.com/sorintlab/stolon/blob/master/doc/postgres_parameters.md
+# - https://github.com/sorintlab/stolon/blob/master/doc/custom_pg_hba_entries.md
+
 stolon_sysconfig:
   stsentinel:
     cluster_name: "{{ stolon_cluster_name }}"
@@ -58,16 +94,3 @@ stolon_sysconfig:
     store_backend: "{{ stolon_store_backend }}"
     port: "{{ stolon_proxy_port }}"
     listen-address: "{{ stolon_proxy_listen_address }}"
-
-stolon_custom_config: {}
-# More info:
-# - https://github.com/sorintlab/stolon/blob/master/doc/cluster_spec.md):
-# - https://github.com/sorintlab/stolon/blob/master/doc/postgres_parameters.md
-# - https://github.com/sorintlab/stolon/blob/master/doc/custom_pg_hba_entries.md
-#
-# Example:
-#stolon_custom_config:
-#  pgParameters:
-#    log_min_duration_statement : 1s
-#  pgHBA
-#    - host appdb appuser samenet cert

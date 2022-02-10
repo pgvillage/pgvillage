@@ -1,2 +1,10 @@
 ---
 # vars file for stolon
+stolon_autoconfig_default:
+  shared_buffers: "{{ stolon_share_buffers }}"
+  effective_cache_size: "{{ stolon_effective_cache_size }}"
+  min_wal_size: "{{ stolon_min_wal_size }}"
+  max_wal_size: "{{ stolon_max_wal_size }}"
+  max_worker_processes: "{{ stolon_max_worker_processes }}"
+  max_parallel_workers: "{{ stolon_max_parallel_workers }}"
+  max_parallel_workers_per_gather: "{{ stolon_max_parallel_workers_per_gather }}"

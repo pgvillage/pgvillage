@@ -1,5 +1,6 @@
 ---
 # tasks file for stolon
+
 - include_tasks: install.yml
   when: stolon_release | length > 0
 
