@@ -1,13 +1,5 @@
 ---
 
-- name: Create stolon datadir
-  file:
-    state: directory
-    owner: "{{ stolon_user }}"
-    group: "{{ stolon_group }}"
-    path: "{{ stolon_data_dir }}"
-    mode: "0755"
-
 - name: install sysconfig configuration
   become: yes
   become_user: root

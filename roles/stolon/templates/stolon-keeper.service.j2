@@ -12,6 +12,8 @@ User=postgres
 Group=postgres
 
 EnvironmentFile=-/etc/sysconfig/stolon-stkeeper
+# this prestart will move wal to the wal directory on the next restart after initdb of pg_basebackup
+ExecStartPre={{ stolon_script_path }}/movewal.sh
 ExecStart=/usr/local/bin/stolon-keeper
 
 # only kill the stolon process, not it's children, so it will gracefully stop postgres. We need to test this.

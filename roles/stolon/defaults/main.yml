@@ -1,13 +1,14 @@
 ---
 # defaults file for stolon
 stolon_release: "v0.17.0"
-stolon_opt_path: "/opt/stolon/{{ stolon_release }}/"
+stolon_opt_path: "/opt/stolon"
+stolon_release_path: "{{ stolon_opt_path }}/{{ stolon_release }}"
+stolon_script_path: "{{ stolon_opt_path }}/scripts"
 stolon_binary_owner: root
 stolon_user: postgres
 stolon_group: postgres
-stolon_logfolder: /var/log/stolon
 stolon_pkg_arch: amd64
-stolon_bin_path: "{{ stolon_opt_path }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}/bin"
+stolon_bin_path: "{{ stolon_release_path }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}/bin"
 stolon_release_url: "https://github.com/sorintlab/stolon/releases/download/{{ stolon_release }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}.tar.gz"
 
 stolon_binaries:
@@ -25,6 +26,7 @@ stolon_cluster_name: stolon-cluster
 stolon_store_backend: etcdv3
 stolon_proxy_port: 25432
 stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
+stolon_wal_dir: "{{ stolon_data_dir }}/postgres/pg_wal"
 stolon_pg_su_password: supassword
 stolon_pg_repl_username: repluser
 stolon_pg_repl_password: replpassword
@@ -42,6 +44,8 @@ stolon_sysconfig:
     cluster_name: "{{ stolon_cluster_name }}"
     store_backend: "{{ stolon_store_backend }}"
     data_dir: "{{ stolon_data_dir }}"
+    pgdata_dir: "{{ stolon_data_dir }}/postgres"
+    pgwal_dir: "{{ stolon_wal_dir }}"
     pg_su_password: "{{ stolon_pg_su_password }}"
     pg_repl_username: "{{ stolon_pg_repl_username }}"
     pg_repl_password: "{{ stolon_pg_repl_password }}"

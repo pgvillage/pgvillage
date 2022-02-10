@@ -5,14 +5,31 @@
     msg: "Can't install stolon: unsupported arch ({{ ansible_architecture }})."
   when: ansible_architecture != "x86_64"
 
-- name: create stolon folder
+- name: create stolon folders
   become: yes
   become_user: "{{ stolon_binary_owner }}"
   file:
     state: directory
-    dest: "{{ stolon_opt_path }}"
-    owner: "{{ stolon_binary_owner }}"
+    dest: "{{ item.path }}"
+    owner: "{{ item.owner }}"
     mode: "0755"
+  loop:
+    - path: "{{ stolon_opt_path }}"
+      owner: root
+    - path: "{{ stolon_release_path }}"
+      owner: root
+    - path: "{{ stolon_script_path }}"
+      owner: root
+    - path: "{{ stolon_data_dir }}"
+      owner: "{{ stolon_user }}"
+    - path: "{{ stolon_wal_dir }}"
+      owner: "{{ stolon_user }}"
+
+- name: copy scripts
+  copy:
+    src: scripts
+    dest: "{{ stolon_opt_path }}"
+    mode: preserve
 
 - name: Download stolon
   become: yes
@@ -28,9 +45,9 @@
   become_user: "{{ stolon_binary_owner }}"
   unarchive:
     src: "{{ stolon_download.dest }}"
-    dest: "{{ stolon_opt_path }}"
+    dest: "{{ stolon_release_path }}"
     remote_src: yes
-    creates: "{{ stolon_opt_path }}/stolon-v0.17.0-linux-amd64/bin/stolon-keeper"
+    creates: "{{ stolon_release_path }}/stolon-v0.17.0-linux-amd64/bin/stolon-keeper"
 
 - name: Install stolon binaries
   become: yes
