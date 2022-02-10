@@ -1,10 +1,14 @@
 ---
 # vars file for stolon
+stolon_available_memory_mb: "{{ ansible_memtotal_mb - stolon_reserved_memory_mb }}"
+
 stolon_autoconfig_default:
-  shared_buffers: "{{ stolon_share_buffers }}"
-  effective_cache_size: "{{ stolon_effective_cache_size }}"
-  min_wal_size: "{{ stolon_min_wal_size }}"
-  max_wal_size: "{{ stolon_max_wal_size }}"
+  shared_buffers: "{{ stolon_share_buffers_mb }}MB"
+  effective_cache_size: "{{ stolon_effective_cache_size_mb }}MB"
+  min_wal_size: "{{ stolon_min_wal_size_mb }}MB"
+  max_wal_size: "{{ stolon_max_wal_size_mb }}MB"
+  work_mem: "{{ stolon_work_mem_kb }}kB"
   max_worker_processes: "{{ stolon_max_worker_processes }}"
   max_parallel_workers: "{{ stolon_max_parallel_workers }}"
   max_parallel_workers_per_gather: "{{ stolon_max_parallel_workers_per_gather }}"
+  max_connections: "{{ stolon_max_connections|string }}"

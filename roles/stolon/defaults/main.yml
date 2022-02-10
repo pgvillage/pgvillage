@@ -38,6 +38,17 @@ stolon_uid: "{{ inventory_hostname_short | replace('-', '_') }}"
 
 # Used to automatically size min_wal_size
 stolon_wal_dir_mp: "/var"
+
+# Used for automatically setting work_mem
+# Set to 1 for transactional, and 4-16 for analytical
+# Consider the averga amount of operations (merge, sort, group, etc.) per query
+stolon_query_complexity: 4
+
+#You can reserve memory not te be used by Postgres
+stolon_reserved_memory_mb: 0
+
+stolon_max_connections: 100
+
 # Autoconfig ratios
 stolon_shared_buffers_ratio: 0.25
 stolon_eff_cache_ratio: 0.75
@@ -48,13 +59,14 @@ stolon_parallel_ratio: 1
 stolon_gather_ratio: 0.5
 
 # Autoconfig calculations
-stolon_share_buffers: "{{ [ ( ansible_memtotal_mb|int * stolon_shared_buffers_ratio) | int, 8] | max }}MB"
-stolon_effective_cache_size: "{{ [ ( ansible_memtotal_mb|int * stolon_eff_cache_ratio) | int, 1] | max }}MB"
-stolon_min_wal_size: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_min_wal_size_ratio / 1048576) | int, 80] | max }}MB"
-stolon_max_wal_size: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_max_wal_size_ratio / 1048576) | int, 1024] | max }}MB"
+stolon_share_buffers_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_shared_buffers_ratio) | int, 8] | max }}"
+stolon_effective_cache_size_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_eff_cache_ratio) | int, 1] | max }}"
+stolon_min_wal_size_mb: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_min_wal_size_ratio / 1048576) | int, 80] | max }}"
+stolon_max_wal_size_mb: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_max_wal_size_ratio / 1048576) | int, 1024] | max }}"
 stolon_max_worker_processes: "{{ [ansible_processor_vcpus|int * stolon_workers_ratio|int, 2] | max }}"
 stolon_max_parallel_workers: "{{ [ansible_processor_vcpus|int * stolon_parallel_ratio|int, 2] | max }}"
 stolon_max_parallel_workers_per_gather: "{{ [ansible_processor_vcpus|int * stolon_gather_ratio|int, 1] | max }}"
+stolon_work_mem_kb: "{{ [ (1024 * (stolon_available_memory_mb|int - stolon_share_buffers_mb|int) / stolon_max_connections / stolon_query_complexity) | int, 64] | max }}"
 
 # You can easilly set this to another profile if you want to. Or define your own...
 stolon_autoconfig: '{{ stolon_autoconfig_default }}'
