@@ -1,19 +1,28 @@
 #!/bin/bash
 set -e
 
-RETAIN=${WALG_LOG_RETENTION_DAYS:-14}
-ZIP=${WALG_LOG_ZIP_DAYS:-2}
-LOGDIR=${WALG_LOG_FOLDER:-/var/log/wal-g}
+function log_cleanup() {
+  echo "Deleting all files in '$WALG_LOG_FOLDER' older than $WALG_LOG_RETENTION_DAYS days."
+  find "$WALG_LOG_FOLDER" -mtime "+$WALG_LOG_RETENTION_DAYS" -delete
+  
+  echo "Zipping all non-gzip files in '$WALG_LOG_FOLDER' older than $WALG_LOG_ZIP_DAYS days."
+  find "$WALG_LOG_FOLDER" -mtime "+$WALG_LOG_ZIP_DAYS" | while read f; do
+    [[ "$f" =~ .*\.gz ]] && continue
+    echo "gzip $f"
+    gzip $f
+  done
+}
+
+# WAL-g config laden
+eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
 
 # log output to a logfile in the logdir
-exec >> "$WALG_LOG_FOLDER/$(date +%Y%m%d)_$(basename $0 .sh).log"
+WALG_LOG_FOLDER=${WALG_LOG_FOLDER:-/var/log/wal-g}
+WALG_LOGFILE="$WALG_LOG_FOLDER/$(date +%Y%m%d)_$(basename $0 .sh).log"
+TMPLOGFILE=$(mktemp)
 
-echo "Deleting all files in '$LOGDIR' older than $RETAIN days."
-find "$LOGDIR" -mtime "+$RETAIN" -delete
-
-echo "Zipping all non-gzip files in '$LOGDIR' older than $ZIP days."
-find "$LOGDIR" -mtime "+$ZIP" | while read f; do
-  [[ "$f" =~ .*\.gz ]] && continue
-  echo "gzip $f"
-  gzip $f
-done
+log_cleanup 2>&1 | tee -a "$WALG_LOGFILE" > "$TMPLOGFILE"
+if [ "${PIPESTATUS[0]}" -ne 0 ]; then
+  cat "$TMPLOGFILE"
+  exit 1
+fi
