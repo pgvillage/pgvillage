@@ -8,4 +8,7 @@
     group: 'root'
     mode: 0644
   loop: "{{ avchecker_defaults | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  no_log: yes
   notify: Restart avchecker@ services

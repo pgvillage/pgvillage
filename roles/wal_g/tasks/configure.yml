@@ -17,6 +17,7 @@
     owner: 'root'
     group: 'root'
     mode: 0644
+  no_log: yes
 
 - name: Cronjob for creating a backup.
   ansible.builtin.cron:
@@ -36,6 +37,9 @@
     value: "{{ item.value }}"
     cron_file: wal-g
   loop: "{{walg_cronvars}}"
+  loop_control:
+    label: "{{ item.name }}"
+  no_log: yes
 
 - name: Copy scripts folder
   copy:

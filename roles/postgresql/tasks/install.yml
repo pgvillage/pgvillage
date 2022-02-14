@@ -6,6 +6,9 @@
     update_cache: yes
   with_items:
     - "{{ postgresql_packages }}"
+  loop_control:
+    label: "{{ item.name }}"
+  no_log: yes
 
 - getent:
     database: passwd

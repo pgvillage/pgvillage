@@ -24,6 +24,9 @@
       owner: "{{ stolon_user }}"
     - path: "{{ stolon_wal_dir }}"
       owner: "{{ stolon_user }}"
+  loop_control:
+    label: "{{ item.path }}"
+  no_log: yes
 
 - name: copy scripts
   copy:
