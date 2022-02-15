@@ -9,7 +9,7 @@ function backup() {
   if [ "${BACKUPS_SINCE}" -gt 0 ]; then
     echo "There is already ${BACKUPS_SINCE} backups since ${SKIP_AFTER} (WALG_BACKUP_SKIP_WINDOW of ${WALG_BACKUP_SKIP_WINDOW})."
     echo "So I am skipping backup on this node."
-    return 1
+    return 0
   fi
   
   "$SCRIPTDIR/maintenance.sh"
