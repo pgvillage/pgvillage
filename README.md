@@ -18,7 +18,6 @@ All Ansible Galaxy roles are included as part of this repo, but:
 - if they have changes these will be upstreamed to the original Ansible Galaxy role
 - once all is upstreamed they will be replaced with references to the ansible galaxy roles instead.
 
-
 ## Using this playbook
 For a demo on Azure please refer to [pgVillage/pgv_azure](https://github.com/pgvillage/pgv_azure).
 For running on VMWare:
