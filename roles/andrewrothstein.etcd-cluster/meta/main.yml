@@ -33,5 +33,4 @@ galaxy_info:
     - transactions
 
 dependencies:
-  - role: andrewrothstein.etcd
-    version: v2.1.39
+  - role: etcd-package

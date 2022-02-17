@@ -1,8 +1,7 @@
-andrewrothstein.etcd
+etcd-package
 ====================
-[![Build Status](https://travis-ci.org/andrewrothstein/ansible-etcd.svg?branch=master)](https://travis-ci.org/andrewrothstein/ansible-etcd)
 
-Role installs [etcd](https://github.com/coreos/etcd)
+Role installs packages for [etcd](https://github.com/coreos/etcd)
 
 Requirements
 ------------
@@ -25,7 +24,7 @@ Example Playbook
 ```yml
 - hosts: servers
   roles:
-	- andrewrothstein.etcd
+	- etcd-install
 ```
 
 License
@@ -36,4 +35,4 @@ MIT
 Author Information
 ------------------
 
-Andrew Rothstein <andrew.rothstein@gmail.com>
+Sebastiaan Mannem <sebastiaan.mannem@rivm.nl>

@@ -1,0 +1,5 @@
+---
+- name: Install etcd package
+  package:
+    name: "{{ etcd_package_name }}"
+    state: present
