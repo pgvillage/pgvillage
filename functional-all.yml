@@ -39,15 +39,6 @@
   become: true
   gather_facts: false
   roles:
-    - kostiantyn-nemchenko.patroni
-  tags:
-    - patroni
-
-- hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
     - stolon
   tags:
     - stolon
@@ -61,16 +52,6 @@
   tags:
     - avchecker
     - availability_checker
-
-- hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - dudefellah.pgbackrest
-  tags:
-    - pgbr
-    - pgbackrest
 
 - hosts:
     - hacluster
