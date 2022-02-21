@@ -3,7 +3,8 @@
 - name: Fail for unsupported architecture
   fail:
     msg: "Can't install stolon: unsupported arch ({{ ansible_architecture }})."
-  when: ansible_architecture != "x86_64"
+  when:
+    - ansible_architecture != "x86_64"
 
 - name: create stolon folders
   become: yes
@@ -42,6 +43,7 @@
     dest: "{{ ansible_env.HOME }}"
     mode: "0755"
   register: stolon_download
+  when: '(stolon_package_names|length == 0)'
 
 - name: Unarchive stolon archive
   become: yes
@@ -51,6 +53,7 @@
     dest: "{{ stolon_release_path }}"
     remote_src: yes
     creates: "{{ stolon_release_path }}/stolon-v0.17.0-linux-amd64/bin/stolon-keeper"
+  when: stolon_package_names|length == 0
 
 - name: Install stolon binaries
   become: yes
@@ -61,4 +64,11 @@
     dest: "/usr/local/bin/{{ item }}"
     force: yes
   loop: "{{ stolon_binaries }}"
+  when: stolon_package_names|length == 0
 
+- name: Install stolon-packages when defined
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ stolon_package_names }}"

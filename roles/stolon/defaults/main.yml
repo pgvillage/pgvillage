@@ -10,6 +10,8 @@ stolon_group: postgres
 stolon_pkg_arch: amd64
 stolon_bin_path: "{{ stolon_release_path }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}/bin"
 stolon_release_url: "https://github.com/sorintlab/stolon/releases/download/{{ stolon_release }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}.tar.gz"
+# If you add items to stolon_packages, the binaries will not be downloaded, but installed from package instead
+stolon_package_names: []
 
 stolon_binaries:
   - stolon-keeper
