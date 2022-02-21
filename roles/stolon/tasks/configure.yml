@@ -38,7 +38,7 @@
 - name: Init when needed
   become: yes
   become_user: "{{ stolon_user }}"
-  shell: /usr/local/bin/stolonctl status || /usr/local/bin/stolonctl init -y stolon_user
+  shell: /usr/local/bin/stolonctl status || /usr/local/bin/stolonctl init -y
   args:
     creates: "{{ stolon_data_dir }}/PG_VERSION"
     executable: /bin/bash
