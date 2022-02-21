@@ -3,7 +3,9 @@
 - name: Fail for unsupported architecture
   fail:
     msg: "Can't install wal-g: unsupported arch ({{ ansible_architecture }})."
-  when: ansible_architecture != "x86_64"
+  when:
+    - ansible_architecture != "x86_64"
+    - walg_packages|length = 0
 
 - name: create wal-g folder
   become: yes
@@ -21,6 +23,8 @@
     url: "{{ walg_exe_url }}"
     dest: "{{ walg_bin_path }}"
     mode: "0755"
+  when:
+    - walg_packages|length == 0
 
 - name: Install wal-g binary
   become: yes
@@ -30,3 +34,12 @@
     src: "{{ walg_bin_path }}/{{ walg_exe_name }}"
     dest: "/usr/local/bin/wal-g"
     force: yes
+  when:
+    - walg_packages|length == 0
+
+- name: Install wal-g package when defined
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ walg_packages }}"
