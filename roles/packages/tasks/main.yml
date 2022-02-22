@@ -1,17 +1,22 @@
 ---
-# - name: Enable the Postgresql RHSM subscriptions
-#   redhat_subscription:
-#     activationkey: "ORG1"
-#     org_id: "ORG1"
-#     pool: "Red Hat Cloud Infrastructure, Standard (2-sockets)|EPEL8|{{ item }}"
-#     state: present
-#   loop: '{{packages_rhsm_products|bygroup(group_names)}}'
-# 
-# - name: autoattach
-#   shell: 'subscription-manager auto-attach'
-# 
-# - name: attach
-#   shell: 'subscription-manager attach'
+- name: Enable the Postgresql RHSM subscriptions
+  redhat_subscription:
+    activationkey: "ORG1"
+    org_id: "ORG1"
+    pool_ids: "{{packages_rhsm_poolids|bygroup(group_names)}}"
+    state: present
+
+- name: autoattach
+  shell: 'subscription-manager auto-attach'
+
+- name: attach
+  shell: 'subscription-manager attach'
+
+- name: Disable postgresql module
+  shell: 'dnf module disable -y postgresql'
+  args:
+    # Running dnf command instead of asnible dnf module on purpose here
+    warn: false
 
 - name: Install packages
   dnf:
