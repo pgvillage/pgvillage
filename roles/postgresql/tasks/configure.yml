@@ -22,7 +22,6 @@
   loop: "{{ postgresql_jobs }}"
   loop_control:
     label: "{{ item.name }}"
-  no_log: yes
 
 - name: Set mailto for postgres cron
   cronvar:

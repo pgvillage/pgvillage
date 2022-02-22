@@ -12,7 +12,6 @@
   loop: "{{ stolon_sysconfig | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
-  no_log: yes
   notify: "Restart stolon-{{ item.key }}"
 
 - name: install custom_config file
