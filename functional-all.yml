@@ -6,6 +6,15 @@
   gather_facts: true
 
 - hosts:
+    - all
+  become: true
+  gather_facts: false
+  roles:
+    - packages
+  tags: 
+    - packages
+
+- hosts:
     - etcd_master
   become: true
   gather_facts: false

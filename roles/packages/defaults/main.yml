@@ -1,0 +1,29 @@
+---
+# defaults file for packages
+
+packages_pg_version: 12
+
+# You can define what RH products should be enabled for a group of servers
+# the custom filter (see filter_plugins/core.py) will convert this hash into a list of products only applying to that group
+packages_rhsm_products:
+  postgres:
+    - "Postgresql{{ packages_pg_version }}_8Server"
+    - "rhel_misc"
+  backup:
+    - "Postgresql{{ packages_pg_version }}_8Server"
+    - "rhel_misc"
+
+packages:
+  postgres:
+  - "postgresql{{ postgresql_version|replace('.','') }}"
+  - "postgresql{{ postgresql_version|replace('.','') }}-server"
+  - "postgresql{{ postgresql_version|replace('.','') }}-contrib"
+  - "postgresql{{ postgresql_version|replace('.','') }}-devel"
+  - "postgresql{{ postgresql_version|replace('.','') }}-plpython3"
+  - "stolon"
+  - "wal-g-pg"
+  - "etcd"
+  backup:
+  - "minio"
+
+packages_gpg_check: no
