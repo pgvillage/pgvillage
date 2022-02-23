@@ -28,10 +28,10 @@ function stop_services() {
 
 function remove_rpms() {
   APP=$1
-  RPMS=$(rpm -qa | grep "${APP}") || echo "No RPMS for ${APP}"
+  RPMS=$(rpm -qa | grep "${APP}" | xargs)
   [ -z "${RPMS}" ] && return
   IFS=' ' read -r -a RPMS_ARRAY <<< "${RPMS}"
-  echo "Erasing ${RPMS}"
+  echo "Erasing ${RPMS_ARRAY[@]}"
   echo "dnf erase -y ${RPMS_ARRAY[@]}"
   dnf erase -y "${RPMS_ARRAY[@]}"
 }
