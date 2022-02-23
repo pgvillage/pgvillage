@@ -8,12 +8,12 @@ packages_pg_version: 12
 packages_rhsm_poolids:
   postgres:
     # Postgresql12_8Server
-    - '0360c0e47b1a20e9017b81870656140a'
-    # rhel_misc
     - '0360c0e471df0ab20171f34552980362'
+    # rhel_misc
+    - '0360c0e47b1a20e9017b81870656140a'
   backup:
     # rhel_misc
-    - '0360c0e471df0ab20171f34552980362'
+    - '0360c0e47b1a20e9017b81870656140a'
 
 packages:
   postgres:
