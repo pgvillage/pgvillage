@@ -72,12 +72,12 @@
     - wal_g
     - walg
 
-- hosts:
-    - monitoring
-  become: true
-  gather_facts: false
-  roles:
-    - pgwatch2
-    - cloudalchemy.grafana
-  tags:
-    - pgwatch2
+#- hosts:
+#    - monitoring
+#  become: true
+#  gather_facts: false
+#  roles:
+#    - pgwatch2
+#    - cloudalchemy.grafana
+#  tags:
+#    - pgwatch2
