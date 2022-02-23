@@ -23,6 +23,8 @@
       owner: root
     - path: "{{ stolon_data_dir }}"
       owner: "{{ stolon_user }}"
+    - path: "{{ stolon_config_dir }}"
+      owner: "{{ stolon_user }}"
     - path: "{{ stolon_wal_dir }}"
       owner: "{{ stolon_user }}"
   loop_control:

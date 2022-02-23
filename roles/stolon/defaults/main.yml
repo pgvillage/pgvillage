@@ -28,6 +28,8 @@ stolon_cluster_name: stolon-cluster
 stolon_store_backend: etcdv3
 stolon_proxy_port: 25432
 stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
+stolon_config_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/config"
+stolon_custom_config_file: "{{ stolon_config_dir }}/custom_config.yml"
 stolon_wal_dir: "{{ stolon_data_dir }}/postgres/pg_wal"
 stolon_pg_su_password: supassword
 stolon_pg_repl_username: repluser
