@@ -33,17 +33,6 @@
     - minio
 
 - hosts:
-    - postgres
-  become: true
-  gather_facts: false
-  roles:
-    - postgresql
-  tags:
-    - postgres
-    - postgresql
-    - pg
-
-- hosts:
     - hacluster
   become: true
   gather_facts: false
@@ -51,6 +40,9 @@
     - stolon
   tags:
     - stolon
+    - postgres
+    - postgresql
+    - pg
 
 - hosts:
     - app

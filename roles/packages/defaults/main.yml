@@ -17,11 +17,11 @@ packages_rhsm_poolids:
 
 packages:
   postgres:
-  - "postgresql{{ postgresql_version|replace('.','') }}"
-  - "postgresql{{ postgresql_version|replace('.','') }}-server"
-  - "postgresql{{ postgresql_version|replace('.','') }}-contrib"
-  - "postgresql{{ postgresql_version|replace('.','') }}-devel"
-  - "postgresql{{ postgresql_version|replace('.','') }}-plpython3"
+  - "postgresql{{ packages_pg_version|replace('.','') }}"
+  - "postgresql{{ packages_pg_version|replace('.','') }}-server"
+  - "postgresql{{ packages_pg_version|replace('.','') }}-contrib"
+  - "postgresql{{ packages_pg_version|replace('.','') }}-devel"
+  - "postgresql{{ packages_pg_version|replace('.','') }}-plpython3"
   - "stolon"
   - "wal-g-pg"
   - "etcd"

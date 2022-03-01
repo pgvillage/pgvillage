@@ -3,15 +3,21 @@
 stolon_release: "v0.17.0"
 stolon_opt_path: "/opt/stolon"
 stolon_release_path: "{{ stolon_opt_path }}/{{ stolon_release }}"
-stolon_script_path: "{{ stolon_opt_path }}/scripts"
+stolon_script_path: "{{ getent_passwd[stolon_user][4] }}/bin"
 stolon_binary_owner: root
-stolon_user: postgres
-stolon_group: postgres
 stolon_pkg_arch: amd64
 stolon_bin_path: "{{ stolon_release_path }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}/bin"
 stolon_release_url: "https://github.com/sorintlab/stolon/releases/download/{{ stolon_release }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}.tar.gz"
 # If you add items to stolon_packages, the binaries will not be downloaded, but installed from package instead
 stolon_package_names: []
+#  - "stolon-keeper"
+#  - "stolon-proxy"
+#  - "stolon-sentinel"
+#  - "postgresql{{ stolon_pg_version|replace('.','') }}"
+#  - "postgresql{{ stolon_pg_version|replace('.','') }}-server"
+#  - "postgresql{{ stolon_pg_version|replace('.','') }}-contrib"
+#  - "postgresql{{ stolon_pg_version|replace('.','') }}-devel"
+#  - "postgresql{{ stolon_pg_version|replace('.','') }}-plpython3"
 
 stolon_binaries:
   - stolon-keeper
@@ -24,6 +30,21 @@ stolon_services:
   - sentinel
 
 stolon_pg_version: 12
+
+stolon_pg_listen_address: "{{ ansible_default_ipv4.address }}"
+stolon_pg_port: 5432
+
+stolon_user: postgres
+stolon_group: "{{ stolon_user }}"
+
+stolon_pg_bin_path: "/usr/pgsql-{{ stolon_pg_version }}/bin/"
+stolon_pg_base_dir: "/var/lib/pgsql/{{ stolon_pg_version }}"
+stolon_pg_datadir: "{{ stolon_pg_base_dir }}/data"
+
+stolon_pg_su_password: supassword
+stolon_pg_repl_username: repluser
+stolon_pg_repl_password: replpassword
+
 stolon_cluster_name: stolon-cluster
 stolon_store_backend: etcdv3
 stolon_proxy_port: 25432
@@ -31,12 +52,6 @@ stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
 stolon_config_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/config"
 stolon_custom_config_file: "{{ stolon_config_dir }}/custom_config.yml"
 stolon_wal_dir: "{{ stolon_data_dir }}/postgres/pg_wal"
-stolon_pg_su_password: supassword
-stolon_pg_repl_username: repluser
-stolon_pg_repl_password: replpassword
-stolon_pg_listen_address: "{{ ansible_default_ipv4.address }}"
-stolon_pg_port: 5432
-stolon_pg_bin_path: "/usr/pgsql-{{ stolon_pg_version }}/bin/"
 stolon_proxy_listen_address: "{{ ansible_default_ipv4.address }}"
 stolon_uid: "{{ inventory_hostname_short | replace('-', '_') }}"
 
@@ -76,7 +91,22 @@ stolon_work_mem_kb: "{{ [ (1024 * (stolon_available_memory_mb|int - stolon_share
 stolon_autoconfig: '{{ stolon_autoconfig_default }}'
 
 stolon_pg_parameters: "{{ stolon_autoconfig | combine(stolon_extra_pg_parameters) }}"
-stolon_extra_pg_parameters: {}
+stolon_extra_pg_parameters:
+  log_destination: 'csvlog'
+  logging_collector: 'on'
+  log_directory: "{{ stolon_pg_log_directory }}"
+  log_file_mode: '0600'
+  log_filename: 'postgresql-%Y%m%d.log'
+  log_rotation_size: '1GB'
+  log_line_prefix: '%m [%p]: [%l-1] db=%d,user=%u,app=%a,client=%h '
+  log_error_verbosity: 'verbose'
+  log_statement: 'ddl'
+  log_min_error_statement: 'error'
+  log_min_messages: 'warning'
+  log_min_duration_statement: '5000'
+  log_connections: 'on'
+  log_disconnections: 'on'
+  log_truncate_on_rotation: 'on'
 
 stolon_pg_hba: []
 
@@ -110,3 +140,16 @@ stolon_sysconfig:
     store_backend: "{{ stolon_store_backend }}"
     port: "{{ stolon_proxy_port }}"
     listen-address: "{{ stolon_proxy_listen_address }}"
+
+stolon_pg_log_directory: "{{ stolon_pg_datadir }}/log"
+stolon_pg_log_dir_mode: "0755"
+stolon_pg_log_retention: 14
+stolon_pg_zip_retention: 2
+
+stolon_pg_cron_mailto: "{{ stolon_user }}@{{ inventory_hostname }}"
+
+stolon_pg_jobs:
+- name: Log cleanup
+  minute: 20
+  hour: 3
+  command: '{{ stolon_script_path }}/pg_log_cleanup.sh "{{ stolon_pg_log_retention }}" "{{ stolon_pg_zip_retention }}" "{{ stolon_pg_log_directory }}"'

@@ -1,9 +1,15 @@
 ---
 # tasks file for stolon
 
+- getent:
+    database: passwd
+    key: "{{ stolon_user }}"
+    split: ":"
+
 - include_tasks: install.yml
   when: stolon_release | length > 0
 
 - include_tasks: configure.yml
+- include_tasks: pglogging.yml
 
 - include_tasks: start.yml

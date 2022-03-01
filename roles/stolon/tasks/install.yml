@@ -20,7 +20,7 @@
     - path: "{{ stolon_release_path }}"
       owner: root
     - path: "{{ stolon_script_path }}"
-      owner: root
+      owner: "{{ stolon_user }}"
     - path: "{{ stolon_data_dir }}"
       owner: "{{ stolon_user }}"
     - path: "{{ stolon_config_dir }}"
@@ -30,10 +30,10 @@
   loop_control:
     label: "{{ item.path }}"
 
-- name: copy scripts
+- name: Deploy scripts
   copy:
-    src: scripts
-    dest: "{{ stolon_opt_path }}"
+    src: bin/
+    dest: "{{ stolon_script_path }}"
     mode: preserve
 
 - name: Download stolon
