@@ -46,6 +46,7 @@ stolon_pg_repl_username: repluser
 stolon_pg_repl_password: replpassword
 
 stolon_cluster_name: stolon-cluster
+stolon_cluster_hosts: "{{ groups.stolon }}"
 stolon_store_backend: etcdv3
 stolon_proxy_port: 25432
 stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"

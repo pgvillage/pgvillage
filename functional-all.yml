@@ -33,7 +33,7 @@
     - minio
 
 - hosts:
-    - hacluster
+    - stolon
   become: true
   gather_facts: false
   roles:

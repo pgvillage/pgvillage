@@ -1,0 +1,23 @@
+[local]
+host=/tmp
+password={{ stolon_pg_su_password }}
+port={{ stolon_pg_port }}
+
+[proxy]
+host={{ ansible_hostname }}
+password={{ stolon_pg_su_password }}
+port={{ stolon_proxy_port }}
+
+[master]
+host={{ stolon_cluster_hosts | join(',') }}
+password={{ stolon_pg_su_password }}
+port={{ stolon_pg_port }}
+target_session_attrs=read-write
+
+{% if stolon_pg_version >= 13 %}
+[standby]
+host={{ stolon_cluster_hosts | join(',') }}
+password={{ stolon_pg_su_password }}
+port={{ stolon_pg_port }}
+target_session_attrs=read-only
+{% endif %}
