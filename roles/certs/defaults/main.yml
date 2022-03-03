@@ -1,0 +1,37 @@
+---
+# defaults file for certs
+
+# paths where the files should be stored
+certs_folders: {}
+#  server:
+#    path: "/data/postgres/data"
+#    owner: postgres
+#  client:
+#    path: "{{ getent_passwd.postgres[4] }}/.postgresql"
+#    owner: postgres
+
+certs_files: {}
+#  server_cert:
+#    path: "{{ certs_path.server.path }}/server.crt"
+#    body: "{{ certs.server[ansible_hostname] }}"
+#    owner: "{{ certs_path.server.owner }}"
+#  server_key:
+#    path: "{{ certs_path.server.path }}/server.pem"
+#    body: "{{ certs_keys.server[ansible_hostname] }}"
+#    owner: "{{ certs_path.server.owner }}"
+#  server_chain:
+#    path: "{{ certs_path.server.path }}/ca.pem"
+#    body: "{{ certs.server.chain }}"
+#    owner: "{{ certs_path.server.owner }}"
+#  client_cert:
+#    path: "{{ certs_path.client.path }}/postgresql.crt"
+#    body: "{{ certs.client[ansible_hostname] }}"
+#    owner: "{{ certs_path.client.owner }}"
+#  client_key:
+#    path: "{{ certs_path.client.path }}/postgresql.pem"
+#    body: "{{ certs_keys.client[ansible_hostname] }}"
+#    owner: "{{ certs_path.client.owner }}"
+#  client_chain:
+#    path: "{{ certs_path.client.path }}/ca.crt"
+#    body: "{{ certs_keys.client.chain }}"
+#    owner: "{{ certs_path.client.owner }}"

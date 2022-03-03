@@ -15,6 +15,15 @@
     - packages
 
 - hosts:
+    - all
+  become: true
+  gather_facts: false
+  roles:
+    - certs
+  tags: 
+    - certs
+
+- hosts:
     - etcd_master
   become: true
   gather_facts: false

@@ -1,0 +1,19 @@
+---
+- name: Create folders
+  file:
+    state: directory
+    owner: item.values.owner
+    path: item.values.path
+  loop: "{{ certs_paths | dict2items }}"
+  loop_control:
+    label: "{{ item.key }} -> {{ item.values.path }}"
+
+- name: Deploy files
+  copy:
+    dest: "{{ item.values.path }}"
+    content: "{{ item.values.body }}"
+    owner: "{{ item.values.owner | default('root') }}"
+    mode: '0600'
+  loop: "{{ certs_files | dict2items }}"
+  loop_control:
+    label: "{{ item.key }} -> {{ item.values.path }}"
