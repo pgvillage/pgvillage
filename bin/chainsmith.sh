@@ -5,8 +5,9 @@ cd "$(dirname $0)"/..
 PROJDIR=$PWD
 
 mkdir -p tmp
-export CHAINSMITH_ENV=${1}
-if [ ! -e "./environments/${CHAINSMITH_ENV}/hosts" ]; then
+ENV=${1}
+export CHAINSMITH_ENV="./environments/${ENV}/hosts"
+if [ ! -e "${CHAINSMITH_ENV}" ]; then
   echo -e "Ongeldige omgeving meegegeven.\nAanroep: $0 \${ENV}"
   exit 1
 fi
@@ -14,9 +15,9 @@ fi
 export CHAINSMITH_TMPPATH=$(mktemp -d)
 echo "Tijdelijke data in ${CHAINSMITH_TMPPATH}"
 
-export CHAINSMITH_CONFIG="./config/${CHAINSMITH_ENV}.yml"
+export CHAINSMITH_CONFIG="./config/${ENV}.yml"
 [ -e "${CHAINSMITH_CONFIG}" ] || export CHAINSMITH_CONFIG=./config/chainsmith.yml
-CONFPATH="./environments/${CHAINSMITH_ENV}/group_vars/all"
+CONFPATH="./environments/${ENV}/group_vars/all"
 mkdir -p "${CONFPATH}"
 
 export CHAINSMITH_CERTSPATH="${CONFPATH}/certs.yml"
@@ -26,7 +27,7 @@ if [ -e "${CHAINSMITH_CERTSPATH}" -o -e "${CHAINSMITH_PEMSPATH}" ]; then
   exit 1
 fi
 
-export CHAINSMITH_LOG="${PROJDIR}/tmp/chainsmith_${CHAINSMITH_ENV}.log"
+export CHAINSMITH_LOG="${PROJDIR}/tmp/chainsmith_${ENV}.log"
 echo "Chainsmith logging in in ${CHAINSMITH_LOG}"
 ./bin/chainsmith.py >> "${CHAINSMITH_LOG}" 2>&1
 

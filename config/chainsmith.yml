@@ -16,7 +16,6 @@ intermediates:
 #      myserver1:
 #        - 192.168.13.14
 # You can read servers from an environment
-    environment: environments/poc/hosts
   - name: client
     clients:
       - postgres
