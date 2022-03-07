@@ -3,4 +3,4 @@
 # WAL-g config laden
 eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
 
-/usr/local/bin/wal-g wal-push "$1"
+/usr/local/bin/wal-g-pg wal-push "$1"

@@ -5,7 +5,7 @@ function backup() {
   echo
   # if there are existing backups younger then WALG_BACKUP_SKIP_WINDOW, then we can skip backup.
   SKIP_AFTER=$(date -d "0${WALG_BACKUP_SKIP_WINDOW} hour ago" --iso-8601=seconds)
-  BACKUPS_SINCE=$(/usr/local/bin/wal-g backup-list | awk -v skipAfter="$SKIP_AFTER" '{if (FNR>1 && skipAfter<=$2) {print}}' | wc -l)
+  BACKUPS_SINCE=$(/usr/local/bin/wal-g-pg backup-list | awk -v skipAfter="$SKIP_AFTER" '{if (FNR>1 && skipAfter<=$2) {print}}' | wc -l)
   if [ "${BACKUPS_SINCE}" -gt 0 ]; then
     echo "There is already ${BACKUPS_SINCE} backups since ${SKIP_AFTER} (WALG_BACKUP_SKIP_WINDOW of ${WALG_BACKUP_SKIP_WINDOW})."
     echo "So I am skipping backup on this node."
@@ -15,7 +15,7 @@ function backup() {
   "$SCRIPTDIR/maintenance.sh"
   
   echo "Pushing backup"
-  /usr/local/bin/wal-g backup-push "${PGDATA}"
+  /usr/local/bin/wal-g-pg backup-push "${PGDATA}"
   
   "$SCRIPTDIR/maintenance.sh"
 }

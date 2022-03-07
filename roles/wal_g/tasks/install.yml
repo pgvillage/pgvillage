@@ -32,7 +32,7 @@
   file:
     state: link
     src: "{{ walg_bin_path }}/{{ walg_exe_name }}"
-    dest: "/usr/local/bin/wal-g"
+    dest: "/usr/local/bin/wal-g-pg"
     force: yes
   when:
     - walg_packages|length == 0

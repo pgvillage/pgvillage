@@ -19,18 +19,18 @@ recovery_conf() {
 
 earliest_backup() {
   # Dit commando geeft het eerste veld op de laatste terug. Dat is de naam van de laatste backup.
-  /usr/local/bin/wal-g backup-list | sed -n '2{s/ .*//;p}'
+  /usr/local/bin/wal-g-pg backup-list | sed -n '2{s/ .*//;p}'
 }
 
 latest_backup_before() {
   # Dit commando vergelijkt alle backups met RestoreDat en geeft de laatste backup voor die datum terug.
-  /usr/local/bin/wal-g backup-list | awk -v RestoreDate="$1" '{if (FNR>1 && $2<=RestoreDate) {print $1}}' | tail -n1
+  /usr/local/bin/wal-g-pg backup-list | awk -v RestoreDate="$1" '{if (FNR>1 && $2<=RestoreDate) {print $1}}' | tail -n1
 }
 
 latest_backup() {
   # Dit commando geeft het eerste veld op de laatste terug. Dat is de naam van de laatste backup.
   # shellcheck disable=SC2016
-  /usr/local/bin/wal-g backup-list | sed -n '${s/ .*//;p}'
+  /usr/local/bin/wal-g-pg backup-list | sed -n '${s/ .*//;p}'
 }
 
 # WAL-g config laden
@@ -81,7 +81,7 @@ else
 fi
 
 echo "Fetching backup from $RESTORETARGET"
-/usr/local/bin/wal-g backup-fetch "$PGRESTORE" "$RESTORETARGET"
+/usr/local/bin/wal-g-pg backup-fetch "$PGRESTORE" "$RESTORETARGET"
 chmod 0700 "$PGRESTORE"
 
 if [ "$PGRESTORE" != "$PGDATA" ]; then
