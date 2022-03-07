@@ -1,19 +1,23 @@
 ---
+- getent:
+    database: passwd
+    split: ":"
+
 - name: Create folders
   file:
     state: directory
-    owner: item.values.owner
-    path: item.values.path
-  loop: "{{ certs_paths | dict2items }}"
+    owner: "{{ item.value.owner }}"
+    path: "{{ item.value.path }}"
+  loop: "{{ certs_folders | dict2items }}"
   loop_control:
-    label: "{{ item.key }} -> {{ item.values.path }}"
+    label: "{{ item.key }} -> {{ item.value.path }}"
 
 - name: Deploy files
   copy:
-    dest: "{{ item.values.path }}"
-    content: "{{ item.values.body }}"
-    owner: "{{ item.values.owner | default('root') }}"
+    dest: "{{ item.value.path }}"
+    content: "{{ item.value.body }}"
+    owner: "{{ item.value.owner | default('root') }}"
     mode: '0600'
   loop: "{{ certs_files | dict2items }}"
   loop_control:
-    label: "{{ item.key }} -> {{ item.values.path }}"
+    label: "{{ item.key }} -> {{ item.value.path }}"
