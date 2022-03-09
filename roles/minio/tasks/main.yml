@@ -1,7 +1,7 @@
 ---
 - getent:
     database: passwd
-    key: "{{ minio_client_user }}"
+    key: "{{ minio_user }}"
     split: ":"
 
 - include_tasks: install.yml

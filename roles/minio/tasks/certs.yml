@@ -4,7 +4,7 @@
     state: directory
     owner: "{{ item.value.owner }}"
     path: "{{ item.value.path }}"
-  loop: "{{ minio_client_cert_folders | dict2items }}"
+  loop: "{{ minio_cert_folders | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"
 
@@ -14,6 +14,6 @@
     content: "{{ item.value.body }}"
     owner: "{{ item.value.owner | default('root') }}"
     mode: '0600'
-  loop: "{{ minio_client_cert_files | dict2items }}"
+  loop: "{{ minio_cert_files | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"

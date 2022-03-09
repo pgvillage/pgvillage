@@ -1,12 +1,16 @@
 ---
 
+minio_package_names:
+  - minio
+  - mcli
+
 # Minio binaries path
 minio_server_bin: /usr/local/bin/minio
-minio_client_bin: /usr/local/bin/mc
+minio_bin: /usr/local/bin/mcli
 
 # Runtime user and group for the Minio server service
 minio_user: minio
-minio_group: minio
+minio_group: "{{ minio_user }}"
 
 # Path to the file containing the ENV variables for the Minio server
 minio_server_envfile: /etc/default/minio
@@ -17,7 +21,6 @@ minio_server_addr: ":9091"
 # Minio server data directories
 minio_server_datadirs:
   - /var/lib/minio
-minio_server_make_datadirs: true
 
 # Minio server cluster node list.
 minio_server_cluster_nodes: [ ]
@@ -32,6 +35,29 @@ minio_server_opts: ""
 minio_access_key: ""
 minio_secret_key: ""
 
-# Switches to enable/disable the Minio server and/or Minio client installation.
-minio_install_server: true
-minio_install_client: true
+__minio_endpoint_defaults:
+  accessKey: "AWSKEY"
+  secretKey: "AWSSECRET"
+  url: "https://{{ inventory_hostname }}"
+  api: S3v4
+  path: auto
+
+minio_endpoint: {}
+
+minio_buckets:
+  - mybucket
+
+minio_configdir: "{{ getent_passwd['minio'][4] }}/.mcli"
+
+minio_cert_folders:
+  minio_client:
+    path: "{{ minio_configdir }}/certs/CAs/"
+    owner: "{{ minio_user }}"
+
+minio_cert: "---- CERT ----"
+
+minio_cert_files:
+  minio_chain:
+    path: "{{ minio_cert_folders.minio_client.path }}/CA_{{ ansible_hostname }}.crt"
+    body: "{{ minio_cert }}"
+    owner: "{{ minio_user }}"

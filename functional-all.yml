@@ -37,7 +37,7 @@
   become: true
   gather_facts: false
   roles:
-    - minio_client
+    - minio
   tags: 
     - minio
 
