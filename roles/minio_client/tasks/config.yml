@@ -1,0 +1,39 @@
+---
+# tasks file for minio_client
+
+- name: Create minio client config dir
+  file:
+    dest: "{{ minio_client_configdir }}"
+    state: directory
+    mode: 0700
+    owner: "{{ minio_client_user }}"
+    group: "{{ minio_client_group }}"
+
+- name: Create minio client config file
+  template:
+    src: mc.config.json.j2
+    dest: "{{ minio_client_configdir }}/config.json"
+    mode: 0600
+    owner: "{{ minio_client_user }}"
+    group: "{{ minio_client_group }}"
+  vars:
+    minio_client_config:
+      version: "10"
+      aliases:
+        minio: "{{ __minio_client_endpoint_defaults | combine(minio_client_endpoint) }}"
+
+# s3_bucket requires boto python modules and maintaining them on all backup servers requires
+# efforts which we already take care of with mcli, so directly claling mcli instead
+#- name: Create buckets
+#  local_action:
+#    module: s3_bucket
+#    aws_access_key: '{{ minio_client_endpoint.accessKey }}'
+#    aws_secret_key: '{{ minio_client_endpoint.secretKey }}'
+#    s3_url: '{{ minio_client_endpoint.url }}'
+#    name: '{{ item }}'
+#    validate_certs: false
+#  loop: '{{ minio_client_buckets }}'
+
+- name: Create buckets
+  shell: "/usr/local/bin/mcli mb 'minio/{{ item }}' --ignore-existing"
+  loop: '{{ minio_client_buckets }}'

@@ -1,0 +1,9 @@
+---
+# tasks file for minio_client
+#
+- name: Install minio client packages when defined
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ minio_client_package_names }}"

@@ -7,7 +7,27 @@ __minio_client_endpoint_defaults:
   api: S3v4
   path: auto
 
+minio_client_package_names:
+  - mcli
+
 minio_client_endpoint: {}
 
 minio_client_buckets:
   - mybucket
+
+minio_client_configdir: "{{ getent_passwd['minio'][4] }}/.mcli"
+minio_client_user: minio
+minio_client_group: "{{ minio_client_user }}"
+
+minio_client_cert_folders:
+  minio_client:
+    path: "{{ minio_client_configdir }}/certs/CAs/"
+    owner: "{{ minio_client_user }}"
+
+minio_client_cert: "---- CERT ----"
+
+minio_client_cert_files:
+  minio_chain:
+    path: "{{ minio_client_cert_folders.minio_client.path }}/CA_{{ ansible_hostname }}.crt"
+    body: "{{ minio_client_cert }}"
+    owner: "{{ minio_client_user }}"
