@@ -50,14 +50,32 @@ minio_buckets:
 minio_configdir: "{{ getent_passwd['minio'][4] }}/.mcli"
 
 minio_cert_folders:
-  minio_client:
+  client:
     path: "{{ minio_configdir }}/certs/CAs/"
     owner: "{{ minio_user }}"
+  server:
+    path: "/etc/pki/tls/minio"
+    owner: minio
 
-minio_cert: "---- CERT ----"
+minio_client_cert: "---- CERT ----"
+minio_server_cert: "---- CERT ----"
+minio_server_key: "---- KEY ----"
+minio_server_chain: "---- CHAIN ----"
 
 minio_cert_files:
   minio_chain:
-    path: "{{ minio_cert_folders.minio_client.path }}/CA_{{ ansible_hostname }}.crt"
-    body: "{{ minio_cert }}"
+    path:  "{{ minio_cert_folders.client.path }}/CA_{{ ansible_hostname }}.crt"
+    body:  "{{ minio_client_cert }}"
     owner: "{{ minio_user }}"
+  server_cert:
+    path:  "{{ minio_cert_folders.server.path }}/public.crt"
+    body:  "{{ minio_server_cert }}"
+    owner: "{{ minio_cert_folders.server.owner }}"
+  server_key:
+    path:  "{{ minio_cert_folders.server.path }}/private.key"
+    body:  "{{ minio_server_key }}"
+    owner: "{{ minio_cert_folders.server.owner }}"
+  server_chain:
+    path:  "{{ minio_cert_folders.server.path }}/ca.pem"
+    body:  "{{ minio_server_chain }}"
+    owner: "{{ minio_cert_folders.server.owner }}"
