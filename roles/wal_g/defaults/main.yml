@@ -110,3 +110,16 @@ walg_log_defaults:
   WALG_LOG_LEVEL: "{{ walg_log_level }}"
   # use for extra logging in S3 communication
   S3_LOG_LEVEL: "{{ s3_log_level }}"
+
+walg_cert_folders:
+  minio:
+    path: "{{ getent_passwd[walg_user][4] }}/.wal-g/certs"
+    owner: "{{ walg_user }}"
+
+walg_bucket_cert: "---- CERT ----"
+
+walg_cert_files:
+  minio_chain:
+    path: "{{ walg_cert_folders.minio.path }}/minio.crt"
+    body: "{{ walg_bucket_cert }}"
+    owner: "{{ walg_user }}"

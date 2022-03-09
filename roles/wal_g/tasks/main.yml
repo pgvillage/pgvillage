@@ -1,5 +1,11 @@
 ---
+- getent:
+    database: passwd
+    key: "{{ walg_user }}"
+    split: ":"
+
 # tasks file for wal-g
 - include_tasks: install.yml
   when: walg_release | length > 0
+- include_tasks: certs.yml
 - include_tasks: configure.yml
