@@ -35,5 +35,7 @@
 #  loop: '{{ minio_buckets }}'
 
 - name: Create buckets
+  become: true
+  become_user: "{{ minio_user }}"
   shell: "/usr/local/bin/mcli mb 'minio/{{ item }}' --ignore-existing"
   loop: '{{ minio_buckets }}'
