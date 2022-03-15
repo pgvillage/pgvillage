@@ -10,6 +10,7 @@
   when: stolon_release | length > 0
 
 - include_tasks: configure.yml
+- include_tasks: certs.yml
 - include_tasks: pglogging.yml
 
 - include_tasks: start.yml

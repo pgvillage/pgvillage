@@ -39,7 +39,8 @@ stolon_group: "{{ stolon_user }}"
 
 stolon_pg_bin_path: "/usr/pgsql-{{ stolon_pg_version }}/bin/"
 stolon_pg_base_dir: "/var/lib/pgsql/{{ stolon_pg_version }}"
-stolon_pg_datadir: "{{ stolon_pg_base_dir }}/data"
+stolon_pg_datadir: "{{ stolon_data_dir }}/postgres"
+stolon_pg_certdir: "{{ stolon_data_dir }}/certs"
 
 stolon_pg_su_password: supassword
 stolon_pg_repl_username: repluser
@@ -52,7 +53,7 @@ stolon_proxy_port: 25432
 stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
 stolon_config_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/config"
 stolon_custom_config_file: "{{ stolon_config_dir }}/custom_config.yml"
-stolon_wal_dir: "{{ stolon_data_dir }}/postgres/pg_wal"
+stolon_wal_dir: "{{ stolon_pg_datadir }}/pg_wal"
 stolon_proxy_listen_address: "{{ ansible_default_ipv4.address }}"
 stolon_uid: "{{ inventory_hostname_short | replace('-', '_') }}"
 
@@ -91,7 +92,7 @@ stolon_work_mem_kb: "{{ [ (1024 * (stolon_available_memory_mb|int - stolon_share
 # You can easilly set this to another profile if you want to. Or define your own...
 stolon_autoconfig: '{{ stolon_autoconfig_default }}'
 
-stolon_pg_parameters: "{{ stolon_autoconfig | combine(stolon_extra_pg_parameters) }}"
+stolon_pg_parameters: "{{ stolon_autoconfig | combine(stolon_extra_pg_parameters) | combine(stolon_ssl_pg_parameters) }}"
 stolon_extra_pg_parameters:
   log_destination: 'csvlog'
   logging_collector: 'on'
@@ -112,6 +113,7 @@ stolon_extra_pg_parameters:
 stolon_pg_hba: []
 
 stolon_custom_config:
+  defaultSUReplAccessMode: "strict"
   pgParameters: "{{ stolon_pg_parameters }}"
   pgHBA: "{{ stolon_pg_hba }}"
 # More info:
@@ -127,7 +129,7 @@ stolon_sysconfig:
     cluster_name: "{{ stolon_cluster_name }}"
     store_backend: "{{ stolon_store_backend }}"
     data_dir: "{{ stolon_data_dir }}"
-    pgdata_dir: "{{ stolon_data_dir }}/postgres"
+    pgdata_dir: "{{ stolon_pg_datadir }}"
     pgwal_dir: "{{ stolon_wal_dir }}"
     pg_su_password: "{{ stolon_pg_su_password }}"
     pg_repl_username: "{{ stolon_pg_repl_username }}"
@@ -154,3 +156,53 @@ stolon_pg_jobs:
   minute: 20
   hour: 3
   command: '{{ stolon_script_path }}/pg_log_cleanup.sh "{{ stolon_pg_log_retention }}" "{{ stolon_pg_zip_retention }}" "{{ stolon_pg_log_directory }}"'
+
+
+stolon_cert_folders:
+  client:
+    path: "{{ getent_passwd[stolon_user][4] }}/.postgresql"
+    owner: "{{ stolon_user }}"
+  server:
+    path: "{{ stolon_pg_certdir }}"
+    owner: "{{ stolon_user }}"
+
+stolon_client_cert: "---- CCERT ----"
+stolon_client_chain: "---- CCHAIN ----"
+stolon_client_key: "---- CKEY ----"
+stolon_server_cert: "---- SCERT ----"
+stolon_server_key: "---- SKEY ----"
+stolon_server_chain: "---- SCHAIN ----"
+
+stolon_cert_files:
+  client_cert:
+    path:  "{{ stolon_cert_folders.client.path }}/postgresql.crt"
+    body:  "{{ stolon_client_cert }}"
+    owner: "{{ stolon_cert_folders.client.owner }}"
+  client_key:
+    path:  "{{ stolon_cert_folders.client.path }}/postgresql.key"
+    body:  "{{ stolon_client_key }}"
+    owner: "{{ stolon_cert_folders.client.owner }}"
+  client_chain:
+    # The chain of the client should be installed with the server for postgres to verify client certs
+    path:  "{{ stolon_cert_folders.server.path }}/root.crt"
+    body:  "{{ stolon_client_chain }}"
+    owner: "{{ stolon_cert_folders.server.owner }}"
+  server_cert:
+    path:  "{{ stolon_cert_folders.server.path }}/server.crt"
+    body:  "{{ stolon_server_cert }}"
+    owner: "{{ stolon_cert_folders.server.owner }}"
+  server_key:
+    path:  "{{ stolon_cert_folders.server.path }}/server.key"
+    body:  "{{ stolon_server_key }}"
+    owner: "{{ stolon_cert_folders.server.owner }}"
+    # The chain of the server should be installed with the client for libpq to verify the server's cert
+  server_chain:
+    path:  "{{ stolon_cert_folders.client.path }}/root.crt"
+    body:  "{{ stolon_server_chain }}"
+    owner: "{{ stolon_cert_folders.client.owner }}"
+
+stolon_ssl_pg_parameters:
+  ssl_cert_file: '{{ stolon_cert_files.server_cert.path }}'
+  ssl_key_file: '{{ stolon_cert_files.server_key.path }}'
+  ssl_ca_file: '{{ stolon_cert_files.client_chain.path }}'
+  ssl: 'on'
