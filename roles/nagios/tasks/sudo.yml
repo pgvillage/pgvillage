@@ -1,5 +1,5 @@
 ---
-- name: Grant sudo permissions to nrpe
+- name: "Grant sudo permissions to {{ nagios_nrpe_user }}"
   template:
     src: templates/sudoers.j2
     dest: "/etc/sudoers.d/100_sudorule-nrpe"

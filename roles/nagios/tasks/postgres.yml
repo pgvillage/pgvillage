@@ -29,8 +29,8 @@
   template:
     src: "templates/{{ item.key }}.j2"
     dest: "{{ nagios_config_folder }}/{{ item.key }}.cfg"
-    owner: nrpe
-    group: nrpe
+    owner: "{{ nagios_nrpe_user }}"
+    group: "{{ nagios_nrpe_group }}"
     mode: 0600
   loop: "{{ nagios_checks | dict2items }}"
   loop_control:
