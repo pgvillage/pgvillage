@@ -1,0 +1,19 @@
+---
+
+- name: create config file
+  template:
+    src:  "templates/nagios_server.cfg.j2"
+    dest: "{{ item.path }}/{{ inventory_hostname }}-custom.cfg"
+  delegate_to: "{{ item.hostname }}"
+  loop: "{{ nagios_servers }}"
+  when: item.enabled
+  notify: reload nagios
+
+- name: create config file
+  file:
+    dest: "{{ item.path }}/{{ inventory_hostname }}-custom.cfg"
+    state: absent
+  delegate_to: "{{ item.hostname }}"
+  loop: "{{ nagios_servers }}"
+  when: not item.enabled
+  notify: reload nagios

@@ -1,0 +1,11 @@
+---
+# handlers file for nagios
+
+- name: reload nagios
+  systemd:
+    name:  "nagios.service"
+    state: reloaded
+  delegate_to: "{{ item.hostname }}"
+  loop: "{{ nagios_servers }}"
+  loop_control:
+    label: "{{ item.hostname }}"

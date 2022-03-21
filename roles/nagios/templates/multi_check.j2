@@ -1,0 +1,6 @@
+# Ansible managed (ansible_postgres)
+
+# pg_multi_db_checks
+{% for check_name, check in item.value.items() %}
+command[{{ check_name }}] = sudo -iu postgres {{ nagios_scripts_folder }}/pg_multi_db_checks.sh {{ check_name }} -w {{ check.warning }} -c {{ check.critical }}
+{% endfor %}

@@ -1,0 +1,172 @@
+---
+# defaults file for nagios
+
+nagios_scripts_folder: /opt/nagios/nrpe
+
+nagios_config_folder: /etc/nrpe.d/
+
+nagios_time:
+  days: 86400
+
+nagios_locks:
+  value: 800
+  warning: 0.5
+  critical: 0.75
+
+nagios_connections:
+  value: 100
+  warning: 0.7
+  critical: 0.8
+
+nagios_db_size:
+  value: 100
+  warning: 0.8
+  critical: 0.9
+
+nagios_idx_size:
+  value: 100
+  warning: 0.8
+  critical: 0.9
+
+nagios_relation_size:
+  value: 5000000
+  warning: 0.8
+  critical: 1.0
+
+nagios_table_size:
+  value: 5000000
+  warning: 0.8
+  critical: 1.0
+
+nagios_pg_version: 14
+
+nagios_wal_files: 256
+nagios_txn_time: 1
+
+nagios_archive_ready: 15
+nagios_autovac_freeze: 95
+
+nagios_backends:
+  value: 100
+  alert_factor: 0.95
+
+nagios_bloat:
+  warning: '1GB'
+  critical: '5GB'
+
+nagios_commitratio: 15
+
+nagios_disabled_triggers: 1
+nagios_hitratio: 0
+nagios_prepared_txns: "{{ nagios_connections.value }}"
+nagios_sequence_space: 90
+nagios_timesync: 5
+nagios_txn_wraparound: 200000000
+nagios_txn_wraparound_warn: 0.8
+nagios_txn_wraparound_crit: 0.9
+nagios_disk_space:
+  warning: '80%'
+  critical: '90%'
+
+nagios_running_postgresql:
+  user: postgres
+  search: postgres
+  warning: '7:{{ nagios_connections.value }}'
+  critical: '1:{{ nagios_connections.value + 100 }}'
+
+nagios_checks:
+  multi_check: {}
+  check_postgres:
+    check_postgres_last_analyze:
+      warning: "{{ 5 * nagios_time.days }}"
+      critical: "{{ 5 * nagios_time.days }}"
+    check_postgres_last_vacuum:
+      warning: "{{ 5 * nagios_time.days }}"
+      critical: "{{ 7 * nagios_time.days }}"
+    check_postgres_locks:
+      warning: "{{ (nagios_locks.value * nagios_locks.warning) | round|int }}"
+      critical: "{{ (nagios_locks.value * nagios_locks.critical) | round|int }}"
+    check_postgres_connection:
+      warning: "{{ (nagios_connections.value * nagios_connections.warning) | round|int }}"
+      critical: "{{ (nagios_connections.value * nagios_connections.critical) | round|int }}"
+    check_postgres_wal_files:
+      warning: "{{ (nagios_wal_files/2)|round|int }}"
+      critical: "{{ nagios_wal_files|int }}"
+    check_postgres_txn_time:
+      warning: "{{ nagios_txn_time/2|round|int }}"
+      critical: "{{ nagios_txn_time }}"
+    check_postgres_database_size:
+      warning: "{{ nagios_db_size.value * nagios_db_size.warning }}G"
+      critical: "{{ nagios_db_size.value * nagios_db_size.critical }}G"
+    check_postgres_indexes_size:
+      warning: "{{ nagios_idx_size.value * nagios_idx_size.warning }}G"
+      critical: "{{ nagios_idx_size.value * nagios_idx_size.critical }}G"
+#    check_postgres_version:
+#      warning: "{{ nagios_pg_version }}"
+#      critical: "{{ nagios_pg_version }}"
+    check_postgres_relation_size:
+      warning: "{{ nagios_relation_size.value * nagios_relation_size.warning }}"
+      critical: "{{ nagios_relation_size.value * nagios_relation_size.critical }}"
+    check_postgres_table_size:
+      warning: "{{ nagios_table_size.value * nagios_table_size.warning }}"
+      critical: "{{ nagios_table_size.value * nagios_table_size.critical }}"
+    check_postgres_archive_ready:
+      warning: "{{ nagios_archive_ready }}"
+      critical: "{{ nagios_archive_ready * 2 }}"
+    check_postgres_autovac_freeze:
+      # 100% - critical value * 2
+      warning: "{{ 2 * nagios_autovac_freeze - 100 }}%"
+      critical: "{{ nagios_autovac_freeze }}%"
+    check_postgres_backends:
+      warning: "{{ nagios_backends.value * (2 * nagios_backends.alert_factor-1)|round|int }}"
+      critical: "{{ nagios_backends.value * nagios_backends.alert_factor|round|int }}"
+    check_postgres_bloat:
+      warning: "{{ nagios_bloat.warning }}"
+      critical: "{{ nagios_bloat.critical }}"
+    check_postgres_commitratio:
+      # Currently used but without values so 0% (check basically disabled)
+      warning: "{{ 2 * nagios_commitratio }}%"
+      critical: "{{ nagios_commitratio }}%"
+    check_postgres_disabled_triggers:
+      warning: "{{ nagios_disabled_triggers * 2 }}"
+      critical: "{{ nagios_disabled_triggers }}"
+    check_postgres_hitratio:
+      warning: "{{ nagios_hitratio }}%"
+      critical: "{{ nagios_hitratio }}%"
+    check_postgres_prepared_txns:
+      warning: "{{ nagios_prepared_txns }}"
+      critical: "{{ nagios_prepared_txns * 2 }}"
+    check_postgres_sequence:
+      warning: "{{ 2 * nagios_sequence_space - 100 }}%"
+      critical: "{{ nagios_sequence_space }}%"
+    check_postgres_timesync:
+      warning: "{{ (nagios_timesync/2)|round|int }}"
+      critical: "{{ nagios_timesync|round|int }}"
+    check_postgres_txn_wraparound:
+      warning: "{{ nagios_txn_wraparound * nagios_txn_wraparound_warn|round|int }}"
+      critical: "{{ nagios_txn_wraparound * nagios_txn_wraparound_crit|round|int }}"
+    check_postgres_disk_space:
+      warning: "{{ nagios_disk_space.warning }}"
+      critical: "{{ nagios_disk_space.critical }}"
+  service_check:
+    service_stolon_keeper:
+      service: stolon-keeper
+    service_stolon_proxy:
+      service: stolon-proxy
+    service_stolon_sentinel:
+      service: stolon-sentinel
+    service_crond:
+      service: crond
+  proces_check:
+    running_postgresql:
+      user: "{{ nagios_running_postgresql.user }}"
+      search: "{{ nagios_running_postgresql.search }}"
+      warning: "{{ nagios_running_postgresql.warning }}"
+      critical: "{{ nagios_running_postgresql.critical }}"
+
+nagios_check_postgres_links: "{{ nagios_checks.multi_check.keys()|list + nagios_checks.check_postgres.keys()|list }}"
+
+nagios_servers: []
+#  - hostname: nagios1.example.com
+#    path: /opt/nagios/etc/host.cfg.d
+#    enabled: false

@@ -1,0 +1,11 @@
+{% for _, chapter in nagios_checks.items() %}
+{% for check in chapter.keys() %}
+define service {
+        use                  dba-service
+        host_name            {{ inventory_hostname }}
+        service_description  {{ check }}
+        check_command        check_nrpe_ssl!{{ check }}
+}
+
+{% endfor %}
+{% endfor %}

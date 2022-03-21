@@ -1,0 +1,43 @@
+---
+# tasks file for nagios
+- name: Install dependencies
+  yum:
+    state: present
+    name:
+    - nrpe
+    - check_postgres
+
+- name: create custom script folder
+  file:
+    path: "{{ nagios_scripts_folder }}"
+    state: directory
+
+- name: Deploy custom scripts
+  copy:
+    src: "files/nrpe/"
+    dest: "{{ nagios_scripts_folder }}/"
+    mode: 0755
+
+- name: create links for check_postgres.pl
+  file:
+    src: /usr/bin/check_postgres.pl
+    dest: "{{ nagios_scripts_folder }}/{{ item }}"
+    state: link
+  loop: "{{ nagios_check_postgres_links }}"
+
+- name: config files
+  template:
+    src: "templates/{{ item.key }}.j2"
+    dest: "{{ nagios_config_folder }}/{{ item.key }}.cfg"
+    owner: nrpe
+    group: nrpe
+    mode: 0600
+  loop: "{{ nagios_checks | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: "Start nrpe service"
+  become: yes
+  service:
+    name: nrpe.service
+    state: restarted

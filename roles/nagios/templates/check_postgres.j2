@@ -1,0 +1,6 @@
+# Ansible managed (ansible_postgres)
+
+# check_postgres
+{% for check_name, check in item.value.items() %}
+command[{{ check_name }}] = sudo -iu postgres {{ nagios_scripts_folder }}/{{ check_name }} -H {{inventory_hostname}} -w {{ check.warning }} -c {{ check.warning }}
+{% endfor %}

@@ -1,0 +1,30 @@
+---
+
+- name: Set required flags on and keep it persistent across reboots
+  seboolean:
+    name: "{{ item }}"
+    state: yes
+    persistent: yes
+  loop:
+    - domain_can_mmap_files
+    - domain_kernel_load_modules
+    - nis_enabled
+
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: tempfolder
+
+- name: copy module file
+  copy:
+    src: "files/my-nrpe.te"
+    dest: "{{ tempfolder.path }}/my-nrpe.te"
+
+- name: install selinux module if needed
+  shell: |
+    cd "{{ tempfolder.path }}"
+    checkmodule -M -m -o my-nrpe.mod my-nrpe.te
+    semodule_package -o my-nrpe.pp -m my-nrpe.mod
+    semodule -i my-nrpe.pp
+

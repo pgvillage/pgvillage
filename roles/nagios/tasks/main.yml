@@ -1,0 +1,14 @@
+---
+# tasks file for nagios
+- include_tasks: "postgres.yml"
+  when: "'postgres' in group_names"
+
+- include_tasks: "configure_nagios.yml"
+- include_tasks: "sudo.yml"
+# - name: Get semodule list
+#   command: semodule -l
+#   register: semodule_list
+# 
+# - include_tasks: "selinux.yml"
+#   when:
+#     - '"my-nrpe" not in semodule_list.stdout_lines'

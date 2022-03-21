@@ -1,0 +1,6 @@
+# Ansible managed (ansible_postgres)
+
+# service_checks
+{% for check_name, check in item.value.items() %}
+command[{{ check_name }}] = {{ nagios_scripts_folder }}/check_service_wrapper.sh -s {{ check.service }}
+{% endfor %}

@@ -73,6 +73,15 @@
     - wal_g
     - walg
 
+- hosts:
+    - postgres
+  become: true
+  gather_facts: false
+  roles:
+    - nagios
+  tags:
+    - nagios
+
 #- hosts:
 #    - monitoring
 #  become: true

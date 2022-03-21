@@ -1,0 +1,6 @@
+# Ansible managed (ansible_postgres)
+
+# check_procs
+{% for check_name, check in item.value.items() %}
+command[{{ check_name }}] = /usr/lib64/nagios/plugins/check_procs -u {{ check.user }} -a {{ check.search }} -w {{ check.warning }} -c {{ check.critical }}
+{% endfor %}
