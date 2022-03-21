@@ -28,3 +28,4 @@
     name: MAILTO
     value: "{{ stolon_pg_cron_mailto }}"
     user: "{{ stolon_user }}"
+    cron_file: postgresql
