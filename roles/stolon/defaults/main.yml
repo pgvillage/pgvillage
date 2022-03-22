@@ -19,6 +19,10 @@ stolon_package_names: []
 #  - "postgresql{{ stolon_pg_version|replace('.','') }}-devel"
 #  - "postgresql{{ stolon_pg_version|replace('.','') }}-plpython3"
 
+# With this we can apply sysctl config as required.
+stolon_sysctl: |
+  vm.swappiness = 10
+
 stolon_binaries:
   - stolon-keeper
   - stolonctl
