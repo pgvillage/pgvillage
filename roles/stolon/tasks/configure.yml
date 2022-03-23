@@ -1,7 +1,7 @@
 ---
 - name: Swapiness instellen
   copy:
-    destination: /etc/sysctl.d/postgresql.conf
+    dest: /etc/sysctl.d/postgresql.conf
     content: '{{ stolon_sysctl }}'
   notify: appy sysctl changes
 
