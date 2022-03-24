@@ -4,7 +4,6 @@
   when: "'postgres' in group_names"
 
 - include_tasks: "configure_nagios.yml"
-- include_tasks: "sudo.yml"
 # - name: Get semodule list
 #   command: semodule -l
 #   register: semodule_list

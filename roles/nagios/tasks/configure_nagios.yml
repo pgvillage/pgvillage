@@ -1,6 +1,6 @@
 ---
 
-- name: create config file
+- name: create config file (when enabled)
   template:
     src:  "templates/nagios_server.cfg.j2"
     dest: "{{ item.path }}/{{ inventory_hostname }}-custom.cfg"
@@ -9,7 +9,7 @@
   when: item.enabled
   notify: reload nagios
 
-- name: create config file
+- name: delete config file (when disabled)
   file:
     dest: "{{ item.path }}/{{ inventory_hostname }}-custom.cfg"
     state: absent

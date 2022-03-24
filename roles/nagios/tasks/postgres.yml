@@ -1,5 +1,17 @@
 ---
 # tasks file for nagios
+
+# This is a hack.
+# - We could do it with postgres_user, but that fails on a standby.
+# - We should do this with pgfga, but we don;t have that implemented yet
+# - This way we always run on a master and that should always work
+- name: create an nrpe user in Postgres (hack)
+  become_user: "{{ nagios_running_postgresql_user }}"
+  shell: psql -tc "select * from pg_user where usename='{{ nagios_nrpe_user }}'" | grep -q '[a-zA-Z0-9]' || psql -c "create user {{ nagios_nrpe_user }};alter user {{ nagios_nrpe_user }} superuser;"
+  environment:
+    PGSERVICE: master
+  throttle: 1
+
 - name: Install dependencies
   yum:
     state: present
@@ -36,8 +48,25 @@
   loop_control:
     label: "{{ item.key }}"
 
+# We rely on nrpe user to directly connect to Postgres with Pipes
+# Stolon has these named pipes in /tmp
+# NRPE by default has PrivateTmp=true, and thus cannot connect to postgres on /tmp/.s.PGSQL.5432
+# So, set PrivateTmp=false for this to work
+- name: Crate nrpe override folder
+  file:
+    dest: /etc/systemd/system/nrpe.service.d
+    state: directory
+- name: Don't set PrivateTmp for nrpe service
+  copy:
+    dest: /etc/systemd/system/nrpe.service.d/override.conf
+    content: |
+      [Service]
+      PrivateTmp=false
+
 - name: "Start nrpe service"
   become: yes
-  service:
+  systemd:
     name: nrpe.service
     state: restarted
+    enabled: yes
+    daemon_reload: yes

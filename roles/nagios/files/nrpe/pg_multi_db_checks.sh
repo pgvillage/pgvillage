@@ -13,11 +13,16 @@ function show_usage
    echo
    echo "Run as 'posgres' !!"
    echo
-   echo "Usage : /home/postgres/bin/pg_multi_db_checks.sh [ <Naam van Postgre Check> [-c limiet voor CRITICAL]  [-w limiet voor WARNING] ] [ -H host ] --help" 
+   echo "Usage : /home/postgres/bin/pg_multi_db_checks.sh [ <Naam van Postgre Check> [-c limiet voor CRITICAL]  [-w limiet voor WARNING] ] --help" 
    echo
-   exit 0 
+   echo "LET OP! Check wordt altijd op de 'localhost' uitgevoerd!"
+   echo
+   exit 0
 }
 
+export PGHOST=${PGHOST:-/tmp}
+export PGDATABASE=${PGDATABASE:-postgres}
+export PGUSER=${PGUSER:-nrpe}
 
 # Controle op uit te voeren postgres check :
 #----------------------------------------------------------------------------------------------------------------------------------------
@@ -43,9 +48,6 @@ function check_treshold_parms
    if ( [ "${1}" == "-c" ] || [ "${1}" == "-w" ] ) && ( [ "$(echo ${2}|sed -n -e 's/^[0-9][0-9]*$/NUMBERS/p')" == "NUMBERS" ] ); then
       echo "OK"
       return 0;
-   elif ( [ "${1}" == "-H" ] ); then
-      echo "OK"
-      return 0;
    else
       echo "NOK"
       return 2;
@@ -53,31 +55,21 @@ function check_treshold_parms
 }
 
 if [ ${#} -ge 3 ]; then
-   if [ "$(check_treshold_parms ${2} ${3})" == "OK" ];  then 
+   if [ "$(check_treshold_parms ${2} ${3})" == "OK" ]; then
       opts_array+=("${2}")
       opts_array+=("${3}")
-   else 
-      echo;echo "Wrong treshold options ${2} and ${3}";echo; 
-      exit 2; 
-   fi 
-fi;
-
-if [ ${#} -ge 5 ]; then
-   if [ "$(check_treshold_parms ${4} ${5})" == "OK" ];  then 
-      opts_array+=("${4}")
-      opts_array+=("${5}")
    else
-      echo;echo "Wrong treshold options ${4} and ${5}";echo; 
+      echo; echo "Wrong treshold options ${2} and ${3}"; echo;
       exit 2;
    fi
 fi;
- 
-if [ ${#} -ge 7 ]; then
-   if [ "$(check_treshold_parms ${6} ${7})" == "OK" ];  then 
-      opts_array+=("${6}")
-      opts_array+=("${7}")
+
+if [ ${#} -ge 5 ]; then
+   if [ "$(check_treshold_parms ${4} ${5})" == "OK" ]; then
+      opts_array+=("${4}")
+      opts_array+=("${5}")
    else
-      echo;echo "Wrong treshold options ${6} and ${7}";echo; 
+      echo; echo "Wrong treshold options ${4} and ${5}"; echo;
       exit 2;
    fi
 fi;
@@ -118,16 +110,16 @@ export wurst_db="ALL db's check OK !"
 # Indien de laatste verkregen status check_postgres groter is dan de waarde in variabele "wurst",
 # dan wordt aan de variabele "wurst" de nieuwe check_postgres status toegekend! :
 #----------------------------------------------------------------------------------------------------------------------------------------
-for db in ${db_list[@]} ; do 
-   # export chck=$(sudo -iu postgres /opt/nagios/nrpe/$pg_check_name --db=$db ${opts_array[@]}\
-   export chck=$(/opt/nagios/nrpe/$pg_check_name --db=$db ${opts_array[@]}\
+for db in ${db_list[@]} ; do
+   # export chck=$(sudo -iu postgres /opt/nagios/nrpe/$pg_check_name -H $PGHOST --db=$db ${opts_array[@]}\
+   export chck=$(/opt/nagios/nrpe/$pg_check_name -H $PGHOST --db=$db ${opts_array[@]}\
       |sed -n -s "s/^\(..*\)\(OK\|WARNING\|CRITICAL\|UNKNOWN\)[^\"]*\([^ ]*\).*$/$pg_check_name \2: DB \3/p";);
 
    ch=$(echo $chck|sed -n -e 's/^\(.*\)\(OK\|WARNING\|CRITICAL\|UNKNOWN\)[:]\(.*\)$/\2/p')
    for (( i=0 ; $i  < ${#status[@]} ;  i=$(($i+1)) )) ; do \
        if [ "$ch" == "${status[$i]}" ] ; then 
-          if [ ${i} -gt ${wurst} ] ; then let wurst=$i ; wurst_db=$chck; fi 
-       fi; 
+          if [ ${i} -gt ${wurst} ] ; then let wurst=$i ; wurst_db=$chck; fi
+       fi;
    done
    chck_outp+=("$chck");
    export chck_outp;
@@ -146,24 +138,24 @@ for (( idb=0 ; idb < ${#chck_outp[@]} ; idb=(($idb+1)) )) ; do echo '"'${chck_ou
 
 # Ten slotte wordt de exit status van dit script bepaald a.d.h.v. de index "wurst" :
 #----------------------------------------------------------------------------------------------------------------------------------------
-case ${status[$wurst]} in 
-      ( 'OK' )
-          exit 0;
-          ;;
+case ${status[$wurst]} in
+   ( 'OK' )
+       exit 0;
+       ;;
 
-      ( 'WARNING' )
-          exit 1;
-          ;;
+   ( 'WARNING' )
+       exit 1;
+       ;;
 
-      ( 'CRITICAL' )
-          exit 2;
-          ;;
+   ( 'CRITICAL' )
+       exit 2;
+       ;;
 
-      ( 'UNKNOWN' )
-          exit 3;
-          ;;
+   ( 'UNKNOWN' )
+       exit 3;
+       ;;
 
    ( '.*' )
-          exit 9;
-          ;;
+       exit 9;
+       ;;
 esac

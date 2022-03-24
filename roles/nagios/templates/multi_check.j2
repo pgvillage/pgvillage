@@ -2,5 +2,5 @@
 
 # pg_multi_db_checks
 {% for check_name, check in item.value.items() %}
-command[{{ check_name }}] = sudo -iu {{ nagios_running_postgresql_user }} {{ nagios_scripts_folder }}/pg_multi_db_checks.sh {{ check_name }} -H {{ inventory_hostname }} -w {{ check.warning }} -c {{ check.critical }}
+command[{{ check_name }}] = {{ nagios_scripts_folder }}/pg_multi_db_checks.sh {{ check_name }} -w {{ check.warning }} -c {{ check.critical }}
 {% endfor %}
