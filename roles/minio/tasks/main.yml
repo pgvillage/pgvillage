@@ -1,9 +1,18 @@
 ---
+- name: Checking for valid certs config
+  assert:
+    that:
+      - "'\n' in minio_client_cert"
+      - "'\n' in minio_server_cert"
+      - "'\n' in minio_server_key"
+      - "'\n' in minio_server_chain"
+    fail_msg: "Please run chainsmith to succesfully setup certs"
+    success_msg: "Client and server certs seem properly setup"
+
+- include_tasks: install.yml
 - getent:
     database: passwd
     key: "{{ minio_user }}"
     split: ":"
-
-- include_tasks: install.yml
 - include_tasks: certs.yml
 - include_tasks: config.yml

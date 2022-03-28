@@ -1,5 +1,16 @@
 ---
 # tasks file for stolon
+- name: Checking for valid certs config
+  assert:
+    that:
+      - "'\n' in stolon_client_cert"
+      - "'\n' in stolon_client_chain"
+      - "'\n' in stolon_client_key"
+      - "'\n' in stolon_server_cert"
+      - "'\n' in stolon_server_key"
+      - "'\n' in stolon_server_chain"
+    fail_msg: "Please run chainsmith to succesfully setup certs"
+    success_msg: "Client and server certs seem properly setup"
 
 - getent:
     database: passwd
