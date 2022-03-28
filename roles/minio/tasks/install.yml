@@ -22,8 +22,9 @@
 
 - name: Install minio packages
   package:
-    name: "{{ minio_server_package_name }}"
+    name: "{{ item }}"
     state: present
+    disable_gpg_check: yes
   with_items: "{{ minio_package_names }}"
 
 - name: Generate the Minio server envfile
