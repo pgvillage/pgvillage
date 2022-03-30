@@ -159,3 +159,9 @@ nagios_servers: []
 #  - hostname: nagios1.example.com
 #    path: /opt/nagios/etc/host.cfg.d
 #    enabled: false
+#    use: redhat-host
+#    hostgroups:
+#    - serverhosting
+#    - redhat-msh
+#    - virtualserver
+#    - postgres_dba
