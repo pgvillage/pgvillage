@@ -38,7 +38,12 @@ nagios_table_size_critical: 1.0
 
 nagios_pg_version: 14
 
-nagios_wal_files: 256
+nagios_wal_dir_mp: '/'
+nagios_max_wal_size_warning_ratio: .65
+nagios_max_wal_size_critical_ratio: .75
+nagios_wal_files_value: "{{ facter_mountpoints[nagios_wal_dir_mp]['size_bytes']|int / 16777216 }}"
+nagios_wal_files_warning: "{{ [ (nagios_wal_files_value|int * nagios_max_wal_size_warning_ratio), 10] | max }}"
+nagios_wal_files_critical: "{{ [ (nagios_wal_files_value|int * nagios_max_wal_size_critical_ratio), 100] | max }}"
 nagios_txn_time: 1
 
 nagios_archive_ready: 15
@@ -79,8 +84,8 @@ nagios_checks:
       critical: "{{ (nagios_connections_value * nagios_connections_critical) | round|int }}"
   check_postgres:
     check_postgres_wal_files:
-      warning: "{{ (nagios_wal_files/2)|round|int }}"
-      critical: "{{ nagios_wal_files|int }}"
+      warning: "{{ nagios_wal_files_warning|round|int }}"
+      critical: "{{ nagios_wal_files_critical|round|int }}"
     check_postgres_txn_time:
       warning: "{{ nagios_txn_time/2|round|int }}"
       critical: "{{ nagios_txn_time }}"
