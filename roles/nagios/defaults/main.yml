@@ -122,8 +122,8 @@ nagios_checks:
       warning: "{{ 2 * nagios_commitratio }}%"
       critical: "{{ nagios_commitratio }}%"
     check_postgres_disabled_triggers:
-      warning: "{{ nagios_disabled_triggers * 2 }}"
-      critical: "{{ nagios_disabled_triggers }}"
+      warning: "{{ nagios_disabled_triggers }}"
+      critical: "{{ nagios_disabled_triggers * 2 }}"
     check_postgres_hitratio:
       warning: "{{ nagios_hitratio }}%"
       critical: "{{ nagios_hitratio }}%"
