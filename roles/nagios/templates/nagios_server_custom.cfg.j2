@@ -1,13 +1,5 @@
 # Managed by Ansible (https://github.com/pgvillage/pgvillage)
 
-define host {
-        use              redhat-host
-        host_name        {{ inventory_hostname }}
-        alias            {{ inventory_hostname }}
-        address          {{ ansible_default_ipv4.address }}
-        _vmnaam          {{ inventory_hostname }}
-        hostgroups       {{ item.hostgroups | join(',') }}
-}
 {% for _, chapter in nagios_checks.items() %}
 {% for check in chapter.keys() %}
 define service {
