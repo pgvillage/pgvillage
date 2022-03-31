@@ -16,12 +16,16 @@
 
 - name: copy module file
   copy:
-    src: "files/my-nrpe.te"
-    dest: "{{ tempfolder.path }}/my-nrpe.te"
+    src: "files/{{ item }}.te"
+    dest: "{{ tempfolder.path }}/{{ item }}.te"
+  loop: "{{ nagios_selinux_modules }}"
 
 - name: install selinux module if needed
   shell: |
     cd "{{ tempfolder.path }}"
-    checkmodule -M -m -o my-nrpe.mod my-nrpe.te
-    semodule_package -o my-nrpe.pp -m my-nrpe.mod
-    semodule -i my-nrpe.pp
+    for F in *.te; do
+      MOD=$(basename $F .te)
+      checkmodule -M -m -o $MOD.mod $MOD.te
+      semodule_package -o $MOD.pp -m $MOD.mod
+      semodule -i $MOD.pp
+    done

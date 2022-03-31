@@ -3,7 +3,7 @@
 # This module is custom build based on selinux alerts on a running system
 #   sealert -l "*" | sed -n '/^# ausearch/{s/^# //;p}' | sort -u > get_audits.sh
 #   bash ./get_audits.sh
-#   cat *.te > mymodule.te
+#   cat *.te > my-stolon.te
 # And then bring all together.
 # Other helpful commands:
 #   sed -n '/^require {/,/^}/p' my-stolon.te | grep '^[^r}]' | sort -u

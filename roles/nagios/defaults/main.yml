@@ -170,3 +170,7 @@ nagios_servers: []
 #    - redhat-msh
 #    - virtualserver
 #    - postgres_dba
+
+nagios_selinux_modules:
+  - my-nrpe
+  - my-check-postgres

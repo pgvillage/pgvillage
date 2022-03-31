@@ -3,44 +3,28 @@
 # This module is custom build based on selinux alerts on a running system
 #   sealert -l "*" | sed -n '/^# ausearch/{s/^# //;p}' | sort -u > get_audits.sh
 #   bash ./get_audits.sh
-#   cat *.te > mymodule.te
+#   cat *.te > my-nrpe.te
 # And then bring all together.
 # Other helpful commands:
-#   sed -n '/^require {/,/^}/p' my_nrpe.te | grep '^[^r}]' | sort -u
-#   grep allow my_nrpe.te
+#   sed -n '/^require {/,/^}/p' my-nrpe.te | grep '^[^r}]' | sort -u
+#   grep allow my-nrpe.te
 
 module my-nrpe 1.0;
 
 require {
-        type hostname_exec_t;
-        type tmp_t;
-        type nrpe_t;
-        type mount_exec_t;
-        type fixed_disk_device_t;
-        type mount_var_run_t;
-        type syslogd_var_run_t;
-        type systemd_systemctl_exec_t;
-        type unlabeled_t;
-        type user_tmp_t;
-        type var_log_t;
         class blk_file getattr;
-        class dir { add_name create getattr read remove_name rmdir search setattr write };
-        class file { create execute getattr execute_no_trans getattr map open read setattr unlink write };
-        class sock_file write;
+        class file { execute execute_no_trans setattr getattr map open read write };
+        type fixed_disk_device_t;
+        type hostname_exec_t;
+        type mount_exec_t;
+        type mount_var_run_t;
+        type nrpe_t;
+        type tmp_t;
 }
 
-#============= nrpe_t ==============
-allow init_t home_bin_t:file { execute execute_no_trans ioctl open read };
+allow nrpe_t hostname_exec_t:file { execute getattr read };
+allow nrpe_t tmp_t:file { write setattr };
+allow nrpe_t hostname_exec_t:file { execute execute_no_trans map open read };
 allow nrpe_t fixed_disk_device_t:blk_file getattr;
-allow nrpe_t hostname_exec_t:file { execute execute_no_trans getattr map open read };
 allow nrpe_t mount_exec_t:file { execute execute_no_trans getattr map open read };
 allow nrpe_t mount_var_run_t:file { getattr open read };
-allow nrpe_t syslogd_var_run_t:dir read;
-allow nrpe_t systemd_systemctl_exec_t:file { execute execute_no_trans getattr open read };
-allow nrpe_t tmp_t:dir { add_name create read remove_name rmdir setattr write };
-allow nrpe_t tmp_t:file { create setattr unlink write };
-allow nrpe_t tmp_t:sock_file write;
-allow nrpe_t unlabeled_t:dir { getattr search };
-allow nrpe_t user_tmp_t:file setattr;
-allow nrpe_t var_log_t:dir read;
-

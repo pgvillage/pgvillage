@@ -66,6 +66,7 @@
 
 - hosts:
     - postgres
+    - backup
   become: true
   gather_facts: false
   roles:
