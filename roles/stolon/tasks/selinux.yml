@@ -1,0 +1,27 @@
+---
+
+#- name: Set required flags on and keep it persistent across reboots
+#  seboolean:
+#    name: "{{ item }}"
+#    state: yes
+#    persistent: yes
+#  loop:
+#    - domain_can_mmap_files
+
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: tempfolder
+
+- name: copy module file
+  copy:
+    src: "files/my-stolon.te"
+    dest: "{{ tempfolder.path }}/my-stolon.te"
+
+- name: install selinux module if needed
+  shell: |
+    cd "{{ tempfolder.path }}"
+    checkmodule -M -m -o my-stolon.mod my-stolon.te
+    semodule_package -o my-stolon.pp -m my-stolon.mod
+    semodule -i my-stolon.pp

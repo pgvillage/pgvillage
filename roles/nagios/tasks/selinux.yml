@@ -7,8 +7,6 @@
     persistent: yes
   loop:
     - domain_can_mmap_files
-    - domain_kernel_load_modules
-    - nis_enabled
 
 - name: Create temporary build directory
   ansible.builtin.tempfile:
@@ -27,4 +25,3 @@
     checkmodule -M -m -o my-nrpe.mod my-nrpe.te
     semodule_package -o my-nrpe.pp -m my-nrpe.mod
     semodule -i my-nrpe.pp
-

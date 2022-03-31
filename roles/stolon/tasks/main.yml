@@ -1,5 +1,13 @@
 ---
 # tasks file for stolon
+- name: Get semodule list
+  command: semodule -l
+  register: semodule_list
+
+- include_tasks: "selinux.yml"
+  when:
+    - '"my-stolon" not in semodule_list.stdout_lines'
+
 - name: Checking for valid certs config
   assert:
     that:

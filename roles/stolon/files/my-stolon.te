@@ -1,0 +1,21 @@
+#!!!! This module requires the booleans 'domain_can_mmap_files'
+#
+# This module is custom build based on selinux alerts on a running system
+#   sealert -l "*" | sed -n '/^# ausearch/{s/^# //;p}' | sort -u > get_audits.sh
+#   bash ./get_audits.sh
+#   cat *.te > mymodule.te
+# And then bring all together.
+# Other helpful commands:
+#   sed -n '/^require {/,/^}/p' my-stolon.te | grep '^[^r}]' | sort -u
+#   grep allow my-stolon.te
+
+module my-stolon 1.0;
+
+require {
+        type home_bin_t;
+        type init_t;
+        class file { execute execute_no_trans ioctl open read };
+}
+
+allow init_t home_bin_t:file { execute execute_no_trans ioctl open read };
+
