@@ -9,3 +9,5 @@
     enabled: yes
     daemon_reload: yes
   loop: "{{ avchecker_defaults | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
