@@ -1,0 +1,16 @@
+---
+
+- name: Enable and start the Minio service
+  service:
+    name: minio
+    state: started
+    enabled: true
+
+- name: Check started
+  shell: curl -k {{ endpoint.url }}
+  register: curl_minio
+  retries: 60
+  delay: 1
+  until: curl_minio.rc == 0
+  vars:
+    endpoint: "{{ __minio_endpoint_defaults | combine(minio_endpoint) }}"

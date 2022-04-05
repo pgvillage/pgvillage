@@ -15,4 +15,5 @@
     key: "{{ minio_user }}"
     split: ":"
 - include_tasks: certs.yml
-- include_tasks: config.yml
+- include_tasks: start.yml
+- include_tasks: config_client.yml
