@@ -1,11 +1,11 @@
 ---
-# defaults file for packages
+# defaults file for generic linux role for postgres servers
 
-packages_pg_version: 12
+linux_pg_version: 12
 
 # You can define what RH products should be enabled for a group of servers
 # the custom filter (see filter_plugins/core.py) will convert this hash into a list of products only applying to that group
-packages_rhsm_poolids:
+linux_rhsm_poolids:
   postgres:
     # Postgresql12_8Server
     - '0360c0e471df0ab20171f34552980362'
@@ -15,17 +15,17 @@ packages_rhsm_poolids:
     # rhel_misc
     - '0360c0e47b1a20e9017b81870656140a'
 
-packages:
+linux_packages:
   postgres:
-  - "postgresql{{ packages_pg_version|replace('.','') }}"
-  - "postgresql{{ packages_pg_version|replace('.','') }}-server"
-  - "postgresql{{ packages_pg_version|replace('.','') }}-contrib"
-  - "postgresql{{ packages_pg_version|replace('.','') }}-devel"
-  - "postgresql{{ packages_pg_version|replace('.','') }}-plpython3"
+  - "postgresql{{ linux_pg_version|replace('.','') }}"
+  - "postgresql{{ linux_pg_version|replace('.','') }}-server"
+  - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
+  - "postgresql{{ linux_pg_version|replace('.','') }}-devel"
+  - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
   - "stolon"
   - "wal-g-pg"
   - "etcd"
   backup:
   - "minio"
 
-packages_gpg_check: no
+linux_packages_gpg_check: no

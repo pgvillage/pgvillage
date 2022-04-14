@@ -10,9 +10,10 @@
   become: true
   gather_facts: false
   roles:
-    - packages
+    - linux
   tags: 
     - packages
+    - linux
 
 - hosts:
     - etcd_master

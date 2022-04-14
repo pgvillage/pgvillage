@@ -20,7 +20,7 @@
 
 - name: Install packages
   dnf:
-    name: "{{ packages|bygroup(group_names) }}"
+    name: "{{ linux_packages|bygroup(group_names) }}"
     state: present
     update_cache: yes
-    disable_gpg_check: "{{ packages_gpg_check }}"
+    disable_gpg_check: "{{ linux_packages_gpg_check }}"

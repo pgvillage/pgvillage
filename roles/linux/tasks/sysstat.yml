@@ -1,0 +1,12 @@
+---
+
+- name: Ensure sysstat is installed
+  yum:
+    name: sysstat
+    state: present
+
+- name: Ensure sysstat is running
+  systemd:
+    name: sysstat
+    state: started
+    enabled: yes
