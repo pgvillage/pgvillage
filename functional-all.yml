@@ -46,7 +46,7 @@
     - pg
 
 - hosts:
-    - app
+    - hacluster
   become: true
   gather_facts: false
   roles:
