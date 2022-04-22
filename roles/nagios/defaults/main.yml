@@ -55,7 +55,7 @@ nagios_idx_size_critical: "{{ nagios_idx_size_value|percent(25)|human }}"
 nagios_txn_time: 1
 
 nagios_archive_ready: 15
-nagios_autovac_freeze: 95
+nagios_autovac_freeze: 98
 
 nagios_backends_value: 100
 nagios_backends_alert_percent: 95
