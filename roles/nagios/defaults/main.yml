@@ -78,8 +78,8 @@ nagios_prepared_txns: "{{ nagios_connections_value }}"
 nagios_sequence_space: 90
 nagios_timesync: 5
 nagios_txn_wraparound: 200000000
-nagios_txn_wraparound_warning: "{{ nagios_txn_wraparound|percent(80) }}"
-nagios_txn_wraparound_criticial: "{{ nagios_txn_wraparound|percent(90) }}"
+nagios_txn_wraparound_warning: "{{ nagios_txn_wraparound|percent(120) }}"
+nagios_txn_wraparound_criticial: "{{ nagios_txn_wraparound|percent(150) }}"
 nagios_disk_space_warning: '80%'
 nagios_disk_space_critical: '90%'
 
