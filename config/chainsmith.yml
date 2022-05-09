@@ -19,5 +19,5 @@ intermediates:
   - name: client
     clients:
       - postgres
-      - wal-g
       - application
+      - avchecker
