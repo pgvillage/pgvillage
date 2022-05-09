@@ -4,5 +4,7 @@
   when: avchecker_defaults | length > 0
 - include_tasks: configure.yml
   when: avchecker_defaults | length > 0
+- include_tasks: certs.yml
+- include_tasks: postgres.yml
 - include_tasks: start.yml
   when: avchecker_defaults | length > 0

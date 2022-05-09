@@ -1,5 +1,4 @@
 ---
-
 - name: install defaults configuration
   template:
     src: 'avchecker.default.j2'

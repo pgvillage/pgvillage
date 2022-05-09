@@ -13,6 +13,8 @@ After=syslog.target network.target
 EnvironmentFile=-/etc/default/avchecker_%I
 ExecStart={{ avchecker_path }}/avchecker.py
 Type=simple
+User={{ avchecker_user }}
+Group={{ avchecker_group }}
 
 [Install]
 WantedBy=multi-user.target
