@@ -34,6 +34,9 @@
 #    validate_certs: false
 #  loop: '{{ minio_buckets }}'
 
+- name: Flush handlers
+  meta: flush_handlers
+
 - name: Create buckets
   become: true
   become_user: "{{ minio_user }}"
