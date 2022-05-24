@@ -59,7 +59,7 @@ stolon_store_backend: etcdv3
 stolon_proxy_port: 25432
 stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
 stolon_config_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/config"
-stolon_custom_config_file: "{{ stolon_config_dir }}/custom_config.yml"
+stolon_custom_config_file: "{{ stolon_config_dir }}/stolon_custom_config.yml"
 stolon_wal_dir: "{{ stolon_pg_datadir }}/pg_wal"
 stolon_proxy_listen_address: "{{ ansible_default_ipv4.address }}"
 stolon_uid: "{{ inventory_hostname_short | replace('-', '_') }}"
@@ -188,7 +188,7 @@ stolon_server_chain: "---- SCHAIN ----"
 
 stolon_cert_files:
   client_cert:
-    path:  "{{ stolon_cert_folders.client.path }}/postgresql.crt"
+    path: "{{ stolon_cert_folders.client.path }}/postgresql.crt"
     body: "{{ stolon_client_cert }}"
     owner: "{{ stolon_cert_folders.client.owner }}"
   client_key:

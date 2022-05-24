@@ -49,6 +49,12 @@
     - src: pg_service.conf.j2
       dest: "{{ getent_passwd[stolon_user][4] }}/.pg_service.conf"
 
+- name: create bash_profile
+  file:
+    path: "{{ getent_passwd[stolon_user][4] }}/.bash_profile"
+    state: touch
+    owner: "{{ stolon_user }}"
+
 - name: Enable stolon_profile
   lineinfile:
     path: "{{ getent_passwd[stolon_user][4] }}/.bash_profile"
@@ -62,7 +68,8 @@
 
 - name: Install stolon-packages when defined
   become: "true"
-  package:
+  yum:
     name: "{{ item }}"
     state: present
+    disable_gpg_check: "true"
   loop: "{{ stolon_package_names }}"
