@@ -46,7 +46,7 @@ walg_aws_access_key: "AWSKEY"
 walg_aws_secret_key: "AWSSECRET"
 walg_aws_endpoint: "https://{{ walg_bucket_name }}.s3.Region.amazonaws.com/{{walg_aws_access_key}}"
 walg_aws_ca_file: ~/.wal-g/certs/minio.crt
-walg_bucket_name: walg
+walg_bucket_name: backup
 walg_bucket_defaults:
   AWS_ACCESS_KEY_ID: "{{ walg_aws_access_key }}"
   AWS_SECRET_ACCESS_KEY: "{{ walg_aws_secret_key }}"
