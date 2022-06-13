@@ -79,18 +79,18 @@ stolon_shared_buffers_ratio: 0.25
 stolon_eff_cache_ratio: 0.75
 stolon_min_wal_size_ratio: 0.25
 stolon_max_wal_size_ratio: 0.75
-stolon_workers_ratio: 1
-stolon_parallel_ratio: 1
-stolon_gather_ratio: 0.5
+stolon_workers_ratio: 4
+stolon_parallel_ratio: 4
+stolon_gather_ratio: 1
 
 # Autoconfig calculations
 stolon_share_buffers_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_shared_buffers_ratio) | int, 8] | max }}"
 stolon_effective_cache_size_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_eff_cache_ratio) | int, 1] | max }}"
 stolon_min_wal_size_mb: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_min_wal_size_ratio / 1048576) | int, 80] | max }}"
 stolon_max_wal_size_mb: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_max_wal_size_ratio / 1048576) | int, 1024] | max }}"
-stolon_max_worker_processes: "{{ [ansible_processor_vcpus|int * stolon_workers_ratio|int, 2] | max }}"
-stolon_max_parallel_workers: "{{ [ansible_processor_vcpus|int * stolon_parallel_ratio|int, 2] | max }}"
-stolon_max_parallel_workers_per_gather: "{{ [ansible_processor_vcpus|int * stolon_gather_ratio|int, 1] | max }}"
+stolon_max_worker_processes: "{{ [ansible_processor_vcpus|int * stolon_workers_ratio|int, 8] | max }}"
+stolon_max_parallel_workers: "{{ [ansible_processor_vcpus|int * stolon_parallel_ratio|int, 8] | max }}"
+stolon_max_parallel_workers_per_gather: "{{ [ansible_processor_vcpus|int * stolon_gather_ratio|int, 2] | max }}"
 stolon_work_mem_kb: "{{ [ (1024 * (stolon_available_memory_mb|int - stolon_share_buffers_mb|int) / stolon_max_connections / stolon_query_complexity) | int, 64] | max }}"
 
 # You can easilly set this to another profile if you want to. Or define your own...
