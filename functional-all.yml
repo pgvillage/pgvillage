@@ -60,9 +60,8 @@
   become: true
   gather_facts: false
   roles:
-    - wal_g
+    - walg
   tags:
-    - wal_g
     - walg
 
 - hosts:
