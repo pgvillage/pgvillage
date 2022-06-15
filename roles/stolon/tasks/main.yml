@@ -6,7 +6,7 @@
 
 - include_tasks: "selinux.yml"
   when:
-    - '"my-stolon" not in semodule_list.stdout_lines'
+    - "'my-stolon' not in semodule_list.stdout_lines"
 
 - name: Checking for valid certs config
   assert:
@@ -31,5 +31,20 @@
 - include_tasks: configure.yml
 - include_tasks: certs.yml
 - include_tasks: pglogging.yml
-
 - include_tasks: start.yml
+
+- name: wait for stolon port to be active
+  pause:
+    seconds: 10
+
+- name: create an nrpe and pgroute66  user in Postgres (hack)
+  become_user: "postgres"
+  shell: psql -tc "select * from pg_user where usename='{{ item }}'" | grep -q '[a-zA-Z0-9]' || psql -c "create user {{ item }}; alter user {{ item }} superuser;"
+  environment:
+    PGSERVICE: master
+  throttle: 1
+  loop:
+    - pgroute66
+    - nrpe
+
+

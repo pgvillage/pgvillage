@@ -4,12 +4,12 @@
   meta: flush_handlers
 
 - name: Start avchecker@ systemd services
-  become: yes
+  become: "true"
   systemd:
     name: "avchecker@{{ item.key }}.service"
     state: started
-    enabled: yes
-    daemon_reload: yes
+    enabled: "true"
+    daemon_reload: "true"
   loop: "{{ avchecker_defaults | dict2items }}"
   loop_control:
     label: "{{ item.key }}"

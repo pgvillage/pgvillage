@@ -9,7 +9,7 @@
   user:
     name: "{{ minio_user }}"
     group: "{{ minio_group }}"
-    shell: /bin/bash
+    shell: "/bin/bash"
 
 - name: Create the Minio data storage directories
   file:
@@ -17,14 +17,14 @@
     state: directory
     owner: "{{ minio_user }}"
     group: "{{ minio_group }}"
-    mode: 0750
+    mode: "0750"
   with_items: "{{ minio_server_datadirs }}"
 
 - name: Install minio packages
   package:
     name: "{{ item }}"
     state: present
-    disable_gpg_check: yes
+    disable_gpg_check: "true"
   with_items: "{{ minio_package_names }}"
 
 - name: Generate the Minio server envfile
@@ -33,7 +33,7 @@
     dest: "{{ minio_server_envfile }}"
     owner: "root"
     group: "{{ minio_group }}"
-    mode: 0640
+    mode: "0640"
   notify: restart minio
 
 - name: Create the Minio server systemd config
@@ -50,6 +50,6 @@
     dest: "/etc/init.d/minio"
     owner: "root"
     group: "root"
-    mode: 0750
+    mode: "0750"
   when: ansible_service_mgr != "systemd"
 

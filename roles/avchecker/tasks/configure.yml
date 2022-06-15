@@ -1,11 +1,11 @@
 ---
 - name: install defaults configuration
   template:
-    src: 'avchecker.default.j2'
-    dest: '/etc/default/avchecker_{{ item.key }}'
-    owner: 'root'
-    group: 'root'
-    mode: 0644
+    src: avchecker.default.j2
+    dest: "/etc/default/avchecker_{{ item.key }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
   loop: "{{ avchecker_defaults | dict2items }}"
   loop_control:
     label: "{{ item.key }}"

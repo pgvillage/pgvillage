@@ -8,7 +8,7 @@
     - walg_packages|length = 0
 
 - name: create wal-g folder
-  become: yes
+  become: "true"
   become_user: "{{ walg_binary_owner }}"
   file:
     state: directory
@@ -17,7 +17,7 @@
     mode: "0755"
 
 - name: Download wal-g
-  become: yes
+  become: "true"
   become_user: "{{ walg_binary_owner }}"
   get_url:
     url: "{{ walg_exe_url }}"
@@ -27,18 +27,18 @@
     - walg_packages|length == 0
 
 - name: Install wal-g binary
-  become: yes
+  become: "true"
   become_user: "{{ walg_binary_owner }}"
   file:
     state: link
     src: "{{ walg_bin_path }}/{{ walg_exe_name }}"
     dest: "/usr/local/bin/wal-g-pg"
-    force: yes
+    force: "true"
   when:
     - walg_packages|length == 0
 
 - name: Install wal-g package when defined
-  become: yes
+  become: "true"
   package:
     name: "{{ item }}"
     state: present

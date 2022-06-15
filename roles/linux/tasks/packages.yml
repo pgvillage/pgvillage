@@ -7,13 +7,13 @@
     state: present
 
 - name: autoattach
-  shell: 'subscription-manager auto-attach'
+  shell: "subscription-manager auto-attach"
 
 - name: attach
-  shell: 'subscription-manager attach'
+  shell: "subscription-manager attach"
 
 - name: Disable postgresql module
-  shell: 'dnf module disable -y postgresql'
+  shell: "dnf module disable -y postgresql"
   args:
     # Running dnf command instead of asnible dnf module on purpose here
     warn: false
@@ -22,5 +22,5 @@
   dnf:
     name: "{{ linux_packages|bygroup(group_names) }}"
     state: present
-    update_cache: yes
+    update_cache: "true"
     disable_gpg_check: "{{ linux_packages_gpg_check }}"

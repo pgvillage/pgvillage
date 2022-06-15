@@ -11,7 +11,7 @@
   gather_facts: false
   roles:
     - linux
-  tags: 
+  tags:
     - packages
     - linux
 
@@ -21,7 +21,7 @@
   gather_facts: false
   roles:
     - andrewrothstein.etcd-cluster
-  tags: 
+  tags:
     - etcd
 
 - hosts:
@@ -30,7 +30,7 @@
   gather_facts: false
   roles:
     - minio
-  tags: 
+  tags:
     - minio
 
 - hosts:

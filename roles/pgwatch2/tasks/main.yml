@@ -2,7 +2,7 @@
 - name: Install pgwatch2
   yum:
     name: "{{ pgwatch2_rpm_url }}"
-    disable_gpg_check: yes
+    disable_gpg_check: "true"
 
 # - name: Install pgwatch2
 #   apt:
@@ -10,11 +10,11 @@
 
 - name: Copy pgwatch2 config
   template:
-    src: instances.yml
+    src: instances.j2
     dest: /etc/pgwatch2/config/instances.yaml
     owner: root
     group: root
-    mode: 0640
+    mode: "0640"
 
 - name: Deploy systemd unit
   template:
@@ -22,5 +22,5 @@
     dest: /etc/systemd/system/pgwatch2.service
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify: restart pgwatch2

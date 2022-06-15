@@ -10,8 +10,8 @@ nagios_scripts_folder: /opt/nagios/nrpe
 nagios_config_folder: /etc/nrpe.d/
 nagios_running_postgresql_user: postgres
 nagios_running_postgresql_search: postgres
-nagios_running_postgresql_warning: '7:{{ nagios_connections_value }}'
-nagios_running_postgresql_critical: '1:{{ nagios_connections_value + 100 }}'
+nagios_running_postgresql_warning: "7:{{ nagios_connections_value }}"
+nagios_running_postgresql_critical: "1:{{ nagios_connections_value + 100 }}"
 
 nagios_nrpe_user: nrpe
 nagios_nrpe_group: "{{ nagios_nrpe_user }}"
@@ -26,14 +26,14 @@ nagios_connections_critical: "{{ nagios_connections_value|percent(80) }}"
 
 nagios_pg_version: 14
 
-nagios_wal_dir_mp: '/'
+nagios_wal_dir_mp: "/"
 nagios_max_wal_size_warning_percent: 65
 nagios_max_wal_size_critical_percent: 75
 nagios_wal_files_value: "{{ facter_mountpoints[nagios_wal_dir_mp]['size_bytes']|int / 16777216 }}"
 nagios_wal_files_warning: "{{ nagios_wal_files_value|percent(nagios_max_wal_size_warning_percent, 10) }}"
 nagios_wal_files_critical: "{{ nagios_wal_files_value|percent(nagios_max_wal_size_critical_percent, 100) }}"
 
-nagios_data_dir_mp: '/'
+nagios_data_dir_mp: "/"
 nagios_data_dir_mp_size: "{{ facter_mountpoints[nagios_data_dir_mp]['size_bytes']|int }}"
 
 nagios_db_size_value: "{{ nagios_data_dir_mp_size }}"
@@ -80,8 +80,8 @@ nagios_timesync: 5
 nagios_txn_wraparound: 200000000
 nagios_txn_wraparound_warning: "{{ nagios_txn_wraparound|percent(120) }}"
 nagios_txn_wraparound_criticial: "{{ nagios_txn_wraparound|percent(150) }}"
-nagios_disk_space_warning: '80%'
-nagios_disk_space_critical: '90%'
+nagios_disk_space_warning: "80%"
+nagios_disk_space_critical: "90%"
 
 nagios_checks:
   multi_check:

@@ -9,4 +9,4 @@
   systemd:
     name: sysstat
     state: started
-    enabled: yes
+    enabled: "true"

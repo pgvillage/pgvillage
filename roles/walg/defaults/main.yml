@@ -55,9 +55,9 @@ walg_bucket_defaults:
   WALG_S3_PREFIX: "s3://{{ walg_bucket_name }}"
   WALG_S3_CA_CERT_FILE: "{{ walg_aws_ca_file }}"
 
-walg_pg_datadir: "/var/lib/pgsql/12/data" 
-walg_pg_bindir: /usr/pgsql/12/bin
-walg_pg_hostname: /var/run/postgresql
+walg_pg_datadir: "/var/lib/pgsql/12/data"
+walg_pg_bindir: "/usr/pgsql/12/bin"
+walg_pg_hostname: "/var/run/postgresql"
 walg_pg_password: postgres_password
 walg_postgresql_defaults:
   PGDATA: "{{ walg_pg_datadir }}"
@@ -94,7 +94,7 @@ walg_retention_defaults:
   # Keep 7 backups, either full or differential (only when WALG_RETENTION_DAYS and WALG_RETENTION_FULL_BACKUPS not set)
   WALG_RETENTION_BACKUPS: "{{ walg_retention_backups }}"
 
-walg_log_retention_days: '{{ walg_retention_days }}'
+walg_log_retention_days: "{{ walg_retention_days }}"
 walg_log_zip_days: 2
 walg_logfolder: "/var/log/wal-g"
 # Set to DEVEL for extra logging from wal-g

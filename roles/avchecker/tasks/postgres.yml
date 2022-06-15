@@ -10,4 +10,3 @@
   environment:
     PGSERVICE: master
   throttle: 1
-

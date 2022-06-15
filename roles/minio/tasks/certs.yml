@@ -13,7 +13,7 @@
     dest: "{{ item.value.path }}"
     content: "{{ item.value.body }}"
     owner: "{{ item.value.owner | default('root') }}"
-    mode: '0600'
+    mode: "0600"
   loop: "{{ minio_cert_files | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"

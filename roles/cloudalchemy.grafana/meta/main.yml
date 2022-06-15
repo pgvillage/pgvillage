@@ -23,12 +23,12 @@ galaxy_info:
         - 30
         - 31
   galaxy_tags:
-  - grafana
-  - dashboard
-  - alerts
-  - alerting
-  - presentation
-  - monitoring
-  - metrics
+    - grafana
+    - dashboard
+    - alerts
+    - alerting
+    - presentation
+    - monitoring
+    - metrics
 
-dependencies: []
+  dependencies: []

@@ -10,7 +10,7 @@
     owner: "{{ item.value.owner }}"
     group: "{{ item.value.group }}"
     path: "{{ item.value.path }}"
-    mode: '0700'
+    mode: "0700"
   loop: "{{ avchecker_cert_folders | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"
@@ -21,7 +21,7 @@
     content: "{{ item.value.body }}"
     owner: "{{ item.value.owner }}"
     group: "{{ item.value.group }}"
-    mode: '0600'
+    mode: "0600"
   loop: "{{ avchecker_cert_files | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"

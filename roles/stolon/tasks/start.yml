@@ -3,10 +3,10 @@
   meta: flush_handlers
 
 - name: Start stolon systemd services
-  become: yes
+  become: "true"
   systemd:
     name: "stolon-{{ item }}.service"
     state: started
-    enabled: yes
-    daemon_reload: yes
+    enabled: "true"
+    daemon_reload: "true"
   loop: "{{ stolon_services }}"

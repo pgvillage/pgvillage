@@ -5,8 +5,8 @@ minio_package_names:
   - mcli
 
 # Minio binaries path
-minio_server_bin: /usr/local/bin/minio
-minio_bin: /usr/local/bin/mcli
+minio_server_bin: "/usr/local/bin/minio"
+minio_bin: "/usr/local/bin/mcli"
 
 # Runtime user and group for the Minio server service
 minio_user: minio
@@ -20,10 +20,10 @@ minio_server_addr: ":9091"
 
 # Minio server data directories
 minio_server_datadirs:
-  - /var/lib/minio
+  - "/var/lib/minio"
 
 # Minio server cluster node list.
-minio_server_cluster_nodes: [ ]
+minio_server_cluster_nodes: []
 
 # Additional environment variables to be set in minio server environment
 minio_server_env_extra: ""
@@ -64,18 +64,18 @@ minio_server_chain: "---- CHAIN ----"
 
 minio_cert_files:
   minio_chain:
-    path:  "{{ minio_cert_folders.client.path }}/CA_{{ ansible_hostname }}.crt"
-    body:  "{{ minio_client_cert }}"
+    path: "{{ minio_cert_folders.client.path }}/CA_{{ ansible_hostname }}.crt"
+    body: "{{ minio_client_cert }}"
     owner: "{{ minio_user }}"
   server_cert:
-    path:  "{{ minio_cert_folders.server.path }}/public.crt"
-    body:  "{{ minio_server_cert }}"
+    path: "{{ minio_cert_folders.server.path }}/public.crt"
+    body: "{{ minio_server_cert }}"
     owner: "{{ minio_cert_folders.server.owner }}"
   server_key:
-    path:  "{{ minio_cert_folders.server.path }}/private.key"
-    body:  "{{ minio_server_key }}"
+    path: "{{ minio_cert_folders.server.path }}/private.key"
+    body: "{{ minio_server_key }}"
     owner: "{{ minio_cert_folders.server.owner }}"
   server_chain:
-    path:  "{{ minio_cert_folders.server.path }}/ca.pem"
-    body:  "{{ minio_server_chain }}"
+    path: "{{ minio_cert_folders.server.path }}/ca.pem"
+    body: "{{ minio_server_chain }}"
     owner: "{{ minio_cert_folders.server.owner }}"

@@ -32,5 +32,5 @@ galaxy_info:
     - kv
     - transactions
 
-dependencies:
-  - role: etcd-package
+  dependencies:
+    - role: etcd-package

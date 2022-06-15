@@ -14,10 +14,10 @@
 
 - name: Install dependencies
   yum:
-    state: present
     name:
-    - nrpe
-    - check_postgres
+      - nrpe
+      - check_postgres
+    state: present
 
 - name: create custom script folder
   file:
@@ -64,9 +64,9 @@
       PrivateTmp=false
 
 - name: "Start nrpe service"
-  become: yes
+  become: "true"
   systemd:
     name: nrpe.service
     state: restarted
-    enabled: yes
-    daemon_reload: yes
+    enabled: "true"
+    daemon_reload: "true"

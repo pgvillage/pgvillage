@@ -24,7 +24,7 @@
 
 # s3_bucket requires boto python modules and maintaining them on all backup servers requires
 # efforts which we already take care of with mcli, so directly claling mcli instead
-#- name: Create buckets
+# - name: Create buckets
 #  local_action:
 #    module: s3_bucket
 #    aws_access_key: '{{ minio_endpoint.accessKey }}'
@@ -41,4 +41,4 @@
   become: true
   become_user: "{{ minio_user }}"
   shell: "/usr/local/bin/mcli mb 'minio/{{ item }}' --ignore-existing"
-  loop: '{{ minio_buckets }}'
+  loop: "{{ minio_buckets }}"
