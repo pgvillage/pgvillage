@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APPS=(stolon wal-g walg etcd postgres minio)
+APPS=(stolon wal-g walg etcd postgres minio pgroute66 keepalived haproxy)
 
 function find_services()
 {
@@ -41,7 +41,7 @@ function clean_data() {
   ESCAPED_FOLDERS=$(df | awk '$6~/\//{print $6}' | xargs | sed 's/ /|/')
   find / -name "*${APP}*" | while read f; do
     [ -e "${f}" ] || continue
-    [[ "${f}" =~ ^/(boot|dev|proc|run|sys|opt/puppetlabs) ]] && continue
+    [[ "${f}" =~ ^/(boot|dev|proc|run|sys|opt/puppetlabs|backup) ]] && continue
     echo "${ESCAPED_FOLDERS}" | grep -q "$f" && continue
     echo "Removing ${f}"
     rm -rf "${f}"
