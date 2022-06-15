@@ -1,0 +1,8 @@
+---
+# pgroute66
+pgroute66_deploydir: /usr/local/bin
+pgroute66_configdir: /etc/pgroute66
+pgroute66_osuser: pgroute66
+pgroute66_osgroup: pgroute66
+pgroute66_pguser: pgroute66
+pgroute_package: pgroute66

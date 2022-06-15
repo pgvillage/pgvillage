@@ -1,0 +1,17 @@
+module my-haproxy 1.0;
+
+require {
+        type haproxy_t;
+        type haproxy_var_lib_t;
+        type shell_exec_t;
+        type bin_t;
+        type postgresql_port_t;
+        class tcp_socket name_connect;
+        class file { execute execute_no_trans };
+}
+
+allow haproxy_t haproxy_var_lib_t:file { execute execute_no_trans };
+allow haproxy_t shell_exec_t:file execute;
+allow haproxy_t bin_t:file { execute execute_no_trans };
+allow haproxy_t postgresql_port_t:tcp_socket name_connect;
+

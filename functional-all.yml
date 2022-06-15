@@ -1,12 +1,12 @@
 ---
 - name: "Gather facts on all servers"
   hosts:
-    - all
+    - all:!vip
   become: true
   gather_facts: true
 
 - hosts:
-    - all
+    - all:!vip
   become: true
   gather_facts: false
   roles:
@@ -46,7 +46,7 @@
     - pg
 
 - hosts:
-    - hacluster
+    - hacluster:!vip
   become: true
   gather_facts: false
   roles:
@@ -56,13 +56,26 @@
     - availability_checker
 
 - hosts:
-    - hacluster
+    - hacluster:!vip
   become: true
   gather_facts: false
   roles:
     - walg
   tags:
     - walg
+
+- hosts:
+    - router
+  become: true
+  gather_facts: false
+  roles:
+    - haproxy
+    - keepalived
+    - pgroute66
+  tags:
+    - haproxy
+    - keepalived
+    - pgroute66
 
 - hosts:
     - postgres

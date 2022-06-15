@@ -1,0 +1,13 @@
+---
+
+- name: Get semodule list
+  command: semodule -l
+  register: semodule_list
+
+- include_tasks: "install.yml"
+
+- include_tasks: "selinux.yml"
+  when:
+    - "'my-haproxy' not in semodule_list.stdout_lines"
+
+- include_tasks: "config.yml"

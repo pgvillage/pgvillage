@@ -1,0 +1,102 @@
+---
+#haproxy_package: "haproxy-2.5.7-1.rhel8.x86_64.rpm"
+haproxy_package: "haproxy"
+
+haproxy_maxconn: 1000
+haproxy_default_mode: "tcp"
+
+haproxy_defaults_timeouts:
+  - "client     31m"
+  - "connect    4s"
+  - "check      5s"
+
+haproxy_socket: /var/lib/haproxy/stats
+haproxy_chroot: /var/lib/haproxy
+haproxy_user: haproxy
+haproxy_group: haproxy
+
+
+# haproxy_frontends: # zie environments
+#  - name: "PostgresReadWrite-frontend"
+#    address: "*"
+#    port: "{{ postgresql_port }}"
+#    mode: tcp
+#    backend: "PostgresReadWrite-backend"
+#    timeout_client: "10800s"
+#  - name: "PostgresReadOnly-frontend"
+#    address: "*"
+#    port: "{{ postgresql_read_only_port }}"
+#    mode: tcp
+#    backend: "PostgresReadOnly-backend"
+#    timeout_client: "10800s"
+#  - name: "PostgresReadOnlyBouncer-frontend"
+#    address: "*"
+#    port: "{{ pgbouncer_read_only_port }}"
+#    mode: tcp
+#    backend: "PostgresReadOnlyBouncer-backend"
+#    timeout_client: "10800s"
+
+haproxy_frontends: []
+haproxy_backends: []
+
+# haproxy_backends:
+#  - name: "PostgresReadWriteActive-backend"
+#    mode: tcp
+#    balance_method: "leastconn"
+#    options:
+#      - "external-check"
+#    params:
+#      - "external-check command  /opt/pgroute66/checkpgprimary.sh"
+#    timeout_server: "10800s"
+#    servers:
+
+#  - name: "PostgresReadOnly-backend"
+#    mode: tcp
+#    balance_method: "leastconn"
+#    options:
+#      - "external-check"
+#    params:
+#      - "external-check command  /opt/pgroute66/checkpgstandby.sh"
+#    timeout_server: "10800s"
+#    servers:
+#      - name: "dbserver1.example.org"
+#        address: "192.168.17.18"
+#        port: "{{ postgresql_port }}"
+#        checkport: "9201"
+#      - name: "dbserver2.example.org"
+#        address: "192.168.17.19"
+#        port: "{{ postgresql_port }}"
+#        checkport: "9201"
+#      - name: "dbserver3.example.org"
+#        address: "192.168.17.20"
+#        port: "{{ postgresql_port }}"
+#        checkport: "9201"
+#  - name: "PostgresReadOnlyBouncer-backend"
+#    mode: tcp
+#    balance_method: "leastconn"
+#    options:
+#      - "external-check"
+#    params:
+#      - "external-check command  /opt/pgroute66/checkpgstandby.sh"
+#    timeout_server: "10800s"
+#    servers:
+#      - name: "dbserver1.example.org"
+#        address: "192.168.17.18"
+#        port: "{{ pgbouncer_listen_port }}"
+#        checkport: "9201"
+#      - name: "dbserver2.example.org"
+#        address: "192.168.17.19"
+#        port: "{{ pgbouncer_listen_port }}"
+#        checkport: "9201"
+#      - name: "dbserver3.example.org"
+#        address: "192.168.17.20"
+#        port: "{{ pgbouncer_listen_port }}"
+#        checkport: "9201"
+
+# Extra global vars (see README for example usage).
+haproxy_global_vars: []
+
+# Default haproxy timeouts
+haproxy_connect_timeout: 5000
+haproxy_client_timeout: 50000
+haproxy_server_timeout: 50000

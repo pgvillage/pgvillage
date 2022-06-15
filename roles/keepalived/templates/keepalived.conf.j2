@@ -1,0 +1,36 @@
+global_defs {
+  router_id {{ ansible_fqdn }}
+  script_user root
+  enable_script_security
+}
+
+vrrp_script check_haproxy {
+  script "/usr/bin/killall -0 haproxy"
+  interval 2
+  weight 2
+}
+
+vrrp_instance balancer {
+  state {% if "1" in ansible_fqdn %}
+MASTER
+{% else %}
+BACKUP
+{% endif %}
+  interface ens192
+  virtual_router_id {{ keepalived_virtual_router_id }}
+  priority {% if "1" in ansible_fqdn %}
+100
+{% else %}
+50
+{% endif %}
+  virtual_ipaddress {
+    {{ keepalived_internal_vip_cidr }}
+  }
+  track_script {
+    check_haproxy
+  }
+  authentication {
+    auth_type PASS
+    auth_pass {{ vault_keepalived_password }} 
+  }
+}

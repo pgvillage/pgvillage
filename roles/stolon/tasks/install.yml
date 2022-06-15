@@ -60,11 +60,11 @@
     path: "/var/lib/pgsql/.pgsql_profile"
     line: "source '{{ stolon_script_path }}/stolon_profile'"
 
-- name: copy package
-  copy:
-    src: "{{ stolon-{{ stolon-release}}-1.el8.{{ ansible_architecture }}.rpm }}"
-    dest: "/tmp/"
-  when: "'o.int' in groups['hacluster']"
+#- name: copy package
+#  copy:
+#    src: "{{ stolon-{{ stolon-release}}-1.el8.{{ ansible_architecture }}.rpm }}"
+#    dest: "/tmp/"
+#  when: "'o.int' in groups['hacluster']"
 
 - name: Install stolon-packages when defined
   become: "true"

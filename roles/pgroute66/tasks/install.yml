@@ -1,0 +1,72 @@
+---
+- name: "Create pgroute66_osgroup"
+  group:
+    name: "{{ pgroute66_osgroup }}"
+    system: "true"
+    state: present
+
+- name: "Create pgroute66_user"
+  user:
+    name: "{{ pgroute66_osuser }}"
+    group: "{{ pgroute66_osgroup }}"
+    create_home: "true"
+    system: "true"
+    state: present
+
+- getent:
+    database: passwd
+    key: "{{ pgroute66_osuser }}"
+    split: ":"
+
+- name: "~/.postgresql dir"
+  file:
+    path: "{{ getent_passwd[pgroute66_osuser][4] }}/.postgresql"
+    state: directory
+    owner: "{{ pgroute66_osuser }}"
+    group: "{{ pgroute66_osuser }}"
+    mode: "0750"
+
+- name: "Deploy certs to ~/.postgresql/"
+  copy:
+    dest: "{{ getent_passwd[pgroute66_osuser][4] }}/.postgresql/{{ item.name }}"
+    owner: "{{ pgroute66_osuser }}"
+    group: "{{ pgroute66_osuser }}"
+    mode: "{{ item.mode }}"
+    content: "{{ item.content }}"
+  diff: no
+  loop:
+    - name: root.crt
+      mode: "0640"
+      content: "{{ certs.client.postgres }}"
+    - name: "postgresql.crt"
+      mode: "0640"
+      content: "{{ certs.client.pgroute66 }}"
+    - name: "postgresql.key"
+      mode: "0600"
+      content: "{{ private_keys.client.pgroute66 }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: create deploydir and configdir
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ pgroute66_deploydir }}"
+    - "{{ pgroute66_configdir }}"
+
+- name: install pgroute66
+  yum:
+    name: "pgroute66"
+    state: present
+
+- name: Deploy pgroute66 scripts
+  template:
+    src: "files/{{ item }}"
+    dest: "{{ pgroute66_deploydir }}/{{ item }}"
+    mode: "0755"
+  loop:
+    - checkpgprimary.sh
+    - checkpgstandby.sh
+
