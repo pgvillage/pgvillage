@@ -15,7 +15,7 @@ fi
 export CHAINSMITH_TMPDIR=$(mktemp -d)
 echo "Tijdelijke data in ${CHAINSMITH_TMPDIR}"
 
-export CHAINSMITH_CONFIG="./config/${ENV}.yml"
+export CHAINSMITH_CONFIG="./config/chainsmith_${ENV}.yml"
 [ -e "${CHAINSMITH_CONFIG}" ] || export CHAINSMITH_CONFIG=./config/chainsmith.yml
 CONFPATH="./environments/${ENV}/group_vars/all"
 mkdir -p "${CONFPATH}"
@@ -32,8 +32,8 @@ chainsmith
 [ -z "${ANSIBLE_VAULT_PASSWORD_FILE}" ] && export ANSIBLE_VAULT_PASSWORD_FILE=bin/gpgvault
 ansible-vault encrypt "${CHAINSMITH_PRIVATEKEYSPATH}"
 
-TARFILE=${PROJDIR}/tmp/poc.csr.tar
-echo "Creating tar file with all Certificate Sigining Requests: ${TARFILE}"
+TARFILE=${PROJDIR}/tmp/${ENV}.csr.tar
+echo "Creating tar file with all Certificate Sigining Requests: ${TARFILE}.gz"
 rm -f "${TARFILE}" "${TARFILE}.gz"
 cd "${CHAINSMITH_TMPDIR}"
 find -name '*.csr' | xargs tar -cvf "${TARFILE}"
