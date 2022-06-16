@@ -57,6 +57,10 @@
 
 - name: Enable stolon_profile
   lineinfile:
+    create: yes
+    owner: "{{ stolon_user }}"
+    group: "{{ stolon_group }}"
+    mode: 0644
     path: "/var/lib/pgsql/.pgsql_profile"
     line: "source '{{ stolon_script_path }}/stolon_profile'"
 
