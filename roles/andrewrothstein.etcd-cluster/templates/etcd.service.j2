@@ -11,6 +11,7 @@ EnvironmentFile=-/etc/etcd/etcd.conf
 ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) {{etcd_install_dir}}/etcd"
 Restart=on-failure
 LimitNOFILE=65536
+RestartSec=10s
 
 [Install]
 WantedBy=multi-user.target

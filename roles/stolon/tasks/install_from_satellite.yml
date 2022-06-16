@@ -1,0 +1,75 @@
+---
+# tasks file for stolon
+- name: Fail for unsupported architecture
+  fail:
+    msg: "Can't install stolon: unsupported arch ({{ ansible_architecture }})."
+  when:
+    - ansible_architecture != "x86_64"
+
+- name: create stolon folders
+  become: "true"
+  become_user: "{{ stolon_binary_owner }}"
+  file:
+    state: directory
+    dest: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    mode: "0755"
+  loop:
+    - path: "{{ stolon_opt_path }}"
+      owner: root
+    - path: "{{ stolon_release_path }}"
+      owner: root
+    - path: "{{ stolon_script_path }}"
+      owner: "{{ stolon_user }}"
+    - path: "{{ stolon_data_dir }}"
+      owner: "{{ stolon_user }}"
+    - path: "{{ stolon_config_dir }}"
+      owner: "{{ stolon_user }}"
+    - path: "{{ stolon_wal_dir }}"
+      owner: "{{ stolon_user }}"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: Deploy scripts
+  copy:
+    src: bin/
+    dest: "{{ stolon_script_path }}"
+    mode: preserve
+    owner: "{{ stolon_user }}"
+
+- name: Deploy templates
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: preserve
+    owner: "{{ stolon_user }}"
+  loop:
+    - src: stolon_profile.sh.j2
+      dest: "{{ stolon_script_path }}/stolon_profile"
+    - src: pg_service.conf.j2
+      dest: "{{ getent_passwd[stolon_user][4] }}/.pg_service.conf"
+
+- name: create bash_profile
+  file:
+    path: "{{ getent_passwd[stolon_user][4] }}/.bash_profile"
+    state: touch
+    owner: "{{ stolon_user }}"
+
+- name: Enable stolon_profile
+  lineinfile:
+    path: "/var/lib/pgsql/.pgsql_profile"
+    line: "source '{{ stolon_script_path }}/stolon_profile'"
+
+#- name: copy package
+#  copy:
+#    src: "stolon-{{ stolon-release}}-1.el8.{{ ansible_architecture }}.rpm"
+#    dest: "/tmp/"
+#  when: "'o.int' in groups['hacluster']"
+
+- name: Install stolon-packages when defined
+  become: "true"
+  yum:
+    name: "{{ item }}"
+    state: present
+    disable_gpg_check: "true"
+  loop: "{{ stolon_package_names }}"
