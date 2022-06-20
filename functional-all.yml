@@ -87,6 +87,15 @@
   tags:
     - nagios
 
+- hosts:
+    - postgres
+  become: true
+  gather_facts: false
+  roles:
+    - pgquartz
+  tags:
+    - pgquartz
+
 #- hosts:
 #    - monitoring
 #  become: true
