@@ -25,12 +25,7 @@
     key: "{{ stolon_user }}"
     split: ":"
 
-- include_tasks: install_local.yml
-  when: stolon_release | length > 0 and install_from_satellite == "false" 
-
-- include_tasks: install_from_satellite.yml
-  when: stolon_release | length > 0 and install_from_satellite == "true" 
-
+- include_tasks: install.yml
 - include_tasks: configure.yml
 - include_tasks: certs.yml
 - include_tasks: pglogging.yml

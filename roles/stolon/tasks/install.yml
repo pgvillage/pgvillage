@@ -57,20 +57,24 @@
 
 - name: Enable stolon_profile
   lineinfile:
-    create: yes
-    owner: "{{ stolon_user }}"
-    group: "{{ stolon_group }}"
-    mode: 0644
-    path: "/var/lib/pgsql/.pgsql_profile"
+    path: "{{ getent_passwd[stolon_user][4] }}/.bash_profile"
     line: "source '{{ stolon_script_path }}/stolon_profile'"
 
-#- name: copy package
-#  copy:
-#    src: "stolon-{{ stolon-release}}-1.el8.{{ ansible_architecture }}.rpm"
-#    dest: "/tmp/"
-#  when: "'o.int' in groups['hacluster']"
+- name: copy package
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp/"
+  loop: "{{ stolon_local_package_names }}"
 
-- name: Install stolon-packages when defined
+- name: Install local stolon packages when defined
+  become: "true"
+  yum:
+    name: "/tmp/{{ item }}"
+    state: present
+    disable_gpg_check: "true"
+  loop: "{{ stolon_local_package_names }}"
+
+- name: Install stolon packages when defined
   become: "true"
   yum:
     name: "{{ item }}"
