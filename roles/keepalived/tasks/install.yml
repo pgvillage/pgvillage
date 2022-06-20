@@ -1,0 +1,25 @@
+---
+# tasks file for keepalived-haproxy
+
+- name: Copy keepalived rpm files to server
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp/"
+    owner: "root"
+    group: "root"
+    mode: "0640"
+  loop: "{{ keepalived_local_packages }}"
+
+- name: Install keepalived rpm files
+  yum:
+    name: "/tmp/{{ item }}"
+    disable_gpg_check: yes
+    state: present
+  loop: "{{ keepalived_local_packages }}"
+
+- name: Install keepalived rpm files
+  yum:
+    name: "{{ item }}"
+    disable_gpg_check: yes
+    state: present
+  loop: "{{ keepalived_packages }}"

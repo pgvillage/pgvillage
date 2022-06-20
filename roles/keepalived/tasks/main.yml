@@ -7,12 +7,7 @@
   delegate_to: localhost
 
 - name: install keepalived
-  ansible.builtin.import_tasks: "install_from_satellite.yml"
-  when: install_from_satellite == "true" 
+  ansible.builtin.import_tasks: "install.yml"
 
-- name: install keepalived
-  ansible.builtin.import_tasks: "install_local.yml"
-  when: install_from_satellite == "false" 
- 
 - name: config keepalived
   ansible.builtin.import_tasks: "config.yml"
