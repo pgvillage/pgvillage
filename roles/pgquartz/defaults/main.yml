@@ -11,11 +11,13 @@ pgquartz_gid: 9745
 pgquartz_pguser: pgquartz
 pgquartz_packages:
   - pgquartz
+  - git
 
 pgquartz_local_packages: []
 pgquartz_definitions: []
 # - url: https://[user]:[apikey]@github.com/mannemsolutions/pgquartz_jobs.git
 #   dest: "{{ pgquartz_jobsdir }}/jobs/"
+#   branch: dev
 
 pgquartz_jobs: []
 # This will create a folder /etc/pgquartz/jobs/myjobs, clone https://github.com/my-project-with-jobs.git there
@@ -43,3 +45,15 @@ pgquartz_cronvars:
     value: "{{ pgquartz_cron_mailto }}"
   - name: LOGFILE
     value: "{{ pgquartz_logfolder }}"
+
+pgquartz_logrotate_config: |
+  {{ pgquartz_logfolder }}/*.log {
+      daily
+      rotate 7
+      copytruncate
+      delaycompress
+      compress
+      notifempty
+      missingok
+      su root root
+  }

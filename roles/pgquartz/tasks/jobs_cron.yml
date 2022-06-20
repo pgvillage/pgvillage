@@ -16,6 +16,14 @@
   loop_control:
     label: "{{ item.name }}"
 
+- name: Git checkout
+  ansible.builtin.git:
+    repo: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.branch | default('master') }}"
+    force: yes
+  loop: "{{ pgquartz_definitions }}"
+
 - name: Cronjobs
   ansible.builtin.cron:
     cron_file: pgquartz
@@ -28,3 +36,11 @@
     dow: "{{ item.dow | default('*') }}"
     month: "{{ item.month | default('*') }}"
   loop: "{{ pgquartz_jobs }}"
+
+- name: add logrotate
+  copy:
+    content: "{{ pgquartz_logrotate_config }}"
+    dest: /etc/logrotate.d/pgquartz
+    mode: 0644
+    owner: root
+    group: root
