@@ -4,11 +4,7 @@
   command: semodule -l
   register: semodule_list
 
-- include_tasks: "install_local.yml"
-  when: install_from_satellite == "false"
-
-- include_tasks: "install_from_satellite.yml"
-  when: install_from_satellite == "true"
+- include_tasks: "install.yml"
 
 - include_tasks: "selinux.yml"
   when:

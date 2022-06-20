@@ -1,19 +1,29 @@
 ---
 - name: copy installer
   copy:
-    src: "{{ haproxy_package }}"
+    src: "{{ item }}"
     dest: "/tmp"
     owner: "root" 
     group: "root" 
     mode: "0640"
+  loop: "{{ haproxy_local_packages }}"
+
+- name: Install local stolon packages when defined
+  become: "true"
+  yum:
+    name: "/tmp/{{ item }}"
+    state: present
+    disable_gpg_check: "true"
+  loop: "{{ haproxy_local_packages }}"
 
 - name: Ensure HAProxy is installed.
   yum:
     name: 
-      - "/tmp/{{ haproxy_package }}"
+      - "{{ item }}"
       - checkpolicy
     disable_gpg_check: "true" 
     state: present
+  loop: "{{ haproxy_packages }}"
 
 - name: Get HAProxy version.
   command: haproxy -v
