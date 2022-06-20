@@ -41,12 +41,10 @@
   register: pg_isready
   until: pg_isready.rc == 0
 
-- name: create an nrpe and pgroute66  user in Postgres (hack)
+- name: create an postgres users (hack)
   become_user: "postgres"
   shell: psql -tc "select * from pg_user where usename='{{ item }}'" | grep -q '[a-zA-Z0-9]' || psql -c "create user {{ item }}; alter user {{ item }} superuser;"
   environment:
     PGSERVICE: master
   throttle: 1
-  loop:
-    - pgroute66
-    - nrpe
+  loop: "{{ stolon_pgusers }}"

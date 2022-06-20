@@ -227,3 +227,7 @@ stolon_keeper_extra_env_vars: {}
 #  LD_LIBRARY_PATH: /usr/lib/oracle/21/client64/lib
 #  TNS_ADMIN: /usr/lib/oracle/21/client64/network/admin
 
+stolon_pgusers:
+  - pgroute66
+  - nrpe
+  - pgquartz
