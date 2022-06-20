@@ -21,3 +21,4 @@ intermediates:
       - postgres
       - application
       - avchecker
+      - pgquartz

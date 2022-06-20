@@ -1,0 +1,16 @@
+# This service unit is for running a pgQuartz job 'as a service'.
+# PgQuartz job services can be triggered by systemd timers for scheduling
+# By Sebastiaan Mannem
+
+[Unit]
+Description=Run a pgQuartz job
+#Wants=pgquartz@%N.timer
+
+[Service]
+Type=oneshot
+Environment=PGQUARTZ_CONFIG=/etc/pgquartz/jobs/%I.yml
+ExecStart=/usr/local/bin/pgquartz
+User=pgquartz
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,80 @@
+---
+- name: "Create pgquartz_osgroup"
+  group:
+    name: "{{ pgquartz_osgroup }}"
+    gid: "{{ pgquartz_gid }}"
+    system: "true"
+    state: present
+
+- name: "Create pgquartz_user"
+  user:
+    name: "{{ pgquartz_osuser }}"
+    group: "{{ pgquartz_osgroup }}"
+    uid: "{{ pgquartz_uid }}"
+    create_home: "true"
+    system: "true"
+    state: present
+
+- getent:
+    database: passwd
+    key: "{{ pgquartz_osuser }}"
+    split: ":"
+
+- name: "~/.postgresql dir"
+  file:
+    path: "{{ getent_passwd[pgquartz_osuser][4] }}/.postgresql"
+    state: directory
+    owner: "{{ pgquartz_osuser }}"
+    group: "{{ pgquartz_osgroup }}"
+    mode: "0750"
+
+- name: "Deploy certs to ~/.postgresql/"
+  copy:
+    dest: "{{ getent_passwd[pgquartz_osuser][4] }}/.postgresql/{{ item.name }}"
+    owner: "{{ pgquartz_osuser }}"
+    group: "{{ pgquartz_osgroup }}"
+    mode: "{{ item.mode }}"
+    content: "{{ item.content }}"
+  diff: no
+  loop:
+    - name: root.crt
+      mode: "0640"
+      content: "{{ pgquartz_ca_chain }}"
+    - name: "postgresql.crt"
+      mode: "0640"
+      content: "{{ pgquartz_cert }}"
+    - name: "postgresql.key"
+      mode: "0600"
+      content: "{{ pgquartz_cert_key }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: create configdir
+  file:
+    owner: "{{ pgquartz_osuser }}"
+    group: "{{ pgquartz_osgroup }}"
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ pgquartz_jobsdir }}"
+
+- name: copy rpm
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp"
+  loop: "{{ pgquartz_local_packages }}"
+  
+- name: install pgquartz
+  yum:
+    name: "/tmp/{{ item }}"
+    disable_gpg_check: "true"
+    state: present
+  loop: "{{ pgquartz_local_packages }}"
+
+- name: install pgquartz
+  yum:
+    name: "{{ item }}"
+    disable_gpg_check: "true"
+    state: present
+  loop: "{{ pgquartz_packages }}"

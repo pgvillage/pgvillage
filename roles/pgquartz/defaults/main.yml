@@ -1,0 +1,31 @@
+---
+# pgquartz
+pgquartz_configdir: /etc/pgquartz
+pgquartz_jobsdir: "{{ pgquartz_configdir }}/jobs"
+pgquartz_osuser: pgquartz
+pgquartz_osgroup: pgquartz
+pgquartz_uid: 9745
+pgquartz_gid: 9745
+pgquartz_pguser: pgquartz
+pgquartz_packages:
+  - pgquartz
+pgquartz_local_packages: []
+pgquartz_definitions: []
+# - url: https://[user]:[apikey]@github.com/mannemsolutions/pgquartz_jobs.git
+#   dest: "{{ pgquartz_jobsdir }}/jobs/"
+
+pgquartz_jobs: []
+# This will create a folder /etc/pgquartz/jobs/myjobs, clone https://github.com/my-project-with-jobs.git there
+# And schedule /etc/pgquartz/jobs/myjobs/myjob.yml every minute of every day at 00 seconds.
+#  - url: https://github.com/my-project-with-jobs.git
+#    dest: "{{ pgquartz_jobsdir }}/myjobs"
+#    job: myjob.yml
+#    schedule: "*-*-* *:*:00"
+
+pgquartz_ca_chain: "--- CA ---"
+pgquartz_cert: "--- CERT ---"
+pgquartz_cert_key: "--- KEY ---"
+
+pgquartz_client_cert: "--- CA ---"
+pgquartz_client_chain: "--- CERT ---"
+pgquartz_client_key: "--- KEY ---"

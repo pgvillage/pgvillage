@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APPS=(stolon wal-g walg etcd postgres minio pgroute66 keepalived haproxy)
+APPS=(stolon wal-g walg etcd postgres minio pgroute66 keepalived haproxy pgquartz)
 
 function find_services()
 {
