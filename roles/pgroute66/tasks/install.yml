@@ -56,10 +56,25 @@
     - "{{ pgroute66_deploydir }}"
     - "{{ pgroute66_configdir }}"
 
+- name: copy rpm
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp"
+  loop: "{{ pgroute66_local_packages }}"
+  
 - name: install pgroute66
   yum:
-    name: "pgroute66"
+    name: "/tmp/{{ item }}"
+    disable_gpg_check: "true"
     state: present
+  loop: "{{ pgroute66_local_packages }}"
+
+- name: install pgroute66
+  yum:
+    name: "{{ item }}"
+    disable_gpg_check: "true"
+    state: present
+  loop: "{{ pgroute66_packages }}"
 
 - name: Deploy pgroute66 scripts
   template:
