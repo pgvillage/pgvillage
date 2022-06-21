@@ -221,3 +221,9 @@ stolon_ssl_pg_parameters:
   ssl_key_file: "{{ stolon_cert_files.server_key.path }}"
   ssl_ca_file: "{{ stolon_cert_files.client_chain.path }}"
   ssl: "true"
+
+stolon_keeper_extra_env_vars: {}
+#  ORACLE_HOME: /usr/lib/oracle/21/client64
+#  LD_LIBRARY_PATH: /usr/lib/oracle/21/client64/lib
+#  TNS_ADMIN: /usr/lib/oracle/21/client64/network/admin
+

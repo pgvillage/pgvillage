@@ -12,6 +12,9 @@ User=postgres
 Group=postgres
 
 EnvironmentFile=-/etc/sysconfig/stolon-stkeeper
+{% for key, value in stolon_keeper_extra_env_vars.items() %}
+Environment="{{ key }}={{ value }}"
+{% endfor %}
 # this prestart will move wal to the wal directory on the next restart after initdb of pg_basebackup
 # ExecStartPre={{ stolon_script_path }}/movewal.sh
 ExecStart=/usr/local/bin/stolon-keeper
