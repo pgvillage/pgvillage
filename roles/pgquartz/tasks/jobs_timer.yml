@@ -1,0 +1,26 @@
+---
+- name: Deploy systemd file
+  template:
+    src: "templates/pgquartz.{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    mode: "0600"
+  loop:
+    - service
+    - timer
+
+- name: Deploy config file
+  template:
+    src: "templates/pgquartz_config.yaml.j2"
+    dest: "{{ pgquartz_configdir }}/config.yaml"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+# Restart kan wel met pgquartz
+- name: "Start pgquartz service"
+  become: "true"
+  systemd:
+    name: pgquartz.service
+    state: restarted
+    enabled: "true"
+    daemon_reload: "true"

@@ -1,5 +1,7 @@
 ---
 # pgquartz
+pgquartz_cron_mailto: "{{ pgquartz_osuser }}@{{ inventory_hostname }}"
+
 pgquartz_configdir: /etc/pgquartz
 pgquartz_jobsdir: "{{ pgquartz_configdir }}/jobs"
 pgquartz_osuser: pgquartz
@@ -9,6 +11,7 @@ pgquartz_gid: 9745
 pgquartz_pguser: pgquartz
 pgquartz_packages:
   - pgquartz
+
 pgquartz_local_packages: []
 pgquartz_definitions: []
 # - url: https://[user]:[apikey]@github.com/mannemsolutions/pgquartz_jobs.git
@@ -29,3 +32,11 @@ pgquartz_cert_key: "--- KEY ---"
 pgquartz_client_cert: "--- CA ---"
 pgquartz_client_chain: "--- CERT ---"
 pgquartz_client_key: "--- KEY ---"
+
+pgquartz_logfolder: /var/log/pgquartz
+
+pgquartz_cronvars:
+  - name: MAILTO
+    value: "{{ pgquartz_cron_mailto }}"
+  - name: LOGFILE
+    value: "{{ pgquartz_logfolder }}"

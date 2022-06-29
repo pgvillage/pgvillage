@@ -1,0 +1,30 @@
+---
+
+- name: Create logfolder
+  file:
+    dest: "{{ pgquartz_logfolder }}"
+    state: directory
+    owner: "{{ pgquartz_osuser }}"
+    group: "{{ pgquartz_osgroup }}"
+
+- name: Set cronvars
+  cronvar:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    cron_file: pgquartz
+  loop: "{{ pgquartz_cronvars }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Cronjobs
+  ansible.builtin.cron:
+    cron_file: pgquartz
+    user: "{{ pgquartz_osuser }}"
+    name: "pgQuartz job {{ item.name }}"
+    job: "/usr/local/bin/pgquartz -c '{{ pgquartz_jobsdir }}/{{ item.name }}.yml' > /dev/null"
+    minute: "{{ item.minute | default('*') }}"
+    hour: "{{ item.hour | default('*') }}"
+    dom: "{{ item.dom | default('*') }}"
+    dow: "{{ item.dow | default('*') }}"
+    month: "{{ item.month | default('*') }}"
+  loop: "{{ pgquartz_jobs }}"
