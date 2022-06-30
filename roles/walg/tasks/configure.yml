@@ -17,7 +17,6 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  notify: restart minio
 
 - name: Cronjob for creating a backup.
   ansible.builtin.cron:
