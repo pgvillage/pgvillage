@@ -1,5 +1,8 @@
 ---
 
+- name: Flush handlers
+  meta: flush_handlers
+
 - name: Enable and start the Minio service
   service:
     name: minio
