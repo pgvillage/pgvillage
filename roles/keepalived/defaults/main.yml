@@ -6,7 +6,8 @@ keepalived_local_packages: []
 keepalived_packages:
   - keepalived
 
-keepalived_virtual_router_id: 120
+keepalived_virtual_cluster_name: 'keepalived'
+keepalived_virtual_router_id: "{{ keepalived_virtual_cluster_name | hashnum(256) }}"
 
 # config values
 net_core_rmem_max: "16777216" 
