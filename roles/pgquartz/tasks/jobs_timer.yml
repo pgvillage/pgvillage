@@ -1,26 +1,21 @@
 ---
 - name: Deploy systemd file
   template:
+    owner: root
+    group: root
     src: "templates/pgquartz.{{ item }}.j2"
-    dest: "/etc/systemd/system/{{ item }}.service"
+    dest: "/etc/systemd/system/pgquartz.{{ item }}"
     mode: "0600"
   loop:
     - service
     - timer
 
-- name: Deploy config file
-  template:
-    src: "templates/pgquartz_config.yaml.j2"
-    dest: "{{ pgquartz_configdir }}/config.yaml"
-    owner: "root"
-    group: "root"
-    mode: "0644"
+- name: Delete logfolder
+  file:
+    dest: "{{ pgquartz_logfolder }}"
+    state: absent
 
-# Restart kan wel met pgquartz
-- name: "Start pgquartz service"
-  become: "true"
-  systemd:
-    name: pgquartz.service
-    state: restarted
-    enabled: "true"
-    daemon_reload: "true"
+- name: Delete cron files
+  file:
+    dest: "/etc/cron.d/pgquartz"
+    state: absent
