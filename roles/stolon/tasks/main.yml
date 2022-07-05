@@ -32,8 +32,14 @@
 - include_tasks: start.yml
 
 - name: wait for stolon port to be active
-  pause:
-    seconds: 10
+  shell: "{{ stolon_pg_bin_path }}/pg_isready"
+  environment:
+    PGHOST: "/tmp"
+    PGPORT: "{{ stolon_pg_port }}"
+  retries: 60
+  delay: 1
+  register: pg_isready
+  until: pg_isready.rc == 0
 
 - name: create an nrpe and pgroute66  user in Postgres (hack)
   become_user: "postgres"
@@ -44,5 +50,3 @@
   loop:
     - pgroute66
     - nrpe
-
-
