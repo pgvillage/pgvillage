@@ -31,4 +31,4 @@ galaxy_info:
     - monitoring
     - metrics
 
-  dependencies: []
+dependencies: []
