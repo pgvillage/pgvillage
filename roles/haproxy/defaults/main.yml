@@ -22,7 +22,7 @@ haproxy_group: haproxy
 # haproxy_frontends: # zie environments
 #  - name: "PostgresReadWrite-frontend"
 #    address: "*"
-#    port: "{{ postgresql_port }}"
+#    port: "{{ postgresql_rw_port }}"
 #    mode: tcp
 #    backend: "PostgresReadWrite-backend"
 #    timeout_client: "10800s"
@@ -64,15 +64,15 @@ haproxy_backends: []
 #    servers:
 #      - name: "dbserver1.example.org"
 #        address: "192.168.17.18"
-#        port: "{{ postgresql_port }}"
+#        port: "{{ postgresql_rw_port }}"
 #        checkport: "9201"
 #      - name: "dbserver2.example.org"
 #        address: "192.168.17.19"
-#        port: "{{ postgresql_port }}"
+#        port: "{{ postgresql_rw_port }}"
 #        checkport: "9201"
 #      - name: "dbserver3.example.org"
 #        address: "192.168.17.20"
-#        port: "{{ postgresql_port }}"
+#        port: "{{ postgresql_rw_port }}"
 #        checkport: "9201"
 #  - name: "PostgresReadOnlyBouncer-backend"
 #    mode: tcp
