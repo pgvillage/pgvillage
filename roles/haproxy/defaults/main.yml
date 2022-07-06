@@ -1,5 +1,4 @@
 ---
-#haproxy_package: "haproxy-2.5.7-1.rhel8.x86_64.rpm"
 haproxy_packages:
   - haproxy
 
