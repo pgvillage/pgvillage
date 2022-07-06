@@ -6,6 +6,19 @@
     pool_ids: "{{packages_rhsm_poolids|bygroup(group_names)}}"
     state: present
 
+- name: enable rhel_misc repo
+  redhat_subscription: 
+    name: "Rhel_Misc"
+    baseurl: "http://satellite.example.com/pulp/content/ORG1/Library/custom/rhel_misc/rhel_misc/"
+    enabled: "true"
+    gpgcheck: "true"
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+    sslverify: "true"
+    sslcacert: /etc/rhsm/ca/katello-server-ca.pem
+    sslclientkey: /etc/pki/entitlement/8675925567367701300-key.pem
+    sslclientcert: /etc/pki/entitlement/8675925567367701300.pem
+    priority: "20"
+
 - name: autoattach
   shell: "subscription-manager auto-attach"
 
