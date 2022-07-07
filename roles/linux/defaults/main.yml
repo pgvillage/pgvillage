@@ -29,3 +29,17 @@ linux_packages:
     - "minio"
 
 linux_packages_gpg_check: "false"
+
+# repository rhel_misc
+rhel_misc_repo:
+  name: "Rhel_Misc"
+  description: "Rhel Misc repository"
+  baseurl: "http://satellite.example.org/pulp/content/ORG1/Library/custom/rhel_misc/rhel_misc/"
+  enabled: "true"
+  gpgcheck: "true"
+  gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+  sslverify: "true"
+  sslcacert: /etc/rhsm/ca/katello-server-ca.pem
+  sslclientkey: /etc/pki/entitlement/8675925567367701300-key.pem
+  sslclientcert: /etc/pki/entitlement/8675925567367701300.pem
+  priority: "20"

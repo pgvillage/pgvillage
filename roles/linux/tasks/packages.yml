@@ -8,17 +8,17 @@
 
 - name: enable rhel_misc repo
   yum_repository: 
-    name: "Rhel_Misc"
-    description: "Rhel Misc repository"
-    baseurl: "http://satellite.example.com/pulp/content/ORG1/Library/custom/rhel_misc/rhel_misc/"
-    enabled: "true"
-    gpgcheck: "true"
-    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-    sslverify: "true"
-    sslcacert: /etc/rhsm/ca/katello-server-ca.pem
-    sslclientkey: /etc/pki/entitlement/8675925567367701300-key.pem
-    sslclientcert: /etc/pki/entitlement/8675925567367701300.pem
-    priority: "20"
+    name: "{{ rhel_misc_repo.name }}"
+    description: "{{ rhel_misc_repo.description }}"
+    baseurl: "{{ rhel_misc_repo.baseurl }}"
+    enabled: "{{ rhel_misc_repo.enabled }}"
+    gpgcheck: "{{ rhel_misc_repo.gpgcheck }}"
+    gpgkey: "{{ rhel_misc_repo.gpgkey }}"
+    sslverify: "{{ rhel_misc_repo.sslverify }}"
+    sslcacert: "{{ rhel_misc_repo.sslcacert }}"
+    sslclientkey: "{{ rhel_misc_repo.sslclientkey }}"
+    sslclientcert: "{{ rhel_misc_repo.sslclientcert }}"
+    priority: "{{ rhel_misc_repo.priority }}"
 
 - name: autoattach
   shell: "subscription-manager auto-attach"
