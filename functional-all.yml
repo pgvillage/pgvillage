@@ -1,12 +1,12 @@
 ---
 - name: "Gather facts on all servers"
   hosts:
-    - all:!vip
+    - all
   become: true
   gather_facts: true
 
 - hosts:
-    - all:!vip
+    - all
   become: true
   gather_facts: false
   roles:
@@ -46,7 +46,7 @@
     - pg
 
 - hosts:
-    - hacluster:!vip
+    - hacluster
   become: true
   gather_facts: false
   roles:
@@ -56,7 +56,7 @@
     - availability_checker
 
 - hosts:
-    - hacluster:!vip
+    - hacluster
   become: true
   gather_facts: false
   roles:

@@ -1,7 +1,7 @@
 ---
 - name: "Run the playbook"
   hosts:
-    - all:!vip
+    - all
   vars_prompt:
     - name: sure
       prompt: "This will remove postgres and all backups. Are you really sure? Type 'yes' in uppercase if you are..."

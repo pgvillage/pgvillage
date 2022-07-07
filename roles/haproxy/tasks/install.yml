@@ -1,5 +1,5 @@
 ---
-- name: copy installer
+- name: copy haproxy installer
   copy:
     src: "{{ item }}"
     dest: "/tmp"
@@ -8,7 +8,7 @@
     mode: "0640"
   loop: "{{ haproxy_local_packages }}"
 
-- name: Install local stolon packages when defined
+- name: Install local haproxy packages when defined
   become: "true"
   yum:
     name: "/tmp/{{ item }}"
