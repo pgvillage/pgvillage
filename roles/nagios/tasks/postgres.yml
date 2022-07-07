@@ -68,5 +68,5 @@
   systemd:
     name: nrpe.service
     state: restarted
-    enabled: "true"
+    enabled: "false"
     daemon_reload: "true"
