@@ -7,8 +7,9 @@
     state: present
 
 - name: enable rhel_misc repo
-  redhat_subscription: 
+  yum_repository: 
     name: "Rhel_Misc"
+    description: "Rhel Misc repository"
     baseurl: "http://satellite.example.com/pulp/content/ORG1/Library/custom/rhel_misc/rhel_misc/"
     enabled: "true"
     gpgcheck: "true"
