@@ -49,15 +49,9 @@
     - src: pg_service.conf.j2
       dest: "{{ getent_passwd[stolon_user][4] }}/.pg_service.conf"
 
-- name: create bash_profile
-  file:
-    path: "{{ getent_passwd[stolon_user][4] }}/.bash_profile"
-    state: touch
-    owner: "{{ stolon_user }}"
-
 - name: Enable stolon_profile
   lineinfile:
-    path: "{{ getent_passwd[stolon_user][4] }}/.bash_profile"
+    path: "/var/lib/pgsql/.pgsql_profile"
     line: "source '{{ stolon_script_path }}/stolon_profile'"
 
 - name: copy package
