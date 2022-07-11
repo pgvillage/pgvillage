@@ -23,14 +23,14 @@
     path: "{{ getent_passwd[pgroute66_osuser][4] }}/.postgresql"
     state: directory
     owner: "{{ pgroute66_osuser }}"
-    group: "{{ pgroute66_osuser }}"
+    group: "{{ pgroute66_osgroup }}"
     mode: "0750"
 
 - name: "Deploy certs to ~/.postgresql/"
   copy:
     dest: "{{ getent_passwd[pgroute66_osuser][4] }}/.postgresql/{{ item.name }}"
     owner: "{{ pgroute66_osuser }}"
-    group: "{{ pgroute66_osuser }}"
+    group: "{{ pgroute66_osgroup }}"
     mode: "{{ item.mode }}"
     content: "{{ item.content }}"
   diff: no
