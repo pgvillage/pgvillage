@@ -52,7 +52,7 @@
 - name: Enable stolon_profile
   lineinfile:
     path: "/var/lib/pgsql/.pgsql_profile"
-    line: "source {{ stolon_script_path }}/stolon_profile"
+    line: "source '{{ stolon_script_path }}/stolon_profile'"
 
 - name: copy package
   copy:

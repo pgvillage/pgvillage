@@ -6,7 +6,6 @@
     state: directory
     owner: "{{ pgquartz_osuser }}"
     group: "{{ pgquartz_osgroup }}"
-    mode: "0755"
 
 - name: Set cronvars
   cronvar:
