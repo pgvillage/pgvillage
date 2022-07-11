@@ -35,8 +35,8 @@ pgquartz_client_key: "--- KEY ---"
 
 pgquartz_logfolder: /var/log/pgquartz
 
-# Can be systemd or cron, systemd is default
-pgquartz_scheduler: systemd
+# Can be timer or cron, timer is default
+pgquartz_scheduler: timer
 
 pgquartz_cronvars:
   - name: MAILTO
