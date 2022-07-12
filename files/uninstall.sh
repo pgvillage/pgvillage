@@ -38,21 +38,19 @@ function remove_rpms() {
 
 function remove_users() { 
   USER=$1
-  killall -KILL -u $USER
-  #delete at jobs, enter
-  find /var/spool/at/ -name "[^.]*" -type f -user $USER -delete
-  # Remove cron jobs, enter:
-  crontab -r -u $USER
-
-  # Delete print jobs, enter:
-  lprm $USER
-
-  # You can find file owned by a user called vivek and change its ownership as follows:
-  find / -user $USER -exec chown root:root {} \;
-
-  #Finally, delete user account called $USER, enter:
-  userdel -r $USER
-
+  if [ -d /home/$USER ]; then
+    killall -KILL -u $USER
+    #delete at jobs, enter
+    find /var/spool/at/ -name "[^.]*" -type f -user $USER -delete
+    # Remove cron jobs, enter:
+    crontab -r -u $USER
+    # Delete print jobs, enter:
+    lprm $USER
+    # You can find file owned by a user called vivek and change its ownership as follows:
+    find / -user $USER -exec chown root:root {} \;
+    #Finally, delete user account called $USER, enter:
+    userdel -r $USER
+  fi
 } 
 
 function clean_data() {
