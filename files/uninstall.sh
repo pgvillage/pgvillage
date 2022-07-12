@@ -36,6 +36,25 @@ function remove_rpms() {
   dnf erase -y "${RPMS_ARRAY[@]}"
 }
 
+function remove_users() { 
+  USER=$1
+  killall -KILL -u $USER
+  #delete at jobs, enter
+  find /var/spool/at/ -name "[^.]*" -type f -user $USER -delete
+  # Remove cron jobs, enter:
+  crontab -r -u $USER
+
+  # Delete print jobs, enter:
+  lprm $USER
+
+  # You can find file owned by a user called vivek and change its ownership as follows:
+  find / -user $USER -exec chown root:root {} \;
+
+  #Finally, delete user account called $USER, enter:
+  userdel -r $USER
+
+} 
+
 function clean_data() {
   APP=$1
   ESCAPED_FOLDERS=$(df | awk '$6~/\//{print $6}' | xargs | sed 's/ /|/')
@@ -53,4 +72,5 @@ for APP in "${APPS[@]}"; do
   remove_services "${APP}"
   remove_rpms "${APP}"
   clean_data "${APP}"
+  remove_users "${APP}"
 done
