@@ -14,3 +14,15 @@
           - "sure == 'YES'"
     - name: "Run uninstall"
       script: uninstall.sh
+
+    - name: remove users, do not remove minio user ( backups.. )
+      shell: "killall -KILL -u {{ item }}; userdel -fr {{ item }}" 
+      loop:
+      - stolon
+      - postgres
+      - avchecker
+      - pgquartz
+      - etcd
+      - pgroute66
+      - haproxy
+      - keepalived
