@@ -49,11 +49,6 @@
     - src: pg_service.conf.j2
       dest: "{{ getent_passwd[stolon_user][4] }}/.pg_service.conf"
 
-- name: Enable stolon_profile
-  lineinfile:
-    path: "/var/lib/pgsql/.pgsql_profile"
-    line: "source '{{ stolon_script_path }}/stolon_profile'"
-
 - name: copy package
   copy:
     src: "{{ item }}"
@@ -75,3 +70,9 @@
     state: present
     disable_gpg_check: "true"
   loop: "{{ stolon_package_names }}"
+
+- name: Enable stolon_profile
+  lineinfile:
+    path: "{{ getent_passwd[stolon_user][4] }}/.pgsql_profile"
+    line: "source {{ stolon_script_path }}/stolon_profile"
+    create: "true" 
