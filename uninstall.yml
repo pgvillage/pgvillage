@@ -14,6 +14,23 @@
           - "sure == 'YES'"
     - name: "Run uninstall"
       script: uninstall.sh
+    - name: remove packages
+      yum:
+        name: "{{ item }}"
+        state: absent
+      loop:
+      - stolon
+      - avchecker
+      - pgroute66
+      - haproxy
+      - "postgresql{{ linux_pg_version|replace('.','') }}"
+      - "postgresql{{ linux_pg_version|replace('.','') }}-server"
+      - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
+      - "postgresql{{ linux_pg_version|replace('.','') }}-devel"
+      - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
+      - "stolon"
+      - "wal-g-pg"
+      - "etcd"
 
     - name: remove users, do not remove minio user ( backups.. )
       shell: "killall -KILL -u {{ item }}; userdel -fr {{ item }}" 

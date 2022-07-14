@@ -62,6 +62,7 @@ function clean_data() {
     echo "${ESCAPED_FOLDERS}" | grep -q "$f" && continue
     echo "Removing ${f}"
     rm -rf "${f}"
+    rm -rf /data/postgres/data/*
   done
 }
 
