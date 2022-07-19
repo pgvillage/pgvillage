@@ -74,6 +74,7 @@
     - pgroute66
   tags:
     - haproxy
+    - router
     - keepalived
     - pgroute66
 
