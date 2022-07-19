@@ -1,12 +1,9 @@
 ---
-- name: copy haproxy installer
+- name: copy package
   copy:
     src: "{{ item }}"
-    dest: "/tmp"
-    owner: "root" 
-    group: "root" 
-    mode: "0640"
-  loop: "{{ haproxy_local_packages }}"
+    dest: "/tmp/"
+  loop: "{{ haproxy_local_package_names }}"
 
 - name: Install local haproxy packages when defined
   become: "true"
@@ -14,7 +11,15 @@
     name: "/tmp/{{ item }}"
     state: present
     disable_gpg_check: "true"
-  loop: "{{ haproxy_local_packages }}"
+  loop: "{{ haproxy_local_package_names }}"
+
+- name: Install haproxy packages when defined
+  become: "true"
+  yum:
+    name: "{{ item }}"
+    state: present
+    disable_gpg_check: "true"
+  loop: "{{ haproxy_package_names }}"
 
 - name: Ensure HAProxy is installed.
   yum:
@@ -23,7 +28,7 @@
       - checkpolicy
     disable_gpg_check: "true" 
     state: present
-  loop: "{{ haproxy_packages }}"
+  loop: "{{ haproxy_package_names }}"
 
 - name: Get HAProxy version.
   command: haproxy -v
