@@ -8,7 +8,7 @@ User={{etcd_user}}
 WorkingDirectory={{etcd_data_dir}}/
 EnvironmentFile=-/etc/etcd/etcd.conf
 # set GOMAXPROCS to number of processors
-ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) {{etcd_install_dir}}/etcd --auto-compaction-mode revision --auto-compaction-retention 1000000"
+ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) {{etcd_install_dir}}/etcd --auto-compaction-mode revision"
 Restart=on-failure
 LimitNOFILE=65536
 # ter voorkoming timeout:
