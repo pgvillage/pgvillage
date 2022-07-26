@@ -32,14 +32,52 @@
       - "wal-g-pg"
       - "etcd"
 
-    - name: remove users, do not remove minio user ( backups.. )
-      shell: "killall -KILL -u {{ item }}; userdel -fr {{ item }}" 
+    - name: kill processes of users
+      shell: "killall -KILL -u {{ item }}"
       loop:
-      - stolon
       - postgres
+      - etcd
       - avchecker
       - pgquartz
+      when: inventory_hostname in groups['hacluster']
+
+    - name: remove users
+      user:
+        name: "{{ item }}" 
+        remove: true
+        state: absent
+      loop:
+      - postgres
       - etcd
-      - pgroute66
+      - avchecker
+      - pgquartz
+      when: inventory_hostname in groups['hacluster']
+
+    - name: remove dir
+      file:
+        name: "{{ item }}"
+        state: absent
+      become: true
+      loop: 
+      - "{{etcd_data_dir}}"
+      when: inventory_hostname in groups['hacluster']
+
+    - name: kill processes of users
+      shell: "killall -KILL -u {{ item }}"
+      loop:
       - haproxy
-      - keepalived
+      - pgroute66
+      when: inventory_hostname in groups['router']
+
+    - name: remove users
+      user:
+        name: "{{ item }}" 
+        remove: true
+        state: absent
+      loop:
+      - haproxy
+      - pgroute66
+      when: inventory_hostname in groups['router']
+
+
+
