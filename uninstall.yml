@@ -13,8 +13,10 @@
         that:
           - "sure == 'YES'"
     - name: "Run uninstall"
+      become: true
       script: uninstall.sh
     - name: remove packages
+      become: true
       yum:
         name: "{{ item }}"
         state: absent
@@ -33,6 +35,7 @@
       - "etcd"
 
     - name: kill processes of users
+      become: true
       shell: "killall -KILL -u {{ item }}"
       loop:
       - postgres
@@ -42,6 +45,7 @@
       when: inventory_hostname in groups['hacluster']
 
     - name: remove users
+      become: true
       user:
         name: "{{ item }}" 
         remove: true
@@ -54,10 +58,10 @@
       when: inventory_hostname in groups['hacluster']
 
     - name: remove dir
+      become: true
       file:
         name: "{{ item }}"
         state: absent
-      become: true
       loop: 
       - "{{etcd_data_dir}}"
       when: inventory_hostname in groups['hacluster']
@@ -70,6 +74,7 @@
       when: inventory_hostname in groups['router']
 
     - name: remove users
+      become: true
       user:
         name: "{{ item }}" 
         remove: true
@@ -79,5 +84,8 @@
       - pgroute66
       when: inventory_hostname in groups['router']
 
-
-
+    - name: remove etcd data
+      become: true
+      file:
+        path: "{{ etcd_data_dir }}" 
+        state: absent
