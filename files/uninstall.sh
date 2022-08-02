@@ -62,7 +62,6 @@ function clean_data() {
     echo "${ESCAPED_FOLDERS}" | grep -q "$f" && continue
     echo "Removing ${f}"
     rm -rf "${f}"
-    rm -rf /data/postgres/data/*
   done
 }
 
@@ -71,5 +70,5 @@ for APP in "${APPS[@]}"; do
   remove_services "${APP}"
   remove_rpms "${APP}"
   clean_data "${APP}"
-  remove_users "${APP}"
+#  remove_users "${APP}"
 done
