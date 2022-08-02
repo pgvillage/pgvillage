@@ -5,6 +5,7 @@ ignore: |
    .travis/
    .travis.yml
    .github/
+   .git/
    meta/
 
 rules:
@@ -101,6 +102,6 @@ rules:
 
   truthy:
 
-    allowed-values: [ "true", "false", "yes", "no" ]
+    allowed-values: [ "True", "False", "true", "false", "yes", "no", "Yes", "No" ]
 
     check-keys: false

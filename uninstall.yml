@@ -89,3 +89,4 @@
       file:
         path: "{{ etcd_data_dir }}"
         state: absent
+      when: inventory_hostname in groups['hacluster']
