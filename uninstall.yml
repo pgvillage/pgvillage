@@ -21,40 +21,40 @@
         name: "{{ item }}"
         state: absent
       loop:
-      - stolon
-      - avchecker
-      - pgroute66
-      - haproxy
-      - "postgresql{{ linux_pg_version|replace('.','') }}"
-      - "postgresql{{ linux_pg_version|replace('.','') }}-server"
-      - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
-      - "postgresql{{ linux_pg_version|replace('.','') }}-devel"
-      - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
-      - "stolon"
-      - "wal-g-pg"
-      - "etcd"
+        - stolon
+        - avchecker
+        - pgroute66
+        - haproxy
+        - "postgresql{{ linux_pg_version|replace('.','') }}"
+        - "postgresql{{ linux_pg_version|replace('.','') }}-server"
+        - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
+        - "postgresql{{ linux_pg_version|replace('.','') }}-devel"
+        - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
+        - "stolon"
+        - "wal-g-pg"
+        - "etcd"
 
     - name: kill processes of users
       become: true
       shell: "killall -KILL -u {{ item }}"
       loop:
-      - postgres
-      - etcd
-      - avchecker
-      - pgquartz
+        - postgres
+        - etcd
+        - avchecker
+        - pgquartz
       when: inventory_hostname in groups['hacluster']
 
     - name: remove users
       become: true
       user:
-        name: "{{ item }}" 
+        name: "{{ item }}"
         remove: true
         state: absent
       loop:
-      - postgres
-      - etcd
-      - avchecker
-      - pgquartz
+        - postgres
+        - etcd
+        - avchecker
+        - pgquartz
       when: inventory_hostname in groups['hacluster']
 
     - name: remove dir
@@ -62,30 +62,30 @@
       file:
         name: "{{ item }}"
         state: absent
-      loop: 
-      - "{{etcd_data_dir}}"
+      loop:
+        - "{{etcd_data_dir}}"
       when: inventory_hostname in groups['hacluster']
 
     - name: kill processes of users
       shell: "killall -KILL -u {{ item }}"
       loop:
-      - haproxy
-      - pgroute66
+        - haproxy
+        - pgroute66
       when: inventory_hostname in groups['router']
 
     - name: remove users
       become: true
       user:
-        name: "{{ item }}" 
+        name: "{{ item }}"
         remove: true
         state: absent
       loop:
-      - haproxy
-      - pgroute66
+        - haproxy
+        - pgroute66
       when: inventory_hostname in groups['router']
 
     - name: remove etcd data
       become: true
       file:
-        path: "{{ etcd_data_dir }}" 
+        path: "{{ etcd_data_dir }}"
         state: absent
