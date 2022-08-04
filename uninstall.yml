@@ -19,15 +19,24 @@
         state: stopped
       ignore_errors: true
       loop:
-        - pgroute66
-        - haproxy 
         - stolon-proxy
         - stolon-sentinel
         - stolon-keeper
         - etcd
         - avchecker
+      when: inventory_hostname in groups['hacluster']
 
-    - name: remove packages
+    - name: stop services
+      service:
+        name: "{{ item }}" 
+        state: stopped
+      ignore_errors: true
+      loop:
+        - pgroute66
+        - haproxy 
+      when: inventory_hostname in groups['router']
+
+    - name: remove packages op hacluster
       dnf:
         name:
           - stolon
@@ -37,13 +46,17 @@
           - "oracle-instantclient-odbc"
           - "oracle-fdw12"
           - etcd
-          - haproxy
-          - pgroute66
-          - minio
           - wal-g-pg
         state: absent
-      ignore_errors: true
-      loop:
+      when: inventory_hostname in groups['hacluster']
+
+    - name: remove packages op router
+      dnf:
+        name:
+          - haproxy
+          - pgroute66
+        state: absent
+      when: inventory_hostname in groups['router']
 
     - name: remove users
       become: true
