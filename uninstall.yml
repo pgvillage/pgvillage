@@ -1,10 +1,10 @@
 ---
-- name: "Run the playbook"
+- name: "deinstallatie van bouwblok" 
   hosts:
     - all
   vars_prompt:
     - name: sure
-      prompt: "This will remove postgres and all backups. Are you really sure? Type 'yes' in uppercase if you are..."
+      prompt: "Dit playbook deinstalleert bouwblok, weet je zeker? Type YES om door te gaan, CTRL+C om af te breken..." 
       private: no
   become: true
   tasks:
@@ -12,77 +12,50 @@
       assert:
         that:
           - "sure == 'YES'"
-    - name: "Run uninstall"
-      become: true
-      script: uninstall.sh
+
+    - name: stop services
+      service:
+        name: "{{ item }}" 
+        state: stopped
+      ignore_errors: true
+      loop:
+        - pgroute66
+        - haproxy 
+        - stolon-proxy
+        - stolon-sentinel
+        - stolon-keeper
+        - etcd
+        - avchecker
+
     - name: remove packages
-      become: true
-      yum:
-        name: "{{ item }}"
+      dnf:
+        name:
+          - stolon
+          - "oracle-instantclient-basic"
+          - "oracle-instantclient-devel"
+          - "oracle-instantclient-sqlplus"
+          - "oracle-instantclient-odbc"
+          - "oracle-fdw12"
+          - etcd
+          - haproxy
+          - pgroute66
+          - minio
+          - wal-g-pg
         state: absent
+      ignore_errors: true
       loop:
-        - stolon
-        - avchecker
-        - pgroute66
-        - haproxy
-        - "postgresql{{ linux_pg_version|replace('.','') }}"
-        - "postgresql{{ linux_pg_version|replace('.','') }}-server"
-        - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
-        - "postgresql{{ linux_pg_version|replace('.','') }}-devel"
-        - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
-        - "stolon"
-        - "wal-g-pg"
-        - "etcd"
-
-    - name: kill processes of users
-      become: true
-      shell: "killall -KILL -u {{ item }}"
-      loop:
-        - postgres
-        - etcd
-        - avchecker
-        - pgquartz
-      when: inventory_hostname in groups['hacluster']
 
     - name: remove users
       become: true
       user:
-        name: "{{ item }}"
+        name: "{{ item.user }}"
         remove: true
         state: absent
+      ignore_errors: true
+      when: inventory_hostname in groups[ item.environment ]
       loop:
-        - postgres
-        - etcd
-        - avchecker
-        - pgquartz
-      when: inventory_hostname in groups['hacluster']
-
-    - name: remove dir
-      become: true
-      file:
-        name: "{{ item }}"
-        state: absent
-      loop:
-        - "{{etcd_data_dir}}"
-      when: inventory_hostname in groups['hacluster']
-
-    - name: kill processes of users
-      shell: "killall -KILL -u {{ item }}"
-      loop:
-        - haproxy
-        - pgroute66
-      when: inventory_hostname in groups['router']
-
-    - name: remove users
-      become: true
-      user:
-        name: "{{ item }}"
-        remove: true
-        state: absent
-      loop:
-        - haproxy
-        - pgroute66
-      when: inventory_hostname in groups['router']
+        - { environment: hacluster, user: postgres,etcd,avchecker,pgquartz }
+        - { environment: router, user: haproxy,pgroute66 }
 
     - name: remove etcd data
       become: true
