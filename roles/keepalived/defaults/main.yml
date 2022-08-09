@@ -1,7 +1,5 @@
 ---
 # defaults file for keepalived
-
-# keepalived_package: "keepalived-2.1.5-3.el8.x86_64.rpm"
 keepalived_local_packages: []
 keepalived_packages:
   - keepalived
