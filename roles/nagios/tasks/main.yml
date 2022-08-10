@@ -1,9 +1,5 @@
 ---
 # tasks file for nagios
-- name: debug
-  debug:
-    var: nagios_checks
-
 - name: Get semodule list
   command: semodule -l
   register: semodule_list
