@@ -11,6 +11,12 @@ subject:
 
 intermediates:
   - name: server
+    keyUsages:
+      - keyEncipherment
+      - dataEncipherment
+      - digitalSignature
+    extendedKeyUsages:
+      - serverAuth
     servers: {}
 # You can set servers directly
 #      myserver1:
@@ -22,3 +28,10 @@ intermediates:
       - application
       - avchecker
       - pgquartz
+      - pgfga
+    keyUsages:
+      - keyEncipherment
+      - dataEncipherment
+      - digitalSignature
+    extendedKeyUsages:
+      - clientAuth
