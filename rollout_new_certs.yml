@@ -1,0 +1,69 @@
+---
+- name: "Gather facts on all servers"
+  hosts:
+    - all
+  become: true
+  gather_facts: true
+
+- hosts:
+    - backup
+  become: true
+  gather_facts: false
+  roles:
+    - minio
+  tags:
+    - minio
+
+- hosts:
+    - hacluster
+  become: true
+  gather_facts: false
+  roles:
+    - walg
+  tags:
+    - walg
+
+- hosts:
+    - stolon
+  become: true
+  gather_facts: false
+  roles:
+    - stolon
+  tags:
+    - stolon
+    - postgres
+    - postgresql
+    - pg
+
+- hosts:
+    - hacluster
+  become: true
+  gather_facts: false
+  roles:
+    - avchecker
+  tags:
+    - avchecker
+    - availability_checker
+
+- hosts:
+    - router
+  become: true
+  gather_facts: false
+  roles:
+    - haproxy
+    - keepalived
+    - pgroute66
+  tags:
+    - haproxy
+    - router
+    - keepalived
+    - pgroute66
+
+- hosts:
+    - postgres
+  become: true
+  gather_facts: false
+  roles:
+    - pgquartz
+  tags:
+    - pgquartz
