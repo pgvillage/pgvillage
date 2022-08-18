@@ -3,13 +3,15 @@ host=/tmp
 port={{ stolon_pg_port }}
 
 [proxy]
-host={{ ansible_hostname }}
+host={{ ansible_fqdn }}
 port={{ stolon_proxy_port }}
+sslmode=verify-full
 
 [master]
 host={{ stolon_cluster_hosts | join(',') }}
 port={{ stolon_pg_port }}
 target_session_attrs=read-write
+sslmode=verify-full
 
 {% if stolon_pg_version >= 13 %}
 [standby]
