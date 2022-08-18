@@ -18,61 +18,26 @@
         name: "{{ item }}" 
         state: stopped
       ignore_errors: true
-      loop:
-        - stolon-proxy
-        - stolon-sentinel
-        - stolon-keeper
-        - etcd
-        - avchecker
-      when: inventory_hostname in groups['hacluster']
+      loop: "{{ services }}"
 
-    - name: stop services
-      service:
-        name: "{{ item }}" 
-        state: stopped
-      ignore_errors: true
-      loop:
-        - pgroute66
-        - haproxy 
-      when: inventory_hostname in groups['router']
-
-    - name: remove packages op hacluster
+    - name: remove packages 
       dnf:
-        name:
-          - stolon
-          - "oracle-instantclient-basic"
-          - "oracle-instantclient-devel"
-          - "oracle-instantclient-sqlplus"
-          - "oracle-instantclient-odbc"
-          - "oracle-fdw12"
-          - etcd
-          - wal-g-pg
+        name: "{{ uninstall_linux_packages }}"
         state: absent
-      when: inventory_hostname in groups['hacluster']
-
-    - name: remove packages op router
-      dnf:
-        name:
-          - haproxy
-          - pgroute66
-        state: absent
-      when: inventory_hostname in groups['router']
+      when: inventory_hostname in groups['hacluster'] or inventory_hostname in groups['router'] 
 
     - name: remove users
       become: true
       user:
-        name: "{{ item.user }}"
+        name: "{{ item }}"
         remove: true
+        force: true
         state: absent
-      ignore_errors: true
-      when: inventory_hostname in groups[ item.environment ]
-      loop:
-        - { environment: hacluster, user: postgres,etcd,avchecker,pgquartz }
-        - { environment: router, user: haproxy,pgroute66 }
+      loop: "{{ user_list }}"
 
-    - name: remove etcd data
+    - name: remove data
       become: true
       file:
-        path: "{{ etcd_data_dir }}"
+        path: "{{ item }}"
         state: absent
-      when: inventory_hostname in groups['hacluster']
+      loop: "{{ file_list }}"
