@@ -18,7 +18,7 @@
         name: "{{ item }}" 
         state: stopped
       ignore_errors: true
-      loop: "{{ services }}"
+      loop: "{{ uninstall_services }}"
 
     - name: remove packages 
       dnf:
@@ -33,11 +33,11 @@
         remove: true
         force: true
         state: absent
-      loop: "{{ user_list }}"
+      loop: "{{ uninstall_user_list }}"
 
     - name: remove data
       become: true
       file:
         path: "{{ item }}"
         state: absent
-      loop: "{{ file_list }}"
+      loop: "{{ uninstall_file_list }}"
