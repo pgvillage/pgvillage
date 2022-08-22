@@ -1,10 +1,10 @@
 ---
-- name: "deinstallatie van bouwblok" 
+- name: "deinstallatie van bouwblok"
   hosts:
     - all
   vars_prompt:
     - name: sure
-      prompt: "Dit playbook deinstalleert bouwblok, weet je zeker? Type YES om door te gaan, CTRL+C om af te breken..." 
+      prompt: "Dit playbook deinstalleert bouwblok, weet je zeker? Type YES om door te gaan, CTRL+C om af te breken..."
       private: no
   become: true
   tasks:
@@ -15,16 +15,16 @@
 
     - name: stop services
       service:
-        name: "{{ item }}" 
+        name: "{{ item }}"
         state: stopped
       ignore_errors: true
       loop: "{{ uninstall_services }}"
 
-    - name: remove packages 
+    - name: remove packages
       dnf:
         name: "{{ uninstall_linux_packages }}"
         state: absent
-      when: inventory_hostname in groups['hacluster'] or inventory_hostname in groups['router'] 
+      when: inventory_hostname in groups['hacluster'] or inventory_hostname in groups['router']
 
     - name: remove users
       become: true

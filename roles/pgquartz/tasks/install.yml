@@ -65,7 +65,7 @@
     src: "{{ item }}"
     dest: "/tmp"
   loop: "{{ pgquartz_local_packages }}"
-  
+
 - name: install pgquartz
   yum:
     name: "/tmp/{{ item }}"

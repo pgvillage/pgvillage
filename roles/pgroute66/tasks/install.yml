@@ -61,7 +61,7 @@
     src: "{{ item }}"
     dest: "/tmp"
   loop: "{{ pgroute66_local_packages }}"
-  
+
 - name: install pgroute66
   yum:
     name: "/tmp/{{ item }}"
