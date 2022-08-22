@@ -62,3 +62,11 @@
     STOLONCTL_STORE_BACKEND: "{{ stolon_store_backend }}"
     STOLONCTL_FILE: "{{ stolon_custom_config_file }}"
   when: custom_config_file.changed
+
+- name: add logrotate
+  copy:
+    content: "{{ stolon_logrotate_config }}"
+    dest: /etc/logrotate.d/postgresql
+    mode: 0644
+    owner: root
+    group: root

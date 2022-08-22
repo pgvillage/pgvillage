@@ -231,3 +231,16 @@ stolon_pgusers:
   - pgroute66
   - nrpe
   - pgquartz
+
+stolon_logrotate_config: |
+  /var/log/postgresql/*.csv
+  /var/log/postgresql/*.log {
+      daily
+      rotate 8
+      copytruncate
+      delaycompress
+      compress
+      notifempty
+      missingok
+      su root root
+  }
