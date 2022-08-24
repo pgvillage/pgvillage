@@ -12,6 +12,7 @@ echo 'Removing local keeper from etcd'
 
 echo 'brute force remove local datadir'
 rm -rf "$STOLONCTL_DATA_DIR"/{postgres/*,dbstate,keeperstate,lock}
+rm -rf "$STOLONCTL_WAL_DIR"/*
 
 echo 'Starting local stolon-keeper.service'
 systemctl start stolon-keeper.service
