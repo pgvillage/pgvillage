@@ -16,30 +16,20 @@
     owner: "{{ walg_binary_owner }}"
     mode: "0755"
 
-- name: Download wal-g
-  become: "true"
-  become_user: "{{ walg_binary_owner }}"
-  get_url:
-    url: "{{ walg_exe_url }}"
-    dest: "{{ walg_bin_path }}"
-    mode: "0755"
-  when:
-    - walg_packages|length == 0
+#- name: Download wal-g
+#  become: "true"
+#  become_user: "{{ walg_binary_owner }}"
+#  get_url:
+#    url: "{{ walg_exe_url }}"
+#    dest: "{{ walg_bin_path }}"
+#    mode: "0755"
+#  when:
+#    - walg_packages|length == 0
 
-- name: Install wal-g binary
+- name: Install wal-g package
   become: "true"
-  become_user: "{{ walg_binary_owner }}"
-  file:
-    state: link
-    src: "{{ walg_bin_path }}/{{ walg_exe_name }}"
-    dest: "/usr/local/bin/wal-g-pg"
-    force: "true"
-  when:
-    - walg_packages|length == 0
-
-- name: Install wal-g package when defined
-  become: "true"
-  package:
+  yum:
     name: "{{ item }}"
-    state: present
+    state: latest
+    disable_gpg_check: true
   loop: "{{ walg_packages }}"
