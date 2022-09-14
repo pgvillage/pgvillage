@@ -19,6 +19,20 @@
       - check_postgres
     state: present
 
+- name: get size of data dir in bytes
+  shell:
+    cmd: "df -B1 . | awk '{if(NR==2){print $4}}'"
+  args:
+    chdir: "{{ nagios_data_dir_mp }}"
+  register: data_dir_mp_size
+
+- name: get size of WAL dir in bytes
+  shell:
+    cmd: "df -B1 . | awk '{if(NR==2){print $4}}'"
+  args:
+    chdir: "{{ nagios_wal_dir_mp }}"
+  register: wal_dir_mp_size
+
 - name: create custom script folder
   file:
     path: "{{ nagios_scripts_folder }}"
@@ -52,7 +66,7 @@
 # Stolon has these named pipes in /tmp
 # NRPE by default has PrivateTmp=true, and thus cannot connect to postgres on /tmp/.s.PGSQL.5432
 # So, set PrivateTmp=false for this to work
-- name: Crate nrpe override folder
+- name: Create nrpe override folder
   file:
     dest: /etc/systemd/system/nrpe.service.d
     state: directory

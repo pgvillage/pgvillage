@@ -1,12 +1,16 @@
 ---
 - name: "Gather facts on all servers"
   hosts:
-    - all
+    - hacluster
+    - backup
+    - router
   become: true
   gather_facts: true
 
 - hosts:
-    - all
+    - hacluster
+    - backup
+    - router
   become: true
   gather_facts: false
   roles:
@@ -34,7 +38,7 @@
     - minio
 
 - hosts:
-    - stolon
+    - hacluster
   become: true
   gather_facts: false
   roles:

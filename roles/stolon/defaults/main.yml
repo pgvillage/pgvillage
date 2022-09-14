@@ -66,9 +66,6 @@ stolon_wal_dir: "{{ stolon_pg_datadir }}/pg_wal"
 stolon_proxy_listen_address: "{{ ansible_default_ipv4.address }}"
 stolon_uid: "{{ inventory_hostname_short | replace('-', '_') }}"
 
-# Used to automatically size min_wal_size
-stolon_wal_dir_mp: "/var"
-
 # Used for automatically setting work_mem
 # Set to 1 for transactional, and 4-16 for analytical
 # Consider the averga amount of operations (merge, sort, group, etc.) per query
@@ -91,8 +88,9 @@ stolon_gather_ratio: 1
 # Autoconfig calculations
 stolon_share_buffers_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_shared_buffers_ratio) | int, 8] | max }}"
 stolon_effective_cache_size_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_eff_cache_ratio) | int, 1] | max }}"
-stolon_min_wal_size_mb: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_min_wal_size_ratio / 1048576) | int, 80] | max }}"
-stolon_max_wal_size_mb: "{{ [ ( facter_mountpoints[stolon_wal_dir_mp]['size_bytes']|int * stolon_max_wal_size_ratio / 1048576) | int, 1024] | max }}"
+stolon_wal_dir_size: "{{ wal_dir_size.stdout_lines[0] }}"
+stolon_min_wal_size_mb: "{{ [ ( stolon_wal_dir_size|int * stolon_min_wal_size_ratio / 1048576) | int, 80] | max }}"
+stolon_max_wal_size_mb: "{{ ( stolon_wal_dir_size|int * stolon_max_wal_size_ratio / 1048576) | int, 1024 }}"
 stolon_max_worker_processes: "{{ [ansible_processor_vcpus|int * stolon_workers_ratio|int, 8] | max }}"
 stolon_max_parallel_workers: "{{ [ansible_processor_vcpus|int * stolon_parallel_ratio|int, 8] | max }}"
 stolon_max_parallel_workers_per_gather: "{{ [ansible_processor_vcpus|int * stolon_gather_ratio|int, 2] | max }}"

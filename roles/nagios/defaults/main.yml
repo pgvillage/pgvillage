@@ -27,16 +27,15 @@ nagios_connections_critical: "{{ nagios_connections_value|percent(80) }}"
 nagios_pg_version: 14
 
 nagios_wal_dir_mp: "/"
+nagios_wal_dir_mp_size: "{{ wal_dir_mp_size.stdout_lines[0] }}"
 nagios_max_wal_size_warning_percent: 65
 nagios_max_wal_size_critical_percent: 75
-nagios_wal_files_value: "{{ facter_mountpoints[nagios_wal_dir_mp]['size_bytes']|int / 16777216 }}"
+nagios_wal_files_value: "{{ nagios_wal_dir_mp_size|int / 16777216 }}"
 nagios_wal_files_warning: "{{ nagios_wal_files_value|percent(nagios_max_wal_size_warning_percent, 10) }}"
 nagios_wal_files_critical: "{{ nagios_wal_files_value|percent(nagios_max_wal_size_critical_percent, 100) }}"
 
 nagios_data_dir_mp: "/"
-nagios_data_dir_mp_size: "{{ facter_mountpoints[nagios_data_dir_mp]['size_bytes']|int }}"
-
-nagios_db_size_value: "{{ nagios_data_dir_mp_size }}"
+nagios_db_size_value: "{{ data_dir_mp_size.stdout_lines[0] }}"
 nagios_db_size_warning: "{{ nagios_db_size_value|percent(80)|human }}"
 nagios_db_size_critical: "{{ nagios_db_size_value|percent(90)|human }}"
 
