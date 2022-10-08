@@ -8,7 +8,7 @@ port={{ stolon_proxy_port }}
 sslmode=verify-full
 
 [master]
-host={{ stolon_cluster_hosts | join(',') }}
+host={{ stolon_cluster_hosts }}
 port={{ stolon_pg_port }}
 target_session_attrs=read-write
 sslmode=verify-full

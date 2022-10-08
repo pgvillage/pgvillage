@@ -56,7 +56,8 @@ stolon_pg_su_connection_type: hostssl
 
 
 stolon_cluster_name: stolon-cluster
-stolon_cluster_hosts: "{{ groups.stolon }}"
+stolon_cluster_hosts: "{% for host in groups.stolon %}{{ hostvars[host]['ansible_fqdn'] }}{% if not loop.last %},{% endif %}{% endfor %}"
+
 stolon_store_backend: etcdv3
 stolon_proxy_port: 25432
 stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
@@ -90,7 +91,7 @@ stolon_share_buffers_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_shared_
 stolon_effective_cache_size_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_eff_cache_ratio) | int, 1] | max }}"
 stolon_wal_dir_size: "{{ wal_dir_size.stdout_lines[0] }}"
 stolon_min_wal_size_mb: "{{ [ ( stolon_wal_dir_size|int * stolon_min_wal_size_ratio / 1048576) | int, 80] | max }}"
-stolon_max_wal_size_mb: "{{ ( stolon_wal_dir_size|int * stolon_max_wal_size_ratio / 1048576) | int, 1024 }}"
+stolon_max_wal_size_mb: "{{ [ ( stolon_wal_dir_size|int * stolon_max_wal_size_ratio / 1048576) | int, 1024 ] | max }}"
 stolon_max_worker_processes: "{{ [ansible_processor_vcpus|int * stolon_workers_ratio|int, 8] | max }}"
 stolon_max_parallel_workers: "{{ [ansible_processor_vcpus|int * stolon_parallel_ratio|int, 8] | max }}"
 stolon_max_parallel_workers_per_gather: "{{ [ansible_processor_vcpus|int * stolon_gather_ratio|int, 2] | max }}"
