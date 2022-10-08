@@ -42,6 +42,15 @@
   become: true
   gather_facts: false
   roles:
+    - walg
+  tags:
+    - walg
+
+- hosts:
+    - hacluster
+  become: true
+  gather_facts: false
+  roles:
     - stolon
   tags:
     - stolon
@@ -58,15 +67,6 @@
   tags:
     - avchecker
     - availability_checker
-
-- hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - walg
-  tags:
-    - walg
 
 - hosts:
     - router
