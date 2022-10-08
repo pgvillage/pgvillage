@@ -39,7 +39,7 @@
   loop: "{{ linux_public_repos | dict2items }}"
 
 - name: Disable postgresql module
-  shell: "dnf module disable -y postgresql"
+  shell: "dnf module list | grep -q postgres && dnf module disable -y postgresql || echo No postgres module"
   args:
     # Running dnf command instead of asnible dnf module on purpose here
     warn: false
