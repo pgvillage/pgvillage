@@ -17,15 +17,3 @@
   loop: "{{ stolon_cert_files | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"
-
-- name: Update cluster spec
-  become: "true"
-  become_user: "{{ stolon_user }}"
-  shell:
-    cmd: '/usr/local/bin/stolonctl update --patch --file "${STOLONCTL_FILE}"'
-  environment:
-    STOLONCTL_CLUSTER_NAME: "{{ stolon_cluster_name }}"
-    STOLONCTL_STORE_BACKEND: "{{ stolon_store_backend }}"
-    STOLONCTL_FILE: "{{ stolon_custom_config_file }}"
-  throttle: 1
-
