@@ -13,7 +13,7 @@ The solution is comprised of 100% Open Source software and meets all CloudNative
 ### Internal roles
 All internal roles are destined to become Ansible Galaxy roles...
 
-### Ansible galaxy rollen
+### Ansible galaxy rols
 All Ansible Galaxy roles are included as part of this repo, but:
 - if they have changes these will be upstreamed to the original Ansible Galaxy role
 - once all is upstreamed they will be replaced with references to the ansible galaxy roles instead.
