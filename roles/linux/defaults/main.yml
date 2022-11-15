@@ -31,7 +31,7 @@ linux_packages:
 linux_public_repos:
   PgVillage:
     description: PgVillage RPM Library
-    baseurl: https://repo.mannemsolutions.nl/yum/pgvillage/
+    baseurl: https://repo.mannemsolutions.nl/yum/pgvillage/redhat/$basearch
     gpgkey: https://repo.mannemsolutions.nl/yum/pgvillage/gpg_pubkey.asc
     gpgcheck: yes
   "pgdg-common":
