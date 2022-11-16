@@ -36,12 +36,13 @@
     gpgkey: "{{ item.value.gpgkey }}"
     gpgcheck: "{{ item.value.gpgcheck | default('no') }}"
     file: "{{ item.value.file | default(item.key) }}"
-  loop: "{{ linux_public_repos | dict2items }}"
+    exclude: "{{ item.value.exclude | default(omit) }}"
+  loop: "{{ linux_public_repos }}"
 
 - name: Disable postgresql module
   shell: "dnf module list | grep -q postgres && dnf module disable -y postgresql || echo No postgres module"
   args:
-    # Running dnf command instead of asnible dnf module on purpose here
+    # Running dnf command instead of ansible dnf module on purpose here
     warn: false
 
 - name: Install packages
@@ -49,5 +50,5 @@
     name: "{{ item }}"
     state: present
     update_cache: "true"
-    disable_gpg_check: "{{ linux_packages_gpg_check }}"
+    disable_gpg_check: "{{ linux_disable_gpg_check }}"
   loop: "{{ linux_packages|bygroup(group_names) }}"
