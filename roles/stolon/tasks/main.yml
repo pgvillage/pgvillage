@@ -26,6 +26,14 @@
     split: ":"
 
 - include_tasks: install.yml
+
+- name: get size of wal dir in bytes
+  shell:
+    cmd: "df -B1 . | awk '{if(NR==2){print $4}}'"
+  args:
+    chdir: "{{ stolon_wal_dir }}"
+  register: wal_dir_size
+
 - include_tasks: configure.yml
 - include_tasks: certs.yml
 - include_tasks: pglogging.yml

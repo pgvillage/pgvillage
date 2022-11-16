@@ -5,18 +5,18 @@ linux_pg_version: "12"
 
 # You can define what RH products should be enabled for a group of servers
 # the custom filter (see filter_plugins/core.py) will convert this hash into a list of products only applying to that group
-linux_rhsm_poolids:
-  postgres:
-    # Postgresql12_8Server
-    - "0360c0e471df0ab20171f34552980362"
-    # rhel_misc
-    - "0360c0e47b1a20e9017b81870656140a"
-  backup:
-    # rhel_misc
-    - "0360c0e47b1a20e9017b81870656140a"
+linux_rhsm_poolids: {}
+#  postgres:
+#    # Postgresql12_8Server
+#    - "0360c0e471df0ab20171f34552980362"
+#    # rhel_misc
+#    - "0360c0e47b1a20e9017b81870656140a"
+#  backup:
+#    # rhel_misc
+#    - "0360c0e47b1a20e9017b81870656140a"
 
 linux_packages:
-  postgres:
+  hacluster:
     - "postgresql{{ linux_pg_version|replace('.','') }}"
     - "postgresql{{ linux_pg_version|replace('.','') }}-server"
     - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
@@ -28,18 +28,55 @@ linux_packages:
   backup:
     - "minio"
 
+linux_public_repos:
+  PgVillage:
+    description: PgVillage RPM Library
+    baseurl: https://repo.mannemsolutions.nl/yum/pgvillage/
+    gpgkey: https://repo.mannemsolutions.nl/yum/pgvillage/gpg_pubkey.asc
+    gpgcheck: yes
+  "pgdg-common":
+    description: PostgreSQL common RPMs for RHEL / Rocky $releasever - $basearch
+    baseurl: https://download.postgresql.org/pub/repos/yum/common/redhat/rhel-$releasever-$basearch
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG
+    repo_gpgcheck: yes
+    file: "pgdg-redhat-all"
+  "pgdg-rhel8-extras":
+    description: Extra packages to support some RPMs in the PostgreSQL RPM repo RHEL / Rocky $releasever - $basearch
+    baseurl: https://download.postgresql.org/pub/repos/yum/common/pgdg-rhel$releasever-extras/redhat/rhel-$releasever-$basearch
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG
+    repo_gpgcheck: yes
+    file: "pgdg-redhat-all"
+  "pgdg{{ linux_pg_version }}":
+    description: "PostgreSQL {{ linux_pg_version }} for RHEL / Rocky $releasever - $basearch"
+    baseurl: "https://download.postgresql.org/pub/repos/yum/{{ linux_pg_version }}/redhat/rhel-$releasever-$basearch"
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG
+    repo_gpgcheck: yes
+    file: "pgdg-redhat-all"
+
 linux_packages_gpg_check: "false"
 
+linux_rh_subscription: {}
+#  activationkey: "ORG1"
+#  org_id: "ORG1"
+#  pool_ids: "{}"
+#  state: present
+
 # repository rhel_misc
-rhel_misc_repo:
-  name: "Rhel_Misc"
-  description: "Rhel Misc repository"
-  baseurl: "http://satellite.example.org/pulp/content/ORG1/Library/custom/rhel_misc/rhel_misc/"
-  enabled: "true"
-  gpgcheck: "true"
-  gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-  sslverify: "true"
-  sslcacert: /etc/rhsm/ca/katello-server-ca.pem
-  sslclientkey: /etc/pki/entitlement/8675925567367701300-key.pem
-  sslclientcert: /etc/pki/entitlement/8675925567367701300.pem
-  priority: "20"
+linux_rh_misc_repo: {}
+#  name: "Rhel_Misc"
+#  description: "Rhel Misc repository"
+#  baseurl: "http://satellite.example.org/pulp/content/ORG1/Library/custom/rhel_misc/rhel_misc/"
+#  enabled: "true"
+#  gpgcheck: "true"
+#  gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+#  sslverify: "true"
+#  sslcacert: /etc/rhsm/ca/katello-server-ca.pem
+#  sslclientkey: /etc/pki/entitlement/8675925567367701300-key.pem
+#  sslclientcert: /etc/pki/entitlement/8675925567367701300.pem
+#  priority: "20"
