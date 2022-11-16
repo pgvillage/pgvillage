@@ -1,0 +1,15 @@
+---
+# defaults file for firewall
+firewall_type: external
+#Options:
+#- firewalld (manage firewalld firewall
+#- leave to cloud, don;t manage server firewall
+#We could extend to firewall on debian/ubuntu, iptables, whatever, but for now this is fine
+
+firewall_local_segment: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ipaddr('network/prefix') }}"
+
+firewall_ports:
+  postgres: 5432
+  stolon_proxy: 25432
+  etcd_client: 2379
+  etcd_server: 2380

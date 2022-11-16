@@ -20,6 +20,16 @@
     - linux
 
 - hosts:
+    - hacluster
+  become: true
+  gather_facts: false
+  roles:
+    - firewall
+  tags:
+    - firewall
+    - firewalld
+
+- hosts:
     - etcd_master
   become: true
   gather_facts: false
