@@ -5,7 +5,8 @@
     msg: "Can't install wal-g: unsupported arch ({{ ansible_architecture }})."
   when:
     - ansible_architecture != "x86_64"
-    - walg_packages|length = 0
+    - ansible_architecture != "aarch64"
+    - walg_packages|length == 0
 
 - name: create wal-g folder
   become: "true"

@@ -10,7 +10,8 @@ walg_distribution: "wal-g-pg-ubuntu-18.04"
 walg_exe_name: "{{ walg_distribution }}-{{ walg_pkg_arch }}"
 walg_exe_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_release }}/{{walg_exe_name}}"
 # If you add items to walg_packages, the binary will not be downloaded, but installed from packages instead
-walg_packages: []
+walg_packages:
+  - wal-g-pg
 
 # wal-g scheduling with cron
 walg_cron_minute: "0"

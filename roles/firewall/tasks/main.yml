@@ -1,0 +1,5 @@
+---
+# tasks file for firewall
+- include_tasks: "firewalld.yml"
+  when:
+    - "firewall_type == 'firewalld'" 

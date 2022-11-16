@@ -8,7 +8,8 @@ stolon_binary_owner: root
 stolon_pkg_arch: amd64
 stolon_bin_path: "{{ stolon_release_path }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}/bin"
 # If you add items to stolon_packages, the binaries will not be downloaded, but installed from package instead
-stolon_package_names: []
+stolon_package_names:
+  - stolon
 #  - "stolon-keeper"
 #  - "stolon-proxy"
 #  - "stolon-sentinel"
