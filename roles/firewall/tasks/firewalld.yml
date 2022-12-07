@@ -13,7 +13,7 @@
     enabled: "true"
 
 - name: permit traffic is required
-  ansible.posix.firewalld:
+  firewalld:
     port: '{{ item.value }}/tcp'
     permanent: yes
     immediate: yes
