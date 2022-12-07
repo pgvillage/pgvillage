@@ -164,6 +164,7 @@ stolon_pg_log_dir_mode: "0755"
 stolon_pg_log_retention: 14
 stolon_pg_zip_retention: 2
 
+stolon_pg_cron_enabled: true
 stolon_pg_cron_mailto: "{{ stolon_user }}@{{ inventory_hostname }}"
 
 stolon_pg_jobs:

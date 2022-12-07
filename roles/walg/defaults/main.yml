@@ -14,6 +14,7 @@ walg_packages:
   - wal-g-pg
 
 # wal-g scheduling with cron
+walg_cron_enabled: true
 walg_cron_minute: "0"
 walg_cron_hour: "20"
 walg_cron_day_ot_month: "*"
