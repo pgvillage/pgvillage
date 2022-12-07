@@ -1,4 +1,5 @@
 *.pyc
-tmp
 *.rpm
+__pycache__
 environments
+tmp
