@@ -1,0 +1,32 @@
+---
+- name: Deploy minimal
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - role: linux
+      tags:
+        - linux
+        - packages
+    - role: firewall
+      tags:
+        - firewall
+        - firewalld
+    - role: andrewrothstein.etcd-cluster
+      tags:
+        - etcd
+    - role: walg
+      tags:
+        - walg
+    - role: stolon
+      tags:
+       - stolon
+       - postgres
+       - postgresql
+       - pg
+    #- role: avchecker
+    #  tags:
+    #    - linux
+    #- role: pgquartz
+    #  tags:
+    #    - linux
