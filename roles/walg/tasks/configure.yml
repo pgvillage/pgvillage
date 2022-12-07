@@ -29,6 +29,7 @@
     job: "{{ walg_cron_command }}"
     user: "{{ walg_user }}"
     cron_file: wal-g
+  when: walg_cron_enabled
 
 - name: Set cronvars
   cronvar:
@@ -38,6 +39,7 @@
   loop: "{{walg_cronvars}}"
   loop_control:
     label: "{{ item.name }}"
+  when: walg_cron_enabled
 
 - name: Copy scripts folder
   copy:

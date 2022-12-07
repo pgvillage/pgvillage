@@ -22,6 +22,7 @@
   loop: "{{ stolon_pg_jobs }}"
   loop_control:
     label: "{{ item.name }}"
+  when: stolon_pg_cron_enabled
 
 - name: Set mailto for postgres cron
   cronvar:
@@ -29,3 +30,4 @@
     value: "{{ stolon_pg_cron_mailto }}"
     user: "{{ stolon_user }}"
     cron_file: postgresql
+  when: stolon_pg_cron_enabled
