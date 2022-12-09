@@ -173,7 +173,7 @@ stolon_pg_jobs:
     hour: 3
     command: "{{ stolon_script_path }}/pg_log_cleanup.sh {{ stolon_pg_log_retention }} {{ stolon_pg_zip_retention }} {{ stolon_pg_log_directory }}"
 
-
+stolon_cert_managed: true
 stolon_cert_folders:
   client:
     path: "{{ getent_passwd[stolon_user][4] }}/.postgresql"

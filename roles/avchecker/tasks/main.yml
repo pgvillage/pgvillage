@@ -6,6 +6,7 @@
     - include_tasks: install.yml
     - include_tasks: configure.yml
     - include_tasks: certs.yml
+      when: avchecker_certs_managed
     - include_tasks: postgres.yml
     - include_tasks: start.yml
   when: avchecker_defaults | length > 0

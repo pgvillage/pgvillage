@@ -24,6 +24,17 @@
   become: true
   gather_facts: false
   roles:
+    - chainsmith
+  tags:
+    - chainsmith
+    - certificates
+    - certs
+
+- hosts:
+    - hacluster
+  become: true
+  gather_facts: false
+  roles:
     - firewall
   tags:
     - firewall

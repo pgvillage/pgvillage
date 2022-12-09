@@ -16,6 +16,7 @@ avchecker_defaults: {}
 #     PGHOST: /tmp
 #     PGPORT: 5432
 
+avchecker_certs_managed: true
 avchecker_cert_folders:
   postgres:
     path: "{{ getent_passwd[avchecker_user][4] }}/.postgresql/"

@@ -19,6 +19,7 @@
       - "'\n' in stolon_server_chain"
     fail_msg: "Please run chainsmith to succesfully setup certs"
     success_msg: "Client and server certs seem properly setup"
+  when: stolon_cert_managed
 
 - getent:
     database: passwd
@@ -36,6 +37,7 @@
 
 - include_tasks: configure.yml
 - include_tasks: certs.yml
+  when: stolon_cert_managed
 - include_tasks: pglogging.yml
 - include_tasks: start.yml
 

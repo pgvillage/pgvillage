@@ -3,3 +3,5 @@
   include_tasks: packages.yml
 - name: Install sysstat
   include_tasks: sysstat.yml
+- name: Users
+  include_tasks: users.yml

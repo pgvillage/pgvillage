@@ -18,6 +18,11 @@
       tags:
         - linux
         - packages
+    - role: chainsmith
+      tags:
+        - chainsmith
+        - certificates
+        - certs
     - role: firewall
       tags:
         - firewall

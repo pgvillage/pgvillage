@@ -1,0 +1,55 @@
+---
+# tasks file for chainsmith
+
+- name: install
+  import_tasks: install.yml
+
+- getent:
+    database: passwd
+    split: ":"
+
+- name: Create temporary chainsmith output dir
+  local_action:
+    module: ansible.builtin.tempfile
+    state: directory
+    suffix: chainsmith
+  become: false
+  run_once: True
+  register: chainsmith_tmpfile
+
+#- name: Debug
+#  debug:
+#    var: '{{ item }}'
+#  loop:
+#    - chainsmith_folders
+#    - chainsmith_files
+
+- name: Create list of certs
+  template:
+    dest: "{{ chainsmith_cert_list }}"
+    src: chainsmith_cert_list.j2
+    mode: 0700
+
+- name: Check if certs need (re)placing
+  script: chainsmith_cert_check.sh
+  environment:
+    CHAINSMITH_CERT_LIST: "{{ chainsmith_cert_list }}"
+    CHAINSMITH_EXPIRY_DAYS: "{{ chainsmith_expiry_days|default(30) }}"
+  register: chainsmith_cert_check
+  ignore_errors: true
+
+- name: debug
+  debug:
+    msg: '{{ ansible_play_hosts_all | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
+
+
+- name: Generate and deploy certs
+  block:
+  - name: run chainsmith
+    import_tasks: run.yml
+    become: false
+  - name: Deploy certs
+    import_tasks: deploy_client_certs.yml
+  vars:
+    issuecount: '{{ ansible_play_hosts_all | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
+  when: issuecount|int > 0

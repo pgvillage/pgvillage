@@ -118,10 +118,12 @@ walg_cert_folders:
     path: "{{ getent_passwd[walg_user][4] }}/.wal-g/certs"
     owner: "{{ walg_user }}"
 
-walg_bucket_cert: "---- CERT ----"
+#walg_bucket_cert: "---- CERT ----"
+walg_bucket_src: "walg_bucket_root.crt"
 
 walg_cert_files:
   minio_chain:
     path: "{{ walg_cert_folders.minio.path }}/minio.crt"
-    body: "{{ walg_bucket_cert }}"
+    #body: "{{ walg_bucket_cert }}"
+    src: "{{ walg_bucket_src }}"
     owner: "{{ walg_user }}"

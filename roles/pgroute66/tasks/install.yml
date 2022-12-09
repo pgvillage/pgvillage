@@ -46,6 +46,7 @@
       content: "{{ private_keys.client.pgroute66 }}"
   loop_control:
     label: "{{ item.name }}"
+  when: pgroute66_cert_managed
 
 - name: create deploydir and configdir
   file:
