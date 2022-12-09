@@ -27,6 +27,8 @@ pgquartz_jobs: []
 #    job: myjob.yml
 #    schedule: "*-*-* *:*:00"
 
+pgquartz_cert_managed: true
+
 pgquartz_ca_chain: "--- CA ---"
 pgquartz_cert: "--- CERT ---"
 pgquartz_cert_key: "--- KEY ---"

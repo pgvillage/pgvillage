@@ -1,5 +1,6 @@
 ---
 # pgroute66
+pgroute66_cert_managed: true
 pgroute66_deploydir: /usr/local/bin
 pgroute66_configdir: /etc/pgroute66
 pgroute66_osuser: pgroute66

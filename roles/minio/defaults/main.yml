@@ -49,6 +49,8 @@ minio_buckets:
 
 minio_configdir: "{{ getent_passwd['minio'][4] }}/.mcli"
 
+minio_certs_managed: true
+
 minio_cert_folders:
   client:
     path: "{{ minio_configdir }}/certs/CAs/"

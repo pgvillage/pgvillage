@@ -48,6 +48,7 @@
       content: "{{ pgquartz_cert_key }}"
   loop_control:
     label: "{{ item.name }}"
+  when: pgquartz_cert_managed
 
 - name: create configdir
   file:

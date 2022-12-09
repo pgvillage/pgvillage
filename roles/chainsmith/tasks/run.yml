@@ -1,0 +1,50 @@
+---
+# tasks file for chainsmith
+#- name: path to config file
+#  debug:
+#    var: items
+#  loop:
+#    - "{{ chainsmith_internal_clients }}"
+#    - "{{ chainsmith_external_clients }}"
+
+- name: Create temporary chainsmith config file
+  local_action:
+    module: ansible.builtin.tempfile
+    state: file
+    suffix: chainsmith
+  run_once: True
+  register: chainsmith_config
+
+- name: debug
+  debug:
+    var: chainsmith_nodes
+
+- name: create chainsmith_config
+  local_action:
+    module: copy
+    dest: "{{ chainsmith_config.path }}"
+    content: "{{ chainsmith_body | to_nice_json }}"
+  run_once: True
+
+- name: run chainsmith
+  local_action:
+    module: shell
+    cmd: "{{ chainsmith_cmd }}"
+  environment:
+    CHAINSMITH_CONFIG: "{{ chainsmith_config.path }}"
+  register: chainsmith_out
+  run_once: True
+
+#- name: create certs config file in inventory
+#  local_action:
+#    module: copy
+#    dest: "{{ item.dest }}"
+#    content: "{{ item.content }}"
+#  loop:
+#    - dest: "{{ inventory_dir }}/group_vars/all/certs.yml"
+#      content: "{{ chainsmith_out.stdout }}"
+#    - dest: "{{ inventory_dir }}/group_vars/all/cert_keys.yml"
+#      content: "{{ chainsmith_out.stderr }}"
+#  loop_control:
+#    label: "{{ item.dest }}"
+#  run_once: True

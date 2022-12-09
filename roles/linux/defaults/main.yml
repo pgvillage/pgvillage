@@ -3,6 +3,13 @@
 
 linux_pg_version: "12"
 
+linux_users:
+  -  postgres
+  -  avchecker
+  -  pgquartz
+  -  pgfga
+  -  pgroute66
+
 # You can define what RH products should be enabled for a group of servers
 # the custom filter (see filter_plugins/core.py) will convert this hash into a list of products only applying to that group
 linux_rhsm_poolids: {}
