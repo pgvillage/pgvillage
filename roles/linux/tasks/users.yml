@@ -1,16 +1,10 @@
 ---
-#- name: Create groups
-#  group:
-#    name: "{{ item }}"
-#    system: "true"
-#    state: present
-#  loop: "{{ linux_users }}"
+- name: Create groups
+  group:
+  args: "{{ item }}"
+  loop: "{{ linux_groups }}"
 
 - name: Create users
   user:
-    name: "{{ item }}"
-#    group: "{{ item }}"
-    create_home: "true"
-    system: "true"
-    state: present
+  args: "{{ item }}"
   loop: "{{ linux_users }}"
