@@ -1,6 +1,16 @@
 ---
+- name: Halt
+  hosts:
+    - '{{ cluster_name }}-*'
+  tasks:
+    - name: exit
+      assert:
+        that: cluster_name | length > 5
+
+
 - name: Deploy minimal
-  hosts: all
+  hosts:
+    - "{{ cluster_name }}-*"
   become: true
   gather_facts: true
   roles:
