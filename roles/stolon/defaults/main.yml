@@ -57,7 +57,8 @@ stolon_pg_su_connection_type: hostssl
 
 
 stolon_cluster_name: stolon-cluster
-stolon_cluster_hosts: "{% for host in groups.stolon %}{{ hostvars[host]['ansible_fqdn'] }}{% if not loop.last %},{% endif %}{% endfor %}"
+stolon_host_group: stolon
+stolon_cluster_hosts: "{% for host in groups[stolon_host_group] %}{{ hostvars[host]['ansible_fqdn'] }}{% if not loop.last %},{% endif %}{% endfor %}"
 
 stolon_store_backend: etcdv3
 stolon_proxy_port: 25432
