@@ -26,7 +26,7 @@
       shell: "subscription-manager auto-attach"
     - name: attach
       shell: "subscription-manager attach"
-  when: "linux_rh_subscription"
+  when: "linux_rh_subscription|bool"
 
 - name: Add repository
   ansible.builtin.yum_repository:
