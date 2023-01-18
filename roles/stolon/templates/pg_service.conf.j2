@@ -15,7 +15,7 @@ sslmode=verify-full
 
 {% if stolon_pg_version >= 13 %}
 [standby]
-host={{ stolon_cluster_hosts | join(',') }}
+host={{ stolon_cluster_hosts }}
 port={{ stolon_pg_port }}
 target_session_attrs=read-only
 {% endif %}
