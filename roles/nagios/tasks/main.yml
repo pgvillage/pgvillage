@@ -3,9 +3,14 @@
 - name: Get semodule list
   command: semodule -l
   register: semodule_list
+  when:
+    - ansible_distribution_file_variety is defined
+    - ansible_distribution_file_variety == 'RedHat'
 
 - include_tasks: "selinux.yml"
   when:
+    - ansible_distribution_file_variety is defined
+    - ansible_distribution_file_variety == 'RedHat'
     - "'my-nrpe' not in semodule_list.stdout_lines"
 
 - include_tasks: "postgres.yml"
