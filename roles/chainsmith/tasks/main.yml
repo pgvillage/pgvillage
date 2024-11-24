@@ -21,8 +21,8 @@
 #  debug:
 #    var: '{{ item }}'
 #  loop:
-#    - chainsmith_folders
-#    - chainsmith_files
+#    - chainsmith_client_cert_files
+#    - chainsmith_server_cert_files
 
 - name: Create list of certs
   template:
