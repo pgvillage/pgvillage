@@ -32,13 +32,13 @@ minio_server_env_extra: ""
 minio_server_opts: ""
 
 # Minio access and secret keys
-minio_access_key: ""
-minio_secret_key: ""
+minio_access_key: "AWSKEY"
+minio_secret_key: "AWSSECRET"
 
 __minio_endpoint_defaults:
-  accessKey: "AWSKEY"
-  secretKey: "AWSSECRET"
-  url: "https://{{ inventory_hostname }}"
+  accessKey: "{{ minio_access_key }}"
+  secretKey: "{{ minio_secret_key }}"
+  url: "https://{{ ansible_fqdn }}"
   api: S3v4
   path: auto
 
@@ -47,17 +47,23 @@ minio_endpoint: {}
 minio_buckets:
   - mybucket
 
-minio_configdir: "{{ getent_passwd['minio'][4] }}/.mcli"
+minio_client_configdir: "{{ getent_passwd['minio'][4] }}/.mcli"
+minio_server_configdir: "{{ getent_passwd['minio'][4] }}/.minio"
 
-minio_certs_managed: true
+minio_cert_managed: true
+minio_cert_from_string: "{{ minio_cert_managed }}"
+minio_cert_remote: "{{ not minio_cert_from_string }}"
+
+minio_insecure: false
+minio_cli_options: "--ignore-existing {% if minio_insecure %} --insecure{% endif %}"
 
 minio_cert_folders:
   client:
-    path: "{{ minio_configdir }}/certs/CAs/"
+    path: "{{ minio_client_configdir }}/certs/CAs/"
     owner: "{{ minio_user }}"
   server:
-    path: "/etc/pki/tls/minio"
-    owner: minio
+    path: "{{ minio_server_configdir }}/certs"
+    owner: "{{ minio_user }}"
 
 minio_client_cert: "---- CERT ----"
 minio_server_cert: "---- CERT ----"
@@ -73,11 +79,14 @@ minio_cert_files:
     path: "{{ minio_cert_folders.server.path }}/public.crt"
     body: "{{ minio_server_cert }}"
     owner: "{{ minio_cert_folders.server.owner }}"
+    source: "/etc/pki/minio/server.crt"
   server_key:
     path: "{{ minio_cert_folders.server.path }}/private.key"
     body: "{{ minio_server_key }}"
     owner: "{{ minio_cert_folders.server.owner }}"
+    source: "/etc/pki/minio/server.key"
   server_chain:
     path: "{{ minio_cert_folders.server.path }}/ca.pem"
     body: "{{ minio_server_chain }}"
     owner: "{{ minio_cert_folders.server.owner }}"
+    source: "/etc/pki/minio/root.crt"

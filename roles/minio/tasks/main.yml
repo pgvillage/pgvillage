@@ -8,6 +8,7 @@
       - "'\n' in minio_server_chain"
     fail_msg: "Please run chainsmith to succesfully setup certs"
     success_msg: "Client and server certs seem properly setup"
+  when: minio_cert_managed
 
 - include_tasks: install.yml
 - getent:
@@ -15,6 +16,5 @@
     key: "{{ minio_user }}"
     split: ":"
 - include_tasks: certs.yml
-  when: minio_certs_managed
 - include_tasks: start.yml
 - include_tasks: config_client.yml
