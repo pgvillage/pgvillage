@@ -4,22 +4,30 @@
 linux_pg_version: "12"
 
 linux_users:
-  - name: postgres
-    system: true
-    uid: 26
-  - name: avchecker
-    system: true
-  - name: pgquartz
-    system: true
-  - name: pgfga
-    system: true
-  - name: pgroute66
-    system: true
+  hacluster:
+    - name: postgres
+      system: true
+      uid: 26
+    - name: avchecker
+      system: true
+    - name: pgquartz
+      system: true
+    - name: pgfga
+      system: true
+    - name: pgroute66
+      system: true
+  backup:
+    - name: minio
+      system: true
 
 linux_groups:
-  - name: postgres
-    system: true
-    gid: 26
+  hacluster:
+    - name: postgres
+      system: true
+      gid: 26
+  backup:
+    - name: minio
+      system: true
 
 # You can define what RH products should be enabled for a group of servers
 # the custom filter (see filter_plugins/core.py) will convert this hash into a list of products only applying to that group

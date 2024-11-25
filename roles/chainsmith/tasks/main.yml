@@ -21,8 +21,8 @@
 #  debug:
 #    var: '{{ item }}'
 #  loop:
-#    - chainsmith_folders
-#    - chainsmith_files
+#    - chainsmith_client_cert_files
+#    - chainsmith_server_cert_files
 
 - name: Create list of certs
   template:
@@ -49,7 +49,7 @@
     import_tasks: run.yml
     become: false
   - name: Deploy certs
-    import_tasks: deploy_client_certs.yml
+    import_tasks: deploy_certs.yml
   vars:
     issuecount: '{{ ansible_play_hosts_all | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
   when: issuecount|int > 0
