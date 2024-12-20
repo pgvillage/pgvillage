@@ -1,5 +1,5 @@
 ---
-- name: "Gather facts on all servers"
+- name: 'Gather facts on all servers'
   hosts:
     - hacluster
     - backup
@@ -106,7 +106,7 @@
     - pgroute66
 
 - hosts:
-    - postgres
+    - haproxy
     - backup
   become: true
   gather_facts: false
@@ -116,14 +116,14 @@
     - nagios
 
 - hosts:
-    - postgres
+    - haproxy
+    - backup
   become: true
   gather_facts: false
   roles:
     - pgquartz
   tags:
     - pgquartz
-
 #- hosts:
 #    - monitoring
 #  become: true
