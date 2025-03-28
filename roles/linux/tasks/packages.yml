@@ -39,14 +39,14 @@
     exclude: "{{ item.value.exclude | default(omit) }}"
   loop: "{{ linux_public_repos }}"
 
+# This should be dnf package, but it hangs
 - name: Upgrade all packages
   ansible.builtin.dnf:
     name: "*"
     state: latest
-  retries: 60
-  delay: 1
+  async: 600
+  poll: 5
   register: upgrade
-  until: upgrade.rc == 0
 
 - name: Disable postgresql module
   shell: "dnf module list | grep -q postgres && dnf module disable -y postgresql || echo No postgres module"
