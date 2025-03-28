@@ -53,7 +53,7 @@ chainsmith_users:
 #chainsmith_client_pkey_filename: 'client.key'
 chainsmith_client_cert_sub_folder: '.postgresql'
 chainsmith_client_cert_filename: 'postgresql.crt'
-chainsmith_client_pkey_filename: 'postclient.key'
+chainsmith_client_pkey_filename: 'postgresql.key'
 chainsmith_client_root_filename: root.crt
 
 chainsmith_internal_clients: "{% set clients = [] %}{% for groupclients in chainsmith_users.values() %}{% do clients.extend(groupclients) %}{% endfor %}{{ clients }}"
