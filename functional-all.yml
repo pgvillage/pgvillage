@@ -34,6 +34,8 @@
 
 - hosts:
     - hacluster
+    - backup
+    - router
   become: true
   gather_facts: false
   roles:
