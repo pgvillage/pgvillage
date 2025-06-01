@@ -29,14 +29,7 @@
   when: "linux_rh_subscription|bool"
 
 - name: Add repository
-  ansible.builtin.yum_repository:
-    name: "{{ item.key }}"
-    description: "{{ item.value.description }}"
-    baseurl: "{{ item.value.baseurl }}"
-    gpgkey: "{{ item.value.gpgkey }}"
-    gpgcheck: "{{ item.value.gpgcheck | default('no') }}"
-    file: "{{ item.value.file | default(item.key) }}"
-    exclude: "{{ item.value.exclude | default(omit) }}"
+  ansible.builtin.yum_repository: "{{ item }}"
   loop: "{{ linux_public_repos }}"
 
 # This should be dnf package, but it hangs
