@@ -61,6 +61,8 @@ stolon_host_group: stolon
 stolon_cluster_hosts: "{% for host in groups[stolon_host_group] %}{{ hostvars[host]['ansible_fqdn'] }}{% if not loop.last %},{% endif %}{% endfor %}"
 
 stolon_store_backend: etcdv3
+
+stolon_proxy_host: "{{ ansible_fqdn }}"
 stolon_proxy_port: 25432
 stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
 stolon_config_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/config"
