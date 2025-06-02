@@ -7,7 +7,7 @@ avchecker_group: avchecker
 avchecker_path: /opt/avchecker
 
 avchecker_rpm_packages:
-  - python3-psycopg2.x86_64
+  - python3-psycopg2
 
 avchecker_defaults: {}
 # Example:
