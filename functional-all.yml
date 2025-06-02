@@ -110,6 +110,7 @@
 - hosts:
     - haproxy
     - backup
+    - hacluster
   become: true
   gather_facts: false
   roles:
@@ -118,8 +119,7 @@
     - nagios
 
 - hosts:
-    - haproxy
-    - backup
+    - hacluster
   become: true
   gather_facts: false
   roles:
