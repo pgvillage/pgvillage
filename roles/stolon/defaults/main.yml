@@ -35,7 +35,7 @@ stolon_services:
   - proxy
   - sentinel
 
-stolon_pg_version: 12
+stolon_pg_version: 17
 
 stolon_pg_listen_address: "{{ ansible_default_ipv4.address }}"
 stolon_pg_port: 5432

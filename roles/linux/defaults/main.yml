@@ -1,7 +1,7 @@
 ---
 # defaults file for generic linux role for postgres servers
 
-linux_pg_version: "12"
+linux_pg_version: '17'
 
 linux_users:
   hacluster:
