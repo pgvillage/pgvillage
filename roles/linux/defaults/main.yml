@@ -1,7 +1,7 @@
 ---
 # defaults file for generic linux role for postgres servers
 
-linux_pg_version: "12"
+linux_pg_version: '17'
 
 linux_users:
   hacluster:
@@ -55,46 +55,52 @@ linux_packages:
     - "minio"
 
 linux_public_repos:
-  - key: PgVillage
-    value:
-      description: PgVillage RPM Library
-      baseurl: https://repo.mannemsolutions.nl/yum/pgvillage/redhat/$basearch
-      gpgkey: https://repo.mannemsolutions.nl/yum/pgvillage/gpg_pubkey.asc
-      gpgcheck: yes
-  - key: "pgdg-common"
-    value:
-      description: PostgreSQL common RPMs for RHEL / Rocky $releasever - $basearch
-      baseurl: https://download.postgresql.org/pub/repos/yum/common/redhat/rhel-$releasever-$basearch
-      enabled: yes
-      gpgcheck: yes
-      gpgkey: "{{ linux_pgdg_gpg_key[ansible_architecture] }}"
-      repo_gpgcheck: yes
-      file: "pgdg-redhat-all"
-      exclude: etcd
-  - key: "pgdg-rhel8-extras"
-    value:
-      description: Extra packages to support some RPMs in the PostgreSQL RPM repo RHEL / Rocky $releasever - $basearch
-      baseurl: https://download.postgresql.org/pub/repos/yum/common/pgdg-rhel$releasever-extras/redhat/rhel-$releasever-$basearch
-      enabled: yes
-      gpgcheck: yes
-      gpgkey: "{{ linux_pgdg_gpg_key[ansible_architecture] }}"
-      repo_gpgcheck: yes
-      file: "pgdg-redhat-all"
-  - key: "pgdg{{ linux_pg_version }}"
-    value:
-      description: "PostgreSQL {{ linux_pg_version }} for RHEL / Rocky $releasever - $basearch"
-      baseurl: "https://download.postgresql.org/pub/repos/yum/{{ linux_pg_version }}/redhat/rhel-$releasever-$basearch"
-      enabled: yes
-      gpgcheck: '{% if ansible_architecture == "aarch64" %}no{% else %}yes{% endif %}'
-      gpgkey: "{{ linux_pgdg_gpg_key[ansible_architecture] }}"
-      repo_gpgcheck: yes
-      file: "pgdg-redhat-all"
+  - name: PgVillage
+    description: PgVillage RPM Library - RHEL $releasever - $basearch
+    baseurl: https://repo.mannemsolutions.nl/yum/pgvillage/latest/el$releasever/$basearch
+    gpgkey: https://repo.mannemsolutions.nl/yum/pgvillage/gpg_pubkey.asc
+    gpgcheck: yes
+    file: pgvillage
+  - name: "pgdg-common"
+    description: PostgreSQL common RPMs for RHEL / Rocky $releasever - $basearch
+    baseurl: https://download.postgresql.org/pub/repos/yum/common/redhat/rhel-$releasever-$basearch
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: "{{ linux_pgdg_gpg_key[ansible_architecture] }}"
+    #repo_gpgcheck: yes
+    file: "pgdg-redhat-all"
+    exclude: etcd
+  - name: "pgdg-rhel-extras"
+    description: Extra packages to support some RPMs in the PostgreSQL RPM repo RHEL / Rocky $releasever - $basearch
+    baseurl: https://download.postgresql.org/pub/repos/yum/common/pgdg-rhel$releasever-extras/redhat/rhel-$releasever-$basearch
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: "{{ linux_pgdg_gpg_key[ansible_architecture] }}"
+    #repo_gpgcheck: yes
+    file: "pgdg-redhat-all"
+  - name: "pgdg{{ linux_pg_version }}"
+    description: "PostgreSQL {{ linux_pg_version }} for RHEL / Rocky $releasever - $basearch"
+    baseurl: "https://download.postgresql.org/pub/repos/yum/{{ linux_pg_version }}/redhat/rhel-$releasever-$basearch"
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: "{{ linux_pgdg_gpg_key[ansible_architecture] }}"
+    #repo_gpgcheck: yes
+    file: "pgdg-redhat-all"
+  - name: "epel"
+    description: "Extra Packages for Enterprise Linux {{ ansible_distribution_major_version }} - $basearch"
+    metalink: "https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch&infra=$infra&content=$contentdir"
+    enabled: yes
+    gpgcheck: 'yes'
+    gpgkey: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+    #repo_gpgcheck: yes
+    file: "epel"
 
 linux_disable_gpg_check: "false"
 
 linux_pgdg_gpg_key:
   x86_64: https://download.postgresql.org/pub/repos/yum/keys/PGDG-RPM-GPG-KEY-RHEL
-  aarch64: "https://download.postgresql.org/pub/repos/yum/keys/RPM-GPG-KEY-PGDG-AARCH64-RHEL$releasever"
+  aarch64: https://download.postgresql.org/pub/repos/yum/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
+  #aarch64: "https://download.postgresql.org/pub/repos/yum/keys/RPM-GPG-KEY-PGDG-AARCH64-RHEL$releasever"
 
 linux_rh_subscription: {}
 #  activationkey: "ORG1"

@@ -24,7 +24,7 @@ nagios_connections_value: 100
 nagios_connections_warning: "{{ nagios_connections_value|percent(70) }}"
 nagios_connections_critical: "{{ nagios_connections_value|percent(80) }}"
 
-nagios_pg_version: 14
+nagios_pg_version: 17
 
 nagios_wal_dir_mp: "/"
 nagios_wal_dir_mp_size: "{{ wal_dir_mp_size.stdout_lines[0] }}"

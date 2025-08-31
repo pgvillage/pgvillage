@@ -35,7 +35,7 @@ stolon_services:
   - proxy
   - sentinel
 
-stolon_pg_version: 12
+stolon_pg_version: 17
 
 stolon_pg_listen_address: "{{ ansible_default_ipv4.address }}"
 stolon_pg_port: 5432
@@ -61,6 +61,8 @@ stolon_host_group: stolon
 stolon_cluster_hosts: "{% for host in groups[stolon_host_group] %}{{ hostvars[host]['ansible_fqdn'] }}{% if not loop.last %},{% endif %}{% endfor %}"
 
 stolon_store_backend: etcdv3
+
+stolon_proxy_host: "{{ ansible_fqdn }}"
 stolon_proxy_port: 25432
 stolon_data_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/data"
 stolon_config_dir: "/var/lib/pgsql/{{ stolon_pg_version }}/config"
