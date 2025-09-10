@@ -57,10 +57,10 @@ walg_bucket_defaults:
   WALG_S3_PREFIX: "s3://{{ walg_bucket_name }}"
   WALG_S3_CA_CERT_FILE: "{{ walg_aws_ca_file }}"
 
+walg_pg_password: dummy
 walg_pg_datadir: "/var/lib/pgsql/12/data"
 walg_pg_bindir: "/usr/pgsql/12/bin"
 walg_pg_hostname: "/var/run/postgresql"
-walg_pg_password: postgres_password
 walg_postgresql_defaults:
   PGDATA: "{{ walg_pg_datadir }}"
   PGBIN: "{{ walg_pg_bindir }}"
