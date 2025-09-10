@@ -1,7 +1,9 @@
 ---
 # tasks file for chainsmith
-- name: Install chainsmith python package for easy cert generation
+- name: Install chainsmith package for easy cert generation
   local_action:
-    module: ansible.builtin.pip
-    name: chainsmith
+    module: dnf
+    name: '{{ item }}'
+    state: present
+  loop: '{{ chainsmith_package_names }}'
   run_once: True

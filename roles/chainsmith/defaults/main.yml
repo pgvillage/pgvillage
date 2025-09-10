@@ -1,20 +1,23 @@
 ---
 # defaults file for chainsmith
 
-chainsmith_cmd: "~/.local/bin/chainsmith"
+chainsmith_package_names:
+  - chainsmith
+
+chainsmith_cmd: '/usr/local/bin/chainsmith'
 
 chainsmith_cert_list: /tmp/chainsmith_cert_list.txt
 chainsmith_expiry_days: 30
 
 chainsmith_subject:
-  C:  NL/postalCode=2403 VP
+  C: NL/postalCode=2403 VP
   ST: Zuid Holland
-  L:  Alphen aan den Rijn/street=Weegbreestraat 7
-  O:  Mannem Solutions
+  L: Alphen aan den Rijn/street=Weegbreestraat 7
+  O: Mannem Solutions
   OU: PgVillage
   CN: postgres
 
-chainsmith_tmpdir: "{{ chainsmith_tmpfile.path }}"
+chainsmith_tmpdir: '{{ chainsmith_tmpfile.path }}'
 #chainsmith_tmpdir: /tmp/certs/postgres
 
 chainsmith_server_intermediate:
@@ -25,14 +28,14 @@ chainsmith_server_intermediate:
     - digitalSignature
   extendedKeyUsages:
     - serverAuth
-  servers: "{{ chainsmith_servers }}"
+  servers: '{{ chainsmith_servers }}'
 
 chainsmith_node_group: hacluster
-chainsmith_nodes: "{{ groups[chainsmith_node_group] }}"
-chainsmith_hosts: "{% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes }}"
-chainsmith_ips: "{% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_facts.all_ipv4_addresses[0]) %}{% endfor %}{{ nodes }}"
+chainsmith_nodes: '{{ groups[chainsmith_node_group] }}'
+chainsmith_hosts: '{% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes }}'
+chainsmith_ips: '{% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_facts.all_ipv4_addresses[0]) %}{% endfor %}{{ nodes }}'
 # This allows for server certs which correspond to all hosts, which is a requirement for stolon_proxy
-chainsmith_servers: "{% set nodes = {} %}{% for node in chainsmith_nodes %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_hosts+chainsmith_ips}) %}{% endfor %}{{ nodes }}"
+chainsmith_servers: '{% set nodes = {} %}{% for node in chainsmith_nodes %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_hosts+chainsmith_ips}) %}{% endfor %}{{ nodes }}'
 # For server certs which correspond to one host only, use the following:
 #chainsmith_servers: "{% set nodes = {} %}{% for node in groups[chainsmith_node_group] %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: hostvars[node].ansible_facts.all_ipv4_addresses }) %}{% endfor %}{{ nodes }}"
 
@@ -56,14 +59,14 @@ chainsmith_client_cert_filename: 'postgresql.crt'
 chainsmith_client_pkey_filename: 'postgresql.key'
 chainsmith_client_root_filename: root.crt
 
-chainsmith_internal_clients: "{% set clients = [] %}{% for groupclients in chainsmith_users.values() %}{% do clients.extend(groupclients) %}{% endfor %}{{ clients }}"
+chainsmith_internal_clients: '{% set clients = [] %}{% for groupclients in chainsmith_users.values() %}{% do clients.extend(groupclients) %}{% endfor %}{{ clients }}'
 
 chainsmith_external_clients:
   - applicatie
 
 chainsmith_client_intermediate:
   name: client
-  clients: "{{ chainsmith_internal_clients + chainsmith_external_clients }}"
+  clients: '{{ chainsmith_internal_clients + chainsmith_external_clients }}'
   keyUsages:
     - keyEncipherment
     - dataEncipherment
@@ -72,28 +75,28 @@ chainsmith_client_intermediate:
     - clientAuth
 
 chainsmith_body:
-  subject: "{{ chainsmith_subject }}"
-  tmpdir: "{{ chainsmith_tmpdir }}"
+  subject: '{{ chainsmith_subject }}'
+  tmpdir: '{{ chainsmith_tmpdir }}'
   intermediates:
-    - "{{ chainsmith_server_intermediate }}"
-    - "{{ chainsmith_client_intermediate }}"
+    - '{{ chainsmith_server_intermediate }}'
+    - '{{ chainsmith_client_intermediate }}'
 
-chainsmith_server_cert_path: "/etc/pki/{{ chainsmith_server_cert_owner }}"
+chainsmith_server_cert_path: '/etc/pki/{{ chainsmith_server_cert_owner }}'
 chainsmith_server_cert_owner: postgres
 
 chainsmith_server_folders:
-  - dest: "{{ chainsmith_server_cert_path }}"
-    owner: "{{ chainsmith_server_cert_owner }}"
+  - dest: '{{ chainsmith_server_cert_path }}'
+    owner: '{{ chainsmith_server_cert_owner }}'
 
 chainsmith_server_cert_files:
-  - dest: "{{ chainsmith_server_cert_path }}/server.crt"
-    owner: "{{ chainsmith_server_cert_owner }}"
-    src: "{{ chainsmith_tmpdir }}/tls/int_server/certs/{{ ansible_fqdn }}.pem"
-  - dest: "{{ chainsmith_server_cert_path }}/root.crt"
-    owner: "{{ chainsmith_server_cert_owner }}"
-    src: "{{ chainsmith_tmpdir }}/tls/int_client/certs/ca-chain-bundle.cert.pem"
+  - dest: '{{ chainsmith_server_cert_path }}/server.crt'
+    owner: '{{ chainsmith_server_cert_owner }}'
+    src: '{{ chainsmith_tmpdir }}/tls/int_server/certs/{{ ansible_fqdn }}.pem'
+  - dest: '{{ chainsmith_server_cert_path }}/root.crt'
+    owner: '{{ chainsmith_server_cert_owner }}'
+    src: '{{ chainsmith_tmpdir }}/tls/int_client/certs/ca-chain-bundle.cert.pem'
 
 chainsmith_server_key_files:
-  - dest: "{{ chainsmith_server_cert_path }}/server.key"
-    owner: "{{ chainsmith_server_cert_owner }}"
-    src: "{{ chainsmith_tmpdir }}/tls/int_server/private/{{ ansible_fqdn }}.key.pem"
+  - dest: '{{ chainsmith_server_cert_path }}/server.key'
+    owner: '{{ chainsmith_server_cert_owner }}'
+    src: '{{ chainsmith_tmpdir }}/tls/int_server/private/{{ ansible_fqdn }}.key.pem'

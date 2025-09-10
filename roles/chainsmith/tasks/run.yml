@@ -22,19 +22,18 @@
 - name: create chainsmith_config
   local_action:
     module: copy
-    dest: "{{ chainsmith_config.path }}"
-    content: "{{ chainsmith_body | to_nice_json }}"
+    dest: '{{ chainsmith_config.path }}'
+    content: '{{ chainsmith_body | to_nice_json }}'
   run_once: True
 
 - name: run chainsmith
   local_action:
     module: shell
-    cmd: "{{ chainsmith_cmd }}"
+    cmd: '{{ chainsmith_cmd }} issue'
   environment:
-    CHAINSMITH_CONFIG: "{{ chainsmith_config.path }}"
+    CHAINSMITH_CONFIG: '{{ chainsmith_config.path }}'
   register: chainsmith_out
   run_once: True
-
 #- name: create certs config file in inventory
 #  local_action:
 #    module: copy
