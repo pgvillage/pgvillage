@@ -20,7 +20,7 @@ Environment="{{ key }}={{ value }}"
 ExecStart=/usr/local/bin/stolon-keeper
 
 # only kill the stolon process, not it's children, so it will gracefully stop postgres. We need to test this.
-KillMode=process
+KillMode=control-group
 
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=30
