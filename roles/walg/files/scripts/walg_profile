@@ -1,0 +1,3 @@
+eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
+export PATH=$PATH:/usr/local/bin
+alias wal-g=wal-g-pg

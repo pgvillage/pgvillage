@@ -1,50 +1,54 @@
 ---
-
 - name: Create logfolder
   file:
-    dest: "{{ walg_logfolder }}"
+    dest: '{{ walg_logfolder }}'
     state: directory
-    owner: "{{ walg_user }}"
-    group: "{{ walg_group }}"
-
+    owner: '{{ walg_user }}'
+    group: '{{ walg_group }}'
 
 - name: install defaults configuration
-  become: "true"
+  become: 'true'
   become_user: root
   template:
-    src: "wal-g.default.j2"
-    dest: "/etc/default/wal-g"
-    owner: "root"
-    group: "root"
-    mode: "0644"
+    src: 'wal-g.default.j2'
+    dest: '/etc/default/wal-g'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
 
 - name: Cronjob for creating a backup.
   ansible.builtin.cron:
-    name: "backup"
-    minute: "{{ walg_cron_minute }}"
-    hour: "{{ walg_cron_hour }}"
-    dom: "{{ walg_cron_dom }}"
-    dow: "{{ walg_cron_dow }}"
-    month: "{{ walg_cron_month }}"
-    job: "{{ walg_cron_command }}"
-    user: "{{ walg_user }}"
+    name: 'backup'
+    minute: '{{ walg_cron_minute }}'
+    hour: '{{ walg_cron_hour }}'
+    dom: '{{ walg_cron_dom }}'
+    dow: '{{ walg_cron_dow }}'
+    month: '{{ walg_cron_month }}'
+    job: '{{ walg_cron_command }}'
+    user: '{{ walg_user }}'
     cron_file: wal-g
   when: walg_cron_enabled
 
 - name: Set cronvars
   cronvar:
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
+    name: '{{ item.name }}'
+    value: '{{ item.value }}'
     cron_file: wal-g
-  loop: "{{walg_cronvars}}"
+  loop: '{{walg_cronvars}}'
   loop_control:
-    label: "{{ item.name }}"
+    label: '{{ item.name }}'
   when: walg_cron_enabled
 
 - name: Copy scripts folder
   copy:
     src: scripts
-    dest: /opt/wal-g
-    owner: "root"
-    group: "root"
-    mode: "0755"
+    dest: '{{ walg_home }}'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+- name: Enable walg_profile
+  lineinfile:
+    path: '{{ getent_passwd[walg_user][4] }}/.pgsql_profile'
+    line: 'source {{ walg_home }}/scripts/walg_profile'
+    create: 'true'
