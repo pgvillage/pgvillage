@@ -84,6 +84,13 @@ chainsmith_body:
 chainsmith_server_cert_path: '/etc/pki/{{ chainsmith_server_cert_owner }}'
 chainsmith_server_cert_owner: postgres
 
+chainsmith_results: '{{ chainsmith_out | from_yaml}}'
+chainsmith_results_server_cert: '{{ chainsmith_results.certs.servers[ansible_fqdn] }}'
+chainsmith_results_server_key: '{{ chainsmith_results.private_keys.servers[ansible_fqdn] }}'
+chainsmith_results_chain: '{{ chainsmith_results_certs.chain }}'
+chainsmith_results_client_certs: '{{ chainsmith_results.certs.clients }}'
+chainsmith_results_client_keys: '{{ chainsmith_results.private_keys.clients }}'
+
 chainsmith_server_folders:
   - dest: '{{ chainsmith_server_cert_path }}'
     owner: '{{ chainsmith_server_cert_owner }}'
@@ -91,12 +98,12 @@ chainsmith_server_folders:
 chainsmith_server_cert_files:
   - dest: '{{ chainsmith_server_cert_path }}/server.crt'
     owner: '{{ chainsmith_server_cert_owner }}'
-    src: '{{ chainsmith_tmpdir }}/tls/int_server/certs/{{ ansible_fqdn }}.pem'
+    content: '{{ chainsmith_results_server_cert }}'
   - dest: '{{ chainsmith_server_cert_path }}/root.crt'
     owner: '{{ chainsmith_server_cert_owner }}'
-    src: '{{ chainsmith_tmpdir }}/tls/int_client/certs/ca-chain-bundle.cert.pem'
+    contnt: '{{ chainsmith_results_server_key }}'
 
 chainsmith_server_key_files:
   - dest: '{{ chainsmith_server_cert_path }}/server.key'
     owner: '{{ chainsmith_server_cert_owner }}'
-    src: '{{ chainsmith_tmpdir }}/tls/int_server/private/{{ ansible_fqdn }}.key.pem'
+    src: '{{ chainsmith_results_server_key }}'
