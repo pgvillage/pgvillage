@@ -1,7 +1,12 @@
 ---
 # vars file for chainsmith
 
-chainsmith_client_folders: "{% set folders = [] %}{% for file in chainsmith_client_cert_files+chainsmith_client_key_files %}{% do folders.append({'dest': file.dest|dirname, 'owner': file.owner }) %}{% endfor %}{{ folders }}"
+chainsmith_client_folders: |
+  {% set folders = [] %}
+  {% for file in chainsmith_client_cert_files+chainsmith_client_key_files %}
+  {% do folders.append({'dest': file.dest|dirname, 'owner': file.owner }) %}
+  {% endfor %}
+  {{ folders }}
 
 chainsmith_folders: '{{ chainsmith_client_folders + chainsmith_server_folders }}'
 
@@ -9,24 +14,33 @@ chainsmith_client_cert_files: |
   {% set files = [] %}
   {% for user in chainsmith_users|bygroup(group_names) %}
   {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_cert_filename, 'owner': user, 'content': chainsmith_results_client_certs[user] }) %}
-  {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_root_filename, 'owner': user, 'content': chainsmith_results_chain }) %}
+  {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_root_filename, 'owner': user, 'content': chainsmith_results_server_chain }) %}
   {% endfor %}
-  {{ files }}"
+  {{ files }}
 
 chainsmith_client_key_files: |
   {% set files = [] %}
   {% for user in chainsmith_users|bygroup(group_names) %}
-  {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_pkey_filename, 'owner': user, 'content': chainsmith_results_private_key_certs[user] }) %}
+  {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_pkey_filename, 'owner': user, 'content': chainsmith_results_client_keys[user] }) %}
   {% endfor %}
   {{ files }}
 
-#chainsmith_client_files: |
-#  {% set files = [] %}{% for user in chainsmith_users|bygroup(group_names) %}
-#    {% do files.append({'dest': getent_passwd[user][4]+'/.postgresql/postgresql.crt', 'owner': user, 'src': chainsmith_tmpdir+'/tls/int_client/certs/'+{{ item }}+'.pem'}) %}
-#    {% do files.append({'dest': getent_passwd[user][4]+'/.postgresql/postgresql.key', 'owner': user, 'src': chainsmith_tmpdir+'/tls/int_client/private/'{{ item }}'.key.pem'}) %}
-#    {% do files.append({'dest': getent_passwd[user][4]+'/.postgresql/root.crt', 'owner': user, 'src': chainsmith_tmpdir+'/tls/int_server/certs/ca-chain-bundle.cert.pem' }) %}
-#  {% endfor %}{{ files }} }}
+chainsmith_cert_files: |
+  {% set files = [] %}
+  {% for user in chainsmith_users|bygroup(group_names) %}
+  {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_cert_filename }) %}
+  {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_root_filename }) %}
+  {% endfor %}
+  {% do files.append({'dest': chainsmith_server_cert_path+'/server.crt' }) %}
+  {% do files.append({'dest': chainsmith_server_cert_path+'/root.crt' }) %}
+  {{ files }}
 
-chainsmith_cert_files: '{{ chainsmith_client_cert_files + chainsmith_server_cert_files }}'
-chainsmith_key_files: '{{ chainsmith_client_key_files + chainsmith_server_key_files }}'
-chainsmith_files: '{{ chainsmith_cert_files + chainsmith_key_files }}'
+chainsmith_key_files: |
+  {% set files = [] %}
+  {% for user in chainsmith_users|bygroup(group_names) %}
+  {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_pkey_filename }) %}
+  {% endfor %}
+  {% do files.append({'dest': chainsmith_server_cert_path+'/server.key' }) %}
+  {{ files }}
+
+chainsmith_files: '{{ chainsmith_client_cert_files + chainsmith_client_key_files + chainsmith_server_cert_files + chainsmith_server_key_files }}'

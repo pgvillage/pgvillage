@@ -34,16 +34,24 @@
     CHAINSMITH_CONFIG: '{{ chainsmith_config.path }}'
   register: chainsmith_out
   run_once: True
-#- name: create certs config file in inventory
-#  local_action:
-#    module: copy
-#    dest: "{{ item.dest }}"
-#    content: "{{ item.content }}"
-#  loop:
-#    - dest: "{{ inventory_dir }}/group_vars/all/certs.yml"
-#      content: "{{ chainsmith_out.stdout }}"
-#    - dest: "{{ inventory_dir }}/group_vars/all/cert_keys.yml"
-#      content: "{{ chainsmith_out.stderr }}"
-#  loop_control:
-#    label: "{{ item.dest }}"
-#  run_once: True
+
+    #- name: Set chain facts
+    #  debug:
+    #    chainsmith_results_server_cert: '{{ chainsmith_results.certs.server[ansible_fqdn] }}'
+    #    chainsmith_results_server_key: '{{ chainsmith_results.private_keys.server[ansible_fqdn] }}'
+    #    chainsmith_results_chain: '{{ chainsmith_results_certs.server.chain }}'
+    #    chainsmith_results_client_certs: '{{ chainsmith_results.certs.client }}'
+    #    chainsmith_results_client_keys: '{{ chainsmith_results.private_keys.client }}'
+    #  vars:
+    #    chainsmith_results: '{{ chainsmith_out.stdout | from_yaml}}'
+
+- name: Set chain facts
+  set_fact:
+    chainsmith_results_server_cert: '{{ chainsmith_results.certs.server[ansible_fqdn] }}'
+    chainsmith_results_server_key: '{{ chainsmith_results.private_keys.server[ansible_fqdn] }}'
+    chainsmith_results_server_chain: '{{ chainsmith_results.certs.server.chain }}'
+    chainsmith_results_client_certs: '{{ chainsmith_results.certs.client }}'
+    chainsmith_results_client_chain: '{{ chainsmith_results.certs.client.chain }}'
+    chainsmith_results_client_keys: '{{ chainsmith_results.private_keys.client }}'
+  vars:
+    chainsmith_results: '{{ chainsmith_out.stdout | from_yaml}}'
