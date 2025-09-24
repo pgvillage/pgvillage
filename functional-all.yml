@@ -25,6 +25,7 @@
     - hacluster
     - backup
     - router
+    - localhost
   become: true
   gather_facts: false
   roles:
