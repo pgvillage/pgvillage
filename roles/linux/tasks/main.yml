@@ -1,7 +1,9 @@
 ---
 - name: Packages
   include_tasks: packages.yml
+  when: ansible_pkg_mgr in ['yum', 'dnf']
 - name: Install sysstat
   include_tasks: sysstat.yml
+  when: ansible_pkg_mgr in ['yum', 'dnf']
 - name: Users
   include_tasks: users.yml

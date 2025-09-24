@@ -7,3 +7,4 @@
     state: present
   loop: '{{ chainsmith_package_names }}'
   run_once: True
+  when: ansible_pkg_mgr in ['yum', 'dnf']
