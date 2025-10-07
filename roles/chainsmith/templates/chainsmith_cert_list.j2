@@ -1,2 +1,2 @@
-{% for file in chainsmith_cert_files|sort(attribute='dest') %}{{ file.dest }}
-{% endfor %}
+{%- for file in chainsmith_cert_files|sort(attribute='dest') -%}{{ file.dest }}
+{% endfor -%}

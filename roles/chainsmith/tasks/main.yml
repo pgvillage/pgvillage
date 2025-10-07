@@ -1,21 +1,21 @@
 ---
 # tasks file for chainsmith
 
-- name: install
-  import_tasks: install.yml
-
 - getent:
     database: passwd
     split: ":"
 
+- name: install
+  import_tasks: install.yml
+  when: 'inventory_hostname == "localhost"'
+
 - name: Create temporary chainsmith output dir
-  local_action:
-    module: ansible.builtin.tempfile
+  ansible.builtin.tempfile:
     state: directory
     suffix: chainsmith
   become: false
-  run_once: True
   register: chainsmith_tmpfile
+  when: 'inventory_hostname == "localhost"'
 
 #- name: Debug
 #  debug:
@@ -38,9 +38,9 @@
   register: chainsmith_cert_check
   ignore_errors: true
 
-- name: debug
-  debug:
-    msg: '{{ ansible_play_hosts_all | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
+#- name: debug
+#  debug:
+#    msg: '{{ ansible_play_hosts_all | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
 
 
 - name: Generate and deploy certs
@@ -50,6 +50,7 @@
     become: false
   - name: Deploy certs
     import_tasks: deploy_certs.yml
+    when: 'inventory_hostname != "localhost"'
   vars:
     issuecount: '{{ ansible_play_hosts_all | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
   when: issuecount|int > 0

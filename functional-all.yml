@@ -4,6 +4,7 @@
     - hacluster
     - backup
     - router
+    - localhost
   become: true
   gather_facts: true
 
@@ -11,6 +12,7 @@
     - hacluster
     - backup
     - router
+    - localhost
   become: true
   gather_facts: false
   roles:
@@ -23,6 +25,7 @@
     - hacluster
     - backup
     - router
+    - localhost
   become: true
   gather_facts: false
   roles:

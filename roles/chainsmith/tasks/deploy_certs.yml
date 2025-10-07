@@ -1,16 +1,18 @@
 ---
 - name: Create cert folders
   file:
-    dest: "{{ item.dest }}"
-    owner: "{{ item.owner }}"
+    dest: '{{ item.dest }}'
+    owner: '{{ item.owner }}'
     mode: '0700'
     state: directory
-  loop: "{{ chainsmith_folders }}"
+  loop: '{{ chainsmith_folders }}'
 
 - name: Deploy certs
   copy:
-    dest: "{{ item.dest }}"
-    owner: "{{ item.owner }}"
+    dest: '{{ item.dest }}'
+    owner: '{{ item.owner }}'
     mode: '0600'
-    src: "{{ item.src }}"
-  loop: "{{ chainsmith_files }}"
+    content: '{{ item.content }}'
+  loop: '{{ chainsmith_files }}'
+  loop_control:
+    label: "{{ item.dest }}"

@@ -7,44 +7,39 @@
 #    - "{{ chainsmith_internal_clients }}"
 #    - "{{ chainsmith_external_clients }}"
 
-- name: Create temporary chainsmith config file
-  local_action:
-    module: ansible.builtin.tempfile
-    state: file
-    suffix: chainsmith
-  run_once: True
-  register: chainsmith_config
+- block:
+  - name: Create temporary chainsmith config file
+    ansible.builtin.tempfile:
+      state: file
+      suffix: chainsmith
+    register: chainsmith_config
+    when: 'inventory_hostname == "localhost"'
+  
+  - name: debug
+    debug:
+      var: chainsmith_nodes
+  
+  - name: create chainsmith_config
+    copy:
+      dest: '{{ chainsmith_config.path }}'
+      content: '{{ chainsmith_body | to_nice_json }}'
+  
+  - name: run chainsmith
+    shell:
+      cmd: '{{ chainsmith_cmd }} issue'
+    environment:
+      CHAINSMITH_CONFIG: '{{ chainsmith_config.path }}'
+    register: chainsmith_out
+  when: 'inventory_hostname == "localhost"'
 
-- name: debug
-  debug:
-    var: chainsmith_nodes
-
-- name: create chainsmith_config
-  local_action:
-    module: copy
-    dest: "{{ chainsmith_config.path }}"
-    content: "{{ chainsmith_body | to_nice_json }}"
-  run_once: True
-
-- name: run chainsmith
-  local_action:
-    module: shell
-    cmd: "{{ chainsmith_cmd }}"
-  environment:
-    CHAINSMITH_CONFIG: "{{ chainsmith_config.path }}"
-  register: chainsmith_out
-  run_once: True
-
-#- name: create certs config file in inventory
-#  local_action:
-#    module: copy
-#    dest: "{{ item.dest }}"
-#    content: "{{ item.content }}"
-#  loop:
-#    - dest: "{{ inventory_dir }}/group_vars/all/certs.yml"
-#      content: "{{ chainsmith_out.stdout }}"
-#    - dest: "{{ inventory_dir }}/group_vars/all/cert_keys.yml"
-#      content: "{{ chainsmith_out.stderr }}"
-#  loop_control:
-#    label: "{{ item.dest }}"
-#  run_once: True
+- name: Set chain facts
+  set_fact:
+    chainsmith_results_server_cert:  '{{ chainsmith_results.certs.server[ansible_fqdn] }}'
+    chainsmith_results_server_key:   '{{ chainsmith_results.private_keys.server[ansible_fqdn] }}'
+    chainsmith_results_server_chain: '{{ chainsmith_results.certs.server.chain }}'
+    chainsmith_results_client_certs: '{{ chainsmith_results.certs.client }}'
+    chainsmith_results_client_chain: '{{ chainsmith_results.certs.client.chain }}'
+    chainsmith_results_client_keys:  '{{ chainsmith_results.private_keys.client }}'
+  vars:
+    chainsmith_results: '{{ hostvars.localhost.chainsmith_out.stdout | from_yaml}}'
+  when: 'inventory_hostname != "localhost"'
