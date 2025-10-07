@@ -3,7 +3,7 @@
 
 - getent:
     database: passwd
-    split: ":"
+    split: ':'
 
 - name: install
   import_tasks: install.yml
@@ -26,31 +26,32 @@
 
 - name: Create list of certs
   template:
-    dest: "{{ chainsmith_cert_list }}"
+    dest: '{{ chainsmith_cert_list }}'
     src: chainsmith_cert_list.j2
     mode: 0700
+  when: 'inventory_hostname != "localhost"'
 
 - name: Check if certs need (re)placing
   script: chainsmith_cert_check.sh
   environment:
-    CHAINSMITH_CERT_LIST: "{{ chainsmith_cert_list }}"
-    CHAINSMITH_EXPIRY_DAYS: "{{ chainsmith_expiry_days|default(30) }}"
+    CHAINSMITH_CERT_LIST: '{{ chainsmith_cert_list }}'
+    CHAINSMITH_EXPIRY_DAYS: '{{ chainsmith_expiry_days|default(30) }}'
   register: chainsmith_cert_check
   ignore_errors: true
+  when: 'inventory_hostname != "localhost"'
 
 #- name: debug
 #  debug:
 #    msg: '{{ ansible_play_hosts_all | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
 
-
 - name: Generate and deploy certs
   block:
-  - name: run chainsmith
-    import_tasks: run.yml
-    become: false
-  - name: Deploy certs
-    import_tasks: deploy_certs.yml
-    when: 'inventory_hostname != "localhost"'
+    - name: run chainsmith
+      import_tasks: run.yml
+      become: false
+    - name: Deploy certs
+      import_tasks: deploy_certs.yml
+      when: 'inventory_hostname != "localhost"'
   vars:
-    issuecount: '{{ ansible_play_hosts_all | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
+    issuecount: '{{ (groups["hacluster"] + groups["backup"]) | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
   when: issuecount|int > 0

@@ -13,7 +13,6 @@
       state: file
       suffix: chainsmith
     register: chainsmith_config
-    when: 'inventory_hostname == "localhost"'
   
   - name: debug
     debug:
