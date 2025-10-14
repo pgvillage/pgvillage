@@ -1,8 +1,4 @@
-## Belongs to component
-
-Bouwblok Postgresql
-
-## ## Introduction
+# Introduction
 
 Etcd is a key-value store.
 
