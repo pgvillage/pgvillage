@@ -1,8 +1,10 @@
+<!-- TDOD: This documentation should go and be replaced by docs on how to do this with a new run of Ansible -->
+
 # Introduction
 
 Als onderdeel van het aanmaken van een nieuw cluster moet ook database users en databases aangemaakt worden.
 
-The ambition is to manage this automatically based on PGFA, but it has not been implemented yet.
+The ambition is to manage this automatically based on PGFA.
 
 Voorlopig doen we dit met de hand.
 
@@ -30,74 +32,47 @@ me@gurus-dbabh-server1 ~> ssh gurus-pgsdb-server1.int.corp.com
 [me@gurus-pgsdb-server1 ~] $ sudo -iu postgres
 ```
 
-=== Cluster Information ===
+## Cluster Information
 
 ---
 
 ```markdown
 Master Keeper: gurus_pgssdb_l10
-```
 
-===== Keepers/Database Tree =====
-
-====
-
-```
 gurus_pgsdb_server1 (master)
-```
-
-```
-├─gurus_pgspdb_server2
-```
-
-```markdown
+├─gurus_pg_s_db_server2
 └─gurus_pg_s_db_server3
-```
 
-```markdown
 [postgres@gurus-pgsdb-server1 ~]$ psql service=master
-```
 
-`psql (14.5)`
-- [End]
+psql (14.5)
 
 SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
 
 Type "help" for help.
 
-```markdown
 postgres=# CREATE USER new_user;
-```
 
 CREATE ROLE
 
-```markdown
 create_new_db=# \password create_new_user
-```
 
 Enter new password for user "new_user":
 
 Enter it again:
 
-```markdown
 postgres=# CREATE DATABASE new_db OWNER new_user;
-```
 
 CREATE DATABASE
 
-```sql
 REVOKE CONNECT ON DATABASE new_db FROM PUBLIC;
-```
 
 REVOKE
 
-```markdown
 new_db=GRANT CONNECT ON DATABASE new_db TO new_user;
-```
 
 GRANT
 
-```
 new_db=#
 ```
 
@@ -110,7 +85,7 @@ First, create a new feature (not for expanding on new database servers, only for
 ENV=poc
 
 ```markdown
-git checkout -b feature/changed_hba_$ENV dev
+git checkout -b feature/changed*hba*$ENV dev
 ```
 
 ```markdown
@@ -177,16 +152,15 @@ me@gurus-dbabh-server1~> ssh gurus-pgsdb-server1.int.corp.com
 gurus_pgsdb_server1 (master)
 ```
 
-├─gurus\_pgsdb\_server2
+├─gurus_pgsdb_server2
 
-└─gurus\_pgsdb\_server3
+└─gurus_pgsdb_server3
 
 ```
 [postgres@gurus-pgsdb-server1~] $ psql service=master
 ```
 
-`psql (14.5)`
--
+## `psql (14.5)`
 
 ```
 SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
@@ -195,7 +169,7 @@ SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, co
 Type "help" for help.
 
 ```markdown
-postgres=# select * from pg_hba_file_rules;
+postgres=# select \* from pg_hba_file_rules;
 ```
 
 ```markdown
@@ -229,11 +203,11 @@ line_number | type | database | user_name | address | netmask | auth_method | op
 ```
 
 ```markdown
-7|local|{all}         |{all}|     ||peer||
+7|local|{all} |{all}| ||peer||
 ```
 
 ```markdown
-8 | hostssl | {postgres}   | {avchecker} | samenet | cert | clientcert=verify-full |
+8 | hostssl | {postgres} | {avchecker} | samenet | cert | clientcert=verify-full |
 ```
 
 ```markdown
@@ -251,4 +225,3 @@ If everything looks good, then the status of the Merge Request can be changed to
 3: nieuwe client certificaten
 
 If necessary, these can be created according to the [procedure for new client certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html).
-
