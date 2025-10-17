@@ -1,4 +1,4 @@
-# Introduction
+# Etcd
 
 Etcd is a key-value store.
 
@@ -29,8 +29,6 @@ The stolon ensures that Postgres is available only when the configuration (consi
 
 In addition to stolon, both pgquart and WAL-G (`/opt/wal-g/scripts/backup_locked.sh`) also directly use etcd.
 
-## Execution
-
 ## Operational background information
 
 ### Etcd database size
@@ -41,102 +39,69 @@ This value can be adjusted in the etcd configuration. However, a larger database
 
 We keep the default configuration.
 
-> **Note:**  
-> In the past, there were issues related to etcd database size. Since then, `ETCD_AUTO_COMPACTION_RETENTION` has been configured, and the setup has been stable.  
-> The following instructions are retained for historical reference and can be used for manual intervention if needed.
+!!! note
+
+    In the past, there were issues related to etcd database size. Since then, `ETCD_AUTO_COMPACTION_RETENTION` has been configured, and the setup has been stable.  
+    The following instructions are retained for historical reference and can be used for manual intervention if needed.
 
 If issues arise, the database can be manually reduced using **compact** and **defragment** commands.
 
----
-### 1. Check Etcd Service Status
+1. Check Etcd Service Status
+   If problems occur, check the status of the etcd service as follows:
 
-If problems occur, check the status of the etcd service as follows:
+!!! example
 
-```markdown
-[etcd@gurus-pgsdb-server1 ~]$ systemctl status etcd
-```
+    ```bash
+    [etcd@gurus-pgsdb-server1 ~]$ systemctl status etcd
+    ● etcd.service - Etcd Server
+    Loaded: loaded (/etc/systemd/system/etcd.service; enabled; vendor preset: disabled)
+    Active: active (running) since Tue 2022-01-19 14:58:39 CET; 2 months 21 days ago
+    Main PID: 2142547 (etcd)
+    Tasks: 10 (limit: 49457)
+    Memory: 344.0 MB
+    CGroup: /system.slice/etcd.service
+    └─2142547 /usr/local/bin/etcd
 
-```markdown
-● etcd.service - Etcd Server
-```
+    Oct 10 10:07:16 gurus-pgsdb-server1 bash[2142547]: {"level":"warn","ts":"2022-07-26T11:07:49.311+0200","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"endpoint://client-02e576d1-d16f-4610-8fee-0586f7dbe4c1/127.0.0.1:2379","attempt":0,"error":"rpc error: code = ResourceExhausted desc = etcdserver: mvcc: database space exceeded"}
+    ```
 
-Loaded: loaded (/etc/systemd/system/etcd.service; enabled; vendor preset: disabled)
-
-```
-Active: active (running) since Tue 2022-01-19 14:58:39 CET; 2 months 21 days ago
-```
-
-Main PID: 2142547 (etcd)
-
-Tasks: 10 (limit: 49457)
-
-Memory: 344.0 MB
-
-```
-CGroup: /system.slice/etcd.service
-```
-
-```markdown
-└─2142547 /usr/local/bin/etcd
-```
-
-```markdown
-Oct 10 10:07:16 gurus-pgsdb-server1 bash[2142547]: {"level":"warn","ts":"2022-07-26T11:07:49.311+0200","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"endpoint://client-02e576d1-d16f-4610-8fee-0586f7dbe4c1/127.0.0.1:2379","attempt":0,"error":"rpc error: code = ResourceExhausted desc = etcdserver: mvcc: database space exceeded"}
-```
-
-### 2. Check the Database Size and Alarm Status
+2. Check the Database Size and Alarm Status
 
 The size of the database can be queried as follows:
 
-```markdown
-# Requesting Status Endpoints:
+!!! example
 
+    ```bash
+    # Requesting Status Endpoints:
+    etcdctl --write-out=table endpoint status
+    
+    # Request Alarm Status
+    etcdctl alarm list
+    ```
 
-etcdctl --write-out=table endpoint status
-```
-
-## Request Alarm Status
-
-etcdctl alarm list
-
-### 3. Manual Compaction and Defragmentation
+3. Manual Compaction and Defragmentation
 
 This issue can be resolved by manually executing the following commands on all cluster members.
 
-> **Note**: This should not be executed on all members at the same time, as it affects the availability of etcd and, consequently, also that of PostgreSQL.
+!!! note
 
-```markdown
-# 1) Request an audit
-```
+    This should not be executed on all members at the same time, as it affects the availability of etcd and, consequently, also that of PostgreSQL.
 
-```markdown
-etcdctl get mykey -w=json
-```
+!!! example
 
-```markdown
-{"header":{"cluster_id":4788661511241613818,"member_id":336793577597500103,"revision":700518,"raft_term":26}}
-```
+    ```bash
+    # 1) Request an audit
+    etcdctl get mykey -w=json
+    {"header":{"cluster_id":4788661511241613818,"member_id":336793577597500103,"revision":700518,"raft_term":26}}
 
-```markdown
-# 2) Compact Revision
-```
+    # 2) Compact Revision
+    [etcd@gurus-pgsdb-server1 ~]$ etcdctl compact 700518
+    compacted revision 700518
 
-```
-[etcd@gurus-pgsdb-server1 ~]$ etcdctl compact 700518
-```  
-compacted revision 700518
-
-```markdown
-# 3) Defragment database
-```
-```markdown
-[etcd@gurus-pgsdb-server1 ~]$ etcdctl defrag
-```
-
-```markdown
-# 4) Remove All Alarms
-```
-```markdown
-[etcd@gurus-pgsdb-server1 ~]$ etcdctl alarm disarm
-```
+    # 3) Defragment database
+    [etcd@gurus-pgsdb-server1 ~]$ etcdctl defrag
+    
+    # 4) Remove All Alarms
+    [etcd@gurus-pgsdb-server1 ~]$ etcdctl alarm disarm
+    ```
 
