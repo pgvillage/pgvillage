@@ -1,3 +1,5 @@
+<!-- This should be replaced by a playbook with chainsmith replacing certs and reloading services as required -->
+
 # Introduction
 
 Certificates are internally generated using an automation tool called [chainsmith](../../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/WebHome.html).
@@ -13,7 +15,8 @@ Deze documentatie beschrijft een methode waarin binnen een paar handmatige stapp
 Best case scenario betekent dit een paar keer een reload van PostgreSQL en een paar keer een reload van de applicatie.
 
 In practice, it will likely be a restart a couple of times, but even that is minimal downtime compared to a downtime window of several hours.
-```
+
+````
 
 # Dependencies
 
@@ -59,7 +62,7 @@ ENV=poc
 
 ```markdown
 git checkout -b "feature/new_certs_$ENV" dev
-```
+````
 
 #glab, or follow the link in the output of the git push command
 
@@ -72,7 +75,7 @@ glab mr create
 ENV=poc
 
 ```markdown
-git add config/chainsmith_$ENV.yml environments/$ENV/group_vars/all/certs{,.vault}.yml
+git add config/chainsmith\_$ENV.yml environments/$ENV/group_vars/all/certs{,.vault}.yml
 ```
 
 ```markdown
@@ -111,7 +114,7 @@ aWV1IChSSVZNKTEaMBgGA1UECwwRUG9zdGdyZXMgYm91d2Jsb2sxETAPBgNVBAMM
 ...
 
 ```markdown
-[root@gurus-pgsdb-server1 ~]# sed 's/^/         /' /data/postgres/data/certs/root.crt
+[root@gurus-pgsdb-server1 ~]# sed 's/^/ /' /data/postgres/data/certs/root.crt
 ```
 
 ```markdown
@@ -150,8 +153,7 @@ vim environments/$ENV/group_vars/all/certs.yml
 
 Note: By not including this change in the merge request (MR), we can easily roll it back later.
 
-3: Deliver the bundle of old and new chains to the Application Administrators and ask them to adjust the application configuration and load the new root certificates.
----
+## 3: Deliver the bundle of old and new chains to the Application Administrators and ask them to adjust the application configuration and load the new root certificates.
 
 Eigenlijk is dit wat bij de vorige stap bij certs.server.chain is geplaatst.
 
@@ -198,4 +200,3 @@ ansible-playbook -i environments/$ENV rollout_new_certs.yml --tags stolon
 ```
 
 7: With this, the adjustment has been successfully implemented.
-

@@ -15,6 +15,8 @@ and running Ansible to create a running database cluster.
 
 # Instruction Manual
 
+<!-- This docs should be replaced by checks before running first time -->
+
 1: Controleer dat de opgeleverde servers voldoen aan de aanvragen. Controleer o.a.:
 
 - iptables
@@ -34,6 +36,8 @@ and running Ansible to create a running database cluster.
 The inventory can (for example) be copied from an existing inventory and possibly even assembled itself.
 
 Examples:
+
+<!-- These should be replaced by example environments as shipped with pgvillage (e.a. pgv_azure and pgv_vagrant) -->
 
 - `environments/poc` explains how it works in the POC environment: PG14, including router configuration.
 - `environments/geo_a` relates to a solution with PG14 and PostGIS.
@@ -61,10 +65,10 @@ Let's move on to the following:
     - The first and second line must remain:
 ```
 
-- `local all all` identify  
+- `local all all` identify
 - `ident`
 
-- hostssl postgres avchecker samenet cert  
+- hostssl postgres avchecker samenet cert
   - The rest must be in accordance with the database request form (information at `Host Based Access` table)
 
 For example, to create a new inventory based on `geo_a`:
@@ -73,7 +77,7 @@ For example, to create a new inventory based on `geo_a`:
 - Copy from an existing inventory
 
 ```markdown
-NEW_ENV=[ENV]_[OMGEVING]
+NEW*ENV=[ENV]*[OMGEVING]
 ```
 
 ```markdown
@@ -96,6 +100,9 @@ Adjust the environment as needed. At least configure the following files:
 - environments/[ENV]/group_vars/all/generic.yml
   - pg_hba configuration
 ```
+
+<!-- This should be replaced on running PgVillage with certs signed by the orgs internal CA -->
+<!-- We might add an option to generate CSR's instead of generating a chain -->
 
 3: create the client certificates according to the work instruction [generate new certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
 
@@ -125,8 +132,7 @@ glab mr create
 
 5: Execute Ansible, check the output and resolve any issues according to the [Ansible documentation](../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/ansible/WebHome.html)
 
-Check the result:
--
+## Check the result:
 
 - Ensure that Postgres is working and check the PostgreSQL version:
 
@@ -177,6 +183,7 @@ SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, co
 ```
 
 Type "help" for help.
+
 ```
 
 postgres=#
@@ -186,3 +193,4 @@ postgres=#
 
 If everything is okay after the rollout, mark the Merge Request as Ready and ensure that the Merge Request gets merged.
 
+```
