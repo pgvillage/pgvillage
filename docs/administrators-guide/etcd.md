@@ -15,7 +15,7 @@ Within the PostgreSQL building block, **etcd is used as the consensus mechanism*
 Stolon uses etcd to store and distribute cluster-wide configuration, including:
 
 - `pg_hba.conf` configuration
-- `PostgreSQL.conf` settings
+- `postgreSQL.conf` settings
 - Cluster topology — which database is primary and which are standbys
 
 This configuration is consistently distributed across the entire cluster by etcd, which means:
