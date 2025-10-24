@@ -225,7 +225,7 @@ journalctl -efu avchecker@routerrw
 ```
 
 #### Verify the Following
--
+
 
 - The services have **few interruptions**
   - Only `routerro` should have many and recent rules, typically showing `cannot execute UPDATE in a read-only transaction`.  
@@ -346,7 +346,7 @@ If this works out then you already know a lot:
 - A master instance is available.
 - The local stolon-proxy can successfully connect to it.
 
-Read more information in the documentation of [stolon](../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/Stolon/WebHome.html).
+Read more information in the documentation of [stolon](../administrators-guide/stolon.md).
 
 ---
 
@@ -358,9 +358,9 @@ If `@stolon` and `@proxy` are healthy but `@routerrw` fails:
 - The issue lies in **router configuration** (HAProxy, Keepalived, or PgRoute66).
 
 Refer to internal documentation for:
-- [HAProxy](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/HAProxy/WebHome.html)
-- [KeepaliveD](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Keepalived/WebHome.html)
-- [PgRoute66](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/PgRoute66/WebHome.html)
+- [HAProxy](../administrators-guide/haproxy.md)
+- [KeepaliveD](../administrators-guide/keepalived.md)
+- [PgRoute66](../administrators-guide/pgroute66.md)
   
 ---
 
@@ -375,13 +375,13 @@ journalctl -efu avchecker@routerrw
 ```
 Check the output, ensuring that there are not (or very few) lines reporting a timeout.
 
-If you don't see any issues but find that insufficient, then check with the [HAProxy](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/HAProxy/WebHome.html) documentation the output of the `show stat` command.
+If you don't see any issues but find that insufficient, then check with the [HAProxy](../administrators-guide/haproxy.md) documentation the output of the `show stat` command.
 
 ---
 
 ### @routerro
 
-When a router configuration (using [HAProxy](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/HAProxy/WebHome.html), [KeepaliveD](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Keepalived/WebHome.html) and [PgRoute66](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/PgRoute66/WebHome.html)) is used, it is also monitored with the avchecker@routerrw service.
+When a router configuration (using [HAProxy](../administrators-guide/haproxy.md), [KeepaliveD](../administrators-guide/keepalived.md) and [PgRoute66](../administrators-guide/pgroute66.md)) is used, it is also monitored with the avchecker@routerrw service.
 
 If there are issues with `@stolon` and `@proxy`, it's best to resolve these first.
 
@@ -389,7 +389,7 @@ If there are issues with `@stolon` and `@proxy`, it's best to resolve these firs
 
 If there are no issues from @stolon and @proxy, then the problem must be found in the router configuration.
 
-This can best be investigated and resolved with the documentation of [keepalived](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Keepalived/WebHome.html), [HAProxy](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/HAProxy/WebHome.html) and [pgRoute66](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/PgRoute66/WebHome.html).
+This can best be investigated and resolved with the documentation of [keepalived](../administrators-guide/keepalived.md), [HAProxy](../administrators-guide/haproxy.md) and [pgRoute66](../administrators-guide/pgroute66.md).
 
 The @routerro service can also be very well used for an end-to-end check.
 

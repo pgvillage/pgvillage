@@ -10,7 +10,8 @@ Before running Ansible, ensure that all prerequisites are correctly configured.
 
 Ensure that SSH access is properly configured.  
 
-- [ssh](../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/ssh/WebHome.html) setup (andere WI)
+- In our predefinied deployments (`pgv_azure` and `pgv_vagrant`) this is already taken care of.
+For on-prem deployments, make sure that a user with proper permissions and ssh authentication is created.
 - Git clone and Ansible setup of the Ansible code (this work instruction)
 
 ---
@@ -19,7 +20,7 @@ Ensure that SSH access is properly configured.
 To perform this procedure, you will need:
 
 - Access to the **management server**  
-  (See also the [SSH documentation](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/ssh/WebHome.html))
+  (See also the [SSH documentation](../ssh.md))
 - Access to the **Ansible code repository:**  
   [https://gitlab.int.corp.com/gurus-db-team/ansible-postgres](https://gitlab.int.corp.com/gurus-db-team/ansible-postgres)
 
@@ -46,7 +47,7 @@ Set up GPG by following the instructions provided in the repository documentatio
 
 Optionally adjust the inventory configuration to suit your environment.  
 For detailed steps, refer to:  
-[From Server to Running Database](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+server+naar+draaiende+database/WebHome.html)
+[From Server to Running Database](../creating%20the%20inventory.md)
 
 
 ---
@@ -88,6 +89,5 @@ ansible-playbook -i environments/[ENV] functional-all.yml --tags stolon,avchecke
 
 For other related examples and procedures, refer to the following documentation:
 
-- [Roll Out New Certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
-- [New Features](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+features/WebHome.html)
-- [From Server to Running Database](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+server+naar+draaiende+database/WebHome.html)
+- [Chainsmith](../administrators-guide/chainsmith.md)
+- [Inventory](../creating%20the%20inventory.md)
