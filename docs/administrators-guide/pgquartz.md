@@ -1,33 +1,26 @@
-## Introduction
+# PgQuartz
 
-PgQuartz is een community tool waarin een job geconfigureerd kan worden.
+PgQuartz is a community tool used to configure and execute scheduled jobs in PostgreSQL environments.  
 
-PgQuartz reads and executes the job configuration.
+It reads and runs job configurations defined in YAML files.
 
-The job can be defined in the form of a YAML file containing:
+A job definition can include:
 
 ```yaml
-# Content goes here
+# Example structure
+
+steps:                # What actions need to be performed
+checks:               # How to verify that everything is working correctly
+connections:          # Definitions of connections to the PostgreSQL environment
+etcd_config:          # pgquartz can wait for the same job on other servers via etcd
+general_config:       # General settings (debug mode, log file path, parallel execution, etc.)
+
 ```
 
-- steps (what actually needs to be done)
-- checks (how it can be checked that everything is ok)
-- connections (definitions of the connection to the PostgreSQL environment)
-- etcd config (pgquartz can wait for the same job on other servers via etcd)
-- general config (debug, logfile, parallel, etc)
-
-## Benodigdheden en afhankelijkheden
+## Requirements and Dependencies
 
 PgQuartz is installed by default with the PostgreSQL SBB, but it is only used for vaccination certificates.
 
 More information:
 
-- [PgQuartz jobs vaccinatiebewijs](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Technisch+Applicatie+Beheer/Vaccinatiebewijs/Scripts/WebHome.html):
-  - [documentation over de jobs](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Technisch+Applicatie+Beheer/Vaccinatiebewijs/Scripts/WebHome.html)
-  - [gitlab repo](https://gitlab.int.corp.com/gurus-db-team/vcbe_jobs)
-- Community repo: [https://github.com/MannemSolutions/pgquartz](https://github.com/MannemSolutions/pgquartz)
-  - [https://github.com/MannemSolutions/rpmbuilder/tags](https://github.com/MannemSolutions/rpmbuilder/tags)
-  - [https://repo.mannemsolutions.nl/yum/pgvillage/](https://repo.mannemsolutions.nl/yum/pgvillage/)
-- Docs: [https://pgquartz.readthedocs.io/en/latest/](https://pgquartz.readthedocs.io/en/latest/)
-- RPM's gebouwd met RPM Builder: [Built RPMs](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/RPMs+maken+voor+stolon%252C+minio%252C+wal-g+en+etcd/WebHome.html)
-
+- [Inventory](inventory.md)
