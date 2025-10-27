@@ -22,7 +22,7 @@ To perform this procedure, you will need:
 - Access to the **management server**  
   (See also the [SSH documentation](../ssh.md))
 - Access to the **Ansible code repository:**  
-  [https://gitlab.int.corp.com/gurus-db-team/ansible-postgres](https://gitlab.int.corp.com/gurus-db-team/ansible-postgres)
+  [https://github.com/pgvillage/pgvillage](https://github.com/pgvillage/pgvillage)
 
 ---
 ## 3. Working instruction
@@ -34,26 +34,19 @@ Create a Git folder in your home directory, navigate into it, and clone the repo
 ```bash
 mkdir -p ~/git
 cd ~/git
-git clone git@gitlab.int.corp.com:gurus-db-team/ansible-postgres.git
+git clone git@github.com:pgvillage/pgvillage.git
 ```
-
-### Step 2: Set up GPG
-
-Set up GPG by following the instructions provided in the repository documentation:  
-[GPGVAULT.md](https://gitlab.int.corp.com/gurus-db-team/ansible-postgres/-/blob/dev/GPGVAULT.md)
-
 ---
-### Step 3: (Optional) Adjust the inventory configuration
+### Step 2: (Optional) Adjust the inventory configuration
 
 Optionally adjust the inventory configuration to suit your environment.  
 For detailed steps, refer to:  
-[From Server to Running Database](../creating%20the%20inventory.md)
-
+[From Server to Running Database](inventory.md)
 
 ---
-### Step 4: Run the Ansible Playbook
+### Step 3: Run the Ansible Playbook
 
-#### 4.1 Navigate to the Ansible directory
+#### 3.1 Navigate to the Ansible directory
 
 Go to the cloned Ansible repository directory:
 
@@ -61,15 +54,7 @@ Go to the cloned Ansible repository directory:
 cd ~/git/ansible-postgres
 ```
 
-#### 4.2 Export the vault password file
-
-Set the Ansible Vault password file environment variable:
-
-```bash
-export ANSIBLE_VAULT_PASSWORD_FILE=~/git/ansible-postgres/bin/gpgvault
-```
-
-#### 4.3 Run everything
+#### 3.2 Run everything
 
 Execute all roles for the selected environment:
 
@@ -77,7 +62,7 @@ Execute all roles for the selected environment:
 ansible-playbook -i environments/[ENV] functional-all.yml
 ```
 
-#### 4.4 Run specific roles (example)
+#### 3.3 Run specific roles (example)
 
 If you want to run only specific roles (for example, `stolon` and `avchecker`):
 
@@ -85,9 +70,9 @@ If you want to run only specific roles (for example, `stolon` and `avchecker`):
 ansible-playbook -i environments/[ENV] functional-all.yml --tags stolon,avchecker
 ```
 
-#### 4.5 Additional examples
+#### 3.4 Additional examples
 
 For other related examples and procedures, refer to the following documentation:
 
-- [Chainsmith](../administrators-guide/chainsmith.md)
-- [Inventory](../creating%20the%20inventory.md)
+- [Chainsmith](chainsmith.md)
+- [Inventory](inventory.md)
