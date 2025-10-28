@@ -9,10 +9,10 @@ HAProxy is used to route TCP traffic to the correct PostgreSQL server(s), and Pg
 
 Pgroute66 is an open-source project and is maintained by the community.
 
-Within **ACME**, the RPM package is made available via:
+Change ACME to pgvillage:
 
-- [rpmbuilder Releases on GitHub](https://github.com/pgvillage/pgvillage/releases)
-- [pgvillage Repository](https://github.com/orgs/pgvillage/repositories)
+- [rpmbuilder Releases on GitHub](https://github.com/pgvillage-build/rpmbuilder)
+- [pgvillage Repository](https://github.com/pgvillage/pgvillage/releases)
 
 ## Requirements
 
