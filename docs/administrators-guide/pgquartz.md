@@ -24,3 +24,4 @@ PgQuartz is installed by default with the PostgreSQL SBB, but it is only used fo
 More information:
 
 - [Inventory](inventory.md)
+- [PgQuartz](https://github.com/pgvillage-tools/pgquartz)
