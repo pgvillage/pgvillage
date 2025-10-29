@@ -1,68 +1,78 @@
-# Introduction
+# Ansible
 
-Het PostgreSQL standaard bouwblok wordt uitgerold middels Ansible.
+This document describes how to deploy the **PostgreSQL standard building block** using **Ansible**.
 
-Voor Ansible dient een aantal zaken goed geregeld te zijn:
+Before running Ansible, ensure that all prerequisites are correctly configured.
 
-- [ssh](../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/ssh/WebHome.html) setup (andere WI)
+## 1. Prerequisites
+
+### 1.1 SSH Setup
+
+Ensure that SSH access is properly configured.  
+
+- In our predefinied deployments (`pgv_azure` and `pgv_vagrant`) this is already taken care of.
+For on-prem deployments, make sure that a user with proper permissions and ssh authentication is created.
 - Git clone and Ansible setup of the Ansible code (this work instruction)
 
-# Materials Needed
+---
+## 2. Materials needed
 
-- Access to the management server (see also the [ssh](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/ssh/WebHome.html) documentation)
-- Access to the Ansible code: [https://gitlab.int.corp.com/gurus-db-team/ansible-postgres](https://gitlab.int.corp.com/gurus-db-team/ansible-postgres)
+To perform this procedure, you will need:
 
-# Working Instruction
+- Access to the **management server**  
+  (See also the [SSH documentation](../ssh.md))
+- Access to the **Ansible code repository:**  
+  [https://github.com/pgvillage/pgvillage](https://github.com/pgvillage/pgvillage)
 
-```markdown
-1: Create a Git folder in your home directory, navigate into the folder and clone the repository:
-```
-```
+---
+## 3. Working instruction
 
-```
+### Step 1: Clone the repository
+
+Create a Git folder in your home directory, navigate into it, and clone the repository:
+
+```bash
 mkdir -p ~/git
-```
-
 cd ~/git
-
-```markdown
-git clone git@gitlab.int.corp.com:gurus-db-team/ansible-postgres.git
+git clone git@github.com:pgvillage/pgvillage.git
 ```
+---
+### Step 2: (Optional) Adjust the inventory configuration
 
-2: Set up GPG, follow the instructions on [GPGVAULT.md](https://gitlab.int.corp.com/gurus-db-team/ansible-postgres/-/blob/dev/GPGVAULT.md)
+Optionally adjust the inventory configuration to suit your environment.  
+For detailed steps, refer to:  
+[From Server to Running Database](inventory.md)
 
 ---
+### Step 3: Run the Ansible Playbook
 
-3: optionally adjust the inventory configuration (see [from server to running database](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+server+naar+draaiende+database/WebHome.html) for the procedure)
----
+#### 3.1 Navigate to the Ansible directory
 
-4: Turn crank (ansible):
+Go to the cloned Ansible repository directory:
 
-```markdown
+```bash
 cd ~/git/ansible-postgres
 ```
 
-```markdown
-export ANSIBLE_VAULT_PASSWORD_FILE=~/git/ansible-postgres/bin/gpgvault
+#### 3.2 Run everything
+
+Execute all roles for the selected environment:
+
+```bash
+ansible-playbook -i environments/[ENV] functional-all.yml
 ```
 
-#Everything
+#### 3.3 Run specific roles (example)
 
-```markdown
-ansible-playbook-i-environments/[ENV]functional-all.yml
+If you want to run only specific roles (for example, `stolon` and `avchecker`):
+
+```bash
+ansible-playbook -i environments/[ENV] functional-all.yml --tags stolon,avchecker
 ```
 
-#Specifiekerollen(bijvoorbeeld)
+#### 3.4 Additional examples
 
-```markdown
-ansible-playbook ienenvironments/\[ENV\]functional-all.yml --tags stolon,avchecker
-```
+For other related examples and procedures, refer to the following documentation:
 
-For other examples:
-
-```markdown
-- [roll out new certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
-- [new features](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+features/WebHome.html)
-- [from server to running database](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+server+naar+draaiende+database/WebHome.html)
-```
-
+- [Chainsmith](chainsmith.md)
+- [Inventory](inventory.md)
