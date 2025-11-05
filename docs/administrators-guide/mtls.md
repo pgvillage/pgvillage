@@ -1,4 +1,4 @@
-# # Introduction
+# mTLS
 
 The building block uses certificates for encryption of network traffic (server certificates) and for authentication (client certificates).
 
@@ -8,22 +8,20 @@ Here, mutual TLS (mTLS) is used, which means there is a certificate chain with a
 ![chain.png](../../../../../../../../attachment/xwiki/Infrastructuur/Team%3A+DBA/Algemene+Restore+Server+voor+DBA-Linux/Postgres/Bouwsteen/mTLS/WebHome/chain.png)
 ```
 
-# Generate
+## Generate
 
-De chain kan worden aangevraagd bij een externe authoriteit of geheel zelf worden gegenereerd.
+The certificate chain can either be:
 
-The current process for certificate requests is, however, very cumbersome, lengthy, and dependent on the work of other teams within the organization.
+- Requested from an **external certificate authority**, or  
+- **Generated internally** using a self-managed process.
 
-Therefore, a community tool ([chainsmith](../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/WebHome.html)) is used to generate the chain.
+However, the current process for requesting certificates is **complex, slow**, and often **dependent on other teams** within the organization.
 
-# Background information
+Therefore, a community tool ([chainsmith](chainsmith.md)) is used to generate the chain.
 
-- Generate and distribute new chain:
-  - [Generate and roll out new certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
-  - [Replace certificates with minimal impact](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Certificaten+vervangen+met+weinig+impact/WebHome.html)
-- Generate and distribute new client certificate: [new client certificate](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/nieuw+client+certificaat/WebHome.html)
-- Background information about the tool: [chainsmith](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/WebHome.html)
-- Verify certificates and what to watch for: [openssl](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/openssl/WebHome.html)
-- Information about server certificates SAN, etc.: [Server certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Server+certificaten/WebHome.html)
-- Information about client certificates: [Client certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Client+certificaten/WebHome.html)
+## Background information
+
+- Background information about the tool: [chainsmith](chainsmith.md)
+- [inventory](inventory.md)
+
 
