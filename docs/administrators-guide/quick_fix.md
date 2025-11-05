@@ -1,58 +1,75 @@
-Deze pagina helpt je tijdens de consignatiedienst om snel issues te kunnen analyseren de juiste oplossing te kiezen.
+# On-Call Troubleshooting Guide
 
-Kies eerst het soort probleem dat je probeert op te lossen en volg dan de documentatie waarnaar verwezen wordt om het probleem op de juiste manier te analyseren en op te lossen.
+This page helps you during on-call duty to quickly analyze issues and determine the correct resolution path.
 
-# Application does not have access to Postgres
+Start by identifying the type of problem you are dealing with, then follow the referenced documentation to analyze and resolve it correctly.
 
-The application actually needs three things to access PostgreSQL:
+---
 
-1. 
-2. 
-3.
+## Application does not have access to Postgres
 
-- An available Postgres
-- Network access
-- A working configuration
+An application requires three key components to successfully access PostgreSQL:
 
-Daarom is de eerste stap van het onderzoek om te kijken welk type issue je mee te maken hebt.
+1. **An available PostgreSQL instance**
+2. **Network connectivity**
+3. **A valid configuration**
+
+Therefore, the first step in troubleshooting is to identify which of these areas is causing the issue.
+
+---
 
 1. Check if Postgres itself is available:  
-   - Use the checks described in the [avchecker](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/AV+checker/WebHome.html) documentation.  
+   - Use the checks described in the [avchecker](avchecker.md) documentation.  
    - Resolve all issues so that avchecker reports again that Postgres is available.
 
 2. Check if Postgres is available for the application:  
    - Network problems are outside the scope of the DBA.
 
-In principe wordt dit soort issues altijd opgelost door netwerkbeheer, of Container Hosting (CHP).
+In principle, these kinds of issues are always resolved by network management, or Container Hosting (CHP).
 
 Conduct the direction yourself, stay engaged in the process and provide clear information on what works (availability within the Postgres architecture) and what does not work (connectivity of the application to the VIP or to Postgres).
 
 - For more information, see the documentation on [Connections and Connection Paths](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Connecties+en+connectiepaden/WebHome.html)
+
 3. Check if the client is correctly configured:
-   - **NOTE**: Issues from incorrect configuration result from a change and are actually not part of service availability work!!!
-   - Ensure that the client is properly configured, which includes:
-     - host (VIP, or a list of Postgres hosts separated by commas)
-     - port (on VIP 5432 for RW, 5433 for RO, directly to postgres 25432 for stolon-proxy, 5432 for direct traffic)
-     - username and database name
-     - client certificates (or password)
-     - target\_session\_attrs (libpq) or targetServerType (jdbc)
-     - sslmode=verify-full
-   - Also verify that the PostgreSQL HBA (pg\_hba) configuration is correct.
-   - Review error messages within the application log with the application administrator.
-   - Check for error messages in the Postgres log file.
+
+!!! note
+
+    Issues from incorrect configuration result  from a change and are actually not part of service availability work!!! 
+
+  Ensure that the client configuration includes:
+
+- **Host:** VIP, or a list of PostgreSQL hosts (comma-separated)
+- **Port:**
+  - 5432 (RW on VIP)
+  - 5433 (RO on VIP)
+  - 25432 (via stolon-proxy)
+  - 5432 (direct connection)
+- **Username** and **database name**
+- **Authentication:** client certificates (preferred) or password
+- **Session targeting:**  
+  `target_session_attrs` (libpq) or `targetServerType` (JDBC)
+- **SSL mode:** `sslmode=verify-full`
+
+  Additionally:
+   - Verify the PostgreSQL **pg_hba.conf** configuration.
+   - Review **application logs** with the app administrator.
+   - Check for **PostgreSQL log errors**.
    - For more information, see the documentation on [client configuration](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html) and about [mTLS](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/WebHome.html).
 
-# ```markdown
-Herstellen / Noodherstel
-```
+---
+
+## Recovery / Emergency Restore
 
 It may happen that an application administrator requests a point-in-time restore to be performed, for example because too much data has been deleted or to roll back database changes from an application update.
 
-Het kan ook zo zijn dat door een disaster scenario alle replica-instances niet meer beschikbaar zijn en alleen nog hersteld kunnen worden met een Restore (latest point in time).
+It is also possible that due to a disaster scenario all replica instances are no longer available and can only be restored using a Restore (latest point in time).
 
 In both situations, this can be resolved by referring to the [Point in Time Restore](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Point+in+time+Restore/WebHome.html) documentation.
 
-> **NOTE:** In almost all cases, the reason for a point-in-time restore is not due to an error in the Postgres architecture or by the DBA.  
+!!! note
+
+    In almost all cases, the reason for a point-in-time restore is not due to an error in the Postgres architecture or by the DBA.
+       
 > Therefore, in almost all cases, a point-in-time restore also does not result in downtime of the service.  
 > Take the time to perform a proper point-in-time restore...
-
