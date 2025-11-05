@@ -18,12 +18,6 @@ Stolon is an open-source project maintained by the community.
 - [rpmbuilder Releases on GitHub](https://github.com/pgvillage-build/rpmbuilder)
 - [pgvillage Repository](https://github.com/pgvillage/pgvillage/releases)
 
-At the time of this writing, an adapted RPM is being used, which is based on:
-
-- The latest version of [https://github.com/sorintlab/stolon/tags](https://github.com/sorintlab/stolon/tags)
-- This change: [https://github.com/sorintlab/stolon/pull/865](https://github.com/sorintlab/stolon/pull/865) (for use in combination with a separate WAL location)
-- This change: [https://github.com/sorintlab/stolon/pull/870](https://github.com/sorintlab/stolon/pull/870) (for use in combination with client certificates)
-
 > **Intent:**  
 > The goal is to get these two pull requests merged upstream so separate builds are no longer required.
 
@@ -61,8 +55,7 @@ Deployed by Ansible to `/etc/sysconfig/`:
 
 ## Usage
 
-Configuration and management of Stolon are fully implemented in Ansible. 
-- [stolon rol](https://gitlab.int.corp.com/gurus-db-team/ansible-postgres/-/tree/dev/roles/stolon).
+Configuration and management of Stolon are fully implemented in PgVillage. 
 
 Furthermore, it is important to be able to use `stolonctl` in particular to query information and (if necessary) make adjustments.
 
