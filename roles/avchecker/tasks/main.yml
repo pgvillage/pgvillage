@@ -4,9 +4,14 @@
 - name: Install and configure avchecker
   when: avchecker_defaults | length > 0
   block:
-    - ansible.builtin.include_tasks: install.yml
-    - ansible.builtin.include_tasks: configure.yml
-    - ansible.builtin.include_tasks: certs.yml
+    - name: Install
+      ansible.builtin.include_tasks: install.yml
+    - name: Configure
+      ansible.builtin.include_tasks: configure.yml
+    - name: Deploy certs
+      ansible.builtin.include_tasks: certs.yml
       when: avchecker_certs_managed
-    - ansible.builtin.include_tasks: postgres.yml
-    - ansible.builtin.include_tasks: start.yml
+    - name: Create PostgreSQL user and privs
+      ansible.builtin.include_tasks: postgres.yml
+    - name: Start
+      ansible.builtin.include_tasks: start.yml

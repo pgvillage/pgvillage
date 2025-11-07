@@ -2,7 +2,7 @@
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
 - name: Start avchecker@ systemd services
-  become: "true"
+  become: true
   ansible.builtin.systemd:
     name: "avchecker@{{ item.key }}.service"
     state: started

@@ -1,5 +1,6 @@
 ---
-- ansible.builtin.getent:
+- name: Get user info for {{ avchecker_user }}
+  ansible.builtin.getent:
     database: passwd
     key: "{{ avchecker_user }}"
     split: ":"

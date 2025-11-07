@@ -5,7 +5,8 @@ avchecker_group: avchecker
 # defaults file for avchecker
 avchecker_path: /opt/avchecker
 
-avchecker_rpm_packages:
+avchecker_package_state: present
+avchecker_packages:
   - python3-psycopg2
 
 avchecker_defaults: {}

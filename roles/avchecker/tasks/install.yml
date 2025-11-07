@@ -29,11 +29,12 @@
 - name: Install prereqs
   ansible.builtin.package:
     name: "{{ item }}"
-    state: present
-  loop: "{{ avchecker_rpm_packages }}"
+    state: "{{ avchecker_package_state }}"
+  loop: "{{ avchecker_packages }}"
 
 - name: Install avchecker@ systemd service
   ansible.builtin.template:
     src: "avchecker@.service.j2"
     dest: "/etc/systemd/system/avchecker@.service"
+    mode: "0644"
     force: true
