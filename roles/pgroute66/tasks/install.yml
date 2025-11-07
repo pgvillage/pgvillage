@@ -13,7 +13,8 @@
     system: "true"
     state: present
 
-- ansible.builtin.getent:
+- name: Get user info for {{ pgroute66_osuser }}
+  ansible.builtin.getent:
     database: passwd
     key: "{{ pgroute66_osuser }}"
     split: ":"
@@ -61,20 +62,21 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/tmp"
+    mode: "0600"
   loop: "{{ pgroute66_local_packages }}"
 
 - name: Install pgroute66
   ansible.builtin.dnf:
     name: "/tmp/{{ item }}"
     disable_gpg_check: "true"
-    state: present
+    state: "{{ pgroute66_package_state }}"
   loop: "{{ pgroute66_local_packages }}"
 
 - name: Install pgroute66
   ansible.builtin.dnf:
     name: "{{ item }}"
     disable_gpg_check: "true"
-    state: present
+    state: "{{ pgroute66_package_state }}"
   loop: "{{ pgroute66_packages }}"
 
 - name: Deploy pgroute66 scripts

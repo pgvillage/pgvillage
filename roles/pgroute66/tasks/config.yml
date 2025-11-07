@@ -15,7 +15,7 @@
 
 # Restart kan wel met pgroute66
 - name: "Start pgroute66 service"
-  become: "true"
+  become: true
   ansible.builtin.systemd:
     name: pgroute66.service
     state: restarted
