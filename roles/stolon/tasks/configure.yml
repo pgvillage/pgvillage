@@ -3,10 +3,11 @@
   ansible.builtin.copy:
     content: "{{ stolon_sysctl }}"
     dest: /etc/sysctl.d/postgresql.conf
-  notify: apply sysctl changes
+    mode: "0600"
+  notify: Apply sysctl changes
 
 - name: Install sysconfig configuration
-  become: "true"
+  become: true
   become_user: root
   ansible.builtin.template:
     src: "stolon.sysconfig.j2"
@@ -20,7 +21,7 @@
   notify: "Restart stolon-{{ item.key }}"
 
 - name: Install custom_config file
-  become: "true"
+  become: true
   become_user: root
   ansible.builtin.template:
     src: "custom_config.yml.j2"
@@ -28,20 +29,22 @@
     owner: "{{ stolon_user }}"
     group: "{{ stolon_group }}"
     mode: "0644"
-  register: custom_config_file
+  notify:
+    - Update cluster spec
 
 - name: Install stolon systemd services
-  become: "true"
+  become: true
   become_user: "root"
   ansible.builtin.template:
     src: "stolon-{{ item }}.service.j2"
     dest: "/etc/systemd/system/stolon-{{ item }}.service"
-    force: "true"
+    force: true
+    mode: "0644"
   loop: "{{ stolon_services }}"
   notify: "Restart stolon-st{{ item }}"
 
 - name: Init when needed
-  become: "true"
+  become: true
   become_user: "{{ stolon_user }}"
   ansible.builtin.shell:
     cmd: "/usr/local/bin/stolonctl status || /usr/local/bin/stolonctl init -y"
@@ -51,17 +54,6 @@
   environment:
     STOLONCTL_CLUSTER_NAME: "{{ stolon_cluster_name }}"
     STOLONCTL_STORE_BACKEND: "{{ stolon_store_backend }}"
-
-- name: Update cluster spec
-  become: "true"
-  become_user: "{{ stolon_user }}"
-  ansible.builtin.shell:
-    cmd: '/usr/local/bin/stolonctl update --patch --file "${STOLONCTL_FILE}"'
-  environment:
-    STOLONCTL_CLUSTER_NAME: "{{ stolon_cluster_name }}"
-    STOLONCTL_STORE_BACKEND: "{{ stolon_store_backend }}"
-    STOLONCTL_FILE: "{{ stolon_custom_config_file }}"
-  when: custom_config_file.changed
 
 - name: Add logrotate
   ansible.builtin.copy:

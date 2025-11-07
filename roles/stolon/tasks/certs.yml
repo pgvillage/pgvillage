@@ -4,6 +4,7 @@
     state: directory
     owner: "{{ item.value.owner }}"
     path: "{{ item.value.path }}"
+    mode: "0700"
   loop: "{{ stolon_cert_folders | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"

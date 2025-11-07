@@ -2,7 +2,7 @@
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
 - name: Start stolon systemd services
-  become: "true"
+  become: true
   ansible.builtin.systemd:
     name: "stolon-{{ item }}.service"
     state: started

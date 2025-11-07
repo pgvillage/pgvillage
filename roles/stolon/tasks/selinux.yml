@@ -1,26 +1,36 @@
 ---
-#- name: Set required flags on and keep it persistent across reboots
-#  seboolean:
-#    name: "{{ item }}"
-#    state: yes
-#    persistent: yes
-#  loop:
-#    - domain_can_mmap_files
+# - name: Set required flags on and keep it persistent across reboots
+#   seboolean:
+#     name: "{{ item }}"
+#     state: yes
+#     persistent: yes
+#   loop:
+#     - domain_can_mmap_files
 
-- name: Create temporary build directory
-  ansible.builtin.tempfile:
-    state: directory
-    suffix: build
-  register: tempfolder
+# tasks file for stolon
+- name: Get semodule list
+  ansible.builtin.command: semodule -l
+  register: stolon_semodule_list
+  changed_when: false
 
-- name: Copy module file
-  ansible.builtin.copy:
-    src: "files/my-stolon.te"
-    dest: "{{ tempfolder.path }}/my-stolon.te"
-
-- name: Install selinux module if needed
-  ansible.builtin.shell: |
-    cd "{{ tempfolder.path }}"
-    checkmodule -M -m -o my-stolon.mod my-stolon.te
-    semodule_package -o my-stolon.pp -m my-stolon.mod
-    semodule -i my-stolon.pp
+- name: Fix selinux
+  when:
+    - "'my-stolon' not in stolon_semodule_list.stdout_lines"
+  block:
+    - name: Create temporary build directory
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: build
+      register: stolon_tempfolder
+    - name: Copy module file
+      ansible.builtin.copy:
+        src: "files/my-stolon.te"
+        dest: "{{ stolon_tempfolder.path }}/my-stolon.te"
+        mode: "0600"
+    - name: Install selinux module if needed
+      ansible.builtin.shell: |
+        cd "{{ stolon_tempfolder.path }}"
+        checkmodule -M -m -o my-stolon.mod my-stolon.te
+        semodule_package -o my-stolon.pp -m my-stolon.mod
+        semodule -i my-stolon.pp
+      changed_when: false
