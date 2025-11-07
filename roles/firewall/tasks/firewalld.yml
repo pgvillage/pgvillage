@@ -1,12 +1,12 @@
 ---
 - name: Install firewalld packages when defined
-  become: "true"
+  become: true
   ansible.builtin.dnf:
-    name: firewalld
-    state: present
+    name: "{{ firewall_packages }}"
+    state: "{{ firewall_package_state }}"
 
 - name: Start firewalld systemd services
-  become: "true"
+  become: true
   ansible.builtin.systemd:
     name: "firewalld.service"
     state: started

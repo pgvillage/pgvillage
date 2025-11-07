@@ -1,10 +1,15 @@
 ---
+firewall_package_state: present
+
+firewall_packages:
+  - firewalld
+
 # defaults file for firewall
 firewall_type: external
-#Options:
-#- firewalld (manage firewalld firewall
-#- leave to cloud, don;t manage server firewall
-#We could extend to firewall on debian/ubuntu, iptables, whatever, but for now this is fine
+# Options:
+# - firewalld (manage firewalld firewall
+# - leave to cloud, don;t manage server firewall
+# We could extend to firewall on debian/ubuntu, iptables, whatever, but for now this is fine
 
 firewall_local_segment: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ipaddr('network/prefix') }}"
 

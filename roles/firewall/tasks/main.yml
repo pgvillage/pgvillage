@@ -1,5 +1,6 @@
 ---
 # tasks file for firewall
-- ansible.builtin.include_tasks: "firewalld.yml"
+- name: Setup firewalld
+  ansible.builtin.include_tasks: "firewalld.yml"
   when:
     - "firewall_type == 'firewalld'"
