@@ -1,16 +1,20 @@
 ---
 - name: Get semodule list
   ansible.builtin.command: semodule -l
-  register: semodule_list
+  register: haproxy_semodule_list
+  changed_when: false
   when:
     - ansible_distribution_file_variety is defined
     - ansible_distribution_file_variety == 'RedHat'
 
-- ansible.builtin.include_tasks: "install.yml"
-- ansible.builtin.include_tasks: "selinux.yml"
+- name: Install haproxy
+  ansible.builtin.include_tasks: "install.yml"
+- name: Setup selinux for haproxy
+  ansible.builtin.include_tasks: "selinux.yml"
   when:
     - ansible_distribution_file_variety is defined
     - ansible_distribution_file_variety == 'RedHat'
     - "'my-haproxy' not in semodule_list.stdout_lines"
 
-- ansible.builtin.include_tasks: "config.yml"
+- name: Configure haproxy
+  ansible.builtin.include_tasks: "config.yml"

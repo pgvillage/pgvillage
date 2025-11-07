@@ -3,21 +3,22 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/tmp/"
+    mode: "0600"
   loop: "{{ haproxy_local_package_names }}"
 
 - name: Install local haproxy packages when defined
-  become: "true"
+  become: true
   ansible.builtin.dnf:
     name: "/tmp/{{ item }}"
-    state: present
+    state: "{{ haproxy_package_state }}"
     disable_gpg_check: "true"
   loop: "{{ haproxy_local_package_names }}"
 
 - name: Install haproxy packages when defined
-  become: "true"
+  become: true
   ansible.builtin.dnf:
     name: "{{ item }}"
-    state: present
+    state: "{{ haproxy_package_state }}"
     disable_gpg_check: "true"
   loop: "{{ haproxy_package_names }}"
 
@@ -27,7 +28,7 @@
       - "{{ item }}"
       - checkpolicy
     disable_gpg_check: "true"
-    state: present
+    state: "{{ haproxy_package_state }}"
   loop: "{{ haproxy_package_names }}"
 
 - name: Get HAProxy version.
@@ -46,7 +47,7 @@
     dest: /etc/haproxy/haproxy.cfg
     mode: "0644"
     # validate: haproxy -f %s -c -q
-  notify: restart haproxy
+  notify: Restart haproxy
 
 - name: Ensure HAProxy is started and enabled on boot
   ansible.builtin.service:

@@ -1,4 +1,5 @@
 ---
+haproxy_package_state: present
 haproxy_packages:
   - haproxy
 
