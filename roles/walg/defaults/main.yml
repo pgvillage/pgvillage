@@ -9,8 +9,9 @@ walg_binary_owner: root
 walg_pkg_arch: amd64
 walg_distribution: "wal-g-pg-ubuntu-18.04"
 walg_exe_name: "{{ walg_distribution }}-{{ walg_pkg_arch }}"
-walg_exe_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_release }}/{{walg_exe_name}}"
+walg_exe_url: "https://github.com/wal-g/wal-g/releases/download/v{{ walg_release }}/{{ walg_exe_name }}"
 # If you add items to walg_packages, the binary will not be downloaded, but installed from packages instead
+walg_package_state: present
 walg_packages:
   - wal-g-pg
 
@@ -42,13 +43,19 @@ walg_cronvars:
 # Below map is derived from above parameters and is one-on-one converted into a defaults file in /etc/defaults/walg
 # which is sourced by all the scripts.
 # Usually one would just change the above parameters, but for some situations, one might change the entire maps (like when google buckets would be used).
-walg_defaults: "{{ walg_bucket_defaults | combine(walg_postgresql_defaults) | combine(walg_generic_defaults) | combine(walg_retention_defaults) | combine(walg_log_defaults)
-  }}"
+walg_defaults: |
+  {{
+    walg_bucket_defaults |
+    combine(walg_postgresql_defaults) |
+    combine(walg_generic_defaults) |
+    combine(walg_retention_defaults) |
+    combine(walg_log_defaults)
+  }}
 
 # Set to correct values!!!
 walg_aws_access_key: "AWSKEY"
 walg_aws_secret_key: "AWSSECRET"
-walg_aws_endpoint: "https://{{ walg_bucket_name }}.s3.Region.amazonaws.com/{{walg_aws_access_key}}"
+walg_aws_endpoint: "https://{{ walg_bucket_name }}.s3.Region.amazonaws.com/{{ walg_aws_access_key }}"
 walg_aws_ca_file: ~/.wal-g/certs/minio.crt
 walg_bucket_name: backup
 walg_bucket_defaults:
@@ -104,7 +111,7 @@ walg_logfolder: "/var/log/wal-g"
 # Set to DEVEL for extra logging from wal-g
 walg_log_level: NORMAL
 # Set to DEVEL for extra logging in S3 communication
-s3_log_level: NORMAL
+walg_s3_log_level: NORMAL
 walg_log_defaults:
   # Logging settings
   WALG_LOG_RETENTION_DAYS: "{{ walg_log_retention_days }}"
@@ -113,19 +120,19 @@ walg_log_defaults:
   # use for extra logging from wal-g
   WALG_LOG_LEVEL: "{{ walg_log_level }}"
   # use for extra logging in S3 communication
-  S3_LOG_LEVEL: "{{ s3_log_level }}"
+  S3_LOG_LEVEL: "{{ walg_s3_log_level }}"
 
 walg_cert_folders:
   minio:
     path: "{{ getent_passwd[walg_user][4] }}/.wal-g/certs"
     owner: "{{ walg_user }}"
 
-#walg_bucket_cert: "---- CERT ----"
+# walg_bucket_cert: "---- CERT ----"
 walg_bucket_src: "walg_bucket_root.crt"
 
 walg_cert_files:
   minio_chain:
     path: "{{ walg_cert_folders.minio.path }}/minio.crt"
-    #body: "{{ walg_bucket_cert }}"
+    # body: "{{ walg_bucket_cert }}"
     src: "{{ walg_bucket_src }}"
     owner: "{{ walg_user }}"

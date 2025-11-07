@@ -5,9 +5,10 @@
     state: directory
     owner: "{{ walg_user }}"
     group: "{{ walg_group }}"
+    mode: "0755"
 
 - name: Install defaults configuration
-  become: "true"
+  become: true
   become_user: root
   ansible.builtin.template:
     src: "wal-g.default.j2"
@@ -34,7 +35,7 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     cron_file: wal-g
-  loop: "{{walg_cronvars}}"
+  loop: "{{ walg_cronvars }}"
   loop_control:
     label: "{{ item.name }}"
   when: walg_cron_enabled
@@ -52,3 +53,4 @@
     path: "{{ getent_passwd[walg_user][4] }}/.pgsql_profile"
     line: "source {{ walg_home }}/scripts/walg_profile"
     create: "true"
+    mode: "0700"
