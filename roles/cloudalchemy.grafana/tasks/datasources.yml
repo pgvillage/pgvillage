@@ -1,6 +1,6 @@
 ---
 - name: Ensure datasources exist (via API)
-  grafana_datasource:
+  community.grafana.grafana_datasource:
     grafana_url: "{{ grafana_api_url }}"
     grafana_user: "{{ grafana_security.admin_user }}"
     grafana_password: "{{ grafana_security.admin_password }}"
@@ -25,7 +25,7 @@
 
 - name: Create/Update datasources file (provisioning)
   become: true
-  copy:
+  ansible.builtin.copy:
     dest: "/etc/grafana/provisioning/datasources/ansible.yml"
     content: |
       apiVersion: 1
@@ -35,6 +35,6 @@
     backup: false
     owner: root
     group: grafana
-    mode: 0640
+    mode: "0640"
   notify: restart grafana
   when: grafana_use_provisioning

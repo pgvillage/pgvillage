@@ -1,3 +1,4 @@
+---
 dependencies:
   - role: andrewrothstein.unarchive-deps
     version: v1.1.5

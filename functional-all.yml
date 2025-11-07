@@ -1,5 +1,5 @@
 ---
-- name: 'Gather facts on all servers'
+- name: "Gather facts on all servers"
   hosts:
     - hacluster
     - backup

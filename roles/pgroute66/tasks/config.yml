@@ -1,12 +1,12 @@
 ---
 - name: Deploy systemd file
-  template:
+  ansible.builtin.template:
     src: "templates/pgroute66.service.j2"
     dest: "/etc/systemd/system/pgroute66.service"
     mode: "0600"
 
 - name: Deploy config file
-  template:
+  ansible.builtin.template:
     src: "templates/pgroute66_config.yaml.j2"
     dest: "{{ pgroute66_configdir }}/config.yaml"
     owner: "root"
@@ -16,7 +16,7 @@
 # Restart kan wel met pgroute66
 - name: "Start pgroute66 service"
   become: "true"
-  systemd:
+  ansible.builtin.systemd:
     name: pgroute66.service
     state: restarted
     enabled: "true"

@@ -1,6 +1,6 @@
 ---
-- name: edit sysctl.conf
-  ansible.builtin.sysctl:
+- name: Edit sysctl.conf
+  ansible.posix.sysctl:
     name: "{{ item.key }}"
     value: "{{ item.value }}"
     sysctl_set: "true"
@@ -10,7 +10,7 @@
     - { key: "net.core.rmem_max", value: "{{ net_core_rmem_max }}" }
     - { key: "net.ipv4.tcp_rmem", value: "{{ net_ipv4_tcp_rmem }}" }
     - { key: "net.core.wmem_max", value: "{{ net_core_wmem_max }}" }
-    - { key: "net.ipv4.tcp_wmem", value: "{{ net_ipv4_tcp_wmem }}" } 
+    - { key: "net.ipv4.tcp_wmem", value: "{{ net_ipv4_tcp_wmem }}" }
     - { key: "net.ipv4.tcp_fin_timeout", value: "{{ net_ipv4_tcp_fin_timeout }}" }
     - { key: "net.ipv4.tcp_tw_reuse", value: "{{ net_ipv4_tcp_tw_reuse }}" }
     - { key: "net.core.netdev_max_backlog", value: "{{ net_core_netdev_max_backlog }}" }
@@ -19,7 +19,7 @@
     - { key: "net.ipv4.ip_forward", value: "{{ net_ipv4_ip_forward }}" }
     - { key: "net.ipv4.conf.all.forwarding", value: "{{ net_ipv4_conf_all_forwarding }}" }
 
-- name: copy keepalived.service
+- name: Copy keepalived.service
   ansible.builtin.template:
     src: keepalived.service.j2
     dest: "/etc/systemd/system/keepalived.service"
@@ -27,7 +27,7 @@
     group: "root"
     mode: "0644"
 
-- name: configure keepalived
+- name: Configure keepalived
   ansible.builtin.template:
     src: keepalived.conf.j2
     dest: /etc/keepalived/keepalived.conf
@@ -36,7 +36,7 @@
   notify:
     - restart keepalived
 
-- name: start keepalived
+- name: Start keepalived
   ansible.builtin.service:
     name: keepalived
     state: started

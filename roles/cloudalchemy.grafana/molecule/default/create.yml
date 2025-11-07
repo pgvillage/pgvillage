@@ -6,7 +6,7 @@
   no_log: "{{ not lookup('env', 'MOLECULE_DEBUG') | bool }}"
   tasks:
     - name: Create molecule instance(s)
-      docker_container:
+      community.docker.docker_container:
         name: "{{ item.name }}"
         docker_host: "{{ item.docker_host | default('unix://var/run/docker.sock') }}"
         hostname: "{{ item.name }}"
@@ -29,7 +29,7 @@
       poll: 0
 
     - name: Wait for instance(s) creation to complete
-      async_status:
+      ansible.builtin.async_status:
         jid: "{{ item.ansible_job_id }}"
       register: docker_jobs
       until: docker_jobs.finished

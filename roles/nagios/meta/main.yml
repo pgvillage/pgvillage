@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Sebastaan Mannem
   description: manage nagios for the vcbw postgres servers

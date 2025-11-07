@@ -1,6 +1,6 @@
 ---
 - name: Install pgwatch2
-  yum:
+  ansible.builtin.dnf:
     name: "{{ pgwatch2_rpm_url }}"
     disable_gpg_check: "true"
 
@@ -9,7 +9,7 @@
 #     deb: "{{ pgwatch2_deb_url }}"
 
 - name: Copy pgwatch2 config
-  template:
+  ansible.builtin.template:
     src: instances.j2
     dest: /etc/pgwatch2/config/instances.yaml
     owner: root
@@ -17,7 +17,7 @@
     mode: "0640"
 
 - name: Deploy systemd unit
-  template:
+  ansible.builtin.template:
     src: pgwatch2.service
     dest: /etc/systemd/system/pgwatch2.service
     owner: root

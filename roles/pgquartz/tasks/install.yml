@@ -1,13 +1,13 @@
 ---
 - name: "Create pgquartz_osgroup"
-  group:
+  ansible.builtin.group:
     name: "{{ pgquartz_osgroup }}"
     gid: "{{ pgquartz_gid }}"
     system: "true"
     state: present
 
 - name: "Create pgquartz_user"
-  user:
+  ansible.builtin.user:
     name: "{{ pgquartz_osuser }}"
     group: "{{ pgquartz_osgroup }}"
     uid: "{{ pgquartz_uid }}"
@@ -15,13 +15,13 @@
     system: "true"
     state: present
 
-- getent:
+- ansible.builtin.getent:
     database: passwd
     key: "{{ pgquartz_osuser }}"
     split: ":"
 
 - name: "~/.postgresql dir"
-  file:
+  ansible.builtin.file:
     path: "{{ getent_passwd[pgquartz_osuser][4] }}/.postgresql"
     state: directory
     owner: "{{ pgquartz_osuser }}"
@@ -29,13 +29,13 @@
     mode: "0750"
 
 - name: "Deploy certs to ~/.postgresql/"
-  copy:
+  ansible.builtin.copy:
     dest: "{{ getent_passwd[pgquartz_osuser][4] }}/.postgresql/{{ item.name }}"
     owner: "{{ pgquartz_osuser }}"
     group: "{{ pgquartz_osgroup }}"
     mode: "{{ item.mode }}"
     content: "{{ item.content }}"
-  diff: no
+  diff: false
   loop:
     - name: root.crt
       mode: "0640"
@@ -50,8 +50,8 @@
     label: "{{ item.name }}"
   when: pgquartz_cert_managed
 
-- name: create configdir
-  file:
+- name: Create configdir
+  ansible.builtin.file:
     owner: "{{ pgquartz_osuser }}"
     group: "{{ pgquartz_osgroup }}"
     path: "{{ item }}"
@@ -61,21 +61,21 @@
     - "{{ pgquartz_configdir }}"
     - "{{ pgquartz_jobsdir }}"
 
-- name: copy rpm
-  copy:
+- name: Copy rpm
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/tmp"
   loop: "{{ pgquartz_local_packages }}"
 
-- name: install pgquartz
-  yum:
+- name: Install pgquartz
+  ansible.builtin.dnf:
     name: "/tmp/{{ item }}"
     disable_gpg_check: "true"
     state: present
   loop: "{{ pgquartz_local_packages }}"
 
-- name: install pgquartz
-  yum:
+- name: Install pgquartz
+  ansible.builtin.dnf:
     name: "{{ item }}"
     disable_gpg_check: "true"
     state: present

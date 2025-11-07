@@ -1,15 +1,15 @@
 ---
 # tasks file for stolon
 - name: Get semodule list
-  command: semodule -l
+  ansible.builtin.command: semodule -l
   register: semodule_list
 
-- include_tasks: "selinux.yml"
+- ansible.builtin.include_tasks: "selinux.yml"
   when:
     - "'my-stolon' not in semodule_list.stdout_lines"
 
 - name: Checking for valid certs config
-  assert:
+  ansible.builtin.assert:
     that:
       - "'\n' in stolon_client_cert"
       - "'\n' in stolon_client_chain"
@@ -21,28 +21,26 @@
     success_msg: "Client and server certs seem properly setup"
   when: stolon_cert_managed
 
-- getent:
+- ansible.builtin.getent:
     database: passwd
     key: "{{ stolon_user }}"
     split: ":"
 
-- include_tasks: install.yml
-
-- name: get size of wal dir in bytes
-  shell:
+- ansible.builtin.include_tasks: install.yml
+- name: Get size of wal dir in bytes
+  ansible.builtin.shell:
     cmd: "df -B1 . | awk '{if(NR==2){print $4}}'"
   args:
     chdir: "{{ stolon_wal_dir }}"
   register: wal_dir_size
 
-- include_tasks: configure.yml
-- include_tasks: certs.yml
+- ansible.builtin.include_tasks: configure.yml
+- ansible.builtin.include_tasks: certs.yml
   when: stolon_cert_managed
-- include_tasks: pglogging.yml
-- include_tasks: start.yml
-
-- name: wait for stolon port to be active
-  shell: "{{ stolon_pg_bin_path }}/pg_isready"
+- ansible.builtin.include_tasks: pglogging.yml
+- ansible.builtin.include_tasks: start.yml
+- name: Wait for stolon port to be active
+  ansible.builtin.command: "{{ stolon_pg_bin_path }}/pg_isready"
   environment:
     PGHOST: "/tmp"
     PGPORT: "{{ stolon_pg_port }}"
@@ -51,9 +49,10 @@
   register: pg_isready
   until: pg_isready.rc == 0
 
-- name: create an postgres users (hack)
+- name: Create an postgres users (hack)
   become_user: "postgres"
-  shell: psql -tc "select * from pg_user where usename='{{ item }}'" | grep -q '[a-zA-Z0-9]' || psql -c "create user {{ item }}; alter user {{ item }} superuser;"
+  ansible.builtin.shell: psql -tc "select * from pg_user where usename='{{ item }}'" | grep -q '[a-zA-Z0-9]' || psql -c "create user {{ item }}; alter user {{
+    item }} superuser;"
   environment:
     PGSERVICE: master
   throttle: 1

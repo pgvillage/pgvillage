@@ -66,7 +66,6 @@ grafana_database:
 
 # Remote cache
 grafana_remote_cache: {}
-
 # User management and registration
 grafana_welcome_email_on_sign_up: false
 grafana_users:
@@ -188,8 +187,6 @@ grafana_image_storage: {}
 #  key_file:
 #  bucket:
 #  path:
-
-
 #######
 # Plugins from https://grafana.com/plugins
 grafana_plugins: []
@@ -246,7 +243,6 @@ grafana_api_keys: []
 grafana_api_keys_dir: "{{ lookup('env', 'HOME') }}/grafana/keys"
 
 grafana_environment: {}
-
 # Panels configurations
 grafana_panels: {}
 #  disable_sanitize_html: false

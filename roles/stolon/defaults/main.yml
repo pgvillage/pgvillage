@@ -20,7 +20,6 @@ stolon_package_names:
 #  - "postgresql{{ stolon_pg_version|replace('.','') }}-plpython3"
 
 stolon_local_package_names: []
-
 # With this we can apply sysctl config as required.
 stolon_sysctl: |
   vm.swappiness = 10
@@ -54,7 +53,6 @@ stolon_pg_repl_connection_type: hostssl
 
 stolon_pg_su_auth_method: cert
 stolon_pg_su_connection_type: hostssl
-
 
 stolon_cluster_name: stolon-cluster
 stolon_host_group: stolon
@@ -99,7 +97,8 @@ stolon_max_wal_size_mb: "{{ [ ( stolon_wal_dir_size|int * stolon_max_wal_size_ra
 stolon_max_worker_processes: "{{ [ansible_processor_vcpus|int * stolon_workers_ratio|int, 8] | max }}"
 stolon_max_parallel_workers: "{{ [ansible_processor_vcpus|int * stolon_parallel_ratio|int, 8] | max }}"
 stolon_max_parallel_workers_per_gather: "{{ [ansible_processor_vcpus|int * stolon_gather_ratio|int, 2] | max }}"
-stolon_work_mem_kb: "{{ [ (1024 * (stolon_available_memory_mb|int - stolon_share_buffers_mb|int) / stolon_max_connections / stolon_query_complexity) | int, 64] | max }}"
+stolon_work_mem_kb: "{{ [ (1024 * (stolon_available_memory_mb|int - stolon_share_buffers_mb|int) / stolon_max_connections / stolon_query_complexity) | int, 64] |
+  max }}"
 
 # You can easilly set this to another profile if you want to. Or define your own...
 stolon_autoconfig: "{{ stolon_autoconfig_default }}"
@@ -123,7 +122,6 @@ stolon_extra_pg_parameters:
   log_truncate_on_rotation: "true"
 
 stolon_pg_hba: []
-
 stolon_custom_config:
   defaultSUReplAccessMode: "strict"
   pgParameters: "{{ stolon_pg_parameters }}"

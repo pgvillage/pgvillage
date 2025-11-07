@@ -3,7 +3,7 @@
 
 - name: Restart avchecker@ services
   become: "true"
-  systemd:
+  ansible.builtin.systemd:
     name: "avchecker@{{ item.key }}.service"
     state: restarted
     enabled: "true"

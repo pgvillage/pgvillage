@@ -1,8 +1,7 @@
 ---
-
 - block:
     - name: Update apt cache
-      apt:
+      ansible.builtin.apt:
         update_cache: true
       register: _pre_update_apt_cache
       until: _pre_update_apt_cache is succeeded
@@ -10,7 +9,7 @@
         - ansible_pkg_mgr == "apt"
 
     - name: Install dependencies
-      package:
+      ansible.builtin.package:
         name: "{{ grafana_dependencies }}"
         state: present
       register: _install_dep_packages
@@ -19,28 +18,32 @@
       delay: 2
 
 - name: Remove conflicting grafana packages
-  package:
+  ansible.builtin.package:
     name: grafana-data
     state: absent
   register: _old_grafana_pkgs
 
 - name: Clean apt cache
-  command: apt clean
+  ansible.builtin.command: apt clean
   when:
     - _old_grafana_pkgs is changed
     - ansible_pkg_mgr == "apt"
 
 - name: Add Grafana repository file [RHEL/CentOS]
-  template:
+  ansible.builtin.template:
     src: "{{ grafana_yum_repo_template }}"
     dest: "/etc/yum.repos.d/{{ grafana_yum_repo_template | basename | regex_replace('\\.j2$', '') }}"
     force: true
     backup: true
   when: ansible_pkg_mgr in ['yum', 'dnf']
 
-- block:
+- when:
+    - ansible_pkg_mgr == "apt"
+  environment: "{{ grafana_environment }}"
+
+  block:
     - name: Import Grafana GPG signing key [Debian/Ubuntu]
-      apt_key:
+      ansible.builtin.apt_key:
         url: "https://packages.grafana.com/gpg.key"
         state: present
         validate_certs: false
@@ -50,7 +53,7 @@
       delay: 2
 
     - name: Add Grafana repository [Debian/Ubuntu]
-      apt_repository:
+      ansible.builtin.apt_repository:
         repo: deb https://packages.grafana.com/oss/deb stable main
         state: present
         update_cache: true
@@ -58,12 +61,8 @@
       until: _update_apt_cache is succeeded
       retries: 5
       delay: 2
-  when:
-    - ansible_pkg_mgr == "apt"
-  environment: "{{ grafana_environment }}"
-
 - name: Install Grafana
-  package:
+  ansible.builtin.package:
     name: "{{ grafana_package }}"
     state: "{{ (grafana_version == 'latest') | ternary('latest', 'present') }}"
   register: _install_packages

@@ -1,6 +1,6 @@
 ---
-- name: restart pgwatch2
-  systemd:
+- name: Restart pgwatch2
+  ansible.builtin.systemd:
     daemon_reload: true
     name: pgwatch2.service
     enabled: true

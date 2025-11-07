@@ -63,11 +63,11 @@ nagios_backends_critical: "{{ nagios_backends_value|percent(nagios_backends_aler
 
 # Warning when table size is more then 125% of expected table size (data is 80% or less of relation size)
 # But only for relations larger dan 1G
-nagios_bloat_warning: '125% and 1G'
+nagios_bloat_warning: "125% and 1G"
 
 # Critical when table size is more then 150% of expected table size (data is 66% or less of relation size)
 # But only for relations larger dan 5G
-nagios_bloat_critical: '150% and 5G'
+nagios_bloat_critical: "150% and 5G"
 
 nagios_commitratio: 15
 

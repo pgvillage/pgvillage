@@ -1,6 +1,6 @@
 ---
-- name: create config file
-  template:
+- name: Create config file
+  ansible.builtin.template:
     src: "templates/nagios_server.cfg.j2"
     dest: "{{ item.path }}/{{ inventory_hostname }}.cfg"
   delegate_to: "{{ item.hostname }}"
@@ -8,9 +8,8 @@
   when: item.enabled
   notify: reload nagios
 
-
-- name: create custom config file (when enabled)
-  template:
+- name: Create custom config file (when enabled)
+  ansible.builtin.template:
     src: "templates/nagios_server_custom.cfg.j2"
     dest: "{{ item.path }}/{{ inventory_hostname }}-custom.cfg"
   delegate_to: "{{ item.hostname }}"
@@ -18,8 +17,8 @@
   when: item.enabled
   notify: reload nagios
 
-- name: delete config file (when disabled)
-  file:
+- name: Delete config file (when disabled)
+  ansible.builtin.file:
     dest: "{{ item.path }}/{{ inventory_hostname }}-custom.cfg"
     state: absent
   delegate_to: "{{ item.hostname }}"

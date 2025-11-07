@@ -1,5 +1,4 @@
 ---
-
 #- name: Set required flags on and keep it persistent across reboots
 #  seboolean:
 #    name: "{{ item }}"
@@ -14,13 +13,13 @@
     suffix: build
   register: tempfolder
 
-- name: copy module file
-  copy:
+- name: Copy module file
+  ansible.builtin.copy:
     src: "files/my-stolon.te"
     dest: "{{ tempfolder.path }}/my-stolon.te"
 
-- name: install selinux module if needed
-  shell: |
+- name: Install selinux module if needed
+  ansible.builtin.shell: |
     cd "{{ tempfolder.path }}"
     checkmodule -M -m -o my-stolon.mod my-stolon.te
     semodule_package -o my-stolon.pp -m my-stolon.mod

@@ -8,7 +8,7 @@ chainsmith_client_folders: |
   {% endfor %}
   {{ folders }}
 
-chainsmith_folders: '{{ chainsmith_client_folders + chainsmith_server_folders }}'
+chainsmith_folders: "{{ chainsmith_client_folders + chainsmith_server_folders }}"
 
 chainsmith_client_cert_files: |
   {% set files = [] %}
@@ -33,4 +33,4 @@ chainsmith_key_files: |
   {% do files.append({'dest': chainsmith_server_cert_path+'/server.key' }) %}
   {{ files }}
 
-chainsmith_files: '{{ chainsmith_client_cert_files + chainsmith_client_key_files + chainsmith_server_cert_files + chainsmith_server_key_files }}'
+chainsmith_files: "{{ chainsmith_client_cert_files + chainsmith_client_key_files + chainsmith_server_cert_files + chainsmith_server_key_files }}"

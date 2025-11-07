@@ -1,12 +1,12 @@
 ---
-
 # This is a hack.
 # - We could do it with postgres_user, but that fails on a standby.
 # - We should do this with pgfga, but we don't have that implemented yet
 # - This way we always run on a master and that should always work
-- name: create an avchecker user in Postgres (hack, will be pgfga!!!)
+- name: Create an avchecker user in Postgres (hack, will be pgfga!!!)
   become_user: "postgres"
-  shell: psql -tc "select * from pg_user where usename='{{ avchecker_user }}'" | grep -q '[a-zA-Z0-9]' || psql -c "create user {{ avchecker_user }};grant CREATE on DATABASE postgres to {{ avchecker_user }};"
+  ansible.builtin.shell: psql -tc "select * from pg_user where usename='{{ avchecker_user }}'" | grep -q '[a-zA-Z0-9]' || psql -c "create user {{ avchecker_user
+    }};grant CREATE on DATABASE postgres to {{ avchecker_user }};"
   environment:
     PGSERVICE: master
   throttle: 1

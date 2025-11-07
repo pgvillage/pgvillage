@@ -5,20 +5,19 @@
     suffix: build
   register: tempfolder
 
-- name: copy module file
-  copy:
+- name: Copy module file
+  ansible.builtin.copy:
     src: "my-haproxy.te"
     dest: "{{ tempfolder.path }}/my-haproxy.te"
     owner: root
     group: root
     mode: "0750"
 
-- name: install selinux module if needed
-  shell: |
+- name: Install selinux module if needed
+  ansible.builtin.shell: |
     cd "{{ tempfolder.path }}"
     checkmodule -M -m -o my-haproxy.mod my-haproxy.te
     semodule_package -o my-haproxy.pp -m my-haproxy.mod
     semodule -i my-haproxy.pp
-
-- name: restorecon on /
-  shell: restorecon -vR /
+- name: Restorecon on /
+  ansible.builtin.command: restorecon -vR /

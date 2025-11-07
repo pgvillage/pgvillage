@@ -2,24 +2,24 @@
 # handlers file for etcd-cluster
 
 # Restart masters one-by-one to keep quorum
-- name: restart etcd masters
-  become: yes
+- name: Restart etcd masters
+  become: true
   become_user: root
   when: etcd_launch | bool
-  service:
+  ansible.builtin.service:
     name: etcd
     state: restarted
-  run_once: yes
-  loop: '{{ groups[etcd_master_group_name] }}'
-  delegate_to: '{{ item }}'
+  run_once: true
+  loop: "{{ groups[etcd_master_group_name] }}"
+  delegate_to: "{{ item }}"
 
 # Restart non-voting members
-- name: restart etcd members
-  become: yes
+- name: Restart etcd members
+  become: true
   become_user: root
   when:
-  - etcd_launch | bool
-  - inventory_hostname not in (groups[etcd_master_group_name])
-  service:
+    - etcd_launch | bool
+    - inventory_hostname not in (groups[etcd_master_group_name])
+  ansible.builtin.service:
     name: etcd
     state: restarted

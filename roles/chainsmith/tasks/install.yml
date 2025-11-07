@@ -1,10 +1,10 @@
 ---
 # tasks file for chainsmith
 - name: Install chainsmith package for easy cert generation
-  dnf:
-    name: '{{ item }}'
+  ansible.builtin.dnf:
+    name: "{{ item }}"
     state: present
-  loop: '{{ chainsmith_package_names }}'
-  run_once: True
+  loop: "{{ chainsmith_package_names }}"
+  run_once: true
   when:
     - ansible_pkg_mgr in ['yum', 'dnf']

@@ -2,18 +2,18 @@
 # tasks file for minio
 
 - name: Create minio client config dir
-  file:
+  ansible.builtin.file:
     dest: "{{ minio_client_configdir }}"
     state: directory
-    mode: 0700
+    mode: "0700"
     owner: "{{ minio_user }}"
     group: "{{ minio_group }}"
 
 - name: Create minio client config file
-  template:
+  ansible.builtin.template:
     src: mc.config.json.j2
     dest: "{{ minio_client_configdir }}/config.json"
-    mode: 0600
+    mode: "0600"
     owner: "{{ minio_user }}"
     group: "{{ minio_group }}"
   vars:
@@ -37,5 +37,5 @@
 - name: Create buckets
   become: true
   become_user: "{{ minio_user }}"
-  shell: "/usr/local/bin/mcli mb 'minio/{{ item }}' {{ minio_cli_options }}"
+  ansible.builtin.command: "/usr/local/bin/mcli mb 'minio/{{ item }}' {{ minio_cli_options }}"
   loop: "{{ minio_buckets }}"

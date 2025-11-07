@@ -2,7 +2,7 @@
 # tasks file for keepalived-haproxy
 
 - name: Copy keepalived rpm files to server
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/tmp/"
     owner: "root"
@@ -11,15 +11,15 @@
   loop: "{{ keepalived_local_packages }}"
 
 - name: Install keepalived rpm files
-  yum:
+  ansible.builtin.dnf:
     name: "/tmp/{{ item }}"
-    disable_gpg_check: yes
+    disable_gpg_check: true
     state: present
   loop: "{{ keepalived_local_packages }}"
 
 - name: Install keepalived rpm files
-  yum:
+  ansible.builtin.dnf:
     name: "{{ item }}"
-    disable_gpg_check: yes
+    disable_gpg_check: true
     state: present
   loop: "{{ keepalived_packages }}"

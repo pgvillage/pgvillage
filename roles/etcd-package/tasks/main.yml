@@ -1,5 +1,5 @@
 ---
 - name: Install etcd package
-  package:
+  ansible.builtin.package:
     name: "{{ etcd_package_name }}"
     state: present

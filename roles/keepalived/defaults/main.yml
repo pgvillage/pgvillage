@@ -4,11 +4,11 @@ keepalived_local_packages: []
 keepalived_packages:
   - keepalived
 
-keepalived_virtual_cluster_name: 'keepalived'
+keepalived_virtual_cluster_name: "keepalived"
 keepalived_virtual_router_id: "{{ keepalived_virtual_cluster_name | hashnum(256) }}"
 
 # config values
-net_core_rmem_max: "16777216" 
+net_core_rmem_max: "16777216"
 net_ipv4_tcp_rmem: "4096 87380 16777216"
 net_core_wmem_max: "16777216"
 net_ipv4_tcp_wmem: "4096 16384 16777216"

@@ -1,23 +1,23 @@
 ---
 - name: Install firewalld packages when defined
   become: "true"
-  yum:
+  ansible.builtin.dnf:
     name: firewalld
     state: present
 
 - name: Start firewalld systemd services
   become: "true"
-  systemd:
+  ansible.builtin.systemd:
     name: "firewalld.service"
     state: started
     enabled: "true"
 
-- name: permit traffic is required
-  firewalld:
-    port: '{{ item.value }}/tcp'
-    permanent: yes
-    immediate: yes
-    state: enabled 
-  loop: '{{ firewall_ports | dict2items }}'
+- name: Permit traffic is required
+  ansible.posix.firewalld:
+    port: "{{ item.value }}/tcp"
+    permanent: true
+    immediate: true
+    state: enabled
+  loop: "{{ firewall_ports | dict2items }}"
   loop_control:
     label: "{{ item.key }}"

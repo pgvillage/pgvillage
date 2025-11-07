@@ -1,6 +1,6 @@
 ---
-- name: install defaults configuration
-  template:
+- name: Install defaults configuration
+  ansible.builtin.template:
     src: avchecker.default.j2
     dest: "/etc/default/avchecker_{{ item.key }}"
     owner: "root"

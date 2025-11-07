@@ -1,16 +1,14 @@
 ---
-
 - name: Flush handlers
-  meta: flush_handlers
-
+  ansible.builtin.meta: flush_handlers
 - name: Enable and start the Minio service
-  service:
+  ansible.builtin.service:
     name: minio
     state: started
     enabled: true
 
 - name: Check started
-  shell: curl -k {{ endpoint.url }}
+  ansible.builtin.command: curl -k {{ endpoint.url }}
   register: curl_minio
   retries: 60
   delay: 1

@@ -1,12 +1,11 @@
 ---
 - name: Halt
   hosts:
-    - '{{ cluster_name }}-*'
+    - "{{ cluster_name }}-*"
   tasks:
     - name: exit
       assert:
         that: cluster_name | length > 5
-
 
 - name: Deploy minimal
   hosts:
@@ -35,10 +34,10 @@
         - walg
     - role: stolon
       tags:
-       - stolon
-       - postgres
-       - postgresql
-       - pg
+        - stolon
+        - postgres
+        - postgresql
+        - pg
     #- role: avchecker
     #  tags:
     #    - linux

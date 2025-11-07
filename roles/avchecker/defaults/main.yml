@@ -18,27 +18,27 @@ avchecker_defaults: {}
 avchecker_certs_managed: false
 avchecker_cert_folders:
   postgres:
-    path: '{{ getent_passwd[avchecker_user][4] }}/.postgresql/'
-    owner: '{{ avchecker_user }}'
-    group: '{{ avchecker_group }}'
+    path: "{{ getent_passwd[avchecker_user][4] }}/.postgresql/"
+    owner: "{{ avchecker_user }}"
+    group: "{{ avchecker_group }}"
 
-avchecker_root_cert: '---- CERT ----'
-avchecker_client_cert: '---- CERT ----'
-avchecker_client_key: '---- CERT ----'
+avchecker_root_cert: "---- CERT ----"
+avchecker_client_cert: "---- CERT ----"
+avchecker_client_key: "---- CERT ----"
 
 avchecker_cert_files:
   postgres_server_chain:
-    path: '{{ avchecker_cert_folders.postgres.path }}/root.crt'
-    body: '{{ avchecker_root_cert }}'
-    owner: '{{ avchecker_user }}'
-    group: '{{ avchecker_group }}'
+    path: "{{ avchecker_cert_folders.postgres.path }}/root.crt"
+    body: "{{ avchecker_root_cert }}"
+    owner: "{{ avchecker_user }}"
+    group: "{{ avchecker_group }}"
   postgres_client_cert:
-    path: '{{ avchecker_cert_folders.postgres.path }}/postgresql.crt'
-    body: '{{ avchecker_client_cert }}'
-    owner: '{{ avchecker_user }}'
-    group: '{{ avchecker_group }}'
+    path: "{{ avchecker_cert_folders.postgres.path }}/postgresql.crt"
+    body: "{{ avchecker_client_cert }}"
+    owner: "{{ avchecker_user }}"
+    group: "{{ avchecker_group }}"
   postgres_client_key:
-    path: '{{ avchecker_cert_folders.postgres.path }}/postgresql.key'
-    body: '{{ avchecker_client_key }}'
-    owner: '{{ avchecker_user }}'
-    group: '{{ avchecker_group }}'
+    path: "{{ avchecker_cert_folders.postgres.path }}/postgresql.key"
+    body: "{{ avchecker_client_key }}"
+    owner: "{{ avchecker_user }}"
+    group: "{{ avchecker_group }}"

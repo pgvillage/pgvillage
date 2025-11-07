@@ -1,11 +1,11 @@
 ---
-- getent:
+- ansible.builtin.getent:
     database: passwd
     key: "{{ walg_user }}"
     split: ":"
 
 # tasks file for wal-g
-- include_tasks: install.yml
+- ansible.builtin.include_tasks: install.yml
   when: walg_release | length > 0
-- include_tasks: certs.yml
-- include_tasks: configure.yml
+- ansible.builtin.include_tasks: certs.yml
+- ansible.builtin.include_tasks: configure.yml

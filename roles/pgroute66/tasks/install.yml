@@ -1,25 +1,25 @@
 ---
 - name: "Create pgroute66_osgroup"
-  group:
+  ansible.builtin.group:
     name: "{{ pgroute66_osgroup }}"
     system: "true"
     state: present
 
 - name: "Create pgroute66_user"
-  user:
+  ansible.builtin.user:
     name: "{{ pgroute66_osuser }}"
     group: "{{ pgroute66_osgroup }}"
     create_home: "true"
     system: "true"
     state: present
 
-- getent:
+- ansible.builtin.getent:
     database: passwd
     key: "{{ pgroute66_osuser }}"
     split: ":"
 
 - name: "~/.postgresql dir"
-  file:
+  ansible.builtin.file:
     path: "{{ getent_passwd[pgroute66_osuser][4] }}/.postgresql"
     state: directory
     owner: "{{ pgroute66_osuser }}"
@@ -27,13 +27,13 @@
     mode: "0750"
 
 - name: "Deploy certs to ~/.postgresql/"
-  copy:
+  ansible.builtin.copy:
     dest: "{{ getent_passwd[pgroute66_osuser][4] }}/.postgresql/{{ item.name }}"
     owner: "{{ pgroute66_osuser }}"
     group: "{{ pgroute66_osgroup }}"
     mode: "{{ item.mode }}"
     content: "{{ item.content }}"
-  diff: no
+  diff: false
   loop:
     - name: root.crt
       mode: "0640"
@@ -48,8 +48,8 @@
     label: "{{ item.name }}"
   when: pgroute66_cert_managed
 
-- name: create deploydir and configdir
-  file:
+- name: Create deploydir and configdir
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: "0755"
@@ -57,32 +57,31 @@
     - "{{ pgroute66_deploydir }}"
     - "{{ pgroute66_configdir }}"
 
-- name: copy rpm
-  copy:
+- name: Copy rpm
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/tmp"
   loop: "{{ pgroute66_local_packages }}"
 
-- name: install pgroute66
-  yum:
+- name: Install pgroute66
+  ansible.builtin.dnf:
     name: "/tmp/{{ item }}"
     disable_gpg_check: "true"
     state: present
   loop: "{{ pgroute66_local_packages }}"
 
-- name: install pgroute66
-  yum:
+- name: Install pgroute66
+  ansible.builtin.dnf:
     name: "{{ item }}"
     disable_gpg_check: "true"
     state: present
   loop: "{{ pgroute66_packages }}"
 
 - name: Deploy pgroute66 scripts
-  template:
+  ansible.builtin.template:
     src: "files/{{ item }}"
     dest: "{{ pgroute66_deploydir }}/{{ item }}"
     mode: "0755"
   loop:
     - checkpgprimary.sh
     - checkpgstandby.sh
-
