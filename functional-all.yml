@@ -129,12 +129,3 @@
     - pgquartz
   tags:
     - pgquartz
-#- hosts:
-#    - monitoring
-#  become: true
-#  gather_facts: false
-#  roles:
-#    - pgwatch2
-#    - cloudalchemy.grafana
-#  tags:
-#    - pgwatch2
