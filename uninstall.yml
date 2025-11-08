@@ -1,43 +1,43 @@
 ---
-- name: "deinstallatie van bouwblok"
+- name: "Deinstallatie van bouwblok"
   hosts:
     - all
   vars_prompt:
     - name: sure
       prompt: "Dit playbook deinstalleert bouwblok, weet je zeker? Type YES om door te gaan, CTRL+C om af te breken..."
-      private: no
+      private: false
   become: true
   tasks:
     - name: "Are you sure?"
-      assert:
+      ansible.builtin.assert:
         that:
           - "sure == 'YES'"
 
-    - name: stop services
-      service:
+    - name: Stop services
+      ansible.builtin.service:
         name: "{{ item }}"
         state: stopped
-      ignore_errors: true
+      ignore_errors: "{{ ansible_check_mode }}"
       loop: "{{ uninstall_services }}"
 
-    - name: remove packages
-      dnf:
+    - name: Remove packages
+      ansible.builtin.dnf:
         name: "{{ uninstall_linux_packages }}"
         state: absent
       when: inventory_hostname in groups['hacluster'] or inventory_hostname in groups['router']
 
-    - name: remove users
+    - name: Remove users
       become: true
-      user:
+      ansible.builtin.user:
         name: "{{ item }}"
         remove: true
         force: true
         state: absent
       loop: "{{ uninstall_user_list }}"
 
-    - name: remove data
+    - name: Remove data
       become: true
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: absent
       loop: "{{ uninstall_file_list }}"
