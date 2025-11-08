@@ -1,9 +1,9 @@
 ---
 - name: Create an avchecker user in Postgres
   become: true
-  become_user: 'postgres'
+  become_user: "postgres"
   community.postgresql.postgresql_user:
-    name: '{{ avchecker_user }}'
+    name: "{{ avchecker_user }}"
     state: present
   environment:
     PGSERVICE: master
@@ -11,9 +11,9 @@
 
 - name: Grant permissions
   become: true
-  become_user: 'postgres'
+  become_user: "postgres"
   community.postgresql.postgresql_privs:
-    roles: '{{ avchecker_user }}'
+    roles: "{{ avchecker_user }}"
     privs: CREATE
     type: database
     objs: postgres

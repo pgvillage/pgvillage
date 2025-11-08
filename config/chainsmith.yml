@@ -7,7 +7,7 @@ subject:
   OU: Postgres bouwblok
   CN: postgres
 
-#tmpdir: /tmp/certs/postgres
+# tmpdir: /tmp/certs/postgres
 
 intermediates:
   - name: server

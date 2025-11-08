@@ -1,15 +1,19 @@
 ---
 - name: Halt
+  vars:
+    _cluster_name: "{{ cluster_name | default('cluster1') }}"
   hosts:
-    - "{{ cluster_name }}-*"
+    - "{{ _cluster_name }}-*"
   tasks:
-    - name: exit
-      assert:
-        that: cluster_name | length > 5
+    - name: Exit
+      ansible.builtin.assert:
+        that: _cluster_name | length > 5
 
 - name: Deploy minimal
+  vars:
+    _cluster_name: "{{ cluster_name | default('cluster1') }}"
   hosts:
-    - "{{ cluster_name }}-*"
+    - "{{ _cluster_name }}-*"
   become: true
   gather_facts: true
   roles:
@@ -38,9 +42,9 @@
         - postgres
         - postgresql
         - pg
-    #- role: avchecker
-    #  tags:
-    #    - linux
-    #- role: pgquartz
-    #  tags:
-    #    - linux
+    # - role: avchecker
+    #   tags:
+    #     - linux
+    # - role: pgquartz
+    #   tags:
+    #     - linux
