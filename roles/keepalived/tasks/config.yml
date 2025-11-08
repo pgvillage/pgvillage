@@ -6,18 +6,7 @@
     sysctl_set: "true"
     state: present
     reload: "true"
-  loop:
-    - { key: "net.core.rmem_max", value: "{{ net_core_rmem_max }}" }
-    - { key: "net.ipv4.tcp_rmem", value: "{{ net_ipv4_tcp_rmem }}" }
-    - { key: "net.core.wmem_max", value: "{{ net_core_wmem_max }}" }
-    - { key: "net.ipv4.tcp_wmem", value: "{{ net_ipv4_tcp_wmem }}" }
-    - { key: "net.ipv4.tcp_fin_timeout", value: "{{ net_ipv4_tcp_fin_timeout }}" }
-    - { key: "net.ipv4.tcp_tw_reuse", value: "{{ net_ipv4_tcp_tw_reuse }}" }
-    - { key: "net.core.netdev_max_backlog", value: "{{ net_core_netdev_max_backlog }}" }
-    - { key: "net.ipv4.ip_local_port_range", value: "{{ net_ipv4_ip_local_port_range }}" }
-    - { key: "net.ipv4.ip_nonlocal_bind", value: "{{ net_ipv4_ip_nonlocal_bind }}" }
-    - { key: "net.ipv4.ip_forward", value: "{{ net_ipv4_ip_forward }}" }
-    - { key: "net.ipv4.conf.all.forwarding", value: "{{ net_ipv4_conf_all_forwarding }}" }
+  loop: "{{ keepalived_sysctl_config }}"
 
 - name: Copy keepalived.service
   ansible.builtin.template:
