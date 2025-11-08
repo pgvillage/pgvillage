@@ -1,7 +1,7 @@
 ---
 - name: Halt
   hosts:
-    - "{{ cluster_name }}-*"
+    - '{{ cluster_name }}-*'
   tasks:
     - name: exit
       assert:
@@ -9,7 +9,7 @@
 
 - name: Deploy minimal
   hosts:
-    - "{{ cluster_name }}-*"
+    - '{{ cluster_name }}-*'
   become: true
   gather_facts: true
   roles:
@@ -26,7 +26,7 @@
       tags:
         - firewall
         - firewalld
-    - role: andrewrothstein.etcd-cluster
+    - role: etcd
       tags:
         - etcd
     - role: walg

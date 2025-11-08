@@ -1,5 +1,5 @@
 ---
-- name: "Gather facts on all servers"
+- name: 'Gather facts on all servers'
   hosts:
     - hacluster
     - backup
@@ -52,7 +52,7 @@
   become: true
   gather_facts: false
   roles:
-    - andrewrothstein.etcd-cluster
+    - etcd
   tags:
     - etcd
 

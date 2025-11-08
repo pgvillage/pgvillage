@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Test {{ playbook_dir }}
+  hosts: all
   roles:
     - role: "{{ playbook_dir }}"
       etcd_use_ips: false

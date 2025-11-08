@@ -1,12 +1,17 @@
 ---
+etcd_package_version: present
+etcd_package_name: etcd
+
 etcd_user: etcd
 etcd_group: etcd
 etcd_install_dir: /usr/local/bin
 etcd_data_dir: /var/lib/etcd
 
 etcd_master_group_name: etcd_master
-etcd_cluster: "{% for host in groups[etcd_master_group_name] %}{{ hostvars[host]['ansible_fqdn'] }}={{ etcd_scheme }}{{ hostvars[host]['etcd_address_cluster'] }}:{{
-  etcd_port_peer }}{% if not loop.last %},{% endif %}{% endfor %}"
+etcd_cluster: >
+  {%- for host in groups[etcd_master_group_name] -%}
+  {{ hostvars[host]['ansible_fqdn'] }}={{ etcd_scheme }}{{ hostvars[host]['etcd_address_cluster'] }}:{{ etcd_port_peer }}{%- if not loop.last -%},{%- endif -%}
+  {%- endfor -%}"
 
 etcd_secure: false
 etcd_pki_dir: ~/pki-dir
