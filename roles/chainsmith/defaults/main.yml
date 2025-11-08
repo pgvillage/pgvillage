@@ -1,6 +1,7 @@
 ---
 # defaults file for chainsmith
 
+chainsmith_package_state: present
 chainsmith_package_names:
   - chainsmith
 
@@ -18,7 +19,7 @@ chainsmith_subject:
   CN: postgres
 
 chainsmith_tmpdir: "{{ chainsmith_tmpfile.path }}"
-#chainsmith_tmpdir: /tmp/certs/postgres
+# chainsmith_tmpdir: /tmp/certs/postgres
 
 chainsmith_server_intermediate:
   name: server
@@ -33,13 +34,26 @@ chainsmith_server_intermediate:
 chainsmith_node_group: hacluster
 chainsmith_nodes: "{{ groups[chainsmith_node_group] }}"
 chainsmith_hosts: "{% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes }}"
-chainsmith_ips: "{% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_facts.all_ipv4_addresses[0]) %}{% endfor %}{{ nodes
-  }}"
+chainsmith_ips: |
+  {% set nodes = [] %}
+  {% for node in chainsmith_nodes %}
+  {% do nodes.append(hostvars[node].ansible_facts.all_ipv4_addresses[0]) %}
+  {% endfor %}
+  {{ nodes }}
 # This allows for server certs which correspond to all hosts, which is a requirement for stolon_proxy
-chainsmith_servers: "{% set nodes = {} %}{% for node in chainsmith_nodes %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_hosts+chainsmith_ips})
-  %}{% endfor %}{{ nodes }}"
+chainsmith_servers: |
+  {% set nodes = {} %}
+  {% for node in chainsmith_nodes %}
+  {% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_hosts + chainsmith_ips}) %}
+  {% endfor %}
+  {{ nodes }}
 # For server certs which correspond to one host only, use the following:
-#chainsmith_servers: "{% set nodes = {} %}{% for node in groups[chainsmith_node_group] %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: hostvars[node].ansible_facts.all_ipv4_addresses }) %}{% endfor %}{{ nodes }}"
+# chainsmith_servers: |
+#   {% set nodes = {} %}
+#   {% for node in groups[chainsmith_node_group] %}
+#   {% do nodes.update({hostvars[node].ansible_facts.fqdn: hostvars[node].ansible_facts.all_ipv4_addresses }) %}
+#   {% endfor %}
+#   {{ nodes }}
 
 # you can specify users and client certs per node group, by default we deploy on all nodes
 chainsmith_users:
@@ -53,16 +67,20 @@ chainsmith_users:
   backup:
     - minio
 
-#chainsmith_client_cert_sub_folder: '.chainsmith'
-#chainsmith_client_cert_filename: 'client.crt'
-#chainsmith_client_pkey_filename: 'client.key'
+# chainsmith_client_cert_sub_folder: '.chainsmith'
+# chainsmith_client_cert_filename: 'client.crt'
+# chainsmith_client_pkey_filename: 'client.key'
 chainsmith_client_cert_sub_folder: ".postgresql"
 chainsmith_client_cert_filename: "postgresql.crt"
 chainsmith_client_pkey_filename: "postgresql.key"
 chainsmith_client_root_filename: root.crt
 
-chainsmith_internal_clients: "{% set clients = [] %}{% for groupclients in chainsmith_users.values() %}{% do clients.extend(groupclients) %}{% endfor %}{{ clients
-  }}"
+chainsmith_internal_clients: |
+  {% set clients = [] %}
+  {% for groupclients in chainsmith_users.values() %}
+  {% do clients.extend(groupclients) %}
+  {% endfor %}
+  {{ clients }}
 
 chainsmith_external_clients:
   - applicatie
@@ -106,10 +124,10 @@ chainsmith_server_key_files:
 
 chainsmith_cert_files: |
   {% set files = [] %}
-  {% for user in chainsmith_users|bygroup(group_names) %}
-  {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_cert_filename }) %}
-  {% do files.append({'dest': getent_passwd[user][4]+'/'+chainsmith_client_cert_sub_folder+'/'+chainsmith_client_root_filename }) %}
+  {% for user in chainsmith_users | bygroup(group_names) %}
+  {% do files.append({'dest': getent_passwd[user][4] + '/' + chainsmith_client_cert_sub_folder + '/' + chainsmith_client_cert_filename}) %}
+  {% do files.append({'dest': getent_passwd[user][4] + '/' + chainsmith_client_cert_sub_folder + '/' + chainsmith_client_root_filename}) %}
   {% endfor %}
-  {% do files.append({'dest': chainsmith_server_cert_path+'/server.crt' }) %}
-  {% do files.append({'dest': chainsmith_server_cert_path+'/root.crt' }) %}
+  {% do files.append({'dest': chainsmith_server_cert_path + '/server.crt'}) %}
+  {% do files.append({'dest': chainsmith_server_cert_path + '/root.crt'}) %}
   {{ files }}

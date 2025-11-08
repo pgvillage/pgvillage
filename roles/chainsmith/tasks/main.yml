@@ -1,7 +1,8 @@
 ---
 # tasks file for chainsmith
 
-- ansible.builtin.getent:
+- name: Get user info
+  ansible.builtin.getent:
     database: passwd
     split: ":"
 
@@ -17,12 +18,12 @@
   register: chainsmith_tmpfile
   when: 'inventory_hostname == "localhost"'
 
-#- name: Debug
-#  debug:
-#    var: '{{ item }}'
-#  loop:
-#    - chainsmith_client_cert_files
-#    - chainsmith_server_cert_files
+# - name: Debug
+#   debug:
+#     var: '{{ item }}'
+#   loop:
+#     - chainsmith_client_cert_files
+#     - chainsmith_server_cert_files
 
 - name: Create list of certs
   ansible.builtin.template:
@@ -40,14 +41,27 @@
   ignore_errors: true
   when: 'inventory_hostname != "localhost"'
 
-#- name: debug
-#  debug:
-#    msg: '{{ ansible_play_hosts_all | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc") | max }}'
+# - name: debug
+#   debug:
+#     msg: |
+#       {{
+#         ansible_play_hosts_all |
+#         map("extract", hostvars) |
+#         selectattr("chainsmith_cert_check", "defined") |
+#         map(attribute="chainsmith_cert_check.rc") |
+#         max
+#       }}'
 
 - name: Generate and deploy certs
   vars:
-    issuecount: '{{ (groups["hacluster"] + groups["backup"]) | map("extract", hostvars) | selectattr("chainsmith_cert_check", "defined") | map(attribute="chainsmith_cert_check.rc")
-      | max }}'
+    issuecount: |
+      {{
+        (groups["hacluster"] + groups["backup"]) |
+        map("extract", hostvars) |
+        selectattr("chainsmith_cert_check", "defined") |
+        map(attribute="chainsmith_cert_check.rc") |
+        max
+      }}
   when: issuecount|int > 0
   block:
     - name: Run chainsmith

@@ -3,7 +3,7 @@
 - name: Install chainsmith package for easy cert generation
   ansible.builtin.dnf:
     name: "{{ item }}"
-    state: present
+    state: "{{ chainsmith_package_state }}"
   loop: "{{ chainsmith_package_names }}"
   run_once: true
   when:

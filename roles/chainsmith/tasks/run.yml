@@ -1,14 +1,13 @@
 ---
-# tasks file for chainsmith
-#- name: path to config file
-#  debug:
-#    var: items
-#  loop:
-#    - "{{ chainsmith_internal_clients }}"
-#    - "{{ chainsmith_external_clients }}"
+# - name: path to config file
+#   debug:
+#     var: items
+#   loop:
+#     - "{{ chainsmith_internal_clients }}"
+#     - "{{ chainsmith_external_clients }}"
 
-- when: 'inventory_hostname == "localhost"'
-
+- name: Run chainsmith with proper config
+  when: 'inventory_hostname == "localhost"'
   block:
     - name: Create temporary chainsmith config file
       ansible.builtin.tempfile:
@@ -24,6 +23,7 @@
       ansible.builtin.copy:
         dest: "{{ chainsmith_config.path }}"
         content: "{{ chainsmith_body | to_nice_json }}"
+        mode: "0600"
 
     - name: Run chainsmith
       ansible.builtin.command:
@@ -31,6 +31,8 @@
       environment:
         CHAINSMITH_CONFIG: "{{ chainsmith_config.path }}"
       register: chainsmith_out
+      changed_when: false
+
 - name: Set chain facts
   ansible.builtin.set_fact:
     chainsmith_results_server_cert: "{{ chainsmith_results.certs.server[ansible_fqdn] }}"
