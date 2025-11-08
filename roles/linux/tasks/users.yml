@@ -2,9 +2,9 @@
 - name: Create groups
   ansible.builtin.group:
   args: "{{ item }}"
-  loop: "{{ linux_groups|bygroup(group_names) }}"
+  loop: "{{ linux_groups | bygroup(group_names) }}"
 
 - name: Create users
   ansible.builtin.user:
   args: "{{ item }}"
-  loop: "{{ linux_users|bygroup(group_names) }}"
+  loop: "{{ linux_users | bygroup(group_names) }}"

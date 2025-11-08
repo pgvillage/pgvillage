@@ -41,13 +41,14 @@ linux_rhsm_poolids: {}
 #    # rhel_misc
 #    - "0360c0e47b1a20e9017b81870656140a"
 
+linux_package_state: present
 linux_packages:
   hacluster:
-    - "postgresql{{ linux_pg_version|replace('.','') }}"
-    - "postgresql{{ linux_pg_version|replace('.','') }}-server"
-    - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
-    - "postgresql{{ linux_pg_version|replace('.','') }}-devel"
-    - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
+    - "postgresql{{ linux_pg_version | replace('.', '') }}"
+    - "postgresql{{ linux_pg_version | replace('.', '') }}-server"
+    - "postgresql{{ linux_pg_version | replace('.', '') }}-contrib"
+    - "postgresql{{ linux_pg_version | replace('.', '') }}-devel"
+    - "postgresql{{ linux_pg_version | replace('.', '') }}-plpython3"
     - "stolon"
     - "wal-g-pg"
     - "etcd"
@@ -69,7 +70,7 @@ linux_public_repos:
     enabled: true
     gpgcheck: true
     gpgkey: "{{ linux_pgdg_gpg_key[ansible_architecture] }}"
-    #repo_gpgcheck: yes
+    # repo_gpgcheck: yes
     file: "pgdg-redhat-all"
     exclude: etcd
   - name: "pgdg-rhel-extras"
@@ -78,7 +79,7 @@ linux_public_repos:
     enabled: true
     gpgcheck: true
     gpgkey: "{{ linux_pgdg_gpg_key[ansible_architecture] }}"
-    #repo_gpgcheck: yes
+    # repo_gpgcheck: yes
     file: "pgdg-redhat-all"
   - name: "pgdg{{ linux_pg_version }}"
     description: "PostgreSQL {{ linux_pg_version }} for RHEL / Rocky $releasever - $basearch"
@@ -86,7 +87,7 @@ linux_public_repos:
     enabled: true
     gpgcheck: true
     gpgkey: "{{ linux_pgdg_gpg_key[ansible_architecture] }}"
-    #repo_gpgcheck: yes
+    # repo_gpgcheck: yes
     file: "pgdg-redhat-all"
   - name: "epel"
     description: "Extra Packages for Enterprise Linux {{ ansible_distribution_major_version }} - $basearch"
@@ -94,7 +95,7 @@ linux_public_repos:
     enabled: true
     gpgcheck: "yes"
     gpgkey: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
-    #repo_gpgcheck: yes
+    # repo_gpgcheck: yes
     file: "epel"
 
 linux_disable_gpg_check: "false"
@@ -102,7 +103,7 @@ linux_disable_gpg_check: "false"
 linux_pgdg_gpg_key:
   x86_64: https://download.postgresql.org/pub/repos/yum/keys/PGDG-RPM-GPG-KEY-RHEL
   aarch64: https://download.postgresql.org/pub/repos/yum/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
-  #aarch64: "https://download.postgresql.org/pub/repos/yum/keys/RPM-GPG-KEY-PGDG-AARCH64-RHEL$releasever"
+  # aarch64: "https://download.postgresql.org/pub/repos/yum/keys/RPM-GPG-KEY-PGDG-AARCH64-RHEL$releasever"
 
 linux_rh_subscription: {}
 #  activationkey: "ORG1"
