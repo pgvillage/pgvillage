@@ -2,7 +2,7 @@
 galaxy_info:
   author: Sebastaan Mannem
   description: manage nagios for the vcbw postgres servers
-  company: RIVM
+  company: Nibble-IT
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -17,7 +17,7 @@ galaxy_info:
   # - CC-BY-4.0
   license: GPL-2.0-or-later
 
-  min_ansible_version: 2.9
+  min_ansible_version: "2.9"
 
   # If this a Container Enabled role, provide the minimum Ansible Container version.
   # min_ansible_container_version:

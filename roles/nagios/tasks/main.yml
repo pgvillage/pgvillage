@@ -2,21 +2,25 @@
 # tasks file for nagios
 - name: Get semodule list
   ansible.builtin.command: semodule -l
-  register: semodule_list
+  register: nagios_semodule_list
+  changed_when: false
   when:
     - ansible_distribution_file_variety is defined
     - ansible_distribution_file_variety == 'RedHat'
 
-- ansible.builtin.include_tasks: "selinux.yml"
+- name: Configure se-linux
+  ansible.builtin.include_tasks: "selinux.yml"
   when:
     - ansible_distribution_file_variety is defined
     - ansible_distribution_file_variety == 'RedHat'
-    - "'my-nrpe' not in semodule_list.stdout_lines"
+    - "'my-nrpe' not in nagios_semodule_list.stdout_lines"
 
-- ansible.builtin.include_tasks: "postgres.yml"
+- name: Create postgres user for nrpe
+  ansible.builtin.include_tasks: "postgres.yml"
   when: "'postgres' in group_names"
 
-- ansible.builtin.include_tasks: "configure_nagios.yml"
+- name: Configure nagios
+  ansible.builtin.include_tasks: "configure_nagios.yml"
   when: "'postgres' in group_names"
 # - name: Get semodule list
 #   command: semodule -l
