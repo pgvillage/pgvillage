@@ -8,10 +8,10 @@
     enabled: true
 
 - name: Check started
-  ansible.builtin.command: curl -k {{ endpoint.url }}
-  register: curl_minio
+  ansible.builtin.uri:
+    url: "{{ endpoint.url }}"
+  register: minio_curl
   retries: 60
   delay: 1
-  until: curl_minio.rc == 0
   vars:
     endpoint: "{{ __minio_endpoint_defaults | combine(minio_endpoint) }}"

@@ -4,6 +4,7 @@
     state: directory
     owner: "{{ item.value.owner }}"
     path: "{{ item.value.path }}"
+    mode: "0700"
   loop: "{{ minio_cert_folders | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"
@@ -18,7 +19,7 @@
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"
   when: minio_cert_from_string
-  notify: restart minio
+  notify: Restart minio
 
 - name: Deploy certs from file
   ansible.builtin.copy:
@@ -33,4 +34,4 @@
   when:
     - not minio_cert_from_string
     - "item.value.source | default('') != ''"
-  notify: restart minio
+  notify: Restart minio

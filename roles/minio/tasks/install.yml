@@ -2,7 +2,7 @@
 - name: Create Minio group
   ansible.builtin.group:
     name: "{{ minio_group }}"
-    state: present
+    state: "{{ minio_package_state }}"
 
 - name: Create Minio user
   ansible.builtin.user:
@@ -22,7 +22,7 @@
 - name: Install minio packages
   ansible.builtin.package:
     name: "{{ item }}"
-    state: present
+    state: "{{ minio_package_state }}"
     disable_gpg_check: "true"
   with_items: "{{ minio_package_names }}"
 
@@ -33,7 +33,7 @@
     owner: "root"
     group: "{{ minio_group }}"
     mode: "0640"
-  notify: restart minio
+  notify: Restart minio
 
 - name: Create the Minio server systemd config
   ansible.builtin.template:
@@ -41,6 +41,7 @@
     dest: "/etc/systemd/system/minio.service"
     owner: "root"
     group: "root"
+    mode: "0644"
   when: ansible_service_mgr == "systemd"
 
 - name: Create the Minio server init.d config

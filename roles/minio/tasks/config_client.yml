@@ -39,3 +39,4 @@
   become_user: "{{ minio_user }}"
   ansible.builtin.command: "/usr/local/bin/mcli mb 'minio/{{ item }}' {{ minio_cli_options }}"
   loop: "{{ minio_buckets }}"
+  changed_when: false

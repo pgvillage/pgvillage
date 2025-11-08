@@ -1,4 +1,5 @@
 ---
+minio_package_state: present
 
 minio_package_names:
   - minio
