@@ -4,7 +4,7 @@
     name: "{{ pgquartz_osgroup }}"
     gid: "{{ pgquartz_gid }}"
     system: "true"
-    state: present
+    state: "{{ pgquartz_package_state }}"
 
 - name: "Create pgquartz_user"
   ansible.builtin.user:
@@ -13,9 +13,10 @@
     uid: "{{ pgquartz_uid }}"
     create_home: "true"
     system: "true"
-    state: present
+    state: "{{ pgquartz_package_state }}"
 
-- ansible.builtin.getent:
+- name: Get user infor for {{ pgquartz_osuser }}
+  ansible.builtin.getent:
     database: passwd
     key: "{{ pgquartz_osuser }}"
     split: ":"
@@ -65,18 +66,19 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/tmp"
+    mode: "0600"
   loop: "{{ pgquartz_local_packages }}"
 
 - name: Install pgquartz
   ansible.builtin.dnf:
     name: "/tmp/{{ item }}"
     disable_gpg_check: "true"
-    state: present
+    state: "{{ pgquartz_package_state }}"
   loop: "{{ pgquartz_local_packages }}"
 
 - name: Install pgquartz
   ansible.builtin.dnf:
     name: "{{ item }}"
     disable_gpg_check: "true"
-    state: present
+    state: "{{ pgquartz_package_state }}"
   loop: "{{ pgquartz_packages }}"
