@@ -1,17 +1,18 @@
 ---
 - name: Create folders
-  file:
+  ansible.builtin.file:
     state: directory
     owner: "{{ item.value.owner }}"
     path: "{{ item.value.path }}"
+    mode: "0700"
   loop: "{{ walg_cert_folders | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"
 
 - name: Deploy files
-  copy:
+  ansible.builtin.copy:
     dest: "{{ item.value.path }}"
-#    content: "{{ item.value.body }}"
+    #    content: "{{ item.value.body }}"
     src: "{{ item.value.src }}"
     owner: "{{ item.value.owner | default('root') }}"
     mode: "0600"

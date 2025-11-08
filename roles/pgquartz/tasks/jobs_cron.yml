@@ -1,14 +1,14 @@
 ---
-
 - name: Create logfolder
-  file:
+  ansible.builtin.file:
     dest: "{{ pgquartz_logfolder }}"
     state: directory
     owner: "{{ pgquartz_osuser }}"
     group: "{{ pgquartz_osgroup }}"
+    mode: "0700"
 
 - name: Set cronvars
-  cronvar:
+  community.general.cronvar:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     cron_file: pgquartz
@@ -21,7 +21,7 @@
     repo: "{{ item.url }}"
     dest: "{{ item.dest }}"
     version: "{{ item.branch | default('master') }}"
-    force: yes
+    force: true
   loop: "{{ pgquartz_definitions }}"
 
 - name: Cronjobs
@@ -37,10 +37,10 @@
     month: "{{ item.month | default('*') }}"
   loop: "{{ pgquartz_jobs }}"
 
-- name: add logrotate
-  copy:
+- name: Add logrotate
+  ansible.builtin.copy:
     content: "{{ pgquartz_logrotate_config }}"
     dest: /etc/logrotate.d/pgquartz
-    mode: 0644
+    mode: "0644"
     owner: root
     group: root

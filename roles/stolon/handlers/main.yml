@@ -2,8 +2,8 @@
 # handlers file for stolon
 
 - name: Restart stolon-stkeeper
-  become: "true"
-  systemd:
+  become: true
+  ansible.builtin.systemd:
     name: "stolon-keeper.service"
     state: restarted
     enabled: "true"
@@ -11,8 +11,8 @@
   throttle: 1
 
 - name: Restart stolon-stsentinel
-  become: "true"
-  systemd:
+  become: true
+  ansible.builtin.systemd:
     name: "stolon-sentinel.service"
     state: restarted
     enabled: "true"
@@ -20,8 +20,8 @@
   throttle: 1
 
 - name: Restart stolon-stproxy
-  become: "true"
-  systemd:
+  become: true
+  ansible.builtin.systemd:
     name: "stolon-proxy.service"
     state: restarted
     enabled: "true"
@@ -29,15 +29,17 @@
   throttle: 1
 
 - name: Update cluster spec
-  become: "true"
+  become: true
   become_user: "{{ stolon_user }}"
-  shell:
+  ansible.builtin.shell:
     cmd: '/usr/local/bin/stolonctl update --patch --file "${STOLONCTL_FILE}"'
   environment:
     STOLONCTL_CLUSTER_NAME: "{{ stolon_cluster_name }}"
     STOLONCTL_STORE_BACKEND: "{{ stolon_store_backend }}"
     STOLONCTL_FILE: "{{ stolon_custom_config_file }}"
-  throttle: 1
+  run_once: true
+  changed_when: false
 
-- name: apply sysctl changes
-  shell: "sysctl --system"
+- name: Apply sysctl changes
+  ansible.builtin.command: "sysctl --system"
+  changed_when: false

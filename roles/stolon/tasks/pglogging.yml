@@ -1,7 +1,6 @@
 ---
-
 - name: Create log directory
-  file:
+  ansible.builtin.file:
     dest: "{{ stolon_pg_log_directory }}"
     state: directory
     owner: "{{ stolon_user }}"
@@ -10,7 +9,7 @@
   when: not stolon_pg_log_directory.startswith(stolon_pg_datadir)
 
 - name: "Postgres maintenance jobs"
-  cron:
+  ansible.builtin.cron:
     name: "{{ item.name }}"
     user: "{{ stolon_user }}"
     minute: "{{ item.minute | default('*') }}"
@@ -25,7 +24,7 @@
   when: stolon_pg_cron_enabled
 
 - name: Set mailto for postgres cron
-  cronvar:
+  community.general.cronvar:
     name: MAILTO
     value: "{{ stolon_pg_cron_mailto }}"
     user: "{{ stolon_user }}"

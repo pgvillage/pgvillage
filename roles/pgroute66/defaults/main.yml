@@ -6,6 +6,7 @@ pgroute66_configdir: /etc/pgroute66
 pgroute66_osuser: pgroute66
 pgroute66_osgroup: pgroute66
 pgroute66_pguser: pgroute66
+pgroute66_package_state: present
 pgroute66_packages:
   - pgroute66
 pgroute66_local_packages: []

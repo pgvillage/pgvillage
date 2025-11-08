@@ -1,13 +1,13 @@
 ---
 subject:
-  C:  NL/postalCode=3721 MA
+  C: NL/postalCode=3721 MA
   ST: Utrecht
-  L:  Bilthoven/street=Antonie v Leeuwenhoekln 9
-  O:  Rijksinstituut voor Volksgezondheid en Milieu (RIVM)
+  L: Bilthoven/street=Antonie v Leeuwenhoekln 9
+  O: Rijksinstituut voor Volksgezondheid en Milieu (RIVM)
   OU: Postgres bouwblok
   CN: postgres
 
-#tmpdir: /tmp/certs/postgres
+# tmpdir: /tmp/certs/postgres
 
 intermediates:
   - name: server
@@ -18,10 +18,10 @@ intermediates:
     extendedKeyUsages:
       - serverAuth
     servers: {}
-# You can set servers directly
-#      myserver1:
-#        - 192.168.13.14
-# You can read servers from an environment
+  # You can set servers directly
+  #      myserver1:
+  #        - 192.168.13.14
+  # You can read servers from an environment
   - name: client
     clients:
       - postgres

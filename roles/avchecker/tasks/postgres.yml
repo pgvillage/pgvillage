@@ -1,12 +1,24 @@
 ---
-
-# This is a hack.
-# - We could do it with postgres_user, but that fails on a standby.
-# - We should do this with pgfga, but we don't have that implemented yet
-# - This way we always run on a master and that should always work
-- name: create an avchecker user in Postgres (hack, will be pgfga!!!)
+- name: Create an avchecker user in Postgres
+  become: true
   become_user: "postgres"
-  shell: psql -tc "select * from pg_user where usename='{{ avchecker_user }}'" | grep -q '[a-zA-Z0-9]' || psql -c "create user {{ avchecker_user }};grant CREATE on DATABASE postgres to {{ avchecker_user }};"
+  community.postgresql.postgresql_user:
+    name: "{{ avchecker_user }}"
+    state: present
   environment:
     PGSERVICE: master
-  throttle: 1
+  run_once: true
+
+- name: Grant permissions
+  become: true
+  become_user: "postgres"
+  community.postgresql.postgresql_privs:
+    roles: "{{ avchecker_user }}"
+    privs: CREATE
+    type: database
+    objs: postgres
+    login_db: postgres
+    state: present
+  environment:
+    PGSERVICE: master
+  run_once: true

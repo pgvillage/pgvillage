@@ -1,6 +1,6 @@
 ---
 - name: Deploy systemd file
-  template:
+  ansible.builtin.template:
     owner: root
     group: root
     src: "templates/pgquartz.{{ item }}.j2"
@@ -11,11 +11,11 @@
     - timer
 
 - name: Delete logfolder
-  file:
+  ansible.builtin.file:
     dest: "{{ pgquartz_logfolder }}"
     state: absent
 
 - name: Delete cron files
-  file:
+  ansible.builtin.file:
     dest: "/etc/cron.d/pgquartz"
     state: absent

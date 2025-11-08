@@ -1,6 +1,6 @@
 ---
 - name: Checking for valid certs config
-  assert:
+  ansible.builtin.assert:
     that:
       - "'\n' in minio_client_cert"
       - "'\n' in minio_server_cert"
@@ -10,11 +10,16 @@
     success_msg: "Client and server certs seem properly setup"
   when: minio_cert_managed
 
-- include_tasks: install.yml
-- getent:
+- name: Get user info
+  ansible.builtin.getent:
     database: passwd
     key: "{{ minio_user }}"
     split: ":"
-- include_tasks: certs.yml
-- include_tasks: start.yml
-- include_tasks: config_client.yml
+- name: Install minio
+  ansible.builtin.include_tasks: install.yml
+- name: Deploy certificates for minio
+  ansible.builtin.include_tasks: certs.yml
+- name: Start minio
+  ansible.builtin.include_tasks: start.yml
+- name: Configure minio client and create buckets
+  ansible.builtin.include_tasks: config_client.yml

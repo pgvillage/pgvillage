@@ -1,12 +1,14 @@
 ---
-- hosts:
+- name: Test
+  hosts:
     - backup
   become: true
   gather_facts: false
   tasks:
     - name: Check the status of the stanza
-      command: ls /
+      ansible.builtin.command: ls /
       register: stanza_check
-    - name: debug
-      debug:
+      changed_when: false
+    - name: Debug
+      ansible.builtin.debug:
         var: stanza_check

@@ -1,15 +1,16 @@
 ---
 - name: Create folders
-  file:
+  ansible.builtin.file:
     state: directory
     owner: "{{ item.value.owner }}"
     path: "{{ item.value.path }}"
+    mode: "0700"
   loop: "{{ minio_cert_folders | dict2items }}"
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"
 
 - name: Deploy certs from string
-  copy:
+  ansible.builtin.copy:
     dest: "{{ item.value.path }}"
     content: "{{ item.value.body }}"
     owner: "{{ item.value.owner | default('root') }}"
@@ -18,19 +19,19 @@
   loop_control:
     label: "{{ item.key }} -> {{ item.value.path }}"
   when: minio_cert_from_string
-  notify: restart minio
+  notify: Restart minio
 
 - name: Deploy certs from file
-  copy:
+  ansible.builtin.copy:
     dest: "{{ item.value.path }}"
     src: "{{ item.value.source }}"
     owner: "{{ item.value.owner | default('root') }}"
     mode: "0600"
-    remote_src : "{{ minio_cert_remote }}"
+    remote_src: "{{ minio_cert_remote }}"
   loop: "{{ minio_cert_files | dict2items }}"
   loop_control:
     label: "{{ item.value.source | default(item.key) }} -> {{ item.value.path }}"
   when:
     - not minio_cert_from_string
     - "item.value.source | default('') != ''"
-  notify: restart minio
+  notify: Restart minio

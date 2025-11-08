@@ -9,6 +9,7 @@ pgquartz_osgroup: pgquartz
 pgquartz_uid: 9745
 pgquartz_gid: 9745
 pgquartz_pguser: pgquartz
+pgquartz_package_state: present
 pgquartz_packages:
   - pgquartz
   - git

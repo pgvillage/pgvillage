@@ -29,7 +29,7 @@ deploy:
   provider: script
   skip_cleanup: true
   script: .travis/releaser.sh
-  on:
+  on: # yamllint disable-line rule:truthy
     branch: master
 branches:
   only:
