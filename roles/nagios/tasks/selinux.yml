@@ -1,7 +1,6 @@
 ---
-
 - name: Set required flags on and keep it persistent across reboots
-  seboolean:
+  ansible.posix.seboolean:
     name: "{{ item }}"
     state: "true"
     persistent: "true"
@@ -12,20 +11,22 @@
   ansible.builtin.tempfile:
     state: directory
     suffix: build
-  register: tempfolder
+  register: nagios_tempfolder
 
-- name: copy module file
-  copy:
+- name: Copy module file
+  ansible.builtin.copy:
     src: "files/{{ item }}.te"
-    dest: "{{ tempfolder.path }}/{{ item }}.te"
+    dest: "{{ nagios_tempfolder.path }}/{{ item }}.te"
+    mode: "0600"
   loop: "{{ nagios_selinux_modules }}"
 
-- name: install selinux module if needed
-  shell: |
-    cd "{{ tempfolder.path }}"
+- name: Install selinux module if needed
+  ansible.builtin.shell: |
+    cd "{{ nagios_tempfolder.path }}"
     for F in *.te; do
       MOD=$(basename $F .te)
       checkmodule -M -m -o $MOD.mod $MOD.te
       semodule_package -o $MOD.pp -m $MOD.mod
       semodule -i $MOD.pp
     done
+  changed_when: false

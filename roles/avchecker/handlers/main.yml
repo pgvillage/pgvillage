@@ -2,8 +2,8 @@
 # handlers file for avchecker
 
 - name: Restart avchecker@ services
-  become: "true"
-  systemd:
+  become: true
+  ansible.builtin.systemd:
     name: "avchecker@{{ item.key }}.service"
     state: restarted
     enabled: "true"

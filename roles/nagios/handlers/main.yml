@@ -1,8 +1,8 @@
 ---
 # handlers file for nagios
 
-- name: reload nagios
-  systemd:
+- name: Reload nagios
+  ansible.builtin.systemd:
     name: "nagios.service"
     state: reloaded
   delegate_to: "{{ item.hostname }}"

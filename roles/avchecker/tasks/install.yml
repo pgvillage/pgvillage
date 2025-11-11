@@ -1,17 +1,17 @@
 ---
 - name: Create avchecker group
-  group:
+  ansible.builtin.group:
     name: "{{ avchecker_group }}"
     state: present
 
 - name: Create avchecker user
-  user:
+  ansible.builtin.user:
     name: "{{ avchecker_user }}"
     group: "{{ avchecker_group }}"
     shell: /bin/bash
 
-- name: create installdir
-  file:
+- name: Create installdir
+  ansible.builtin.file:
     name: "{{ avchecker_path }}"
     state: directory
     owner: root
@@ -19,7 +19,7 @@
     mode: "0755"
 
 - name: Install script
-  copy:
+  ansible.builtin.copy:
     src: avchecker.py
     dest: "{{ avchecker_path }}/avchecker.py"
     owner: root
@@ -27,13 +27,14 @@
     mode: "0755"
 
 - name: Install prereqs
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
-    state: present
-  loop: "{{ avchecker_rpm_packages }}"
+    state: "{{ avchecker_package_state }}"
+  loop: "{{ avchecker_packages }}"
 
 - name: Install avchecker@ systemd service
-  template:
+  ansible.builtin.template:
     src: "avchecker@.service.j2"
     dest: "/etc/systemd/system/avchecker@.service"
-    force: yes
+    mode: "0644"
+    force: true

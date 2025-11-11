@@ -11,4 +11,4 @@ stolon_autoconfig_default:
   max_worker_processes: "{{ stolon_max_worker_processes }}"
   max_parallel_workers: "{{ stolon_max_parallel_workers }}"
   max_parallel_workers_per_gather: "{{ stolon_max_parallel_workers_per_gather }}"
-  max_connections: "{{ stolon_max_connections|string }}"
+  max_connections: "{{ stolon_max_connections | string }}"

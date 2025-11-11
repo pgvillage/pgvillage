@@ -1,11 +1,12 @@
 ---
-- getent:
+- name: Get user info for {{ avchecker_user }}
+  ansible.builtin.getent:
     database: passwd
     key: "{{ avchecker_user }}"
     split: ":"
 
 - name: Create certs folders
-  file:
+  ansible.builtin.file:
     state: directory
     owner: "{{ item.value.owner }}"
     group: "{{ item.value.group }}"
@@ -16,7 +17,7 @@
     label: "{{ item.key }} -> {{ item.value.path }}"
 
 - name: Deploy cert files
-  copy:
+  ansible.builtin.copy:
     dest: "{{ item.value.path }}"
     content: "{{ item.value.body }}"
     owner: "{{ item.value.owner }}"

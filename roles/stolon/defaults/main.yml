@@ -8,8 +8,10 @@ stolon_binary_owner: root
 stolon_pkg_arch: amd64
 stolon_bin_path: "{{ stolon_release_path }}/stolon-{{ stolon_release }}-linux-{{ stolon_pkg_arch }}/bin"
 # If you add items to stolon_packages, the binaries will not be downloaded, but installed from package instead
+stolon_package_name_state: present
 stolon_package_names:
   - stolon
+  - python3-psycopg3
 #  - "stolon-keeper"
 #  - "stolon-proxy"
 #  - "stolon-sentinel"
@@ -20,7 +22,6 @@ stolon_package_names:
 #  - "postgresql{{ stolon_pg_version|replace('.','') }}-plpython3"
 
 stolon_local_package_names: []
-
 # With this we can apply sysctl config as required.
 stolon_sysctl: |
   vm.swappiness = 10
@@ -54,7 +55,6 @@ stolon_pg_repl_connection_type: hostssl
 
 stolon_pg_su_auth_method: cert
 stolon_pg_su_connection_type: hostssl
-
 
 stolon_cluster_name: stolon-cluster
 stolon_host_group: stolon
@@ -91,15 +91,17 @@ stolon_parallel_ratio: 4
 stolon_gather_ratio: 1
 
 # Autoconfig calculations
-stolon_share_buffers_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_shared_buffers_ratio) | int, 8] | max }}"
-stolon_effective_cache_size_mb: "{{ [ ( stolon_available_memory_mb|int * stolon_eff_cache_ratio) | int, 1] | max }}"
-stolon_wal_dir_size: "{{ wal_dir_size.stdout_lines[0] }}"
-stolon_min_wal_size_mb: "{{ [ ( stolon_wal_dir_size|int * stolon_min_wal_size_ratio / 1048576) | int, 80] | max }}"
-stolon_max_wal_size_mb: "{{ [ ( stolon_wal_dir_size|int * stolon_max_wal_size_ratio / 1048576) | int, 1024 ] | max }}"
-stolon_max_worker_processes: "{{ [ansible_processor_vcpus|int * stolon_workers_ratio|int, 8] | max }}"
-stolon_max_parallel_workers: "{{ [ansible_processor_vcpus|int * stolon_parallel_ratio|int, 8] | max }}"
-stolon_max_parallel_workers_per_gather: "{{ [ansible_processor_vcpus|int * stolon_gather_ratio|int, 2] | max }}"
-stolon_work_mem_kb: "{{ [ (1024 * (stolon_available_memory_mb|int - stolon_share_buffers_mb|int) / stolon_max_connections / stolon_query_complexity) | int, 64] | max }}"
+stolon_share_buffers_mb: "{{ [(stolon_available_memory_mb | int * stolon_shared_buffers_ratio) | int, 8] | max }}"
+stolon_effective_cache_size_mb: "{{ [(stolon_available_memory_mb | int * stolon_eff_cache_ratio) | int, 1] | max }}"
+stolon_wal_dir_size: "{{ stolon_get_wal_dir_size.stdout_lines[0] }}"
+stolon_min_wal_size_mb: "{{ [(stolon_wal_dir_size | int * stolon_min_wal_size_ratio / 1048576) | int, 80] | max }}"
+stolon_max_wal_size_mb: "{{ [(stolon_wal_dir_size | int * stolon_max_wal_size_ratio / 1048576) | int, 1024] | max }}"
+stolon_max_worker_processes: "{{ [ansible_processor_vcpus | int * stolon_workers_ratio | int, 8] | max }}"
+stolon_max_parallel_workers: "{{ [ansible_processor_vcpus | int * stolon_parallel_ratio | int, 8] | max }}"
+stolon_max_parallel_workers_per_gather: "{{ [ansible_processor_vcpus | int * stolon_gather_ratio | int, 2] | max }}"
+stolon_private_mem_bytes: "{{ stolon_available_memory_mb | int - stolon_share_buffers_mb | int }}"
+stolon_work_mem_bytes: "{{ stolon_private_mem_bytes | int / stolon_max_connections / stolon_query_complexity }}"
+stolon_work_mem_kb: "{{ [(1024 * stolon_work_mem_bytes | int), 64] | max }}"
 
 # You can easilly set this to another profile if you want to. Or define your own...
 stolon_autoconfig: "{{ stolon_autoconfig_default }}"
@@ -123,7 +125,6 @@ stolon_extra_pg_parameters:
   log_truncate_on_rotation: "true"
 
 stolon_pg_hba: []
-
 stolon_custom_config:
   defaultSUReplAccessMode: "strict"
   pgParameters: "{{ stolon_pg_parameters }}"

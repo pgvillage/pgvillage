@@ -1,63 +1,65 @@
 ---
 # tasks file for nagios
 
-# This is a hack.
-# - We could do it with postgres_user, but that fails on a standby.
-# - We should do this with pgfga, but we don;t have that implemented yet
-# - This way we always run on a master and that should always work
-- name: create an nrpe user in Postgres (hack)
-  become_user: "{{ nagios_running_postgresql_user }}"
-  shell: psql -tc "select * from pg_user where usename='{{ nagios_nrpe_user }}'" | grep -q '[a-zA-Z0-9]' || psql -c "create user {{ nagios_nrpe_user }};alter user {{ nagios_nrpe_user }} superuser;"
+- name: Create an nrpe user in Postgres
+  become: true
+  become_user: "postgres"
+  community.postgresql.postgresql_user:
+    name: "{{ nagios_nrpe_user }}"
+    state: present
+    role_attr_flags: SUPERUSER
   environment:
     PGSERVICE: master
-  throttle: 1
+  run_once: true
 
 - name: Install dependencies
-  yum:
-    name:
-      - nrpe
-      - check_postgres
-    state: present
+  ansible.builtin.dnf:
+    name: "{{ nagios_packages }}"
+    state: "{{ nagios_package_state }}"
 
-- name: get size of data dir in bytes
-  shell:
-    cmd: "df -B1 . | awk '{if(NR==2){print $4}}'"
+- name: Get size of data dir in bytes
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      df -B1 . | awk '{if(NR==2){print $4}}'
   args:
-    chdir: "{{ nagios_data_dir_mp }}"
-  register: data_dir_mp_size
+    chdir: "{{ item }}"
+  loop:
+    - "{{ nagios_data_dir_mp }}"
+    - "{{ nagios_wal_dir_mp }}"
+  changed_when: false
+  register: nagios_mp_sizes_out
 
-- name: get size of WAL dir in bytes
-  shell:
-    cmd: "df -B1 . | awk '{if(NR==2){print $4}}'"
-  args:
-    chdir: "{{ nagios_wal_dir_mp }}"
-  register: wal_dir_mp_size
+- name: Debug
+  ansible.builtin.debug:
+    var: nagios_mp_size
 
-- name: create custom script folder
-  file:
+- name: Create custom script folder
+  ansible.builtin.file:
     path: "{{ nagios_scripts_folder }}"
     state: directory
+    mode: "0755"
 
 - name: Deploy custom scripts
-  copy:
+  ansible.builtin.copy:
     src: "files/nrpe/"
     dest: "{{ nagios_scripts_folder }}/"
-    mode: 0755
+    mode: "0755"
 
-- name: create links for check_postgres.pl
-  file:
+- name: Create links for check_postgres.pl
+  ansible.builtin.file:
     src: /usr/bin/check_postgres.pl
     dest: "{{ nagios_scripts_folder }}/{{ item }}"
     state: link
   loop: "{{ nagios_check_postgres_links }}"
 
-- name: config files
-  template:
+- name: Config files
+  ansible.builtin.template:
     src: "templates/{{ item.key }}.j2"
     dest: "{{ nagios_config_folder }}/{{ item.key }}.cfg"
     owner: "{{ nagios_nrpe_user }}"
     group: "{{ nagios_nrpe_group }}"
-    mode: 0600
+    mode: "0600"
   loop: "{{ nagios_checks | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
@@ -67,19 +69,21 @@
 # NRPE by default has PrivateTmp=true, and thus cannot connect to postgres on /tmp/.s.PGSQL.5432
 # So, set PrivateTmp=false for this to work
 - name: Create nrpe override folder
-  file:
+  ansible.builtin.file:
     dest: /etc/systemd/system/nrpe.service.d
     state: directory
+    mode: "0755"
 - name: Don't set PrivateTmp for nrpe service
-  copy:
+  ansible.builtin.copy:
     dest: /etc/systemd/system/nrpe.service.d/override.conf
+    mode: "0644"
     content: |
       [Service]
       PrivateTmp=false
 
 - name: "Start nrpe service"
-  become: "true"
-  systemd:
+  become: true
+  ansible.builtin.systemd:
     name: nrpe.service
     state: restarted
     enabled: "false"

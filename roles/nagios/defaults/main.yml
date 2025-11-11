@@ -2,54 +2,68 @@
 # defaults file for nagios
 #
 #
-# Note that |percent is a custom jinja filter which can apply a percentage, a minimum and round to n digits
+# Note that  | percent is a custom jinja filter which can apply a percentage, a minimum and round to n digits
 # See roles/nagios/filter_plugins/core.py for the definition
+
+nagios_package_state: present
+
+nagios_packages:
+  - nrpe
+  - check_postgres
 
 nagios_scripts_folder: /opt/nagios/nrpe
 
 nagios_config_folder: /etc/nrpe.d/
 nagios_running_postgresql_user: postgres
 nagios_running_postgresql_search: postgres
-nagios_running_postgresql_warning: "7:{{ nagios_connections_value }}"
-nagios_running_postgresql_critical: "1:{{ nagios_connections_value + 100 }}"
+nagios_running_postgresql_warning: '7:{{ nagios_connections_value }}'
+nagios_running_postgresql_critical: '1:{{ nagios_connections_value + 100 }}'
 
 nagios_nrpe_user: nrpe
-nagios_nrpe_group: "{{ nagios_nrpe_user }}"
+nagios_nrpe_group: '{{ nagios_nrpe_user }}'
 
 nagios_locks_value: 800
-nagios_locks_warning: "{{ nagios_locks_value|percent(50) }}"
-nagios_locks_critical: "{{ nagios_locks_value|percent(75) }}"
+nagios_locks_warning: '{{ nagios_locks_value | percent(50) }}'
+nagios_locks_critical: '{{ nagios_locks_value | percent(75) }}'
 
 nagios_connections_value: 100
-nagios_connections_warning: "{{ nagios_connections_value|percent(70) }}"
-nagios_connections_critical: "{{ nagios_connections_value|percent(80) }}"
+nagios_connections_warning: '{{ nagios_connections_value | percent(70) }}'
+nagios_connections_critical: '{{ nagios_connections_value | percent(80) }}'
 
 nagios_pg_version: 17
 
-nagios_wal_dir_mp: "/"
-nagios_wal_dir_mp_size: "{{ wal_dir_mp_size.stdout_lines[0] }}"
+nagios_wal_dir_mp: '/'
+
+nagios_mp_sizes: |
+  {{
+    nagios_mp_sizes_out.results |
+    items2dict(key_name='item', value_name='stdout')
+  }}
+
+nagios_wal_dir_mp_size: '{{ nagios_mp_sizes[nagios_wal_dir_mp] }}'
 nagios_max_wal_size_warning_percent: 65
 nagios_max_wal_size_critical_percent: 75
-nagios_wal_files_value: "{{ nagios_wal_dir_mp_size|int / 16777216 }}"
-nagios_wal_files_warning: "{{ nagios_wal_files_value|percent(nagios_max_wal_size_warning_percent, 10) }}"
-nagios_wal_files_critical: "{{ nagios_wal_files_value|percent(nagios_max_wal_size_critical_percent, 100) }}"
+nagios_wal_files_value: '{{ nagios_wal_dir_mp_size | int / 16777216 }}'
+nagios_wal_files_warning: '{{ nagios_wal_files_value | percent(nagios_max_wal_size_warning_percent, 10) }}'
+nagios_wal_files_critical: '{{ nagios_wal_files_value | percent(nagios_max_wal_size_critical_percent, 100) }}'
 
-nagios_data_dir_mp: "/"
-nagios_db_size_value: "{{ data_dir_mp_size.stdout_lines[0] }}"
-nagios_db_size_warning: "{{ nagios_db_size_value|percent(80)|human }}"
-nagios_db_size_critical: "{{ nagios_db_size_value|percent(90)|human }}"
+nagios_data_dir_mp: '/'
+nagios_data_dir_mp_size: '{{ nagios_mp_sizes[nagios_data_dir_mp] }}'
+nagios_db_size_value: '{{ nagios_data_dir_mp_size }}'
+nagios_db_size_warning: '{{ nagios_db_size_value | percent(80) | human }}'
+nagios_db_size_critical: '{{ nagios_db_size_value | percent(90) | human }}'
 
-nagios_relation_size_value: "{{ nagios_data_dir_mp_size }}"
-nagios_relation_size_warning: "{{ nagios_relation_size_value|percent(70)|human }}"
-nagios_relation_size_critical: "{{ nagios_relation_size_value|percent(80)|human }}"
+nagios_relation_size_value: '{{ nagios_data_dir_mp_size }}'
+nagios_relation_size_warning: '{{ nagios_relation_size_value | percent(70) | human }}'
+nagios_relation_size_critical: '{{ nagios_relation_size_value | percent(80) | human }}'
 
-nagios_table_size_value: "{{ nagios_data_dir_mp_size }}"
-nagios_table_size_warning: "{{ nagios_table_size_value|percent(70)|human }}"
-nagios_table_size_critical: "{{ nagios_table_size_value|percent(80)|human }}"
+nagios_table_size_value: '{{ nagios_data_dir_mp_size }}'
+nagios_table_size_warning: '{{ nagios_table_size_value | percent(70) | human }}'
+nagios_table_size_critical: '{{ nagios_table_size_value | percent(80) | human }}'
 
-nagios_idx_size_value: "{{ nagios_data_dir_mp_size }}"
-nagios_idx_size_warning: "{{ nagios_idx_size_value|percent(20)|human }}"
-nagios_idx_size_critical: "{{ nagios_idx_size_value|percent(25)|human }}"
+nagios_idx_size_value: '{{ nagios_data_dir_mp_size }}'
+nagios_idx_size_warning: '{{ nagios_idx_size_value | percent(20) | human }}'
+nagios_idx_size_critical: '{{ nagios_idx_size_value | percent(25) | human }}'
 
 nagios_txn_time: 1
 
@@ -58,8 +72,8 @@ nagios_autovac_freeze: 98
 
 nagios_backends_value: 100
 nagios_backends_alert_percent: 95
-nagios_backends_warning: "{{ nagios_backends_value|percent(2 * nagios_backends_alert_percent-100) }}"
-nagios_backends_critical: "{{ nagios_backends_value|percent(nagios_backends_alert_percent) }}"
+nagios_backends_warning: '{{ nagios_backends_value | percent(2 * nagios_backends_alert_percent - 100) }}'
+nagios_backends_critical: '{{ nagios_backends_value | percent(nagios_backends_alert_percent) }}'
 
 # Warning when table size is more then 125% of expected table size (data is 80% or less of relation size)
 # But only for relations larger dan 1G
@@ -73,89 +87,89 @@ nagios_commitratio: 15
 
 nagios_disabled_triggers: 1
 nagios_hitratio: 0
-nagios_prepared_txns: "{{ nagios_connections_value }}"
+nagios_prepared_txns: '{{ nagios_connections_value }}'
 nagios_sequence_space: 90
 nagios_timesync: 5
 nagios_txn_wraparound: 200000000
-nagios_txn_wraparound_warning: "{{ nagios_txn_wraparound|percent(120) }}"
-nagios_txn_wraparound_criticial: "{{ nagios_txn_wraparound|percent(150) }}"
-nagios_disk_space_warning: "80%"
-nagios_disk_space_critical: "90%"
+nagios_txn_wraparound_warning: '{{ nagios_txn_wraparound | percent(120) }}'
+nagios_txn_wraparound_criticial: '{{ nagios_txn_wraparound | percent(150) }}'
+nagios_disk_space_warning: '80%'
+nagios_disk_space_critical: '90%'
 
 nagios_checks:
   multi_check:
     check_postgres_last_analyze:
-      warning: "{{ 5 * 86400 }}"
-      critical: "{{ 5 * 86400 }}"
+      warning: '{{ 5 * 86400 }}'
+      critical: '{{ 5 * 86400 }}'
     check_postgres_last_vacuum:
-      warning: "{{ 5 * 86400 }}"
-      critical: "{{ 7 * 86400 }}"
+      warning: '{{ 5 * 86400 }}'
+      critical: '{{ 7 * 86400 }}'
     check_postgres_locks:
-      warning: "{{ nagios_locks_warning }}"
-      critical: "{{ nagios_locks_critical }}"
+      warning: '{{ nagios_locks_warning }}'
+      critical: '{{ nagios_locks_critical }}'
     check_postgres_connection:
-      warning: "{{ nagios_connections_warning }}"
-      critical: "{{ nagios_connections_critical }}"
+      warning: '{{ nagios_connections_warning }}'
+      critical: '{{ nagios_connections_critical }}'
   check_postgres:
     check_postgres_wal_files:
-      warning: "{{ nagios_wal_files_warning|int|round }}"
-      critical: "{{ nagios_wal_files_critical|int|round }}"
+      warning: '{{ nagios_wal_files_warning | int | round }}'
+      critical: '{{ nagios_wal_files_critical | int | round }}'
     check_postgres_txn_time:
-      warning: "{{ nagios_txn_time/2|round|int }}"
-      critical: "{{ nagios_txn_time }}"
+      warning: '{{ nagios_txn_time / 2 | round | int }}'
+      critical: '{{ nagios_txn_time }}'
     check_postgres_database_size:
-      warning: "{{nagios_db_size_warning }}"
-      critical: "{{ nagios_db_size_critical }}"
+      warning: '{{ nagios_db_size_warning }}'
+      critical: '{{ nagios_db_size_critical }}'
     check_postgres_indexes_size:
-      warning: "{{ nagios_idx_size_warning }}"
-      critical: "{{ nagios_idx_size_critical }}"
+      warning: '{{ nagios_idx_size_warning }}'
+      critical: '{{ nagios_idx_size_critical }}'
     check_postgres_version:
-      warning: "{{ nagios_pg_version }}"
-      critical: "{{ nagios_pg_version }}"
+      warning: '{{ nagios_pg_version }}'
+      critical: '{{ nagios_pg_version }}'
     check_postgres_relation_size:
-      warning: "{{ nagios_relation_size_warning }}"
-      critical: "{{ nagios_relation_size_critical }}"
+      warning: '{{ nagios_relation_size_warning }}'
+      critical: '{{ nagios_relation_size_critical }}'
     check_postgres_table_size:
-      warning: "{{ nagios_table_size_warning }}"
-      critical: "{{ nagios_table_size_critical }}"
+      warning: '{{ nagios_table_size_warning }}'
+      critical: '{{ nagios_table_size_critical }}'
     check_postgres_archive_ready:
-      warning: "{{ nagios_archive_ready }}"
-      critical: "{{ nagios_archive_ready * 2 }}"
+      warning: '{{ nagios_archive_ready }}'
+      critical: '{{ nagios_archive_ready * 2 }}'
     check_postgres_autovac_freeze:
       # 100% - critical value * 2
-      warning: "{{ 2 * nagios_autovac_freeze - 100 }}%"
-      critical: "{{ nagios_autovac_freeze }}%"
+      warning: '{{ 2 * nagios_autovac_freeze - 100 }}%'
+      critical: '{{ nagios_autovac_freeze }}%'
     check_postgres_backends:
-      warning: "{{ nagios_backends_warning }}"
-      critical: "{{ nagios_backends_critical }}"
+      warning: '{{ nagios_backends_warning }}'
+      critical: '{{ nagios_backends_critical }}'
     check_postgres_bloat:
-      warning: "{{ nagios_bloat_warning }}"
-      critical: "{{ nagios_bloat_critical }}"
+      warning: '{{ nagios_bloat_warning }}'
+      critical: '{{ nagios_bloat_critical }}'
     check_postgres_commitratio:
       # Currently used but without values so 0% (check basically disabled)
-      warning: "{{ 2 * nagios_commitratio }}%"
-      critical: "{{ nagios_commitratio }}%"
+      warning: '{{ 2 * nagios_commitratio }}%'
+      critical: '{{ nagios_commitratio }}%'
     check_postgres_disabled_triggers:
-      warning: "{{ nagios_disabled_triggers }}"
-      critical: "{{ nagios_disabled_triggers * 2 }}"
+      warning: '{{ nagios_disabled_triggers }}'
+      critical: '{{ nagios_disabled_triggers * 2 }}'
     check_postgres_hitratio:
-      warning: "{{ nagios_hitratio }}%"
-      critical: "{{ nagios_hitratio }}%"
+      warning: '{{ nagios_hitratio }}%'
+      critical: '{{ nagios_hitratio }}%'
     check_postgres_prepared_txns:
-      warning: "{{ nagios_prepared_txns }}"
-      critical: "{{ nagios_prepared_txns * 2 }}"
+      warning: '{{ nagios_prepared_txns }}'
+      critical: '{{ nagios_prepared_txns * 2 }}'
     check_postgres_sequence:
-      warning: "{{ 2 * nagios_sequence_space - 100 }}%"
-      critical: "{{ nagios_sequence_space }}%"
+      warning: '{{ 2 * nagios_sequence_space - 100 }}%'
+      critical: '{{ nagios_sequence_space }}%'
     check_postgres_timesync:
-      warning: "{{ (nagios_timesync/2)|round|int }}"
-      critical: "{{ nagios_timesync|round|int }}"
+      warning: '{{ (nagios_timesync / 2) | round | int }}'
+      critical: '{{ nagios_timesync | round | int }}'
     check_postgres_txn_wraparound:
-      warning: "{{ nagios_txn_wraparound_warning }}"
-      critical: "{{ nagios_txn_wraparound_criticial }}"
+      warning: '{{ nagios_txn_wraparound_warning }}'
+      critical: '{{ nagios_txn_wraparound_criticial }}'
     check_postgres_disk_space:
-      warning: "{{ nagios_disk_space_warning }}"
-      critical: "{{ nagios_disk_space_critical }}"
+      warning: '{{ nagios_disk_space_warning }}'
+      critical: '{{ nagios_disk_space_critical }}'
   service_check:
     service_stolon_keeper:
       service: stolon-keeper
@@ -167,12 +181,12 @@ nagios_checks:
       service: crond
   proces_check:
     running_postgresql:
-      user: "{{ nagios_running_postgresql_user }}"
-      search: "{{ nagios_running_postgresql_search }}"
-      warning: "{{ nagios_running_postgresql_warning }}"
-      critical: "{{ nagios_running_postgresql_critical }}"
+      user: '{{ nagios_running_postgresql_user }}'
+      search: '{{ nagios_running_postgresql_search }}'
+      warning: '{{ nagios_running_postgresql_warning }}'
+      critical: '{{ nagios_running_postgresql_critical }}'
 
-nagios_check_postgres_links: "{{ nagios_checks.multi_check.keys()|list + nagios_checks.check_postgres.keys()|list }}"
+nagios_check_postgres_links: '{{ nagios_checks.multi_check.keys() | list + nagios_checks.check_postgres.keys() | list }}'
 
 nagios_servers: []
 #  - hostname: nagios1.example.com

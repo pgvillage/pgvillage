@@ -1,4 +1,5 @@
 ---
+minio_package_state: present
 
 minio_package_names:
   - minio
@@ -24,7 +25,6 @@ minio_server_datadirs:
 
 # Minio server cluster node list.
 minio_server_cluster_nodes: []
-
 # Additional environment variables to be set in minio server environment
 minio_server_env_extra: ""
 
@@ -43,7 +43,6 @@ __minio_endpoint_defaults:
   path: auto
 
 minio_endpoint: {}
-
 minio_buckets:
   - mybucket
 

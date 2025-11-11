@@ -1,36 +1,36 @@
 ---
 # tasks file for wal-g
 - name: Fail for unsupported architecture
-  fail:
+  ansible.builtin.fail:
     msg: "Can't install wal-g: unsupported arch ({{ ansible_architecture }})."
   when:
     - ansible_architecture != "x86_64"
     - ansible_architecture != "aarch64"
     - walg_packages|length == 0
 
-- name: create wal-g folder
-  become: 'true'
-  become_user: '{{ walg_binary_owner }}'
-  file:
+- name: Create wal-g folder
+  become: true
+  become_user: "{{ walg_binary_owner }}"
+  ansible.builtin.file:
     state: directory
-    dest: '{{ walg_home }}'
-    owner: '{{ walg_binary_owner }}'
-    mode: '0755'
+    dest: "{{ walg_home }}"
+    owner: "{{ walg_binary_owner }}"
+    mode: "0755"
 
-#- name: Download wal-g
-#  become: "true"
-#  become_user: "{{ walg_binary_owner }}"
-#  get_url:
-#    url: "{{ walg_exe_url }}"
-#    dest: "{{ walg_bin_path }}"
-#    mode: "0755"
-#  when:
-#    - walg_packages|length == 0
+# - name: Download wal-g
+#   become: true
+#   become_user: "{{ walg_binary_owner }}"
+#   get_url:
+#     url: "{{ walg_exe_url }}"
+#     dest: "{{ walg_bin_path }}"
+#     mode: "0755"
+#   when:
+#     - walg_packages|length == 0
 
 - name: Install wal-g package
-  become: 'true'
-  yum:
-    name: '{{ item }}'
-    state: latest
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: "{{ walg_package_state }}"
     disable_gpg_check: true
-  loop: '{{ walg_packages }}'
+  loop: "{{ walg_packages }}"

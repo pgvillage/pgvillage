@@ -1,13 +1,13 @@
 ---
 # tasks file for keepalived
 
-- name: import assert.yml
+- name: Import assert.yml
   ansible.builtin.import_tasks: assert.yml
-  run_once: yes
+  run_once: true
   delegate_to: localhost
 
-- name: install keepalived
+- name: Install keepalived
   ansible.builtin.import_tasks: "install.yml"
 
-- name: config keepalived
+- name: Config keepalived
   ansible.builtin.import_tasks: "config.yml"

@@ -1,96 +1,97 @@
-name-template: 'v$RESOLVED_VERSION 🌈'
-tag-template: 'v$RESOLVED_VERSION'
+---
+name-template: "v$RESOLVED_VERSION 🌈"
+tag-template: "v$RESOLVED_VERSION"
 exclude-labels:
-  - 'skip-changelog'
+  - "skip-changelog"
 replacers:
-  - search: '/CVE-(\d{4})-(\d+)/g'
-    replace: 'https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-$1-$2'
+  - search: "/CVE-(\\d{4})-(\\d+)/g"
+    replace: "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-$1-$2"
 categories:
-  - title: '💥 BREAKING CHANGES'
+  - title: "💥 BREAKING CHANGES"
     labels:
-      - 'breaking'
-  - title: '🚀 Features'
+      - "breaking"
+  - title: "🚀 Features"
     labels:
-      - 'feature'
-      - 'enhancement'
-  - title: '🐛 Bug Fixes'
+      - "feature"
+      - "enhancement"
+  - title: "🐛 Bug Fixes"
     labels:
-      - 'fix'
-      - 'bugfix'
-      - 'bug'
-  - title: '🧰 Maintenance'
+      - "fix"
+      - "bugfix"
+      - "bug"
+  - title: "🧰 Maintenance"
     labels:
-      - 'chore'
-      - 'documentation'
-      - 'ci'
-      - 'refactor'
-      - 'style'
-      - 'test'
-  - title: '🔒 Security'
+      - "chore"
+      - "documentation"
+      - "ci"
+      - "refactor"
+      - "style"
+      - "test"
+  - title: "🔒 Security"
     labels:
-      - 'dependencies'
-      - 'security'
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+      - "dependencies"
+      - "security"
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+change-title-escapes: "\\<*_&" # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:
   major:
     labels:
-      - 'major'
-      - 'breaking'
+      - "major"
+      - "breaking"
   minor:
     labels:
-      - 'minor'
-      - 'refactor'
-      - 'enhancement'
+      - "minor"
+      - "refactor"
+      - "enhancement"
   patch:
     labels:
-      - 'patch'
-      - 'documentation'
-      - 'ci'
-      - 'style'
-      - 'test'
+      - "patch"
+      - "documentation"
+      - "ci"
+      - "style"
+      - "test"
   default: patch
 autolabeler:
-  - label: 'breaking'
+  - label: "breaking"
     title:
-      - '/!:/'
+      - "/!:/"
     body:
-      - '/BREAKING CHANGE/'
-  - label: 'chore'
+      - "/BREAKING CHANGE/"
+  - label: "chore"
     title:
-      - '/^chore(\(.*\))?!?:/i'
-  - label: 'ci'
+      - "/^chore(\\(.*\\))?!?:/i"
+  - label: "ci"
     title:
-      - '/^(ci|build)(\(.*\))?!?:/i'
+      - "/^(ci|build)(\\(.*\\))?!?:/i"
     files:
-      - '.github/*'
-      - '.github/**/*'
-  - label: 'documentation'
+      - ".github/*"
+      - ".github/**/*"
+  - label: "documentation"
     title:
-      - '/^docs(\(.*\))?!?:/i'
+      - "/^docs(\\(.*\\))?!?:/i"
     files:
-      - 'docs/*'
-      - 'docs/**/*'
-      - '*.md'
-      - '**/*.md'
-  - label: 'enhancement'
+      - "docs/*"
+      - "docs/**/*"
+      - "*.md"
+      - "**/*.md"
+  - label: "enhancement"
     title:
-      - '/^(feat|perf)(\(.*\))?!?:/i'
-  - label: 'bug'
+      - "/^(feat|perf)(\\(.*\\))?!?:/i"
+  - label: "bug"
     title:
-      - '/^(fix|hotfix|bug)(\(.*\))?!?:/i'
-  - label: 'refactor'
+      - "/^(fix|hotfix|bug)(\\(.*\\))?!?:/i"
+  - label: "refactor"
     title:
-      - '/^refactor(\(.*\))?!?:/i'
-  - label: 'revert'
+      - "/^refactor(\\(.*\\))?!?:/i"
+  - label: "revert"
     title:
-      - '/^revert(\(.*\))?!?:/i'
-  - label: 'style'
+      - "/^revert(\\(.*\\))?!?:/i"
+  - label: "style"
     title:
-      - '/^style(\(.*\))?!?:/i'
-  - label: 'test'
+      - "/^style(\\(.*\\))?!?:/i"
+  - label: "test"
     title:
-      - '/^test(\(.*\))?!?:/i'
+      - "/^test(\\(.*\\))?!?:/i"
 template: |
   ## Changes
 

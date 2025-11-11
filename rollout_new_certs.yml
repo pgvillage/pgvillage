@@ -5,7 +5,8 @@
   become: true
   gather_facts: true
 
-- hosts:
+- name: Install Minio
+  hosts:
     - backup
   become: true
   gather_facts: false
@@ -14,7 +15,8 @@
   tags:
     - minio
 
-- hosts:
+- name: Install wal-g
+  hosts:
     - hacluster
   become: true
   gather_facts: false
@@ -23,7 +25,8 @@
   tags:
     - walg
 
-- hosts:
+- name: Install stolon
+  hosts:
     - stolon
   become: true
   gather_facts: false
@@ -35,7 +38,8 @@
     - postgresql
     - pg
 
-- hosts:
+- name: Install AVChecker
+  hosts:
     - hacluster
   become: true
   gather_facts: false
@@ -45,7 +49,8 @@
     - avchecker
     - availability_checker
 
-- hosts:
+- name: Install haproxy, keepalived and pgroute66
+  hosts:
     - router
   become: true
   gather_facts: false
@@ -59,7 +64,8 @@
     - keepalived
     - pgroute66
 
-- hosts:
+- name: Install PGQuartz
+  hosts:
     - postgres
   become: true
   gather_facts: false

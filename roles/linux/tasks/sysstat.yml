@@ -1,12 +1,11 @@
 ---
-
 - name: Ensure sysstat is installed
-  yum:
+  ansible.builtin.dnf:
     name: sysstat
-    state: present
+    state: "{{ linux_package_state }}"
 
 - name: Ensure sysstat is running
-  systemd:
+  ansible.builtin.systemd:
     name: sysstat
     state: started
     enabled: "true"
