@@ -1,3 +1,12 @@
+---
+title: Ansible inventory
+summary: A description of the Ansible inventory, how it works, and hoe it is implemented in PgVillage
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Introduction
 
 Once the new servers are available, they can be deployed as new database, backup, and (optionally) routing servers.

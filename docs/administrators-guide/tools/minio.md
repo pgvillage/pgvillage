@@ -1,8 +1,21 @@
+---
+title: Minio
+summary: A description of Minio, the Object Storage backend which can be used to convert a server into an S3 endpoint for backups
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # MinIO
 
 The standard building block makes backups using WAL-G and WAL-G stores the backups in Cloud Storage (buckets).
 
 Within Acme, however, there is no Cloud Storage available and therefore MinIO is deployed so that WAL-G can subsequently transport the backups to MinIO so that they:
+
+!!! note
+    Note that using native Object storage from your Cloud provider, backup solution or storage solution is preferred over a VM withh Minio.
+    This solution is only meant to provide an option whhen no other Object STorage solution is available.
 
 ---
 
@@ -17,20 +30,24 @@ This means that MinIO can be replaced by a future Cloud Storage (bucket) system 
 For MinIO, the following components are required:
 
 - MinIO and mcli are both run on a separate backup server (e.g., acme-dvppg1 **bc**-server1)
+
 ### Server:
-  - The binary is deployed to /usr/local/bin/ using the RPMs
-    - Source for the minio RPM: [https://dl.min.io/server/minio/release/linux-amd64](https://dl.min.io/server/minio/release/linux-amd64)
-  - The service file `/etc/systemd/system/minio.service` is created and maintained by Ansible
-  - The configuration `/etc/default/minio` is deployed and maintained by Ansible
-  - TLS certificates (`/etc/pki/tls/minio/*`) are deployed and maintained by Ansible
-    - The root certificate is made available to wal-g by Ansible
-  - Runs on port 9091 (default)
-  - Stores data in `/data/postgres/backup/`
+
+- The binary is deployed to /usr/local/bin/ using the RPMs
+  - Source for the minio RPM: [https://dl.min.io/server/minio/release/linux-amd64](https://dl.min.io/server/minio/release/linux-amd64)
+- The service file `/etc/systemd/system/minio.service` is created and maintained by Ansible
+- The configuration `/etc/default/minio` is deployed and maintained by Ansible
+- TLS certificates (`/etc/pki/tls/minio/*`) are deployed and maintained by Ansible
+  - The root certificate is made available to wal-g by Ansible
+- Runs on port 9091 (default)
+- Stores data in `/data/postgres/backup/`
+
 ### Client (mcli):
-  - Used by Ansible to create the bucket.
-  - Also configured by Ansible (under the `minio-server` user).
-  - The binary is deployed to `/usr/local/bin/` using the RPMs.
-    - Source for the mcli RPM: [https://dl.min.io/client/mc/release/linux-amd64](https://dl.min.io/client/mc/release/linux-amd64)
+
+- Used by Ansible to create the bucket.
+- Also configured by Ansible (under the `minio-server` user).
+- The binary is deployed to `/usr/local/bin/` using the RPMs.
+  - Source for the mcli RPM: [https://dl.min.io/client/mc/release/linux-amd64](https://dl.min.io/client/mc/release/linux-amd64)
 
 ---
 
@@ -95,5 +112,3 @@ This only affects a backup and restore (they need to be restarted).
 ---
 
 Recovery (wal-fetch) and archiving (wal-push) are simply replayed and are not impacted by a MinIO restart.
-
-

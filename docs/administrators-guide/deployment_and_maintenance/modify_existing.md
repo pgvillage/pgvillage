@@ -1,3 +1,12 @@
+---
+title: Modifying an existing deployment
+summary: A description of how to modify an existing deployment
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 <!-- TDOD: This documentation should go and be replaced by docs on how to do this with a new run of Ansible -->
 
 # Introduction

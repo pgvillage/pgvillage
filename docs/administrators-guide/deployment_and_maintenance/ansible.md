@@ -1,3 +1,12 @@
+---
+title: Ansible
+summary: A description of requirements to setup Ansible for deploying PgVillage
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Ansible
 
 This document describes how to deploy the **PostgreSQL standard building block** using **Ansible**.
@@ -8,13 +17,14 @@ Before running Ansible, ensure that all prerequisites are correctly configured.
 
 ### 1.1 SSH Setup
 
-Ensure that SSH access is properly configured.  
+Ensure that SSH access is properly configured.
 
 - In our predefinied deployments (`pgv_azure` and `pgv_vagrant`) this is already taken care of.
-For on-prem deployments, make sure that a user with proper permissions and ssh authentication is created.
+  For on-prem deployments, make sure that a user with proper permissions and ssh authentication is created.
 - Git clone and Ansible setup of the Ansible code (this work instruction)
 
 ---
+
 ## 2. Materials needed
 
 To perform this procedure, you will need:
@@ -25,6 +35,7 @@ To perform this procedure, you will need:
   [https://github.com/pgvillage/pgvillage](https://github.com/pgvillage/pgvillage)
 
 ---
+
 ## 3. Working instruction
 
 ### Step 1: Clone the repository
@@ -36,7 +47,9 @@ mkdir -p ~/git
 cd ~/git
 git clone git@github.com:pgvillage/pgvillage.git
 ```
+
 ---
+
 ### Step 2: (Optional) Adjust the inventory configuration
 
 Optionally adjust the inventory configuration to suit your environment.  
@@ -44,6 +57,7 @@ For detailed steps, refer to:
 [From Server to Running Database](inventory.md)
 
 ---
+
 ### Step 3: Run the Ansible Playbook
 
 #### 3.1 Navigate to the Ansible directory
@@ -76,3 +90,4 @@ For other related examples and procedures, refer to the following documentation:
 
 - [Chainsmith](chainsmith.md)
 - [Inventory](inventory.md)
+

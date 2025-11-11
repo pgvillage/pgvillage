@@ -1,3 +1,12 @@
+---
+title: Verifying a PgVillage deployment
+summary: A description of how to verify a PgVillage deployment
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 ## Belongs to component
 
 Bouwsteen Postgres
@@ -36,21 +45,26 @@ progress: 120.0 s, 210.3 tps, lat 47.515 ms stddev 29.338
 ```markdown
 progress: 240.0 s, 275.6 tps, lat 36.283 ms stddev 21.895
 ```
+
 ```
 
 progress: 360.0 s, 415.2 tps, lat 24.077 ms stddev 49.606
 
 ```
+
 progress: 480.0 s, 497.7 tps, lat 20.087 ms stddev 18.762
+
 ```
 
 ```
+
 progress: 600.0 s, 522.0 tps, lat 19.151 ms stddev 16.870
-```
+
+````
 
 ```markdown
 Transaction Type: <builtin: TPC-B (sort of)>
-```
+````
 
 ```markdown
 Scaling factor: 10000
@@ -62,18 +76,21 @@ query mode: simple
 
 number of clients: 10
 
-number of threads: 4  
+number of threads: 4
+
 ```
 
 ```
+
 duration: 600 s
-```
+
+````
 
 number of transactions actually processed: 230507
 
 ```markdown
 average latency = 26.023 ms
-```
+````
 
 ```markdown
 latency stddev = 30.854 ms
@@ -91,7 +108,7 @@ Is this good?
 
 ETCD:
 
-1. as postgres: etcdctl check performance  
+1. as postgres: etcdctl check performance
 2. can be run on one of the three nodes.
 
 STOLON:
@@ -137,18 +154,19 @@ cde31aea
 === Keepers ===
 
 ```
-UID              HEALTHY PG LISTEN ADDRESS      PG HEALTHY      PG WANTED  
+UID              HEALTHY PG LISTEN ADDRESS      PG HEALTHY      PG WANTED
 GENERATION      PG CURRENT GENERATION
 ```
 
 ```markdown
 gurus_pgsdb_server1 true 10.0.5.66:5432 true 2 2
 ```
-```
+
+````
 
 ```markdown
 gurus_pgsql_server2 true 10.0.5.67:5432 true 5 5
-```
+````
 
 ```markdown
 gurus_pgsdb_server3 true 10.0.5.68:5432 true 2 2
@@ -249,4 +267,3 @@ tps = 342.778836 (excluding connections establishing)
 =================================================
 
 ## Uitvoering
-

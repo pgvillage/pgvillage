@@ -1,3 +1,12 @@
+---
+title: Refreshing certificates (2)
+summary: A description of how to refresh mTLS certificates
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 <!-- This should be replaced by a playbook with chainsmith replacing certs and reloading services as required -->
 
 # Introduction

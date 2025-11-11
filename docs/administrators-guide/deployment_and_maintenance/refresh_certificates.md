@@ -1,3 +1,12 @@
+---
+title: Refreshing certificates
+summary: A description of how to refresh mTLS certificates
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Introduction
 
 In the SBB PostgreSQL, an [mTLS](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/WebHome.html) chain is used with [server-](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Server+certificaten/WebHome.html) and [client-](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Server+certificaten/WebHome.html) certificates.
@@ -16,7 +25,7 @@ The chain is generated using [Chainsmith](../../../../../../../../../pages/xwiki
 
 1: Check the database request form and create new client certificates if necessary in the chainsmith configuration:
 
-- Adjust ansible/config/chainmaker_\[ENV\].yml
+- Adjust ansible/config/chainmaker\_\[ENV\].yml
 
 Make a new merge request if necessary:
 
@@ -27,7 +36,7 @@ git checkout dev -b "feature/chainsmith\_$(printenv ENV).yml"
 ```
 
 ```markdown
-git add config/chainsmith_$ENV.yml
+git add config/chainsmith\_$ENV.yml
 ```
 
 ```markdown
@@ -67,9 +76,11 @@ rm environments/$ENV/group_vars/all/certs{,.vault}.yml
 
 ```markdown
 bin/chainsmith.sh $ENV
-  - Roll out the new certificates afterwards
+
+- Roll out the new certificates afterwards
 
 2. A procedure where [server and client certificates are replaced with minimal impact](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Certificaten+vervangen+met+weinig+impact/WebHome.html)
+
    - Manual work, but little to no downtime
 
 3. [New client certificates](https://wiki.corp.com:443/xwiki/bin/create/Infrastructuur/Team%3A%20DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe%20certificaten%20genereren%20en%20uitrollen/nieuwe%20client%20certificaten/WebHome?parent=Infrastructuur.Team%5C%3A+DBA.Algemene+Restore+Server+voor+DBA-Linux.Postgres.Bouwsteen.Onderhoud.Nieuwe+certificaten+genereren+en%20uitrollen.WebHome) added to the existing bundle
@@ -77,4 +88,3 @@ bin/chainsmith.sh $ENV
 ```
 
 Volg een van deze procedures en Postgres en de applicatie draaien met de gewenste certificaten.
-

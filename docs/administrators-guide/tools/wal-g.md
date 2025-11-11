@@ -1,3 +1,12 @@
+---
+title: Wal-G
+summary: A description of the Backup and recovery tool WAL-G, and how to use it
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # WAL-G
 
 For backup and restore, we use Wal-G and [MinIO](minio.md).
@@ -19,33 +28,39 @@ The intention is to get this pull request merged so that separate builds are no 
 For making wal-g, the following components are needed:
 
 ### 1. WAL-G Binary
+
 - Installed via RPM to `/usr/local/bin/`
 
 ### 2. Scripts
+
 Deployed by Ansible to `/opt/wal-g/scripts/`:
-  - `archive_restore.sh` – used for catch-up when a standby lags behind or during recovery 
-  - `archive.sh` – sends WAL files to MinIO using WAL-G  
-  - `backup_locked.sh` – wrapper script using `etcdctl lock` to ensure backups run on only one server  
-  - `backup.sh` – creates a new backup if there isn’t a recent one  
-  - `delete.sh` – cleans up old backups  
-  - `log_cleanup.sh` – maintains WAL-G log files  
-  - `maintenance.sh` – wrapper for `log_cleanup.sh` and `delete.sh` 
-  - `restore.sh`  – restores a WAL-G backup (see [Point in time restore](../../roles/walg/files/scripts/restore.sh) for more information)
+
+- `archive_restore.sh` – used for catch-up when a standby lags behind or during recovery
+- `archive.sh` – sends WAL files to MinIO using WAL-G
+- `backup_locked.sh` – wrapper script using `etcdctl lock` to ensure backups run on only one server
+- `backup.sh` – creates a new backup if there isn’t a recent one
+- `delete.sh` – cleans up old backups
+- `log_cleanup.sh` – maintains WAL-G log files
+- `maintenance.sh` – wrapper for `log_cleanup.sh` and `delete.sh`
+- `restore.sh` – restores a WAL-G backup (see [Point in time restore](../../roles/walg/files/scripts/restore.sh) for more information)
 
 ### 3. Cron Scheduling
-- Managed by Ansible  
+
+- Managed by Ansible
 - Cron file: `/etc/cron.d/wal-g`
 
 ### 4. Configuration File
-- File: `/etc/default/wal-g` (maintained by Ansible)  
+
+- File: `/etc/default/wal-g` (maintained by Ansible)
 - Contains:
-  - Retention policies  
-  - Number of delta backups  
-  - Backup skip intervals  
+  - Retention policies
+  - Number of delta backups
+  - Backup skip intervals
 
 ### 5. MinIO Configuration
-- MinIO runs on the **backup server**  
-- Access configuration is included in `/etc/default/wal-g`  
+
+- MinIO runs on the **backup server**
+- Access configuration is included in `/etc/default/wal-g`
 - Root certificate located in `~postgres/.wal-g/certs/` (for TLS verification)
 
 ---
@@ -71,6 +86,7 @@ Read the configuration from `/etc/default/wal-g`
 # Export them as variables for subcommands
 eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
 ```
+
 Then wal-g can be called directly.
 
 A few examples:
@@ -89,6 +105,7 @@ base_000000010000001000000046_D_000000010000000E0000006E   2022-10-13T18:02:17Z 
 ```
 
 ### Backups can be deleted.
+
 For example, you can delete all backups, or (as in the example above) the backups up to `base_000000010000000E0000006B`:
 
 ### Remove all backups (only report)
@@ -141,11 +158,11 @@ Completion: Generate shell completion code for the specified shell.
 duplicate: Duplicate specific or all backups
 Delete: Clears old backups and WALs
 
-# flags  
+# flags
 Display the list of available global flags for all wal-g commands
 help Help about any command
 
-pgbackrest  
+pgbackrest
 Interact with pgBackRest backups (beta)
 st (DANGEROUS) Storage tools
 
@@ -194,4 +211,3 @@ Global Flags:
 To get the complete list of all global flags, run: `wal-g flags`
 
 Use "wal-g delete \[command\] --help"for more information about a command.
-

@@ -1,3 +1,12 @@
+---
+title: Nagios
+summary: A description of nagios checks that can be leveraged to implement alerting
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Nagios
 
 For the standard PostgreSQL building block, monitoring has been implemented using **Nagios**.
@@ -11,6 +20,7 @@ This documentation describes how it has been implemented, as well as things that
 - [check_postgres](https://bucardo.org/check_postgres/)
 - ansible-postgres [role for nagios](https://gitlab.int.corp.com/gurus-db-team/ansible-postgres/-/tree/dev/roles/nagios)
 - nagios server (ansible managed with role):
+
   - `gurus-nagios-server1.int.corp.com:/opt/nagios/etc/host.cfg.d/{dbserver fqdn}.cfg`
   - `gurus-nagios-server1.int.corp.com:/opt/nagios/etc/host.cfg.d/{dbserver fqdn}-custom.cfg`
 
@@ -64,4 +74,3 @@ The following things can be better:
 ```bash
 nrpe ALL=(postgres) NOPASSWD: ALL
 ```
-

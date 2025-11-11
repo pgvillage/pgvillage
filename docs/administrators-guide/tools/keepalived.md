@@ -1,3 +1,12 @@
+---
+title: Keepalived
+summary: A description of keepalived, for classic applications that require a single VIP in a HA environment
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Keepalived
 
 The PostgreSQL component can optionally be deployed with a PostgreSQL router.
@@ -41,10 +50,10 @@ me@gurus-dbabh-server1 ~/g/ansible-postgres (tmp)> ssh acme-dvppg1pr-server1.acm
     valid_lft forever preferred_lft forever
 
 2: ens192: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-  Link/Ethernet: 00:50:56:9d:54:47  
+  Link/Ethernet: 00:50:56:9d:54:47
   Broadcast (brd): ff:ff:ff:ff:ff:ff
   inet 10.0.4.*26/23 brd 10.0.4.455 scope global noprefixroute ens192
-    valid_lft forever  
+    valid_lft forever
     preferred_lft forever
 
 [me@acme-dvppg1pr-server1 ~]$ logout
@@ -70,7 +79,7 @@ me@gurus-dbabh-server1 ~/g/ansible-postgres (tmp) > ssh acme-dvppg1pr-server2.ac
       valid_lft forever preferred_lft forever
 ```
 
-In this example, node 2 has the extra VIP connected (2 IP addresses: 10.0.4.*27 and 10.0.4.*28) while node 1 does not (1 IP address: 10.0.4.*26).
+In this example, node 2 has the extra VIP connected (2 IP addresses: 10.0.4.*27 and 10.0.4.*28) while node 1 does not (1 IP address: 10.0.4.\*26).
 
 # ToDo
 
@@ -79,4 +88,3 @@ Keepalived could be provided with a script that checks if HAProxy, PgRoute66, an
 This could perhaps further increase availability.
 
 In practice, however, an issue has never occurred that could have been prevented by this.
-
