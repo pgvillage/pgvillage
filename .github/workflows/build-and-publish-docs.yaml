@@ -1,0 +1,88 @@
+name: Build and publish documentation
+on:
+  workflow_dispatch:
+  release:
+    types:
+      - published
+env:
+  PYTHON_VERSION: 3.x
+
+permissions:
+  contents: write
+  id-token: write
+  pages: write
+
+jobs:
+  build:
+    name: Build documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v4.0.0
+
+      - name: Fetch gh-pages branch
+        run: git fetch origin gh-pages --depth=1
+
+      - name: Set up Go for generating API doc
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+
+      - name: Generate API document
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          go install github.com/elastic/crd-ref-docs@6d9cbb2645274941d10941cc988a49e873562fba
+          crd-ref-docs --config=./crd-ref-docs-config.yml --source-path=./api --renderer=markdown --output-path=./docs/development-guide/00_api.md
+        working-directory: ${{ github.workspace }}
+
+      - name: Set up Python runtime
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+
+      - name: Set up build cache
+        uses: actions/cache/restore@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          key: mkdocs-material-${{ hashfiles('.cache/**') }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+
+      - name: Install Python dependencies
+        run: |
+          pip install --no-cache-dir mkdocs-material \
+                                     mkdocs-literate-nav \
+                                     mkdocs-redirects \
+                                     mkdocs-material[recommended] \
+                                     mkdocs-material[imaging] \
+                                     mkdocs-kroki-plugin \
+                                     mike
+
+      - name: Configure Git user
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Extract short tag
+        id: extract_short_tag
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          SHORT_TAG="$(echo "$TAG" | sed 's/\([0-9]*\.[0-9]*\).*/\1\.x/')"
+          echo "SHORT_TAG=$SHORT_TAG" >> $GITHUB_OUTPUT
+
+      - name: Deploy with mike 🚀
+        # note that "mike set-default latest" was run manually in initial docs setup
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          SHORT_TAG=${{ steps.extract_short_tag.outputs.SHORT_TAG }}
+          mike deploy --update-aliases --push --branch=gh-pages "$SHORT_TAG" latest
+          mike --version
+
+      - name: Save build cache
+        uses: actions/cache/save@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          key: mkdocs-material-${{ hashfiles('.cache/**') }}
+          path: .cache
