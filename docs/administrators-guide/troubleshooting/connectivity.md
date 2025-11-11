@@ -1,3 +1,12 @@
+---
+title: Connectivity
+summary: A description of how to check connectivity to and between PgVillage nodes
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Introduction
 
 Om PostgreSQL connectie issues goed te kunnen analyseren is het belangrijk om te begrijpen hoe connecties worden gerouteerd en welke dingen onderweg mis kunnen gaan.
@@ -5,7 +14,9 @@ Om PostgreSQL connectie issues goed te kunnen analyseren is het belangrijk om te
 Deze documentatie beschrijft de paden die een connectie afleggen en geeft hints welke dingen onderzocht kunnen worden om issues te analyseren en op te lossen.
 
 ## ```markdown
+
 Postgres Read-Write Connections via the Router
+
 ```
 
 ### How to recognize?
@@ -21,18 +32,22 @@ A few examples are:
 user=usr
 
 ```
+
 password=pwd
+
 ```
 
 `host=acme-dvppg1pr-v01p.acme.corp.com`
 
 ```
+
 port=5432
-```
+
+````
 
 ```markdown
 sslmode=verify-full
-```
+````
 
 ```
 dbname=myappdb
@@ -71,6 +86,7 @@ The connections follow these paths:
 
 1. Starts at application level and then (OpenShift?, ) routing, network firewall, etc., all the way to the gateway.
 2. To the Virtual IP on port 5432
+
    - The VirtualIP is linked by KeepaliveD.
      - Is KeepaliveD OK?
      - Is the VIP attached to one server?
@@ -80,6 +96,7 @@ The connections follow these paths:
      - Are the app servers included for port 5432?
 
 3. Arrives at HAProxy
+
    - Is HAProxy running?
    - What does the haproxy stat command say?
      - Is there an active PostgresReadWrite-backend? There should be one...
@@ -92,11 +109,13 @@ The connections follow these paths:
      - Ensure the subject ends with `CN = pgroute66`
 
 4. HAProxy routes to the Postgres primary port 25432
+
    - Is the firewall active?
    - What are the firewall rules? `sudo iptables -L`
    - Are the router nodes included for port 25432?
 
 5. Port 25432 is stolon-proxy:
+
    - Is stolon-proxy running on the primary node?
    - What does the avchecker service say
      - Problem with avchecker@stolon is an issue with Postgres on the primary node
@@ -113,8 +132,10 @@ The connections follow these paths:
    - What does logging on the primary say? Are there login errors?
 
 ## ```
+
 PostgreSQL RO (Read Only) connections via the router
-```
+
+````
 
 ### How to recognize?
 
@@ -122,12 +143,12 @@ Routed connections through the router are initiated by the client with the VIP a
 
 A few examples are:
 
-- 
+-
 -
 
 ```markdown
 # A pg_service file with the following service:
-```
+````
 
 [myapp]
 
@@ -175,6 +196,7 @@ RO Router connections are recognizable by:
 The connections follow these paths:
 
 1. Begins at the application and then routing, network firewall, etc., up to the gateway.
+
    - Towards the Virtual IP on port 5433
      - The VirtualIP is attached by KeepaliveD.
        - Is KeepaliveD OK?
@@ -185,6 +207,7 @@ The connections follow these paths:
      - Are the application servers included for port 5433?
 
 2. Arrives at HAProxy
+
    - Is HAProxy running?
    - What does the haproxy stat command show?
      - Is there an active PostgresReadOnly-backend? There should be one...
@@ -196,7 +219,7 @@ The connections follow these paths:
      - Ensure that `X509v3 Key Usage: Digital Signature, Key Encipherment, Data Encipherment` is set
      - Verify that the subject ends with `CN = pgroute66`
 
-4. HAProxy routes to the Postgres standbys (not primary) on port 5432
+3. HAProxy routes to the Postgres standbys (not primary) on port 5432
    - Is the firewall active?
      - What are the firewall rules? `sudo iptables -L`
      - Are the router nodes included for port 5432?
@@ -207,8 +230,10 @@ The connections follow these paths:
    - Log into the standbys, become postgres (sudo -iu postgres) and check the status with `psql -c 'select pg_is_in_recovery()'` (it is expected)
 
 ## ```markdown
+
 Stolon Proxy PostgreSQL Read-Write Connections
-```
+
+````
 
 ### How to recognize
 
@@ -218,7 +243,7 @@ A few examples are:
 
 ```markdown
 # A `pg_service` file with the following service:
-```
+````
 
 \[myapp\]
 
@@ -279,8 +304,8 @@ The connections follow the following paths:
 4. Stolon-proxy routes to the primary postgres
    - Is there a primary?
      - Log into one of the database servers as user postgres. Check the output of `stolonctl status` which shows the primary.
-     - Log into the primary, becomes postgres (sudo -iu postgres) and check the status with \`psql -c 'select pg\_is\_in\_recovery()'\` (f is expected)
-   - Is the user allowed from the pg\_hba config?
+     - Log into the primary, becomes postgres (sudo -iu postgres) and check the status with \`psql -c 'select pg_is_in_recovery()'\` (f is expected)
+   - Is the user allowed from the pg_hba config?
      - Note that the source IP of the traffic are the proxy nodes!!!
    - What does the logging on the primary say? Are there login errors?
 
@@ -316,7 +341,7 @@ sslmode=verify-full
 
 dbname=myappdb
 
-target\_session\_attrs=read-write
+target_session_attrs=read-write
 
 ```markdown
 # and then a connection with service=myapp
@@ -347,17 +372,19 @@ Directe RW connections can be recognized by:
 
 The connections follow these paths:
 
-1. Begins with the application and then (OpenShift?, ) routing, network firewall, etc., up to the gateway  
+1. Begins with the application and then (OpenShift?, ) routing, network firewall, etc., up to the gateway
+
    - Is OpenShift routing correctly configured?
    - Does the traffic indeed come from the intended IP address?
    - Is the firewall open for traffic from the AppServer IP to the database nodes?
 
-2. To the Database server on port 5432  
-   - Is the firewall active?  
-   - What are the firewall rules? `sudo iptables -L`  
+2. To the Database server on port 5432
+
+   - Is the firewall active?
+   - What are the firewall rules? `sudo iptables -L`
    - Are the appserver IPs included for port 5432
 
-3. On port 5432, PostgreSQL is running  
+3. On port 5432, PostgreSQL is running
    - Is there a primary?
      - Log in to one of the database servers as user postgres. Check the output of stolonctl status to determine which is the primary.
      - Log in to the primary as postgres (sudo -iu postgres) and check the status with `psql -c 'select pg_is_in_recovery()'` (f is expected)
@@ -365,7 +392,8 @@ The connections follow these paths:
      - Note that the source IPs of the traffic are the app servers!!!
    - What does the logging on the primary say? Are there login errors?
 
-## Direct PostgreSQL Connections  
+## Direct PostgreSQL Connections
+
 RO Connectors
 
 ### How to recognize
@@ -447,4 +475,3 @@ The connections follow the following paths:
    - Log in to one of the database servers as user postgres. Check the output of `stolonctl status` which shows the standbys.
    - Log into the standby's as postgres (sudo -iu postgres) and check the status with `psql -c 'select pg_is_in_recovery()'` (it is expected).
 ```
-

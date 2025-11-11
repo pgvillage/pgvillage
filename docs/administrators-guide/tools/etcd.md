@@ -1,11 +1,20 @@
+---
+title: Etcd
+summary: A description of the consensus solution behind stolon
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Etcd
 
 Etcd is a key-value store.
 
 Etcd consists of:
 
-- an etcd service  
-- an etcdctl tool to read data from etcd via the command line  
+- an etcd service
+- an etcdctl tool to read data from etcd via the command line
 - an API that can be used by other tools (such as Stolon and PGQuartz) to read and use configuration
 
 ## Prerequisites and Dependencies
@@ -41,7 +50,7 @@ We keep the default configuration.
 
 !!! note
 
-    In the past, there were issues related to etcd database size. Since then, `ETCD_AUTO_COMPACTION_RETENTION` has been configured, and the setup has been stable.  
+    In the past, there were issues related to etcd database size. Since then, `ETCD_AUTO_COMPACTION_RETENTION` has been configured, and the setup has been stable.
     The following instructions are retained for historical reference and can be used for manual intervention if needed.
 
 If issues arise, the database can be manually reduced using **compact** and **defragment** commands.
@@ -74,7 +83,7 @@ The size of the database can be queried as follows:
     ```bash
     # Requesting Status Endpoints:
     etcdctl --write-out=table endpoint status
-    
+
     # Request Alarm Status
     etcdctl alarm list
     ```
@@ -100,8 +109,7 @@ This issue can be resolved by manually executing the following commands on all c
 
     # 3) Defragment database
     [etcd@gurus-pgsdb-server1 ~]$ etcdctl defrag
-    
+
     # 4) Remove All Alarms
     [etcd@gurus-pgsdb-server1 ~]$ etcdctl alarm disarm
     ```
-

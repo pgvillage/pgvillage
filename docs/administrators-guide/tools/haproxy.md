@@ -1,3 +1,12 @@
+---
+title: HAProxy
+summary: A description of HAProxy, to properly load balance and forward RW and RO connections
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # HAProxy
 
 The PostgreSQL component can optionally be deployed with a PostgreSQL router.
@@ -13,9 +22,9 @@ On the PostgreSQL router setup, the following components are required for HAProx
 - The binary is rolled out using the (standard) haproxy rpm (from Satellite)
 - The haproxyconfig can be found in `/etc/haproxy/haproxy.cfg` and is rolled out and managed via Ansible
   - The haproxy config requires some hardcoded config in the Ansible inventory:
-    - `haproxy_rw_backends` 
-    - `haproxy_ro_backends` 
-    located in `environments/{ENV}/group_vars/all/generic.yml`
+    - `haproxy_rw_backends`
+    - `haproxy_ro_backends`
+      located in `environments/{ENV}/group_vars/all/generic.yml`
 - HAProxy depends on a properly working [PgRoute66](pgroute66.md)
 - The integration between HAProxy and [PgRoute66](pgroute66.md) depends on the following scripts:
   - `/usr/local/bin/checkpgprimary.sh` (Ansible managed)
@@ -61,4 +70,3 @@ Currently, all traffic is routed only to the primary node, via stolon-proxy on p
 - Technically, this is convenient (no dual hop to a standby and then on to the primary)
 - During switchover/failover, this means that the traffic will always come out at the primary
 - However, this makes stolon-proxy on the primary node into a Single Point of Failure
-

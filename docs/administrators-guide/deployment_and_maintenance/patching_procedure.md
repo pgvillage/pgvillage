@@ -1,3 +1,12 @@
+---
+title: Patching
+summary: A description of how to patch a PgVillage deployment
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Introduction
 
 Het SBB is speciaal ontworpen om High Availability te kunnen garanderen.
@@ -41,4 +50,3 @@ Deze documentatie beschrijft hoe Patching vand eze HA omgeving plaats vindt en w
   - per patch round, a maximum of 2 failovers can occur
   - servers are patched separately, so there is always one available
     - as long as after a patch round of a group an intake takes place
-

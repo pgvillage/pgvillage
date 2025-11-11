@@ -1,6 +1,15 @@
+---
+title: PostgreSQL Service File
+summary: A description of the PostgreSQL Service file, how it works, and how it is implemented in PgVillage
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Introduction
 
-een pg\_service file bevat alle informatie voor een client om te kunnen connecten naar PostgreSQL.
+een pg_service file bevat alle informatie voor een client om te kunnen connecten naar PostgreSQL.
 
 Deze documentatie geeft een template om aan de eindgebruiker op te kunnen leveren.
 
@@ -15,7 +24,7 @@ Deze documentatie geeft een template om aan de eindgebruiker op te kunnen levere
 
 # Instruction
 
-De pg\_service file vor een bepaalde gebruiker zou het volgende kunnen bevatten:
+De pg_service file vor een bepaalde gebruiker zou het volgende kunnen bevatten:
 
 \[en\]
 
@@ -93,7 +102,7 @@ If a router is also being used, add the following:
 
 ```
 
-\[vip\_rw\]
+\[vip_rw\]
 
 `host={vip_fqdn}`
 
@@ -179,4 +188,3 @@ openssl x509 -text -noout -in /home/{user}/.postgresql/{user}.crt | sed -n '/Sub
 ```
 gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com
 ```
-

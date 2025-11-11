@@ -1,7 +1,19 @@
+---
+title: Chainsmith
+summary: A description of the tool for generating certificate chains as used for mTLS in PgVillage
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Chainsmith
 
 Chainsmith is a community tool that can be configured with a simple YAML file to generate certificate chains.
 
+For more information, please refer to:
+
+- [mTLS](../architecture/mtls.md)
 - Community repository: [https://github.com/pgvillage-tools/chainsmith](https://github.com/pgvillage-tools/chainsmith)
 
 ---

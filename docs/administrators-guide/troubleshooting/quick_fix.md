@@ -1,3 +1,12 @@
+---
+title: Troubleshooting guide
+summary: A guide to aid when troubleshooting issues
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # On-Call Troubleshooting Guide
 
 This page helps you during on-call duty to quickly analyze issues and determine the correct resolution path.
@@ -18,11 +27,12 @@ Therefore, the first step in troubleshooting is to identify which of these areas
 
 ---
 
-1. Check if Postgres itself is available:  
-   - Use the checks described in the [avchecker](avchecker.md) documentation.  
+1. Check if Postgres itself is available:
+
+   - Use the checks described in the [avchecker](avchecker.md) documentation.
    - Resolve all issues so that avchecker reports again that Postgres is available.
 
-2. Check if Postgres is available for the application:  
+2. Check if Postgres is available for the application:
    - Network problems are outside the scope of the DBA.
 
 In principle, these kinds of issues are always resolved by network management, or Container Hosting (CHP).
@@ -35,9 +45,9 @@ Conduct the direction yourself, stay engaged in the process and provide clear in
 
 !!! note
 
-    Issues from incorrect configuration result  from a change and are actually not part of service availability work!!! 
+    Issues from incorrect configuration result  from a change and are actually not part of service availability work!!!
 
-  Ensure that the client configuration includes:
+Ensure that the client configuration includes:
 
 - **Host:** VIP, or a list of PostgreSQL hosts (comma-separated)
 - **Port:**
@@ -52,10 +62,11 @@ Conduct the direction yourself, stay engaged in the process and provide clear in
 - **SSL mode:** `sslmode=verify-full`
 
   Additionally:
-   - Verify the PostgreSQL **pg_hba.conf** configuration.
-   - Review **application logs** with the app administrator.
-   - Check for **PostgreSQL log errors**.
-   - For more information, see the documentation on [client configuration](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html) and about [mTLS](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/WebHome.html).
+
+  - Verify the PostgreSQL **pg_hba.conf** configuration.
+  - Review **application logs** with the app administrator.
+  - Check for **PostgreSQL log errors**.
+  - For more information, see the documentation on [client configuration](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html) and about [mTLS](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/WebHome.html).
 
 ---
 
@@ -70,6 +81,8 @@ In both situations, this can be resolved by referring to the [Point in Time Rest
 !!! note
 
     In almost all cases, the reason for a point-in-time restore is not due to an error in the Postgres architecture or by the DBA.
-       
+
+
 > Therefore, in almost all cases, a point-in-time restore also does not result in downtime of the service.  
 > Take the time to perform a proper point-in-time restore...
+

@@ -1,3 +1,12 @@
+---
+title: Stolon
+summary: A description of the Hig Availability tool Stolon, and how to use it
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Stolon
 
 **Stolon** is a PostgreSQL High Availability (HA) tool that uses **etcd** (or another key/value store) for consensus.
@@ -22,40 +31,41 @@ Stolon is an open-source project maintained by the community.
 > The goal is to get these two pull requests merged upstream so separate builds are no longer required.
 
 ## Requirements
+
 For a stolon, the following components are needed:
 
 - **Stolon binaries**  
-Installed in `/usr/local/bin/` via the RPM:
+  Installed in `/usr/local/bin/` via the RPM:
 
-- `stolonctl` – CLI management tool  
-- `stolon-keeper` – PostgreSQL manager  
-- `stolon-proxy` – TCP proxy for forwarding traffic to the master  
+- `stolonctl` – CLI management tool
+- `stolon-keeper` – PostgreSQL manager
+- `stolon-proxy` – TCP proxy for forwarding traffic to the master
 - `stolon-sentinel` – Cluster manager
 
 - **Systemd files**  
-Deployed by Ansible to `/etc/systemd/system/`:
+  Deployed by Ansible to `/etc/systemd/system/`:
 
-- `stolon-keeper.service`  
-- `stolon-proxy.service`  
+- `stolon-keeper.service`
+- `stolon-proxy.service`
 - `stolon-sentinel.service`
 
-- **The stolon config files** 
-Deployed by Ansible to `/etc/sysconfig/`:
+- **The stolon config files**
+  Deployed by Ansible to `/etc/sysconfig/`:
 
-- `stolon-stkeeper`  
-- `stolon-stproxy`  
+- `stolon-stkeeper`
+- `stolon-stproxy`
 - `stolon-stsentinel`
 
-- a working etcd and configuration to access it  
-  - We use the standard ports, but if not, then the custom port must be configured  
-  - We don't yet use etcd with tls / client certificate, but if so, then the certificates need to be available and configured  
-- stolon takes care of all postgres matters, including initialization, cloning, and starting Postgres  
-  - stolon needs the paths to the correct postgres binaries, datadir, and waldir  
+- a working etcd and configuration to access it
+  - We use the standard ports, but if not, then the custom port must be configured
+  - We don't yet use etcd with tls / client certificate, but if so, then the certificates need to be available and configured
+- stolon takes care of all postgres matters, including initialization, cloning, and starting Postgres
+  - stolon needs the paths to the correct postgres binaries, datadir, and waldir
   - is located in `/etc/sysconfig/stolon-stkeeper`
 
 ## Usage
 
-Configuration and management of Stolon are fully implemented in PgVillage. 
+Configuration and management of Stolon are fully implemented in PgVillage.
 
 Furthermore, it is important to be able to use `stolonctl` in particular to query information and (if necessary) make adjustments.
 
@@ -73,17 +83,19 @@ A few examples:
 export STOLONCTL_CLUSTER_NAME=stolon-cluster
 export STOLON_CTL_STORE_BACKEND=etcdv3
 ```
+
 ### Check Cluster Status
 
 ```bash
 [root@acme-dvppg1db-server1 sysconfig]#/usr/local/bin/stolonctl status
 ```
+
 === Active Sentinels ===
-ID         LEADER
-3b05c06e   true
-6b467314   false
-7ae581ff   false
-902f6b4d   false
+ID LEADER
+3b05c06e true
+6b467314 false
+7ae581ff false
+902f6b4d false
 
 === Active Proxies ===
 ID
@@ -94,11 +106,11 @@ ID
 
 === Keepers ===
 
-UID                    HEALTHY  PG_LISTEN_ADDRESS   PG_HEALTHY  PG_WANTED_GEN  PG_CURRENT_GEN
-acme_dvppg1db_server1  true     10.0.4.42:5432      true        33             33
-acme_dvppg1db_server2  true     10.0.4.43:5432      true        55             55
-acme_dvppg1db_server3  true     10.0.4.44:5432      true        33             33
-acme_dvppg1db_server4  true     10.0.4.45:5432      true        33             33
+UID HEALTHY PG_LISTEN_ADDRESS PG_HEALTHY PG_WANTED_GEN PG_CURRENT_GEN
+acme_dvppg1db_server1 true 10.0.4.42:5432 true 33 33
+acme_dvppg1db_server2 true 10.0.4.43:5432 true 55 55
+acme_dvppg1db_server3 true 10.0.4.44:5432 true 33 33
+acme_dvppg1db_server4 true 10.0.4.45:5432 true 33 33
 
 ===Cluster Info===
 MasterKeeper: acme_dvppg1db_server2
@@ -108,6 +120,7 @@ acme_dvppg1db_server2 (master)
 ├─ acme_dvppg1db_server4
 ├─ acme_dvppg1db_server3
 └─ acme_dvppg1db_server1
+
 ---
 
 ## Query the current configuration
@@ -263,6 +276,7 @@ Failkeeper - Force keeper as "temporarily" failed. The sentinel will compute new
 
 help  
 &nbsp;&nbsp;Help about any command
+
 ```bash
 | Command | Description |
 |----------|-------------|
@@ -307,7 +321,7 @@ Use `stolonctl [command] --help` for more information about a specific command.
 
 ## When Nothing Else Works
 
-In some cases, Stolon may fail to recover automatically. 
+In some cases, Stolon may fail to recover automatically.
 
 The situation was as follows:
 
@@ -318,6 +332,7 @@ The situation was as follows:
 This has been resolved by reinitializing the cluster:
 
 ---
+
 ```bash
 # Set up configuration required for `stolonctl`.
 

@@ -1,3 +1,12 @@
+---
+title: OpenSSL
+summary: A description of the openssl command and how you can verify certificates and chains
+authors:
+  - Sebas Mannem
+  - Snehal Kapure
+date: 2025-11-11
+---
+
 # Introduction
 
 Het openssl linux commando kan gebruikt worden voor alle uitvoering van taken mbt certificatane, waaronder:
@@ -81,13 +90,14 @@ NotAfter: Oct 10 04:48:08 2023 GMT
 ```markdown
 In this example, the certificates expire on October 11, 2023 (4:48 GMT is 6:48 CEST)...
 ```
-```
+
+````
 
 Om te controleren of een certificaat nog geldig is, kan ook het volgende commando worden gebruikt:
 
 ```markdown
 [me@acme-dvppg1db-server1 ~]$ sudo openssl x509 -checkend $(60 * 60 * 24 * 7) -noout -in ~postgres/.postgresql/postgresql.crt
-```
+````
 
 Certificate will not expire
 
@@ -111,6 +121,7 @@ To be able to accept connections, the software must trust the certificate, which
   - The client (for example, `psql`) has the chain to validate the server certificate: `~postgres/.postgresql/root.crt`
 
 **Note**: Actually, the intermediate should be associated with the server certificate and not with the root certificate.
+
 - To accept a client connection:
   - The client identifies itself with a certificate: `~postgres/.postgresql/postgresql.crt`
   - This is validated by PostgreSQL using a chain: `/data/postgres/data/certs/root.crt`
@@ -237,14 +248,14 @@ These can be requested via:
 [postgres@acme-dvppg1db-server2 ~]$ openssl x509 -text -noout -in /data/postgres/data/certs/server.crt | grep -A1 'X509v3 Subject Alternative Name:'
 ```
 
-*Note: The translation task does not apply to shell commands or file paths.*
+_Note: The translation task does not apply to shell commands or file paths._
 
 X509v3 Subject Alternative Name:
 
 DNS: acme-dvppg1db-server2.acme.corp.com, IP Address: 10.0.4.43  
 DNS: acme-dvppg1pr-v01p.acme.corp.com, IP Address: 10.0.4.*28  
 DNS: acme-dvppg1pr-server1.acme.corp.com, IP Address: 10.0.4.*26  
-DNS: acme-dvppg1pr-server2.acme.corp.com, IP Address: 10.0.4.*27  
+DNS: acme-dvppg1pr-server2.acme.corp.com, IP Address: 10.0.4.\*27  
 DNS: acme-dvppg1db-server1.acme.corp.com, IP Address: 10.0.4.42  
 DNS: acme-dvppg1db-server3.acme.corp.com, IP Address: 10.0.4.44  
 DNS: acme-dvppg1db-server4.acme.corp.com, IP Address: 10.0.4.45
@@ -319,13 +330,14 @@ Example for client certificates for the Postgres user:
 
 - `./tls/int_client/private/postgres.key.pem`
 
-PEM format  
-- `./tls/int_client/private/postgres.key.pk8`  
+PEM format
 
-*Note: The file path appears to be in English.*
+- `./tls/int_client/private/postgres.key.pk8`
 
-PKCS#8 format (ASCII)  
+_Note: The file path appears to be in English._
+
+PKCS#8 format (ASCII)
+
 - `./tls/int_client/private/postgres.key.der`
 
 PK8 format (DATA)
-
