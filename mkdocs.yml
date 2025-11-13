@@ -1,0 +1,85 @@
+site_name: PgVillage
+site_url: https://belastingdienst.github.io/pgvillage
+site_author: Nibble-IT
+
+# Repository
+repo_name: pgvillage
+repo_url: https://github.com/pgvillage/pgvillage
+edit_uri: edit/main/docs
+
+theme:
+  name: material
+  custom_dir: mkdocs_overrides
+  logo: about/branding/111633306-2.jpeg
+  favicon: about/branding/111633306-2.jpeg
+  language: en
+  hljs_languages:
+    - yaml
+    - go
+    - bash
+  features:
+    - content.action.edit
+    - navigation.expand
+    - navigation.path
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.top
+    - navigation.prune
+    - search.suggest
+    - search.share
+    - toc.follow
+copyright: >
+  Copyright &copy; 2025 Nibble-IT
+
+extra:
+  version:
+    provider: mike
+    alias: true
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      title: On this page
+      permalink: true
+      toc_depth: 3
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+      auto_title: false
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search
+  - social
+  - tags
+  - privacy
+  - kroki:
+      HttpMethod: POST
+  - literate-nav:
+      nav_file: README.md
+      implicit_index: true
+  - redirects:
+      redirect_maps:
+        'index.md': 'overview/index.md'
+
+# Navigation
+nav:
+  - Architecture: architecture/
+  - Administrator Guide: administrators-guide/
+  - User Guide: users-guide/
+  - Developer Guide: developers-guide/
+  - About:
+      - Branding: about/branding/
+      - License: about/license.md
