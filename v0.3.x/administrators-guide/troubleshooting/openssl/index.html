@@ -1,0 +1,1459 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Nibble-IT">
+      
+      
+        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/troubleshooting/openssl/">
+      
+      
+        <link rel="prev" href="../connectivity/">
+      
+      
+        <link rel="next" href="../quick_fix/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../about/branding/111633306-2.jpeg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>OpenSSL - PgVillage</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="OpenSSL - PgVillage" />
+<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/troubleshooting/openssl.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/troubleshooting/openssl/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="OpenSSL - PgVillage" />
+<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/troubleshooting/openssl.png" />
+</head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+  You're not viewing the latest version.
+  <a href="../../../.."> 
+    <strong>Click here to go to latest.</strong>
+  </a>
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="PgVillage" class="md-header__button md-logo" aria-label="PgVillage" data-md-component="logo">
+      
+  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PgVillage
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OpenSSL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pgvillage/pgvillage" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pgvillage
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../architecture/design/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../architecture/mtls/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Administrator Guide
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../users-guide/client_connection_failover/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../developers-guide/developing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Developer Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../about/branding" class="md-tabs__link">
+          
+  
+  
+    
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="PgVillage" class="md-nav__button md-logo" aria-label="PgVillage" data-md-component="logo">
+      
+  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+
+    </a>
+    PgVillage
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pgvillage/pgvillage" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pgvillage
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../architecture/design/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administrator Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Administrator Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../architecture/mtls/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../deployment_and_maintenance/ansible/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment and maintenance
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../tools/avchecker/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connectivity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connectivity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick_fix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../verify/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifying a PgVillage deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../users-guide/client_connection_failover/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../developers-guide/developing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../about/branding" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../architecture/mtls/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Administrator Guide
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../connectivity/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Troubleshooting
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/administrators-guide/troubleshooting/openssl.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>Het openssl linux commando kan gebruikt worden voor alle uitvoering van taken mbt certificatane, waaronder:</p>
+<ul>
+<li>Generate new private keys, certificate signing requests, certificates, etc. (<a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/WebHome.html">chainsmith</a> uses openssl)</li>
+<li>Query information about certificates, including lifetime/expiry, subject/CommonName, x509 extensions, etc.</li>
+<li>Verification of the combination of a certificate and private key</li>
+<li>Verification of a certificate chain</li>
+<li>Conversion of private keys</li>
+</ul>
+<p>This documentation describes all OpenSSL commands, what they can be used for, and how certain things can be done.</p>
+<h1 id="commandos">Commandos'<a class="headerlink" href="#commandos" title="Permanent link">&para;</a></h1>
+<p># Om te controleren of een private key en een cert bij elkaar horen kunnen de volgende md5 hashes vergeleken worden:</p>
+<p>openssl rsa -modulus -noout -in "/data/postgres/data/certs/server.key" | openssl md5</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>openssl x509 -modulus -noout -in &quot;/data/postgres/data/certs/server.crt&quot; | openssl md5
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gh"># To read the certificate from a .crt file:</span>
+</code></pre></div>
+<p>openssl x509 -text -noout -in /data/postgres/data/certs/server.crt</p>
+<p># To request a certificate from a web server:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>openssl<span class="w"> </span>s_client<span class="w"> </span>-showcerts<span class="w"> </span>-servername<span class="w"> </span>acme-vbepr-v11a.acme.corp.com<span class="w"> </span>-connect<span class="w"> </span>acme-vbepr-v11a.acme.corp.com:443<span class="w"> </span>&lt;<span class="w"> </span>/dev/null
+</code></pre></div>
+<p># To request a certificate from a PostgreSQL server:</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Open a connection to initiate TLS with the PostgreSQL server on <span class="sb">`acme-dvppg1db-server1.acme.corp.com`</span> at port <span class="sb">`5432`</span>, and display the certificates using OpenSSL.
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gh"># To view the certificate chain that Postgres provides:</span>
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>openssl crl2pkcs7 -nocrl -certfile /data/postgres/data/certs/server.crt | openssl pkcs7 -print_certs
+</code></pre></div>
+<p># Om te controleren of een certifcaat/chain vertrouwd wordt door een  ander certificaat</p>
+<p>openssl verify -CAfile ~postgres/.postgresql/root.crt /data/postgres/data/certs/server.crt</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gh"># To check if a certificate is trusted by an intermediate and root (both separately, not in PG SBB)</span>
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>openssl verify -CAfile ~/postgres/.postgresql/root.crt -untrusted ~/postgres/.postgresql/intermediate.crt /data/postgres/data/certs/server.crt
+</code></pre></div>
+<h1 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h1>
+<h2 id="certificate-expired">Certificate expired<a class="headerlink" href="#certificate-expired" title="Permanent link">&para;</a></h2>
+<p>Since work is being done with a single mutual TLS (mTLS) chain where all client and server certificates have the same expiry date, the expiry can be checked on one certificate to validate the entire chain.</p>
+<p>For querying expiration, the following can be executed:</p>
+<p>[postgres@acme-dvppg1db-server2 ~]$opensslx509-text-noout-in/data/postgres/data/certs/server.crt|grep-A2Validity</p>
+<p>Validity</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>NotBefore: Oct 10 04:48:08 2022 GMT
+</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>NotAfter: Oct 10 04:48:08 2023 GMT
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>In this example, the certificates expire on October 11, 2023 (4:48 GMT is 6:48 CEST)...
+</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Om te controleren of een certificaat nog geldig is, kan ook het volgende commando worden gebruikt:
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>```markdown
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>[me@acme-dvppg1db-server1 ~]$ sudo openssl x509 -checkend $(60 * 60 * 24 * 7) -noout -in ~postgres/.postgresql/postgresql.crt
+</code></pre></div>
+<p>Certificate will not expire</p>
+<p>Dit commando kijkt naar expiry in de komende week (3600sec. x 24 uur x 7 dagen)...</p>
+<p>If the certificates have expired, a new chain must be created and distributed through this procedure: <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html">Generate and Roll Out New Certificates</a></p>
+<h2 id="certificate-is-not-accepted">Certificate is not accepted<a class="headerlink" href="#certificate-is-not-accepted" title="Permanent link">&para;</a></h2>
+<p>To be able to accept connections, the software must trust the certificate, which works through the chain of trust:</p>
+<ul>
+<li>The certificate must be trusted by the intermediate certificate</li>
+<li>The intermediate certificate must be trusted by the root certificate</li>
+<li>There can be multiple intermediates applied, but for the PostgreSQL building block it is not applicable.</li>
+<li>The root certificate must be trusted by the software</li>
+</ul>
+<p>2 examples:</p>
+<ul>
+<li>To establish an SSL connection to PostgreSQL, the client must be able to accept the server certificate.</li>
+<li>Postgres uses a server certificate for this purpose, which identifies itself: <code>/data/postgres/data/certs/server.crt</code></li>
+<li>The client (for example, <code>psql</code>) has the chain to validate the server certificate: <code>~postgres/.postgresql/root.crt</code></li>
+</ul>
+<p><strong>Note</strong>: Actually, the intermediate should be associated with the server certificate and not with the root certificate.</p>
+<ul>
+<li>To accept a client connection:</li>
+<li>The client identifies itself with a certificate: <code>~postgres/.postgresql/postgresql.crt</code></li>
+<li>This is validated by PostgreSQL using a chain: <code>/data/postgres/data/certs/root.crt</code></li>
+</ul>
+<p>The chain can be validated as follows:</p>
+<h1 id="verifierenvanhetservercertificaat">Verifierenvanhetservercertificaat:<a class="headerlink" href="#verifierenvanhetservercertificaat" title="Permanent link">&para;</a></h1>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>[postgres@acme-dvppg1db-server2 ~]$
+</code></pre></div>
+<p><code>openssl verify -CAfile ~/postgres/.postgresql/root.crt data/postgres/data/certs/server.crt</code></p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>/data/postgres/data/certs/server.crt: OK
+</code></pre></div>
+<h1 id="verifierenvanhetclientcertificaat">Verifierenvanhetclientcertificaat:<a class="headerlink" href="#verifierenvanhetclientcertificaat" title="Permanent link">&para;</a></h1>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>[postgres@acme-dvppg1db-server2 ~] $ openssl verify -CAfile /data/postgres/data/certs/root.crt ~/.postgresql/postgresql.crt
+</code></pre></div>
+<p><code>/var/lib/pgsql/.postgresql/postgresql.crt</code>: OK</p>
+<p>Om andere certificaten te valideren moeten de certificaten dus wel bij elkaar gebracht worden.</p>
+<p>Copy anything if necessary into the <code>gurus-dbabh-server1</code> in a temporary folder.</p>
+<p>P.s. certificaten zijn publieke data en niet geheim.</p>
+<p>Ze kopieren naar tijdelijke folders is dus ook geen security issue.</p>
+<h2 id="markdown">```markdown<a class="headerlink" href="#markdown" title="Permanent link">&para;</a></h2>
+<p>subject and CommonName</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Ieder certificaat heeft een subject en de Common Name is onderdeel van dat subject.
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>Especially this Common Name is important because it must match what is attempting to authenticate:
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>- for server certificates, the Fully Qualified Domain Name (FQDN) of the server
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>- for client certificates, the name of the PostgreSQL user
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>The subject (and the Common Name) can be easily verified using an `openssl` command:
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>```bash
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>openssl x509 -in certificate.crt -noout -subject
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="gh"># Example Server Certificate</span>
+</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Subject: C=NL, ST=Utrecht, L=Blaricum, O=Nibble IT, OU=PgVillage, CN=localhost
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Subject: C=NL, postalCode=1261 WZ, ST=Utrecht, L=Blaricum, street=Binnendelta 1-u 2, O=Nibble IT, OU=PgVillage, CN=server1.nibble-it.local
+</code></pre></div>
+<p># Example Client Certificate</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Subject: CN=pgfga, O=Nibble-IT, OU=Chainmsith, L=Blaricum, ST=Utrecht, C=NL
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>Subject: C=NL, postalCode=1261 WZ, ST=Utrecht, L=Blaricum, street=Binnendelta 1-u 2, O=Nibble-IT, OU=PgVillage, CN=pgfga
+</code></pre></div>
+<p>In the example, it can be seen that:</p>
+<ul>
+<li>the server certificate with Common Name (CN) acme-dvppg1db-server2.acme.corp.com is accepted.</li>
+<li>The certificate will therefore be accepted when clients connect to this host.</li>
+<li>the client certificate with Common Name (CN) postgres</li>
+<li>This certificate will therefore be accepted when the client attempts to log in as the postgres user.</li>
+</ul>
+<h2 id="x509-extensions-en-san">x509 extensions en SAN<a class="headerlink" href="#x509-extensions-en-san" title="Permanent link">&para;</a></h2>
+<p>x509 is een certificaten standaard en deze heeft Extensions gedefinieerd.</p>
+<p>There are 2 important extensions:</p>
+<h3 id="key-usage">Key Usage<a class="headerlink" href="#key-usage" title="Permanent link">&para;</a></h3>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>JDBC sets very high requirements on client certificates, particularly that the following extensions are enabled:
+</code></pre></div>
+<ul>
+<li>Digital Signature</li>
+<li>Key Encipherment</li>
+<li>Data Encryption</li>
+</ul>
+<p>Chainsmith is zo geconfigureerd dat hij deze extensies ook enabled.</p>
+<p>To verify this, the following can be done:</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>[postgres@acme-dvppg1db-server2 ~]$ openssl x509 -text -noout -in data/postgres/data/certs/server.crt | grep -A1 &#39;X509v3 Key Usage:&#39;
+</code></pre></div>
+<p>Note: The command is already in English, so no translation was necessary.</p>
+<p>X509v3KeyUsage:</p>
+<p>Digital Signature, Key Encipherment, Data Encipherment</p>
+<h3 id="subject-alternative-name">Subject Alternative Name<a class="headerlink" href="#subject-alternative-name" title="Permanent link">&para;</a></h3>
+<p>Since TCP proxies (such as <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Stolon/WebHome.html">stolon-proxy</a> and <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/HAProxy/WebHome.html">HAProxy</a>) are also used in the PostgreSQL architecture, it is possible that a client connects to an FQDN different from that of the server they are actually connecting to.</p>
+<p>For example, he connects to the VIP (acme-dvppg1 <strong>pr-v</strong> 01p.acme.corp.com) and accesses the primary database server, such as acme-dvppg1 <strong>pr-v</strong> 02p.acme.corp.com, via HAProxy and stolon-proxy.</p>
+<p>X.509 has an additional extension called Subject Alternative Names (SAN), which allows for configuring extra hostnames.</p>
+<p>These can be requested via:</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>[postgres@acme-dvppg1db-server2 ~]$ openssl x509 -text -noout -in /data/postgres/data/certs/server.crt | grep -A1 &#39;X509v3 Subject Alternative Name:&#39;
+</code></pre></div>
+<p><em>Note: The translation task does not apply to shell commands or file paths.</em></p>
+<p>X509v3 Subject Alternative Name:</p>
+<p>DNS: acme-dvppg1db-server2.acme.corp.com, IP Address: 10.0.4.43<br />
+DNS: acme-dvppg1pr-v01p.acme.corp.com, IP Address: 10.0.4.<em>28<br />
+DNS: acme-dvppg1pr-server1.acme.corp.com, IP Address: 10.0.4.</em>26<br />
+DNS: acme-dvppg1pr-server2.acme.corp.com, IP Address: 10.0.4.*27<br />
+DNS: acme-dvppg1db-server1.acme.corp.com, IP Address: 10.0.4.42<br />
+DNS: acme-dvppg1db-server3.acme.corp.com, IP Address: 10.0.4.44<br />
+DNS: acme-dvppg1db-server4.acme.corp.com, IP Address: 10.0.4.45</p>
+<p><strong>Note:</strong> In addition to DNS entries, this SAN also has IP entries, but it seems the PostgreSQL client does not handle them well.</p>
+<hr />
+<h2 id="conversie-private-keys">Conversie Private Keys<a class="headerlink" href="#conversie-private-keys" title="Permanent link">&para;</a></h2>
+<p>For JDBC, a different format (PKCS12 or PKCS8 DER) must be used.</p>
+<p>Voor DBeaver is specifiek PKCS8 DER zonder wachtwoord nodig.</p>
+<p>These can be generated with the following commands:</p>
+<h1 id="pkcs8-pem-format">PKCS#8 PEM Format<a class="headerlink" href="#pkcs8-pem-format" title="Permanent link">&para;</a></h1>
+<hr />
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>OpenSSL PKCS#8 -topk8 -inform PEM -outform PEM -in cims_rw.key -out cims_rw.pk8.pem -nocrypt
+</code></pre></div>
+<h1 id="pkcs8-der-format-suitable-for-jdbc-including-dbeaver">PKCS8 DER Format (Suitable for JDBC including DBeaver)<a class="headerlink" href="#pkcs8-der-format-suitable-for-jdbc-including-dbeaver" title="Permanent link">&para;</a></h1>
+<hr />
+<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>openssl<span class="w"> </span>pkcs8<span class="w"> </span>-topk8<span class="w"> </span>-inform<span class="w"> </span>PEM<span class="w"> </span>-outform<span class="w"> </span>DER<span class="w"> </span>-in<span class="w"> </span>cims_rw.key<span class="w"> </span>-out<span class="w"> </span>cims_rw.pk8<span class="w"> </span>-nocrypt
+</code></pre></div>
+<h1 id="pkcs12-format-also-suitable-for-jdbc-always-with-password">PKCS12 Format (Also Suitable for JDBC, Always with Password)<a class="headerlink" href="#pkcs12-format-also-suitable-for-jdbc-always-with-password" title="Permanent link">&para;</a></h1>
+<hr />
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>openssl pkcs12 -export -nocerts -inkey cims_rw.key -out cims_rw.p12
+</code></pre></div>
+<p>By the way, a password must sometimes be set for the keys as well:</p>
+<h1 id="pkcs8-pem-format_1">PKCS#8 PEM Format<a class="headerlink" href="#pkcs8-pem-format_1" title="Permanent link">&para;</a></h1>
+<hr />
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>openssl pkcs8 -topk8 -inform PEM -outform PEM -in cims_rw.key -out cims_rw.pk8.pem
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="gh"># PKCS8 DER Format (Suitable for JDBC Including DBeaver)</span>
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>openssl pkcs8 -topk8 -inform PEM -outform DER -in cims_rw.key -out cims_rw.pk8
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gh"># PKCS12 Format (Suitable for JDBC, Always with Password So Same Command)</span>
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>openssl pkcs12 -export -nokeys -in cims_rw.pem -out cims_rw.p12
+</code></pre></div>
+<p><a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/WebHome.html">Chainsmith</a> generates automatically the standard PEM and PKCS8 format keys.</p>
+<p>These can be found in the temporary folder (or the GPG archive).</p>
+<p>Example for client certificates for the Postgres user:</p>
+<ul>
+<li><code>./tls/int_client/private/postgres.key.pem</code></li>
+</ul>
+<p>PEM format</p>
+<ul>
+<li><code>./tls/int_client/private/postgres.key.pk8</code></li>
+</ul>
+<p><em>Note: The file path appears to be in English.</em></p>
+<p>PKCS#8 format (ASCII)</p>
+<ul>
+<li><code>./tls/int_client/private/postgres.key.der</code></li>
+</ul>
+<p>PK8 format (DATA)</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Nibble-IT
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

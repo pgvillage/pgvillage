@@ -1,0 +1,2225 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Nibble-IT">
+      
+      
+        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/avchecker/">
+      
+      
+        <link rel="prev" href="../../deployment_and_maintenance/replacing_certificates/">
+      
+      
+        <link rel="next" href="../chainsmith/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../about/branding/111633306-2.jpeg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Availability Checker - PgVillage</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Availability Checker - PgVillage" />
+<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/tools/avchecker.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/avchecker/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Availability Checker - PgVillage" />
+<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/tools/avchecker.png" />
+</head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#avchecker" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+  You're not viewing the latest version.
+  <a href="../../../.."> 
+    <strong>Click here to go to latest.</strong>
+  </a>
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="PgVillage" class="md-header__button md-logo" aria-label="PgVillage" data-md-component="logo">
+      
+  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PgVillage
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Availability Checker
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pgvillage/pgvillage" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pgvillage
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../architecture/design/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../architecture/mtls/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Administrator Guide
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../users-guide/client_connection_failover/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../developers-guide/developing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Developer Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../about/branding" class="md-tabs__link">
+          
+  
+  
+    
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="PgVillage" class="md-nav__button md-logo" aria-label="PgVillage" data-md-component="logo">
+      
+  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+
+    </a>
+    PgVillage
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pgvillage/pgvillage" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pgvillage
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../architecture/design/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administrator Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Administrator Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../architecture/mtls/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../deployment_and_maintenance/ansible/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment and maintenance
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Availability Checker
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Availability Checker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requirements-and-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements and Dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requirements and Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Scenarios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proxy-service-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proxy Service Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Controls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Everything
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stolon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @stolon
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-1211" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL (12.11)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQL (12.11)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-help-for-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type "help" for help.
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Type &#34;help&#34; for help.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#routerrw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @routerrw
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routerro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @routerro
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chainsmith/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chainsmith
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../etcd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Etcd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../haproxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAProxy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keepalived/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keepalived
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../minio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nagios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nagios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pgquartz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PgQuarts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pgroute66/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PgRoute66
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stolon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stolon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wal-g/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wal-G
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../troubleshooting/connectivity/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../users-guide/client_connection_failover/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../developers-guide/developing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../about/branding" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requirements-and-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements and Dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requirements and Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Scenarios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proxy-service-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proxy Service Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Controls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Everything
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stolon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @stolon
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-1211" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL (12.11)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQL (12.11)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-help-for-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type "help" for help.
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Type &#34;help&#34; for help.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#routerrw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @routerrw
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routerro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @routerro
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../architecture/mtls/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Administrator Guide
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Tools
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/administrators-guide/tools/avchecker.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="avchecker">Avchecker<a class="headerlink" href="#avchecker" title="Permanent link">&para;</a></h1>
+<p><strong>Avchecker</strong> is a tool that monitors the availability of <strong>PostgreSQL</strong>.</p>
+<hr />
+<h2 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<ol>
+<li>It’s a <strong>Python script</strong>.</li>
+<li>It connects to a database.</li>
+<li>It creates (if necessary) a table with one row.</li>
+<li>Then it endlessly repeats:</li>
+<li>Reads back the last value.</li>
+<li>Writes a new value.</li>
+<li>Checks if the time difference between the previous and new value is longer than <strong>7.5 seconds</strong> (adjustable).</li>
+<li>If the difference exceeds this threshold, it reports to <strong>stdout</strong>.</li>
+</ol>
+<hr />
+<h2 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h2>
+<p>Avchecker runs on all database servers as a service and monitors different connection endpoints:</p>
+<ul>
+<li><strong>stolon</strong> → Direct connection to the master.</li>
+<li><strong>proxy</strong> → Connection to the master through stolon-proxy.</li>
+<li><strong>router</strong> → Connection via HAProxy on port <strong>5432</strong>.</li>
+</ul>
+<hr />
+<h2 id="requirements-and-dependencies">Requirements and Dependencies<a class="headerlink" href="#requirements-and-dependencies" title="Permanent link">&para;</a></h2>
+<p>Avchecker runs as a service with multiple instances per database server.</p>
+<h3 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h3>
+<h4 id="1-service-files">1. Service Files<a class="headerlink" href="#1-service-files" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Location: <code>/etc/systemd/system/avchecker@.service</code> <em>(Ansible managed)</em></li>
+<li>Instances:</li>
+<li><code>avchecker@stolon.service</code></li>
+<li><code>avchecker@proxy.service</code></li>
+<li><code>avchecker@routerro.service</code></li>
+<li><code>avchecker@routerrw.service</code></li>
+</ul>
+<hr />
+<h4 id="2-script">2. Script<a class="headerlink" href="#2-script" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Path: <code>/opt/avchecker/avchecker.py</code> <em>(Ansible managed)</em></li>
+<li>Python version: <code>3.6.8</code></li>
+</ul>
+<hr />
+<h4 id="3-linux-user">3. Linux User<a class="headerlink" href="#3-linux-user" title="Permanent link">&para;</a></h4>
+<ul>
+<li>User: <code>avchecker</code> <em>(Ansible managed)</em></li>
+<li>Authentication: Client certificates <em>(Ansible managed)</em></li>
+</ul>
+<hr />
+<h4 id="4-table">4. Table<a class="headerlink" href="#4-table" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Database:</strong> <code>postgres</code></li>
+</ul>
+<div class="language-sql highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">public</span><span class="p">.</span><span class="n">avchecker</span><span class="w"> </span><span class="p">(</span><span class="k">last</span><span class="w"> </span><span class="n">timestamptz</span><span class="p">);</span>
+</code></pre></div>
+<p><em>(Managed by Python script)</em></p>
+<hr />
+<h4 id="5-configuration-files">5. Configuration Files<a class="headerlink" href="#5-configuration-files" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>/etc/default/avchecker_proxy</code>(configuration for connections via stolon-proxy)</li>
+<li><code>/etc/default/avchecker_stolon</code>(configurations for direct connections to the master)</li>
+<li><code>/etc/default/avchecker_routerro</code>(configurations for connections via haproxy port 5433)</li>
+<li><code>/etc/default/avchecker_routerrw</code>(configurations for connections via haproxy port 5432)</li>
+</ul>
+<hr />
+<h4 id="6-connections">6. Connections:<a class="headerlink" href="#6-connections" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Each database server creates a connection for every Avchecker instance.</li>
+<li>A cluster with 4 nodes and a router results in <strong>16 total connections</strong>, of which <strong>12 connect to the master database</strong>.</li>
+</ul>
+<hr />
+<h4 id="7-endpoints">7. Endpoints<a class="headerlink" href="#7-endpoints" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>stolon:</strong> direct connection to the master database on one of the nodes.</li>
+<li><strong>proxy:</strong> direct connection to stolon-proxy, which forwards to the master database.</li>
+<li><strong>routerrw:</strong></li>
+<li>connection to HAProxy on port 5432</li>
+<li>from HAProxy to stolon-proxy on the master</li>
+<li>from stolon-proxy to the master</li>
+<li><strong>routerro:</strong></li>
+<li>connection to HAProxy on port 5433</li>
+<li>from HAProxy to one of the standby instances</li>
+</ul>
+<hr />
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p>The purpose of <strong>Avchecker</strong> is to monitor the <strong>connectivity</strong> and <strong>availability</strong> of the PostgreSQL service across different endpoints.</p>
+<hr />
+<h2 id="example-scenarios">Example Scenarios<a class="headerlink" href="#example-scenarios" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>If the router does not function properly or behaves inconsistently:</p>
+</li>
+<li>
+<p><code>avchecker@proxy</code> and <code>avchecker@stolon</code> do not provide notifications.</p>
+</li>
+<li>
+<p><code>avchecker@routerro</code> and <code>avchecker@routerrw</code> do provide notifications.</p>
+</li>
+<li>
+<p>If the application experiences issues but <code>avchecker@routerro</code> and <code>avchecker@routerrw</code> do not:</p>
+</li>
+<li>
+<p>The problem is most likely in the application, routing, or firewalling up to the router VIP.</p>
+</li>
+</ul>
+<hr />
+<p>This makes Avchecker an excellent diagnostic tool to determine at which level a connectivity issue exists.</p>
+<p>Avchecker runs continuously as a systemd service and reports any issues in the systemd journal.</p>
+<p>There is a small difference between the <code>routerro</code> service and the other services.</p>
+<hr />
+<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
+<p>Status control works best via <code>journalctl</code> commands.</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>root@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@routerro | head</span>
+</code></pre></div>
+<p>Example logs:</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>-- Logs begin at Sun 2022-10-16 02:26:36 CEST. --
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Oct 16 00:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Oct 16 03:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>Oct 16 03:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>Oct 16 03:06:38 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>Oct 16 02:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>Oct 16 02:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>Oct 1602:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>Oct 16 05:02:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>Oct 1602:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+</code></pre></div>
+<hr />
+<h3 id="proxy-service-example">Proxy Service Example<a class="headerlink" href="#proxy-service-example" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">[</span>root@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@proxy</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">#Logs begin at Sun 2022-10-16 02:26:36 CEST.</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Oct<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="m">20</span>:25:28<span class="w"> </span>acme-dvppg1db-server2<span class="w"> </span>avchecker.py<span class="o">[</span><span class="m">629455</span><span class="o">]</span>:<span class="w"> </span><span class="m">0</span>:00:08.314879
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="o">[</span>root@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@stolon</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>--<span class="w"> </span>Logs<span class="w"> </span>begin<span class="w"> </span>at<span class="w"> </span>Sun<span class="w"> </span><span class="m">2022</span>-10-16<span class="w"> </span><span class="m">02</span>:26:36<span class="w"> </span>CEST.
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="o">[</span>root@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@routerrw</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>--<span class="w"> </span>Logs<span class="w"> </span>begin<span class="w"> </span>at<span class="w"> </span>Sun<span class="w"> </span><span class="m">2022</span>-10-16<span class="w"> </span><span class="m">02</span>:26:36<span class="w"> </span>CEST.
+</code></pre></div>
+<p>At the first router, we observe a large number of notifications.</p>
+<p>This is expected behavior because updates fail on a standby instance — which is logical for <code>routerro</code>.</p>
+<p>It was decided to include these notifications in the output since they confirm that we are working against a standby instance.</p>
+<p>The downside is that there are more messages per second on stdout, causing the logs to fill up quickly. Hence the use of <code>| head 20</code>.</p>
+<p>Systemd handles this efficiently and is not significantly impacted.</p>
+<p>As an alternative, it can be decided, for example, to give a notification every n times and skip the rest.</p>
+<p>This feature is (for now) not implemented.</p>
+<p>For the proxy service, you see a notification:</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Oct 16 20:25:28 acme-dvppg1db-server2 avchecker.py[629455]: 0:00:08.314879
+</code></pre></div>
+<p>This indicates that <strong>stolon-proxy</strong> took <strong>8.31 seconds</strong> to reconnect and rewrite data.<br />
+Possible causes:</p>
+<ul>
+<li>The stolon-proxy was restarted</li>
+<li>The query took longer than expected due to locking or load delays.</li>
+</ul>
+<p>All other services show no notifications.</p>
+<hr />
+<h2 id="controls">Controls<a class="headerlink" href="#controls" title="Permanent link">&para;</a></h2>
+<p>If it’s important to check availability, do the following steps.</p>
+<ul>
+<li>Log in to one of the database servers (preferably not the master)</li>
+<li>Check the output of <code>journalctl</code> for all available services</li>
+</ul>
+<h3 id="everything">Everything<a class="headerlink" href="#everything" title="Permanent link">&para;</a></h3>
+<p>Run the following commands:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cat<span class="w"> </span>/var/log/syslog<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;avchecker\|proxy&#39;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>journalctl<span class="w"> </span>-efu<span class="w"> </span>avchecker@stolon
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>journalctl<span class="w"> </span>-efu<span class="w"> </span>avchecker@routerrw
+</code></pre></div>
+<h4 id="verify-the-following">Verify the Following<a class="headerlink" href="#verify-the-following" title="Permanent link">&para;</a></h4>
+<ul>
+<li>The services have <strong>few interruptions</strong></li>
+<li>Only <code>routerro</code> should have many and recent rules, typically showing <code>cannot execute UPDATE in a read-only transaction</code>.</li>
+<li>All other interruptions are points to look at</li>
+<li>Interruptions from different services don't coincide</li>
+<li>If interruptions for all avchecker@ services coincide, there was likely an issue that the application also experienced</li>
+<li>An interruption for a single service probably indicates longer transaction times (postgres was busy) and is likely not noticed by the application</li>
+<li>The endpoint used by the application works properly</li>
+<li>Systems with a router config are probably routerw and routerro</li>
+<li>Systems without a router are likely stolon (direct to master)</li>
+<li>The routerro service has recent rules</li>
+<li>and only gives notifications for <code>cannot execute UPDATE in a read-oavchecker@routerronly transaction</code></li>
+<li>if there are no recent rules, it could be that the service is down or that the entire environment has been down for a long time. First check the avcheker@stolon service and all related controls.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For a quick end-to-end check of PostgreSQL with a router, check the <code>@routerrw</code> and <code>@routerro</code> services.</p>
+</div>
+<hr />
+<p>See at @routerrw and @routerro what to look out for…</p>
+<h3 id="stolon">@stolon<a class="headerlink" href="#stolon" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>journalctl<span class="w"> </span>-efu<span class="w"> </span>avchecker@stolon
+</code></pre></div>
+<p>If you encounter issues with <code>avchecker@stolon</code>, investigate and resolve them before proceeding</p>
+<p>Check whether there is a master available, if it can be reached from the current server, and ensure that the client certificates are functioning correctly (for example, they have not expired):</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="o">[</span>postgres@acme-dvppg1db-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>master
+</code></pre></div>
+<h2 id="postgresql-1211">PostgreSQL (12.11)<a class="headerlink" href="#postgresql-1211" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># \q</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="o">[</span>postgres@acme-dvppg1db-server1<span class="w"> </span>~<span class="o">]</span>$
+</code></pre></div>
+<p>Connecting with <code>service=master</code> does the following:</p>
+<ul>
+<li>Connects one-to-one to all nodes and</li>
+<li>Performs a full SSL check (<code>sslmode=verify-full</code>)</li>
+<li>Authenticates with client certificates (for user <code>postgres</code>)</li>
+<li>Checks if it is a master instance</li>
+<li>Goes on to the next node if necessary</li>
+</ul>
+<p>If this works then you already know a lot:</p>
+<ul>
+<li>The server operates with a server certificate that can be verified with the root certificate (~postgres/.postgresql/root.crt).</li>
+<li>Client certificates are functioning correctly, can be verified by the server, and have not expired.</li>
+<li>NOTE: The entire chain expires simultaneously.</li>
+<li>NOTE: There is certificate monitoring for this certificate!</li>
+<li>A master instance is available.</li>
+</ul>
+<hr />
+<h3 id="proxy">@proxy<a class="headerlink" href="#proxy" title="Permanent link">&para;</a></h3>
+<p>The next step is the stolon-proxy layer. Check it with</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>journalctl<span class="w"> </span>-efu<span class="w"> </span>avchecker@proxy
+</code></pre></div>
+<p>If you notice issues with <code>avchecker@proxy</code>, resolve them before investigating <code>stolon-rw</code>.</p>
+<p>HAProxy connects through stolon-proxy, so issues with stOLON-PROXY also have consequences.</p>
+<p>If <code>avchecker@stolon</code> works properly, the best explanation is that the stolon-proxy service did not start correctly (or at all).</p>
+<p>Other issues may be related to firewalling (but the AvChecker also connects locally, and the stolon proxy connects to the master in the same way as the service=<code>stolon</code> check).</p>
+<hr />
+<p>Eventueel kan stolon-proxy ook gecontroleerd worden met psql:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="o">[</span>postgres@acme-dvppg1db-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>proxy
+</code></pre></div>
+<p>PostgreSQL (12.11)</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
+</code></pre></div>
+<h2 id="type-help-for-help">Type "help" for help.<a class="headerlink" href="#type-help-for-help" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># \q</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="o">[</span>postgres@acme-dvppg1db-server1<span class="w"> </span>~<span class="o">]</span>$
+</code></pre></div>
+<p>Connecting with <code>service=proxy</code> does the following:</p>
+<ul>
+<li>Connect locally to the stolon-proxy port</li>
+<li>Stolon-proxy forwards traffic to the master</li>
+<li>Performs full SSL verification (<code>sslmode=verify-full</code>)</li>
+<li>Authenticates with client certificates (for user <code>postgres</code>)</li>
+</ul>
+<p>If this works out then you already know a lot:</p>
+<ul>
+<li>The server operates with a server certificate that can be verified using the root certificate (~postgres/.postgresql/root.crt).</li>
+<li>The client certificates are functioning properly, can be verified by the server, and have not expired.</li>
+<li>NOTE: The entire chain expires simultaneously.</li>
+<li>NOTE: There is certificate monitoring for this certificate!!!</li>
+<li>A master instance is available.</li>
+<li>The local stolon-proxy can successfully connect to it.</li>
+</ul>
+<p>Read more information in the documentation of <a href="../stolon/">stolon</a>.</p>
+<hr />
+<h3 id="routerrw">@routerrw<a class="headerlink" href="#routerrw" title="Permanent link">&para;</a></h3>
+<p>Used when HAProxy + Keepalived + PgRoute66 are deployed.</p>
+<p>If <code>@stolon</code> and <code>@proxy</code> are healthy but <code>@routerrw</code> fails:</p>
+<ul>
+<li>The issue lies in <strong>router configuration</strong> (HAProxy, Keepalived, or PgRoute66).</li>
+</ul>
+<p>Refer to internal documentation for:</p>
+<ul>
+<li><a href="../haproxy/">HAProxy</a></li>
+<li><a href="../keepalived/">KeepaliveD</a></li>
+<li><a href="../pgroute66/">PgRoute66</a></li>
+</ul>
+<hr />
+<p>The <code>@routerrw</code> service can also be very well used for an end-to-end check.</p>
+<p>The best tool for end-to-end control is the <code>@routerro</code> service, but it does not verify if the router also forwards to the primary database server.</p>
+<p>Therefore, @routerro should also be checked along with @routerrw:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>journalctl<span class="w"> </span>-efu<span class="w"> </span>avchecker@routerrw
+</code></pre></div>
+<p>Check the output, ensuring that there are not (or very few) lines reporting a timeout.</p>
+<p>If you don't see any issues but find that insufficient, then check with the <a href="../haproxy/">HAProxy</a> documentation the output of the <code>show stat</code> command.</p>
+<hr />
+<h3 id="routerro">@routerro<a class="headerlink" href="#routerro" title="Permanent link">&para;</a></h3>
+<p>When a router configuration (using <a href="../haproxy/">HAProxy</a>, <a href="../keepalived/">KeepaliveD</a> and <a href="../pgroute66/">PgRoute66</a>) is used, it is also monitored with the avchecker@routerrw service.</p>
+<p>If there are issues with <code>@stolon</code> and <code>@proxy</code>, it's best to resolve these first.</p>
+<hr />
+<p>If there are no issues from @stolon and @proxy, then the problem must be found in the router configuration.</p>
+<p>This can best be investigated and resolved with the documentation of <a href="../keepalived/">keepalived</a>, <a href="../haproxy/">HAProxy</a> and <a href="../pgroute66/">pgRoute66</a>.</p>
+<p>The @routerro service can also be very well used for an end-to-end check.</p>
+<p>The main advantage of the <code>@routerro</code> service is that it continuously outputs status and covers all components.</p>
+<p>The result of this check immediately provides a lot of useful information.</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>journalctl<span class="w"> </span>-efu<span class="w"> </span>avchecker@routerro<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+</code></pre></div>
+<p>Check the output, ensuring primarily that the router service provides recent rules (such as "cannot execute UPDATE in a read-only transaction") and nothing else.</p>
+<p>This tells you that:</p>
+<ul>
+<li>The router is still working properly.</li>
+<li>At least one of the other services is still updating the table.</li>
+<li>Streaming replication is still functioning (the other service updates the master and the changes reach this standby).</li>
+<li>The VIP is still linked to the server with a healthy HAProxy and pgrouter66 (i.e., the primary router is still working well).</li>
+<li>Server and client certificates are still working properly.</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Nibble-IT
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
