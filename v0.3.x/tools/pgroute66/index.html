@@ -10,28 +10,28 @@
         <meta name="author" content="Nibble-IT">
       
       
-        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/nagios/">
+        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/tools/pgroute66/">
       
       
-        <link rel="prev" href="../minio/">
+        <link rel="prev" href="../pgquartz/">
       
       
-        <link rel="next" href="../pgquartz/">
+        <link rel="next" href="../stolon/">
       
       
         
       
       
-      <link rel="icon" href="../../../about/branding/111633306-2.jpeg">
+      <link rel="icon" href="../../about/branding/111633306-2.jpeg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Nagios - PgVillage</title>
+        <title>PgRoute66 - PgVillage</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
       
       
 
@@ -45,12 +45,12 @@
         
         
         
-        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -58,15 +58,15 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Nagios - PgVillage" />
-<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/tools/nagios.png" />
+<meta property="og:title" content="PgRoute66 - PgVillage" />
+<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/tools/pgroute66.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/nagios/" />
+<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/tools/pgroute66/" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Nagios - PgVillage" />
-<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/tools/nagios.png" />
+<meta property="twitter:title" content="PgRoute66 - PgVillage" />
+<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/tools/pgroute66.png" />
 </head>
   
   
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#nagios" class="md-skip">
+        <a href="#pgroute66" class="md-skip">
           Skip to content
         </a>
       
@@ -94,12 +94,12 @@
             <div class="md-banner__inner md-grid md-typeset">
               
   You're not viewing the latest version.
-  <a href="../../../.."> 
+  <a href="../../.."> 
     <strong>Click here to go to latest.</strong>
   </a>
 
             </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
           </aside>
         
       </div>
@@ -111,9 +111,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="PgVillage" class="md-header__button md-logo" aria-label="PgVillage" data-md-component="logo">
+    <a href="../.." title="PgVillage" class="md-header__button md-logo" aria-label="PgVillage" data-md-component="logo">
       
-  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+  <img src="../../about/branding/111633306-2.jpeg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Nagios
+              PgRoute66
             
           </span>
         </div>
@@ -218,7 +218,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../architecture/overview/" class="md-tabs__link">
+        <a href="../../architecture/overview/" class="md-tabs__link">
           
   
   
@@ -241,26 +241,56 @@
   
     
     
-      
-  
-  
-  
-    
-  
-  
-    
-    
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../architecture/mtls/" class="md-tabs__link">
+        <a href="../avchecker/" class="md-tabs__link">
           
   
   
     
   
-  Administrator Guide
+  Tools
 
         </a>
       </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../administrators-guide/architecture/mtls/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
     
   
 
@@ -276,51 +306,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../users-guide/client_connection_failover/" class="md-tabs__link">
-          
-  
-  
-    
-  
-  User Guide
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../developers-guide/developing/" class="md-tabs__link">
-          
-  
-  
-    
-  
-  Developer Guide
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../about/branding" class="md-tabs__link">
+        <a href="../../about/branding" class="md-tabs__link">
           
   
   
@@ -362,9 +348,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="PgVillage" class="md-nav__button md-logo" aria-label="PgVillage" data-md-component="logo">
+    <a href="../.." title="PgVillage" class="md-nav__button md-logo" aria-label="PgVillage" data-md-component="logo">
       
-  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+  <img src="../../about/branding/111633306-2.jpeg" alt="logo">
 
     </a>
     PgVillage
@@ -413,7 +399,7 @@
   
   
   
-    <a href="../../../architecture/overview/" class="md-nav__link">
+    <a href="../../architecture/overview/" class="md-nav__link">
       
   
   
@@ -449,6 +435,20 @@
   
     
     
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -484,7 +484,7 @@
   <span class="md-ellipsis">
     
   
-    Administrator Guide
+    Tools
   
 
     
@@ -497,210 +497,6 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Administrator Guide
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../architecture/mtls/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Architecture
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../deployment_and_maintenance/ansible/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Deployment and maintenance
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tools
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -882,37 +678,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Nagios
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../nagios/" class="md-nav__link">
         
   
   
@@ -928,61 +697,6 @@
   
 
       </a>
-      
-        
-
-  
-
-<nav class="md-nav md-nav--secondary" aria-label="On this page">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      On this page
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#requirements-and-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Requirements and Dependencies
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#additional-information" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Additional information
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#todo" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Todo
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1020,10 +734,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../pgroute66/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PgRoute66
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1039,6 +780,61 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ToDo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1106,18 +902,15 @@
     </li>
   
 
-              
-            
-              
-                
-  
-  
-  
-  
-    
     
       
-        
+      
+  
+  
+  
+  
+    
+    
       
         
       
@@ -1143,14 +936,22 @@
   
   
   
-    <a href="../../troubleshooting/connectivity/" class="md-nav__link">
+    
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../administrators-guide/architecture/mtls/" class="md-nav__link">
       
   
   
   <span class="md-ellipsis">
     
   
-    Troubleshooting
+    Guides
   
 
     
@@ -1164,71 +965,8 @@
     </a>
   
 
-      
-    </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../../users-guide/client_connection_failover/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    User Guide
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
   
 
       
@@ -1267,64 +1005,7 @@
   
   
   
-    <a href="../../../developers-guide/developing/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Developer Guide
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../../about/branding" class="md-nav__link">
+    <a href="../../about/branding" class="md-nav__link">
       
   
   
@@ -1379,10 +1060,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements-and-dependencies" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Requirements and Dependencies
+        Requirements
       
     </span>
   </a>
@@ -1390,10 +1071,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#additional-information" class="md-nav__link">
+  <a href="#use" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Additional information
+        Use
       
     </span>
   </a>
@@ -1404,7 +1085,7 @@
   <a href="#todo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Todo
+        ToDo
       
     </span>
   </a>
@@ -1427,57 +1108,6 @@
 
 
 
-  <nav class="md-path" aria-label="Navigation" >
-    <ol class="md-path__list">
-      
-      
-        
-  
-  
-    
-    
-      
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="../../architecture/mtls/" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Administrator Guide
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-    
-  
-
-      
-        
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="../avchecker/" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Tools
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ol>
-  </nav>
-
               
               <article class="md-content__inner md-typeset">
                 
@@ -1485,7 +1115,7 @@
 
 
   
-    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/administrators-guide/tools/nagios.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/tools/pgroute66.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1493,63 +1123,67 @@
   
 
 
-<h1 id="nagios">Nagios<a class="headerlink" href="#nagios" title="Permanent link">&para;</a></h1>
-<p>For the standard PostgreSQL building block, monitoring has been implemented using <strong>Nagios</strong>.</p>
-<p>This documentation describes how it has been implemented, as well as things that can be better.</p>
-<hr />
-<h2 id="requirements-and-dependencies">Requirements and Dependencies<a class="headerlink" href="#requirements-and-dependencies" title="Permanent link">&para;</a></h2>
+<h1 id="pgroute66">PgRoute66<a class="headerlink" href="#pgroute66" title="Permanent link">&para;</a></h1>
+<p>The PostgreSQL building block can optionally be executed with a PostgreSQL router.</p>
+<p>The router consists of a HA setup with 2 servers, each having a Virtual IP address and running <a href="../haproxy/">HAProxy</a> and PgRoute66 on both nodes.</p>
+<p>HAProxy is used to route TCP traffic to the correct PostgreSQL server(s), and PgRoute66 is used to control HAProxy.
+<a href="../haproxy/">HAProxy</a>.</p>
+<p>Pgroute66 is an open-source project and is maintained by the community.</p>
 <ul>
-<li><a href="https://bucardo.org/check_postgres/">check_postgres</a></li>
-<li>ansible-postgres <a href="https://gitlab.int.corp.com/gurus-db-team/ansible-postgres/-/tree/dev/roles/nagios">role for nagios</a></li>
-<li>
-<p>nagios server (ansible managed with role):</p>
-</li>
-<li>
-<p><code>gurus-nagios-server1.int.corp.com:/opt/nagios/etc/host.cfg.d/{dbserver fqdn}.cfg</code></p>
-</li>
-<li>
-<p><code>gurus-nagios-server1.int.corp.com:/opt/nagios/etc/host.cfg.d/{dbserver fqdn}-custom.cfg</code></p>
-</li>
-<li>
-<p>db servers (ansible managed with role):</p>
-</li>
-<li><code>/etc/nrpe.d/check_certs.cfg</code></li>
-<li><code>/etc/nrpe.d/check_postgres.cfg</code></li>
-<li><code>/etc/nrpe.d/multi_check.cfg</code></li>
-<li><code>/etc/nrpe.d/proces_check.cfg</code></li>
-<li><code>/etc/nrpe.d/service_check.cfg</code></li>
-<li><code>/opt/gurus/nrpe/pg_multi_db_checks.sh</code></li>
-<li><code>/opt/gurus/nrpe/check_postgres_*</code></li>
-<li><code>/opt/gurus/nrpe/check_certs.sh</code></li>
+<li><a href="https://github.com/pgvillage-build/rpmbuilder">rpmbuilder Releases on GitHub</a></li>
+<li><a href="https://github.com/pgvillage/pgvillage/releases">pgvillage Repository</a></li>
+</ul>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p>For the PostgreSQL router setup, the following components are required for PgRoute66 to function correctly:</p>
+<ul>
+<li>The binary is deployed via the <strong>depgroute66</strong> RPM (from Satellite).</li>
+<li>The PgRoute66 configuration file is located at:<br />
+<code>/etc/pgroute66/config.yaml</code><br />
+  and is deployed and managed through <strong>Ansible</strong>.</li>
+<li>The PgRoute66 service file can be found at:<br />
+<code>/etc/systemd/system/pgroute66.service</code><br />
+  and is also deployed and managed through <strong>Ansible</strong>.</li>
+<li>PgRoute66 runs under the <strong>pgroute66</strong> Linux user, which is deployed and managed through <strong>Ansible</strong>.</li>
+<li>PgRoute66 uses <strong>mTLS</strong> for PostgreSQL connections through:</li>
+<li>a client certificate and key (deployed and managed through Ansible)</li>
+<li>a root certificate to verify the server certificate (deployed and managed through Ansible)</li>
+<li>all three located in <code>~pgroute66/.postgresql/</code></li>
 </ul>
 <hr />
-<h2 id="additional-information">Additional information<a class="headerlink" href="#additional-information" title="Permanent link">&para;</a></h2>
-<p>The configuration is managed in the Ansible inventory at <code>environments/[ENV]/group_vars/hacluster/nagios.yml</code>: <code>nagios_checks</code></p>
-<p>For the POC environment, the configuration on Nagios itself is disabled:</p>
+<h2 id="use">Use<a class="headerlink" href="#use" title="Permanent link">&para;</a></h2>
+<p>PgRoute66 runs as a service and does not require any manual actions.</p>
+<p>For troubleshooting, check the service logs:</p>
 <hr />
-<div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># File: environments/poc/group_vars/hacluster/nagios.yml</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="l l-Scalar l-Scalar-Plain">nagios_servers[1].enabled</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">[</span>me@pgv-dvppg1pr-server2<span class="w"> </span>~<span class="o">]</span><span class="w"> </span>$<span class="w"> </span>sudo<span class="w"> </span>journalctl<span class="w"> </span>-efu<span class="w"> </span>pgroute66.service
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>--<span class="w"> </span>Logs<span class="w"> </span>begin<span class="w"> </span>at<span class="w"> </span>Thu<span class="w"> </span><span class="m">2022</span>-10-13<span class="w"> </span><span class="m">02</span>:09:58<span class="w"> </span>CEST.
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Oct<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">22</span>:29:19<span class="w"> </span>pgv-dvppg1pr-server2<span class="w"> </span>pgroute66<span class="o">[</span><span class="m">1608249</span><span class="o">]</span>:<span class="w"> </span><span class="o">[</span>GIN<span class="o">]</span><span class="w"> </span><span class="m">2022</span>/10/13<span class="w"> </span>-<span class="w"> </span><span class="m">22</span>:29:19<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.780668ms<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;/v1/standbys&quot;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Oct<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">22</span>:29:19<span class="w"> </span>pgv-dvppg1pr-server2<span class="w"> </span>pgroute66<span class="o">[</span><span class="m">1608249</span><span class="o">]</span>:<span class="w"> </span><span class="o">[</span>GIN<span class="o">]</span><span class="w"> </span><span class="m">2022</span>/10/13<span class="w"> </span>-<span class="w"> </span><span class="m">22</span>:29:19<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.951384ms<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;/v1/primary&quot;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Oct<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">22</span>:29:21<span class="w"> </span>pgv-dvppg1pr-server2<span class="w"> </span>pgroute66<span class="o">[</span><span class="m">1608249</span><span class="o">]</span>:<span class="w"> </span><span class="o">[</span>GIN<span class="o">]</span><span class="w"> </span><span class="m">2022</span>/10/13<span class="w"> </span>-<span class="w"> </span><span class="m">22</span>:29:21<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.812061ms<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;/v1/primary&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Oct<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">22</span>:29:19<span class="w"> </span>pgv-dvppg1pr-server2<span class="w"> </span>pgroute66<span class="o">[</span><span class="m">1608249</span><span class="o">]</span>:<span class="w"> </span><span class="o">[</span>GIN<span class="o">]</span><span class="w"> </span><span class="m">2022</span>/10/13<span class="w"> </span>-<span class="w"> </span><span class="m">22</span>:29:19<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.986874ms<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;/v1/standbys&quot;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Oct<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">22</span>:29:20<span class="w"> </span>pgv-dvppg1pr-server2<span class="w"> </span>pgroute66<span class="o">[</span><span class="m">1608249</span><span class="o">]</span>:<span class="w"> </span><span class="o">[</span>GIN<span class="o">]</span><span class="m">2022</span>/10/13<span class="w"> </span>-<span class="w"> </span><span class="m">22</span>:29:20<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.917752ms<span class="w"> </span><span class="p">|</span><span class="w">   </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;/v1/standbys&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Oct<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">22</span>:29:20<span class="w"> </span>pgv-dvppg1pr-server2<span class="w"> </span>pgroute66<span class="o">[</span><span class="m">1608249</span><span class="o">]</span>:<span class="w"> </span><span class="o">[</span>GIN<span class="o">]</span><span class="m">2022</span>/10/13<span class="w"> </span>-<span class="w"> </span><span class="m">22</span>:29:20<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.69516ms<span class="w"> </span><span class="p">|</span><span class="w">     </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;/v1/primary&quot;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>Oct<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">22</span>:29:21<span class="w"> </span>pgv-dvppg1pr-server2<span class="w"> </span>pgroute66<span class="o">[</span><span class="m">1608249</span><span class="o">]</span>:<span class="w"> </span><span class="o">[</span>GIN<span class="o">]</span><span class="m">2022</span>/10/13<span class="w"> </span>-<span class="w"> </span><span class="m">22</span>:29:21<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.957809ms<span class="w"> </span><span class="p">|</span><span class="w">   </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;/v1/standbys&quot;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Oct<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">22</span>:29:21<span class="w"> </span>pgv-dvppg1pr-server2<span class="w"> </span>pgroute66<span class="o">[</span><span class="m">1608249</span><span class="o">]</span>:<span class="w"> </span><span class="o">[</span>GIN<span class="o">]</span><span class="m">2022</span>/10/13<span class="w"> </span>-<span class="w"> </span><span class="m">22</span>:29:21<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.812061ms<span class="w"> </span><span class="p">|</span><span class="w">   </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>GET<span class="w">  </span><span class="s2">&quot;/v1/primary&quot;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>Oct<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">22</span>:29:21<span class="w"> </span>pgv-dvppg1pr-server2<span class="w"> </span>pgroute66<span class="o">[</span><span class="m">1608249</span><span class="o">]</span>:<span class="w"> </span><span class="o">[</span>GIN<span class="o">]</span><span class="m">2022</span>/10/13<span class="w"> </span>-<span class="w"> </span><span class="m">22</span>:29:21<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.606772ms<span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;/v1/standbys&quot;</span>
 </code></pre></div>
-<h2 id="todo">Todo<a class="headerlink" href="#todo" title="Permanent link">&para;</a></h2>
-<p>The following things can be better:</p>
-<ul>
-<li>Nagios monitoring on certificates</li>
-<li>Currently all regularly monitored for <code>~postgres/.postgresql/postgresql.crt</code></li>
-<li>Requires a sudo rule for the nrpe user</li>
-<li>Redesign of the solution would be immensely helpful</li>
-<li><a href="https://github.com/Vonng/pg_exporter">https://github.com/Vonng/pg_exporter</a></li>
-<li>Another solution</li>
-<li>Newer and likely better than check_postgres</li>
-<li>Requires some scripting (but much simpler from the check_postgres pl script)</li>
-<li>Monitoring on wal-g</li>
-<li>Custom to build</li>
-<li>How do we get the retention?</li>
-</ul>
+<p>If necessary, the logging can also be temporarily increased by raising the log level to debug in the config file:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>me@pgv-dvppg1pr-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>vim<span class="w"> </span>/etc/pgroute66/config.yaml
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="o">[</span>me@pgv-dvppg1pr-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>grep<span class="w"> </span>loglevel<span class="w"> </span>/etc/pgroute66/config.yaml
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>loglevel:<span class="w"> </span>develop
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="o">[</span>me@pgv-dvppg1pr-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>pgroute66.service
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>HAProxy and PgRoute66 are loosely coupled, and a successful restart of the pgroute66 has no impact on the availability of the service.</p>
+</div>
 <hr />
-<p><strong>2-12-2022: A manual action for now, to ensure the proper functioning of the certificate check:</strong></p>
-<p><strong>Add the file <code>10_sudo_rule_nrpe_postgres</code> to <code>/etc/sudoers.d/</code> with the following content:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>nrpe<span class="w"> </span><span class="nv">ALL</span><span class="o">=(</span>postgres<span class="o">)</span><span class="w"> </span>NOPASSWD:<span class="w"> </span>ALL
-</code></pre></div>
+<h2 id="todo">ToDo<a class="headerlink" href="#todo" title="Permanent link">&para;</a></h2>
+<p>PgRoute66 could be enhanced to detect the primary database based on Stolon configuration in etcd.</p>
+<p>In that case, PgRoute66 can run on the database server along with it and HAProxy can be used without the <code>external-check</code> and <code>insecure-fork-wanted</code> options.</p>
 
 
 
@@ -1613,10 +1247,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>

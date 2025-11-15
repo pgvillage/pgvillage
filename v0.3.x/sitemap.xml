@@ -41,50 +41,6 @@
          <lastmod>2025-11-15</lastmod>
     </url>
     <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/avchecker/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/chainsmith/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/etcd/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/haproxy/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/keepalived/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/minio/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/nagios/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/pgquartz/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/pgroute66/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/stolon/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
-         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/tools/wal-g/</loc>
-         <lastmod>2025-11-15</lastmod>
-    </url>
-    <url>
          <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/troubleshooting/connectivity/</loc>
          <lastmod>2025-11-15</lastmod>
     </url>
@@ -118,6 +74,50 @@
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/developers-guide/vagrant/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/avchecker/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/chainsmith/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/etcd/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/haproxy/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/keepalived/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/minio/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/nagios/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/pgquartz/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/pgroute66/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/stolon/</loc>
+         <lastmod>2025-11-15</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v0.3.x/tools/wal-g/</loc>
          <lastmod>2025-11-15</lastmod>
     </url>
     <url>

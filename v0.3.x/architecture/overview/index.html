@@ -14,7 +14,7 @@
       
       
       
-        <link rel="next" href="../../administrators-guide/architecture/mtls/">
+        <link rel="next" href="../../tools/avchecker/">
       
       
         
@@ -239,6 +239,35 @@
   
     
     
+      <li class="md-tabs__item">
+        <a href="../../tools/avchecker/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
       
   
   
@@ -253,7 +282,7 @@
   
     
   
-  Administrator Guide
+  Guides
 
         </a>
       </li>
@@ -263,47 +292,6 @@
     
   
 
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../users-guide/client_connection_failover/" class="md-tabs__link">
-          
-  
-  
-    
-  
-  User Guide
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../developers-guide/developing/" class="md-tabs__link">
-          
-  
-  
-    
-  
-  Developer Guide
-
-        </a>
-      </li>
     
   
 
@@ -575,6 +563,20 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -590,6 +592,69 @@
     <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
       
         
+  
+  
+  
+    <a href="../../tools/avchecker/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
   
   
   
@@ -604,7 +669,7 @@
   <span class="md-ellipsis">
     
   
-    Administrator Guide
+    Guides
   
 
     
@@ -620,120 +685,6 @@
 
   
 
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../users-guide/client_connection_failover/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    User Guide
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../developers-guide/developing/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Developer Guide
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
   
 
       
@@ -908,14 +859,14 @@ There has been put a lot of effort into authorization:</p>
 </ul>
 <p>PgVillage offers a robust architecture, with state of the art infrastructure, such as</p>
 <ul>
-<li><a href="../../administrators-guide/tools/stolon/">Stolon</a> relying on <a href="../../administrators-guide/tools/etcd/">etcd</a> for High Availability</li>
-<li><a href="../../administrators-guide/tools/wal-g/">WAL-g</a> and <a href="../../administrators-guide/tools/minio/">minio</a> for backup</li>
+<li><a href="../administrators-guide/tools/stolon.md">Stolon</a> relying on <a href="../administrators-guide/tools/etcd.md">etcd</a> for High Availability</li>
+<li><a href="../administrators-guide/tools/wal-g.md">WAL-g</a> and <a href="../administrators-guide/tools/minio.md">minio</a> for backup</li>
 <li>Prometheus / Grafana for metrics, alerts and dashboards</li>
 <li>Properly connect to PostgreSQL</li>
 <li>with Client Connection Failover if you can, or</li>
-<li>with <a href="../../administrators-guide/tools/stolon/">stolon-proxy</a> which always points at the current pimary, or</li>
-<li>use a proxy with <a href="../../administrators-guide/tools/pgroute66/">pgroute66</a>, <a href="../../administrators-guide/tools/haproxy/">haproxy</a> and optionally <a href="../../administrators-guide/tools/keepalived/">keepalived</a> for VIP management if you want.</li>
-<li><a href="../../administrators-guide/tools/pgquartz/">PgQuartz</a> for PostgreSQL miantenance</li>
+<li>with <a href="../administrators-guide/tools/stolon.md">stolon-proxy</a> which always points at the current pimary, or</li>
+<li>use a proxy with <a href="../administrators-guide/tools/pgroute66.md">pgroute66</a>, <a href="../administrators-guide/tools/haproxy.md">haproxy</a> and optionally <a href="../administrators-guide/tools/keepalived.md">keepalived</a> for VIP management if you want.</li>
+<li><a href="../administrators-guide/tools/pgquartz.md">PgQuartz</a> for PostgreSQL miantenance</li>
 <li>Implement federated authorization (ldap sync), and manage the resources such as databases, extensions, users, roles, etc. with <a href="../administrators-guide/tools/pgfga.md">pgfga</a></li>
 <li>With PgVillage you are in control of how you leverage the power of PostgreSQL.
   Run your favorite distribution, deploay and maintain with ease, use the Power of PostgreSQL with Foreign Data Wrappers such as db2_fdw</li>

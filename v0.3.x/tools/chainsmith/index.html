@@ -10,13 +10,13 @@
         <meta name="author" content="Nibble-IT">
       
       
-        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/users-guide/client_connection_failover/">
+        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/tools/chainsmith/">
       
       
-        <link rel="prev" href="../../administrators-guide/troubleshooting/verify/">
+        <link rel="prev" href="../avchecker/">
       
       
-        <link rel="next" href="../clients/">
+        <link rel="next" href="../etcd/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Client connection failover - PgVillage</title>
+        <title>Chainsmith - PgVillage</title>
       
     
     
@@ -58,15 +58,15 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Client connection failover - PgVillage" />
-<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/users-guide/client_connection_failover.png" />
+<meta property="og:title" content="Chainsmith - PgVillage" />
+<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/tools/chainsmith.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/users-guide/client_connection_failover/" />
+<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/tools/chainsmith/" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Client connection failover - PgVillage" />
-<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/users-guide/client_connection_failover.png" />
+<meta property="twitter:title" content="Chainsmith - PgVillage" />
+<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/tools/chainsmith.png" />
 </head>
   
   
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#belongs-to-component" class="md-skip">
+        <a href="#chainsmith" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Client connection failover
+              Chainsmith
             
           </span>
         </div>
@@ -236,11 +236,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../tools/avchecker/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../avchecker/" class="md-tabs__link">
           
   
   
@@ -258,7 +260,12 @@
   
   
   
+  
     
+    
+      
+  
+  
   
   
     
@@ -267,21 +274,10 @@
   
   
   
-    
-  
   
     
     
-      
-  
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../../administrators-guide/architecture/mtls/" class="md-tabs__link">
           
   
@@ -433,6 +429,8 @@
       
   
   
+    
+  
   
   
     
@@ -453,67 +451,6 @@
         
       
         
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../tools/avchecker/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tools
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
       
         
       
@@ -537,17 +474,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    Guides
+    Tools
   
 
     
@@ -558,12 +495,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Guides
+    Tools
   
 
           </label>
@@ -575,45 +512,15 @@
   
   
   
-    
-    
-      
+    <li class="md-nav__item">
+      <a href="../avchecker/" class="md-nav__link">
         
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    
-  
-  
-  
-    <a href="../../administrators-guide/architecture/mtls/" class="md-nav__link">
-      
   
   
   <span class="md-ellipsis">
     
   
-    Administrator Guide
+    Availability Checker
   
 
     
@@ -621,81 +528,11 @@
   
   
 
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-  
-
-      
+      </a>
     </li>
   
 
               
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    User Guide
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    User Guide
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -710,6 +547,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -718,7 +557,7 @@
   <span class="md-ellipsis">
     
   
-    Client connection failover
+    Chainsmith
   
 
     
@@ -736,7 +575,7 @@
   <span class="md-ellipsis">
     
   
-    Client connection failover
+    Chainsmith
   
 
     
@@ -754,6 +593,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -762,10 +603,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#belongs-to-component" class="md-nav__link">
+  <a href="#requirements-and-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Belongs to Component
+        Requirements and Dependencies
       
     </span>
   </a>
@@ -773,63 +614,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
+  <a href="#use" class="md-nav__link">
     <span class="md-ellipsis">
       
-        # Introduction
+        Use
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#psql-op-linux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        psql op Linux
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gurus_pgsdb_server3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        gurus_pgsdb_server3
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="gurus_pgsdb_server3">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pgadmin-for-windows" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PGAdmin for Windows
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dbeaver" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dbeaver
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -849,14 +640,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../clients/" class="md-nav__link">
+      <a href="../etcd/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Introduction
+    Etcd
   
 
     
@@ -877,14 +668,210 @@
   
   
     <li class="md-nav__item">
-      <a href="../jdbc/" class="md-nav__link">
+      <a href="../haproxy/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Introduction
+    HAProxy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keepalived/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keepalived
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../minio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nagios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nagios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pgquartz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PgQuarts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pgroute66/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PgRoute66
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stolon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stolon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wal-g/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wal-G
   
 
     
@@ -904,16 +891,17 @@
     </li>
   
 
-              
-            
-              
-                
+    
+      
+      
   
   
   
   
     
     
+      
+        
       
         
       
@@ -937,14 +925,22 @@
   
   
   
-    <a href="../../developers-guide/developing/" class="md-nav__link">
+    
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../administrators-guide/architecture/mtls/" class="md-nav__link">
       
   
   
   <span class="md-ellipsis">
     
   
-    Developer Guide
+    Guides
   
 
     
@@ -958,14 +954,10 @@
     </a>
   
 
-      
-    </li>
   
 
-              
-            
-          </ul>
-        </nav>
+  
+
       
     </li>
   
@@ -1047,6 +1039,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1055,10 +1049,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#belongs-to-component" class="md-nav__link">
+  <a href="#requirements-and-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Belongs to Component
+        Requirements and Dependencies
       
     </span>
   </a>
@@ -1066,63 +1060,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
+  <a href="#use" class="md-nav__link">
     <span class="md-ellipsis">
       
-        # Introduction
+        Use
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#psql-op-linux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        psql op Linux
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gurus_pgsdb_server3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        gurus_pgsdb_server3
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="gurus_pgsdb_server3">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pgadmin-for-windows" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PGAdmin for Windows
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dbeaver" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dbeaver
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1142,65 +1086,6 @@
 
 
 
-  <nav class="md-path" aria-label="Navigation" >
-    <ol class="md-path__list">
-      
-      
-        
-  
-  
-    
-    
-      
-  
-  
-    
-    
-      
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="../../administrators-guide/architecture/mtls/" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Guides
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-    
-  
-
-    
-  
-
-      
-        
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="./" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    User Guide
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ol>
-  </nav>
-
               
               <article class="md-content__inner md-typeset">
                 
@@ -1208,7 +1093,7 @@
 
 
   
-    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/users-guide/client_connection_failover.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/tools/chainsmith.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1216,114 +1101,32 @@
   
 
 
-<h2 id="belongs-to-component">Belongs to Component<a class="headerlink" href="#belongs-to-component" title="Permanent link">&para;</a></h2>
+<h1 id="chainsmith">Chainsmith<a class="headerlink" href="#chainsmith" title="Permanent link">&para;</a></h1>
+<p>Chainsmith is a community tool that can be configured with a simple YAML file to generate certificate chains.</p>
+<p>For more information, please refer to:</p>
+<ul>
+<li><a href="../architecture/mtls.md">mTLS</a></li>
+<li>Community repository: <a href="https://github.com/pgvillage-tools/chainsmith">https://github.com/pgvillage-tools/chainsmith</a></li>
+</ul>
 <hr />
-<p>Postgres</p>
-<h2 id="introduction"># Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
-<p>In the Postgres environment, clusters are provided that consist of 3 or more database clusters and a backup server. In some environments, currently the two DVP clusters and the POC environment, there are also two proxy servers with a VIP address.</p>
-<p>In environments with a VIP address, accessing the database is straightforward. By using the VIP, you always connect to the primary database.</p>
-<p>In environments without VIP and proxy servers, there are usually three database servers where it is not known which one is the primary; this can also change, for example, during patching. To connect to the primary database, there are a few options.
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>## Requirements and dependencies
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>The database(s) can be accessed in various ways, each with its own specifics; we describe the following:
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>- psql on Linux  
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>- PGAdmin on Windows  
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>- DBeaver on Windows
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>## Performance
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Using `psql` on Windows allows you to utilize the &#39;service file&#39; (`.pg_service.conf` in `$HOME`) for configuration, including connection details. Below is an example of how to connect to either a primary or slave server without knowing which one it is. In the &#39;service file&#39;, this can be specified as follows:
-</code></pre></div>
-[master]
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>
-</code></pre></div>
-host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>`port=5432`
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>```markdown
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>target_session_attrs=read-write
-</code></pre></div></p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sslmode=verify-full
-</code></pre></div>
-<p>[standby]</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com
-</code></pre></div>
-<p>port=5432</p>
-<p><code>target_session_attrs=read-only</code></p>
-<hr />
-<p>This way, the connection can be made with <code>service=master</code> to the primary database and with <code>server=standby</code> to any standby database:</p>
-<h2 id="psql-op-linux">psql op Linux<a class="headerlink" href="#psql-op-linux" title="Permanent link">&para;</a></h2>
-<p>The situation:</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gurus_pgsdb_server1 (master)
-</code></pre></div>
-<p>├─gurus_pgsdb_server2</p>
-<h1 id="gurus_pgsdb_server3">gurus_pgsdb_server3<a class="headerlink" href="#gurus_pgsdb_server3" title="Permanent link">&para;</a></h1>
-<p>$ hostname --fqdn</p>
-<p><code>scc-pgsdb-server2.int.corp.com</code></p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$ <span class="gs">**psql service=master**</span>
-</code></pre></div>
-<p>psql (14.5)</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-</code></pre></div>
-<p>Type "help" for help.</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>postgres=# select pg_is_in_recovery();
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pg_is_in_recovery
-</code></pre></div>
-<p>-------------------</p>
-<p>f</p>
-<p>(1 row)</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>postgres=# exit;
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Database is not recovering and is therefore the primary!
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$ <span class="gs">**psql service=primary**</span>
-</code></pre></div>
-<p>psql (14.5)</p>
-<p>SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)</p>
-<p>Enter "help" for assistance.</p>
-<p>The indication of standby and master comes from the 'service file' and can be filled or expanded according to your own understanding.</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>SELECT pg_is_in_recovery();
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="sb">`pg_is_in_recovery`</span>
-</code></pre></div>
-<p>-------------------</p>
-<p>t</p>
-<p>(1 row)</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>postgres=# exit;
-</code></pre></div>
-<p>Now we see that the database is in <code>recovery_mode</code>, which means it's a standby/slave database.</p>
-<h2 id="pgadmin-for-windows">PGAdmin for Windows<a class="headerlink" href="#pgadmin-for-windows" title="Permanent link">&para;</a></h2>
-<p>For PGAdmin, it also applies that this can make use of the aforementioned 'service file'; it works identically to what has been described above. If PGAdmin is used on Windows, then the peculiarity is the name and location of the 'service file', namely:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>
-</code></pre></div>
-<p><strong>\%APPDATA%\postgresql.pg_service.conf</strong> (where \%APPDATA\% refers to the Application Data subdirectory in the user's profile), where on Linux this file is: <strong>~/.pg_service.conf</strong></p>
-<p>In de windows van PGAdmin kan dit verder eenvoudig worden ingevuld.</p>
-<p>The 'service file' contains the following:</p>
-<p><code>[aermaster]</code></p>
-<p><code>port=5432</code></p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>target_session_attrs=read-write
-</code></pre></div>
-<p>So if we make the connection this way, it ends up on the master!</p>
-<p><img alt="1672243206877-313.png" src="../../../../../../../../../attachment/xwiki/Infrastructuur/Team%3A+DBA/Algemene+Restore+Server+voor+DBA-Linux/Postgres/Bouwsteen/Onderhoud/Connect+to+primary+or+slave/WebHome/1672243206877-313.png" /></p>
-<h2 id="dbeaver">Dbeaver<a class="headerlink" href="#dbeaver" title="Permanent link">&para;</a></h2>
-<p>For DBeaver on Windows, it works a bit differently; here, the JDBC URL is used, which needs to be entered in the DBeaver window, somewhat depending on the version.</p>
-<p>An example is: <code>jdbc:postgresql://node1,node2,node3/accounting?targetServerType=primary</code></p>
-<p>Hiermee wordt weer bereikt dat de connectie wordt gemaakt naar de master database waar read/write acties mogelijk zijn.</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>![1672242748155-292.png](../../../../../../../../../attachment/xwiki/Infrastructuur/Team%3A%20DBA/Algemene%20Restore%20Server%20voor%20DBA-Linux/Postgres/Bouwsteen/Onderhoud/Connect%20to%20primary%20or%20slave/WebHome/1672242748155-292.png)
-</code></pre></div>
-<p>NB: Screenprint is a newer version than what's present on the management server; this is version 22.3.0.</p>
-<p>Als de connect niet ' goed' wordt gemaakt, bv connected aan readonly (slave) omgeving kan de volgende 'foutmelding' worden getoond als er een poging wordt gedaan om iets weg te schrijven:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Caused by: liquibase.exception.DatabaseException: ERROR: cannot execute CREATE TABLE in a read-only transaction [Failed SQL: (0)]
-</code></pre></div>
-<p>This will then be displayed, an error message, but clearly explainable!</p>
+<h2 id="requirements-and-dependencies">Requirements and Dependencies<a class="headerlink" href="#requirements-and-dependencies" title="Permanent link">&para;</a></h2>
+<p>Within the PostgreSQL deployment, we use Chainsmith as follows:</p>
+<ul>
+<li>We install chainsmith on the management server (and updates).</li>
+<li>We generate and distribute the certificates.</li>
+<li>When monitoring indicates that the certificates are about to expire, we regenerate and redistribute a new set of certificates.</li>
+</ul>
+<h2 id="use">Use<a class="headerlink" href="#use" title="Permanent link">&para;</a></h2>
+<p>The PgVillage chainsmith tole takes care if installation, configuration, running and distributing the certificates.</p>
 
 
 
 
 
 
+
+  
+  
 
 
 
