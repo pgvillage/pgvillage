@@ -863,32 +863,29 @@
 <p>Connecting to Postgres may require a lot of configuration, including user, database, multiple hosts, connection parameters, etc.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-</div>
 <p>Please don;t configure passwords clear text in configuration files!!!</p>
+</div>
 <p>PostgreSQL clients can be used with a pg_service.conf file to configure services, where every service represents a connection with different setting.</p>
 <p>PgVillage creates a ~postgres/pg_service.conf file whichh conatins all types of connections that the linux user for the postgres service could require.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-</div>
 <p>[local]
 host=/tmp
 port=5432</p>
-<div class="language-text highlight"><pre><span></span><code>[proxy]
+<p>[proxy]
 host=127.0.01
 port=25432
-sslmode=verify-full
-
-[master]
+sslmode=verify-full</p>
+<p>[master]
 host=host1.mydomain.org,host2.mydomain.org,host3.mydomain.org
 port=5432
 target_session_attrs=read-write
-sslmode=verify-full
-
-[standby]
+sslmode=verify-full</p>
+<p>[standby]
 host=host1.mydomain.org,host2.mydomain.org,host3.mydomain.org
 port=5432
-target_session_attrs=read-write
-</code></pre></div>
+target_session_attrs=read-write</p>
+</div>
 <h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h2>
 <p>For more information, please refer to <a href="https://www.postgresql.org/docs/current/libpq-pgservice.html">PostgreSQL docs</a>.</p>
 
