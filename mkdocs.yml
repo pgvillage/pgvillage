@@ -72,7 +72,7 @@ plugins:
       implicit_index: true
   - redirects:
       redirect_maps:
-        'index.md': 'overview/index.md'
+        'index.md': 'architecture/overview.md'
 
 # Navigation
 nav:
