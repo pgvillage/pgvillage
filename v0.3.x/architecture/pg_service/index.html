@@ -10,28 +10,28 @@
         <meta name="author" content="Nibble-IT">
       
       
-        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/troubleshooting/quick_fix/">
+        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/architecture/pg_service/">
       
       
-        <link rel="prev" href="../openssl/">
+        <link rel="prev" href="../overview/">
       
       
-        <link rel="next" href="../verify/">
+        <link rel="next" href="../../tools/avchecker/">
       
       
         
       
       
-      <link rel="icon" href="../../../about/branding/111633306-2.jpeg">
+      <link rel="icon" href="../../about/branding/111633306-2.jpeg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Troubleshooting guide - PgVillage</title>
+        <title>PostgreSQL Service File - PgVillage</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
       
       
 
@@ -45,12 +45,12 @@
         
         
         
-        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -58,15 +58,15 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Troubleshooting guide - PgVillage" />
-<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/troubleshooting/quick_fix.png" />
+<meta property="og:title" content="PostgreSQL Service File - PgVillage" />
+<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/architecture/pg_service.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/troubleshooting/quick_fix/" />
+<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/architecture/pg_service/" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Troubleshooting guide - PgVillage" />
-<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/troubleshooting/quick_fix.png" />
+<meta property="twitter:title" content="PostgreSQL Service File - PgVillage" />
+<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/architecture/pg_service.png" />
 </head>
   
   
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#on-call-troubleshooting-guide" class="md-skip">
+        <a href="#postres-services" class="md-skip">
           Skip to content
         </a>
       
@@ -94,12 +94,12 @@
             <div class="md-banner__inner md-grid md-typeset">
               
   You're not viewing the latest version.
-  <a href="../../../.."> 
+  <a href="../../.."> 
     <strong>Click here to go to latest.</strong>
   </a>
 
             </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
           </aside>
         
       </div>
@@ -111,9 +111,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="PgVillage" class="md-header__button md-logo" aria-label="PgVillage" data-md-component="logo">
+    <a href="../.." title="PgVillage" class="md-header__button md-logo" aria-label="PgVillage" data-md-component="logo">
       
-  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+  <img src="../../about/branding/111633306-2.jpeg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Troubleshooting guide
+              PostgreSQL Service File
             
           </span>
         </div>
@@ -214,11 +214,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../architecture/mtls/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../mtls/" class="md-tabs__link">
           
   
   
@@ -240,7 +242,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../tools/avchecker/" class="md-tabs__link">
+        <a href="../../tools/avchecker/" class="md-tabs__link">
           
   
   
@@ -258,7 +260,12 @@
   
   
   
+  
     
+    
+      
+  
+  
   
   
     
@@ -267,22 +274,11 @@
   
   
   
-    
-  
   
     
     
-      
-  
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../deployment_and_maintenance/ansible/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../administrators-guide/deployment_and_maintenance/ansible/" class="md-tabs__link">
           
   
   
@@ -310,7 +306,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../about/branding" class="md-tabs__link">
+        <a href="../../about/branding" class="md-tabs__link">
           
   
   
@@ -352,9 +348,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="PgVillage" class="md-nav__button md-logo" aria-label="PgVillage" data-md-component="logo">
+    <a href="../.." title="PgVillage" class="md-nav__button md-logo" aria-label="PgVillage" data-md-component="logo">
       
-  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+  <img src="../../about/branding/111633306-2.jpeg" alt="logo">
 
     </a>
     PgVillage
@@ -373,140 +369,6 @@
     </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../../architecture/mtls/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Architecture
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../../tools/avchecker/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tools
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
     
       
       
@@ -541,17 +403,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    Guides
+    Architecture
   
 
     
@@ -562,204 +424,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Guides
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Administrator Guide
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_1">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Administrator Guide
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../deployment_and_maintenance/ansible/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Deployment and maintenance
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Troubleshooting
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_1_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Troubleshooting
+    Architecture
   
 
           </label>
@@ -772,14 +442,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../connectivity/" class="md-nav__link">
+      <a href="../mtls/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Connectivity
+    mTLS
   
 
     
@@ -800,14 +470,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../openssl/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    OpenSSL
+    Overview
   
 
     
@@ -844,7 +514,7 @@
   <span class="md-ellipsis">
     
   
-    Troubleshooting guide
+    PostgreSQL Service File
   
 
     
@@ -862,7 +532,7 @@
   <span class="md-ellipsis">
     
   
-    Troubleshooting guide
+    PostgreSQL Service File
   
 
     
@@ -890,21 +560,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#application-does-not-have-access-to-postgres" class="md-nav__link">
+  <a href="#background" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Application does not have access to Postgres
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recovery-emergency-restore" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recovery / Emergency Restore
+        Background
       
     </span>
   </a>
@@ -920,58 +579,37 @@
 
               
             
-              
-                
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
   
   
   
   
-    <li class="md-nav__item">
-      <a href="../verify/" class="md-nav__link">
+    
+    
+      
         
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Verifying a PgVillage deployment
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
+        
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -997,14 +635,14 @@
   
   
   
-    <a href="../../../users-guide/client_connection_failover/" class="md-nav__link">
+    <a href="../../tools/avchecker/" class="md-nav__link">
       
   
   
   <span class="md-ellipsis">
     
   
-    User Guide
+    Tools
   
 
     
@@ -1022,16 +660,17 @@
     </li>
   
 
-              
-            
-              
-                
+    
+      
+      
   
   
   
   
     
     
+      
+        
       
         
       
@@ -1055,14 +694,22 @@
   
   
   
-    <a href="../../../developers-guide/developing/" class="md-nav__link">
+    
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../administrators-guide/deployment_and_maintenance/ansible/" class="md-nav__link">
       
   
   
   <span class="md-ellipsis">
     
   
-    Developer Guide
+    Guides
   
 
     
@@ -1076,14 +723,10 @@
     </a>
   
 
-      
-    </li>
   
 
-              
-            
-          </ul>
-        </nav>
+  
+
       
     </li>
   
@@ -1120,7 +763,7 @@
   
   
   
-    <a href="../../../about/branding" class="md-nav__link">
+    <a href="../../about/branding" class="md-nav__link">
       
   
   
@@ -1175,21 +818,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#application-does-not-have-access-to-postgres" class="md-nav__link">
+  <a href="#background" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Application does not have access to Postgres
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recovery-emergency-restore" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recovery / Emergency Restore
+        Background
       
     </span>
   </a>
@@ -1212,91 +844,6 @@
 
 
 
-  <nav class="md-path" aria-label="Navigation" >
-    <ol class="md-path__list">
-      
-      
-        
-  
-  
-    
-    
-      
-  
-  
-    
-    
-      
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="../../deployment_and_maintenance/ansible/" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Guides
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-    
-  
-
-    
-  
-
-      
-        
-  
-  
-    
-    
-      
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="../../deployment_and_maintenance/ansible/" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Administrator Guide
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-    
-  
-
-      
-        
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="../connectivity/" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Troubleshooting
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ol>
-  </nav>
-
               
               <article class="md-content__inner md-typeset">
                 
@@ -1304,7 +851,7 @@
 
 
   
-    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/administrators-guide/troubleshooting/quick_fix.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/architecture/pg_service.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1312,82 +859,38 @@
   
 
 
-<h1 id="on-call-troubleshooting-guide">On-Call Troubleshooting Guide<a class="headerlink" href="#on-call-troubleshooting-guide" title="Permanent link">&para;</a></h1>
-<p>This page helps you during on-call duty to quickly analyze issues and determine the correct resolution path.</p>
-<p>Start by identifying the type of problem you are dealing with, then follow the referenced documentation to analyze and resolve it correctly.</p>
-<hr />
-<h2 id="application-does-not-have-access-to-postgres">Application does not have access to Postgres<a class="headerlink" href="#application-does-not-have-access-to-postgres" title="Permanent link">&para;</a></h2>
-<p>An application requires three key components to successfully access PostgreSQL:</p>
-<ol>
-<li><strong>An available PostgreSQL instance</strong></li>
-<li><strong>Network connectivity</strong></li>
-<li><strong>A valid configuration</strong></li>
-</ol>
-<p>Therefore, the first step in troubleshooting is to identify which of these areas is causing the issue.</p>
-<hr />
-<ol>
-<li>
-<p>Check if Postgres itself is available:</p>
-</li>
-<li>
-<p>Use the checks described in the <a href="avchecker.md">avchecker</a> documentation.</p>
-</li>
-<li>
-<p>Resolve all issues so that avchecker reports again that Postgres is available.</p>
-</li>
-<li>
-<p>Check if Postgres is available for the application:</p>
-</li>
-<li>Network problems are outside the scope of the DBA.</li>
-</ol>
-<p>In principle, these kinds of issues are always resolved by network management, or Container Hosting (CHP).</p>
-<p>Conduct the direction yourself, stay engaged in the process and provide clear information on what works (availability within the Postgres architecture) and what does not work (connectivity of the application to the VIP or to Postgres).</p>
-<ul>
-<li>
-<p>For more information, see the documentation on <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Connecties+en+connectiepaden/WebHome.html">Connections and Connection Paths</a></p>
-</li>
-<li>
-<p>Check if the client is correctly configured:</p>
-</li>
-</ul>
+<h1 id="postres-services">postres services<a class="headerlink" href="#postres-services" title="Permanent link">&para;</a></h1>
+<p>Connecting to Postgres may require a lot of configuration, including user, database, multiple hosts, connection parameters, etc.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Issues from incorrect configuration result  from a change and are actually not part of service availability work!!!</p>
 </div>
-<p>Ensure that the client configuration includes:</p>
-<ul>
-<li><strong>Host:</strong> VIP, or a list of PostgreSQL hosts (comma-separated)</li>
-<li><strong>Port:</strong></li>
-<li>5432 (RW on VIP)</li>
-<li>5433 (RO on VIP)</li>
-<li>25432 (via stolon-proxy)</li>
-<li>5432 (direct connection)</li>
-<li><strong>Username</strong> and <strong>database name</strong></li>
-<li><strong>Authentication:</strong> client certificates (preferred) or password</li>
-<li><strong>Session targeting:</strong><br />
-<code>target_session_attrs</code> (libpq) or <code>targetServerType</code> (JDBC)</li>
-<li><strong>SSL mode:</strong> <code>sslmode=verify-full</code></li>
-</ul>
-<p>Additionally:</p>
-<ul>
-<li>Verify the PostgreSQL <strong>pg_hba.conf</strong> configuration.</li>
-<li>Review <strong>application logs</strong> with the app administrator.</li>
-<li>Check for <strong>PostgreSQL log errors</strong>.</li>
-<li>For more information, see the documentation on <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html">client configuration</a> and about <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/WebHome.html">mTLS</a>.</li>
-</ul>
-<hr />
-<h2 id="recovery-emergency-restore">Recovery / Emergency Restore<a class="headerlink" href="#recovery-emergency-restore" title="Permanent link">&para;</a></h2>
-<p>It may happen that an application administrator requests a point-in-time restore to be performed, for example because too much data has been deleted or to roll back database changes from an application update.</p>
-<p>It is also possible that due to a disaster scenario all replica instances are no longer available and can only be restored using a Restore (latest point in time).</p>
-<p>In both situations, this can be resolved by referring to the <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Point+in+time+Restore/WebHome.html">Point in Time Restore</a> documentation.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In almost all cases, the reason for a point-in-time restore is not due to an error in the Postgres architecture or by the DBA.</p>
+<p>Please don;t configure passwords clear text in configuration files!!!</p>
+<p>PostgreSQL clients can be used with a pg_service.conf file to configure services, where every service represents a connection with different setting.</p>
+<p>PgVillage creates a ~postgres/pg_service.conf file whichh conatins all types of connections that the linux user for the postgres service could require.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
 </div>
-<blockquote>
-<p>Therefore, in almost all cases, a point-in-time restore also does not result in downtime of the service.<br />
-Take the time to perform a proper point-in-time restore...</p>
-</blockquote>
+<p>[local]
+host=/tmp
+port=5432</p>
+<div class="language-text highlight"><pre><span></span><code>[proxy]
+host=127.0.01
+port=25432
+sslmode=verify-full
+
+[master]
+host=host1.mydomain.org,host2.mydomain.org,host3.mydomain.org
+port=5432
+target_session_attrs=read-write
+sslmode=verify-full
+
+[standby]
+host=host1.mydomain.org,host2.mydomain.org,host3.mydomain.org
+port=5432
+target_session_attrs=read-write
+</code></pre></div>
+<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h2>
+<p>For more information, please refer to <a href="https://www.postgresql.org/docs/current/libpq-pgservice.html">PostgreSQL docs</a>.</p>
 
 
 
@@ -1451,10 +954,10 @@ Take the time to perform a proper point-in-time restore...</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>

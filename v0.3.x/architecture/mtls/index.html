@@ -10,19 +10,17 @@
         <meta name="author" content="Nibble-IT">
       
       
-        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/architecture/mtls/">
+        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/architecture/mtls/">
       
       
-        <link rel="prev" href="../../../tools/wal-g/">
       
-      
-        <link rel="next" href="../pg_service/">
+        <link rel="next" href="../overview/">
       
       
         
       
       
-      <link rel="icon" href="../../../about/branding/111633306-2.jpeg">
+      <link rel="icon" href="../../about/branding/111633306-2.jpeg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
@@ -31,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
       
       
 
@@ -45,12 +43,12 @@
         
         
         
-        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -59,14 +57,14 @@
   
 <meta property="og:type" content="website" />
 <meta property="og:title" content="mTLS - PgVillage" />
-<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/architecture/mtls.png" />
+<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/architecture/mtls.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/architecture/mtls/" />
+<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/architecture/mtls/" />
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:title" content="mTLS - PgVillage" />
-<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/architecture/mtls.png" />
+<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/architecture/mtls.png" />
 </head>
   
   
@@ -94,12 +92,12 @@
             <div class="md-banner__inner md-grid md-typeset">
               
   You're not viewing the latest version.
-  <a href="../../../.."> 
+  <a href="../../.."> 
     <strong>Click here to go to latest.</strong>
   </a>
 
             </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
           </aside>
         
       </div>
@@ -111,9 +109,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="PgVillage" class="md-header__button md-logo" aria-label="PgVillage" data-md-component="logo">
+    <a href="../.." title="PgVillage" class="md-header__button md-logo" aria-label="PgVillage" data-md-component="logo">
       
-  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+  <img src="../../about/branding/111633306-2.jpeg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -214,11 +212,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../architecture/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -240,7 +240,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../tools/avchecker/" class="md-tabs__link">
+        <a href="../../tools/avchecker/" class="md-tabs__link">
           
   
   
@@ -258,7 +258,12 @@
   
   
   
+  
     
+    
+      
+  
+  
   
   
     
@@ -267,22 +272,11 @@
   
   
   
-    
-  
   
     
     
-      
-  
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../administrators-guide/deployment_and_maintenance/ansible/" class="md-tabs__link">
           
   
   
@@ -310,7 +304,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../about/branding" class="md-tabs__link">
+        <a href="../../about/branding" class="md-tabs__link">
           
   
   
@@ -352,9 +346,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="PgVillage" class="md-nav__button md-logo" aria-label="PgVillage" data-md-component="logo">
+    <a href="../.." title="PgVillage" class="md-nav__button md-logo" aria-label="PgVillage" data-md-component="logo">
       
-  <img src="../../../about/branding/111633306-2.jpeg" alt="logo">
+  <img src="../../about/branding/111633306-2.jpeg" alt="logo">
 
     </a>
     PgVillage
@@ -373,136 +367,6 @@
     </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../../architecture/overview/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Architecture
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../../tools/avchecker/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tools
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
     
       
       
@@ -537,132 +401,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Guides
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Guides
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Administrator Guide
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_1">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Administrator Guide
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3_1_1" id="__nav_3_1_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
             
   
   
@@ -680,8 +422,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_1_1">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -760,10 +502,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#generate" class="md-nav__link">
+  <a href="#chainsmith" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Generate
+        chainsmith
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bring-your-own" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bring your own
       
     </span>
   </a>
@@ -785,6 +538,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -824,16 +605,23 @@
     </li>
   
 
-              
-            
-              
-                
+    
+      
+      
   
   
   
   
     
     
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -867,14 +655,14 @@
   
   
   
-    <a href="../../deployment_and_maintenance/ansible/" class="md-nav__link">
+    <a href="../../tools/avchecker/" class="md-nav__link">
       
   
   
   <span class="md-ellipsis">
     
   
-    Deployment and maintenance
+    Tools
   
 
     
@@ -892,18 +680,15 @@
     </li>
   
 
-              
-            
-              
-                
-  
-  
-  
-  
-    
     
       
-        
+      
+  
+  
+  
+  
+    
+    
       
         
       
@@ -929,14 +714,22 @@
   
   
   
-    <a href="../../troubleshooting/connectivity/" class="md-nav__link">
+    
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../administrators-guide/deployment_and_maintenance/ansible/" class="md-nav__link">
       
   
   
   <span class="md-ellipsis">
     
   
-    Troubleshooting
+    Guides
   
 
     
@@ -950,140 +743,10 @@
     </a>
   
 
-      
-    </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
   
 
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../../users-guide/client_connection_failover/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    User Guide
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-        
-        
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    <a href="../../../developers-guide/developing/" class="md-nav__link">
-      
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Developer Guide
-  
-
-    
-  </span>
-  
-  
-
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
-  
-
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
     </li>
   
@@ -1120,7 +783,7 @@
   
   
   
-    <a href="../../../about/branding" class="md-nav__link">
+    <a href="../../about/branding" class="md-nav__link">
       
   
   
@@ -1175,10 +838,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#generate" class="md-nav__link">
+  <a href="#chainsmith" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Generate
+        chainsmith
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bring-your-own" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bring your own
       
     </span>
   </a>
@@ -1212,91 +886,6 @@
 
 
 
-  <nav class="md-path" aria-label="Navigation" >
-    <ol class="md-path__list">
-      
-      
-        
-  
-  
-    
-    
-      
-  
-  
-    
-    
-      
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="./" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Guides
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-    
-  
-
-    
-  
-
-      
-        
-  
-  
-    
-    
-      
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="./" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Administrator Guide
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-    
-  
-
-      
-        
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="./" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Architecture
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ol>
-  </nav>
-
               
               <article class="md-content__inner md-typeset">
                 
@@ -1304,7 +893,7 @@
 
 
   
-    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/administrators-guide/architecture/mtls.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/architecture/mtls.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1313,22 +902,26 @@
 
 
 <h1 id="mtls">mTLS<a class="headerlink" href="#mtls" title="Permanent link">&para;</a></h1>
-<p>The building block uses certificates for encryption of network traffic (server certificates) and for authentication (client certificates).</p>
-<p>Here, mutual TLS (mTLS) is used, which means there is a certificate chain with a root, two intermediaries (one for the client and one for the server), and the server and client certificates.</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>![<span class="nt">chain.png</span>](<span class="na">../../../../../../../../attachment/xwiki/Infrastructuur/Team%3A+DBA/Algemene+Restore+Server+voor+DBA-Linux/Postgres/Bouwsteen/mTLS/WebHome/chain.png</span>)
-</code></pre></div>
-<h2 id="generate">Generate<a class="headerlink" href="#generate" title="Permanent link">&para;</a></h2>
-<p>The certificate chain can either be:</p>
+<p>The building block uses certificates for encryption of network traffic (server certificates) and for authentication (client certificates).
+For situations where one chain is comprised of both client and server certificates, this is called mTLS.</p>
+<h2 id="chainsmith">chainsmith<a class="headerlink" href="#chainsmith" title="Permanent link">&para;</a></h2>
+<p>The default option is to use <a href="../../tools/chainsmith/">chainsmith</a> to create a single chain for every new cluster.
+The chain contains</p>
 <ul>
-<li>Requested from an <strong>external certificate authority</strong>, or</li>
-<li><strong>Generated internally</strong> using a self-managed process.</li>
+<li>a freshly created root certificate</li>
+<li>2 intermediates, server and client, both signed by the root</li>
+<li>a server certificate for every server that the cluster is comprised of, all of them signed by the server intermediate</li>
+<li>client certificates for every service requiring certificate authentication, all of them signed by the client intermediate</li>
 </ul>
-<p>However, the current process for requesting certificates is <strong>complex, slow</strong>, and often <strong>dependent on other teams</strong> within the organization.</p>
-<p>Therefore, a community tool (<a href="chainsmith.md">chainsmith</a>) is used to generate the chain.</p>
+<h2 id="bring-your-own">Bring your own<a class="headerlink" href="#bring-your-own" title="Permanent link">&para;</a></h2>
+<p>As an alternative you have the option to generate your own certificates from your own intermediate.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>Signing client certificates by your root certificate brings down security, and is not advised</p>
 <h2 id="background-information">Background information<a class="headerlink" href="#background-information" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Background information about the tool: <a href="chainsmith.md">chainsmith</a></li>
-<li><a href="inventory.md">inventory</a></li>
 </ul>
 
 
@@ -1393,10 +986,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>
