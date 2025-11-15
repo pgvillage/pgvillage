@@ -15,7 +15,9 @@ Imagine a large (capital?) city. So much traffic, so much noise, so much going o
 There is zero trustworthyness, but
 Everybody has access, nobody has oversight or control, and everybody seems annonymous, untrustworthy, and to be there for their own benefit.
 The streets are filthy, the river enters the city heavilly poluted, and leaves the city even more poluted.
-(**note**: we love cities, just trying to ppaiint a picture ;) ).
+
+!!! note
+    We love cities, just trying to paint a picture ;)
 
 Now imagine your database solutions to be resembled by this city, the data being resembled by the data. And you know what PgVillage is not. PgVillage is the very opposite.
 

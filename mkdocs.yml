@@ -77,9 +77,11 @@ plugins:
 # Navigation
 nav:
   - Architecture: architecture/
-  - Administrator Guide: administrators-guide/
-  - User Guide: users-guide/
-  - Developer Guide: developers-guide/
+  - Tools: tools/
+  - Guides:
+      - Administrator Guide: administrators-guide/
+      - User Guide: users-guide/
+      - Developer Guide: developers-guide/
   - About:
       - Branding: about/branding/
       - License: about/license.md
