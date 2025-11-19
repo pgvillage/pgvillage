@@ -82,6 +82,7 @@ nav:
       - Administrator Guide: administrators-guide/
       - User Guide: users-guide/
       - Developer Guide: developers-guide/
+      - Tuning guide: tuning/
   - About:
       - Branding: about/branding/
       - License: about/license.md
