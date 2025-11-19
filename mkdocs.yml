@@ -10,8 +10,8 @@ edit_uri: edit/main/docs
 theme:
   name: material
   custom_dir: mkdocs_overrides
-  logo: about/branding/111633306-2.jpeg
-  favicon: about/branding/111633306-2.jpeg
+  logo: about/branding/logo.png
+  favicon: about/branding/logo.png
   language: en
   hljs_languages:
     - yaml
