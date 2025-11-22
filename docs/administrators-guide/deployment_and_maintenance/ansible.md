@@ -88,6 +88,6 @@ ansible-playbook -i environments/[ENV] functional-all.yml --tags stolon,avchecke
 
 For other related examples and procedures, refer to the following documentation:
 
-- [Chainsmith](chainsmith.md)
+- [Chainsmith](../tools/chainsmith.md)
 - [Inventory](inventory.md)
 

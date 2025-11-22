@@ -7,40 +7,52 @@ authors:
 date: 2025-11-11
 ---
 
-# Introduction
+# Inventory
 
 Once the new servers are available, they can be deployed as new database, backup, and (optionally) routing servers.
 
-Dit wordt gedaan middels Ansible. Deze beschrijving kan gebruikt worden om de inventory met de juiste informatie te laden
+This is done using Ansible. This description can be used to load the inventory with the correct information and run Ansible to create a running database cluster.
 
-and running Ansible to create a running database cluster.
+---
 
-# Requirements
+## Requirements
 
 - 3 (or more) database servers, 1 backup server (and optionally 2 router servers)
-  - Requested through a change request (see [from database request to server request](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+database+aanvraag+naar+server+aanvraag/WebHome.html) for more information).
+  - Requested through a change request (see [from database request to server request]   (inventory.md) for more information).
   - Delivered by SHS
-- Management server with the correct configuration: [ssh](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/ssh/WebHome.html) config, [ansible](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/ansible/WebHome.html) config
+- Management server with the correct configuration: [ssh](../ssh.md) config, [ansible](ansible.md) config
 
-# Instruction Manual
+---
+
+## Instruction Manual
 
 <!-- This docs should be replaced by checks before running first time -->
 
-1: Controleer dat de opgeleverde servers voldoen aan de aanvragen. Controleer o.a.:
+### 1. Verify that the delivered servers meet the requirements
 
-- iptables
-  - On the database servers, ports 5432, 25432, 2379, and 2380 must be open.
-  - On the backup server, port 9091 must be open.
-  - On the router servers (if applicable), ports 5432 and 5433 must be open.
-- storage
-  - On the database servers, `/data/postgres/data` and `/data/postgres/wal` must be available with sufficient space.
-  - On the backup server, `/data/postgres/backup` must be available with sufficient space.
-- CPU and memory
-  - Database server: See server request form.
-  - Backup server: 1 CPU and 4G is sufficient.
-  - Router servers (if applicable): 1 CPU and 4 G is sufficient.
+#### iptables
+- **Database servers:** Ports `5432`, `25432`, `2379`, and `2380` must be open.
+- **Backup server:** Port `9091` must be open.
+- **Router servers (if applicable):** Ports `5432` and `5433` must be open.
 
-2: Make sure the inventory has been created and filled out correctly.
+---
+
+#### Storage
+- **Database servers:**  
+  `/data/postgres/data` and `/data/postgres/wal` must exist and have sufficient space.
+- **Backup server:**  
+  `/data/postgres/backup` must exist and have sufficient space.
+
+---
+
+#### CPU and Memory
+- **Database server:**  See server request form.
+- **Backup server:** 1 CPU, 4 GB RAM is sufficient.
+- **Router servers:** 1 CPU, 4 GB RAM is sufficient.
+
+---
+
+### 2. Ensure the inventory has been created and filled out correctly
 
 The inventory can (for example) be copied from an existing inventory and possibly even assembled itself.
 
@@ -54,152 +66,133 @@ Examples:
 
 Let's move on to the following:
 
-```markdown
-- postgres version:
-  - environments/[ENV]/group_vars/all/generic.yml: postgresql_version
-  - environments/[ENV]/group_vars/all/packages.yml: linux_rhsm_poolids
-    - see examples in "environments/vbe_t/group_vars/all/packages.yml" (PG12) and "environments/geo_a/group_vars/all/packages.yml" (PG14)
-- router config:
-  - environments/[ENV]/group_vars/all/generic.yml: postgresql_vip_fqdn, postgresql_vip_ip en postgresql_subnet
-  - environments/[ENV]/group_vars/all/generic.yml: haproxy_rw_backends en haproxy_ro_backends
-- Foreign data wrapper:
-  - environments/[ENV]/group_vars/all/generic.yml: stolon_keeper_extra_env_vars en stolon_package_names
-  - environments/[ENV]/group_vars/all/generic.yml: stolon_keeper_extra_env_vars
-- PgQuartz:
-  - environments/[ENV]/group_vars/all/generic.yml: pgquartz_definitions, pgquartz_jobs
-- PostgIS:
-  - environments/[ENV]/group_vars/hacluster/packages.yml: linux_packages.postgres
-- pg_hba config
-  - environments/[ENV]/group_vars/all/generic.yml: stolon_pg_hba
-    - The first and second line must remain:
-```
+#### PostgreSQL Version
+  - `environments/[ENV]/group_vars/all/generic.yml`: postgresql_version
+  - `environments/[ENV]/group_vars/all/packages.yml`: linux_rhsm_poolids
+    - see examples in `environments/vbe_t/group_vars/all/packages.yml` (PG12)             and `environments/ geo_a/group_vars/all/packages.yml` (PG14)
 
-- `local all all` identify
-- `ident`
+---
 
-- hostssl postgres avchecker samenet cert
-  - The rest must be in accordance with the database request form (information at `Host Based Access` table)
+#### Router Configuration
+ - `environments/[ENV]/group_vars/all/generic.yml`:
+  - `postgresql_vip_fqdn`
+  - `postgresql_vip_ip`
+  - `postgresql_subnet`
+  - `haproxy_rw_backends`
+  - `haproxy_ro_backends`
 
-For example, to create a new inventory based on `geo_a`:
+---
 
-- Create a new branch and merge request
-- Copy from an existing inventory
+#### Foreign Data Wrapper
+  - `environments/[ENV]/group_vars/all/generic.yml`:
+    - `stolon_keeper_extra_env_vars`
+    - `stolon_package_names`
 
-```markdown
-NEW*ENV=[ENV]*[OMGEVING]
-```
+---
 
-```markdown
+#### PgQuartz Configuration
+  - `environments/[ENV]/group_vars/all/generic.yml`: 
+    - `pgquartz_definitions`
+    - `pgquartz_jobs`
+
+---
+
+#### PostGIS
+  - `environments/[ENV]/group_vars/hacluster/packages.yml`: `linux_packages.postgres`
+
+---
+
+#### pg_hba Configuration
+  - `environments/[ENV]/group_vars/all/generic.yml`: `stolon_pg_hba`
+  - The first required pg_hba entries are:
+
+    ```
+    local all all ident
+    hostssl postgres avchecker samenet cert
+    ```
+---
+
+The remaining lines must follow the Host Based Access table from the database request form.
+
+---
+
+### Creating a New Inventory Based on geo_a
+
+1. Create a new branch:
+
+```bash
+NEW_ENV=[ENV]_[OMGEVING]
 git checkout -b feature/$NEW_ENV dev
 ```
 
-```markdown
+2. Copy existing inventory
+
+```bash
 rsync -av environments/geo_a environments/$NEW_ENV
 ```
 
-```markdown
-Adjust the following files as needed: `environments/$NEW_ENV/hosts` and `environments/$NEW_ENV/group_vars/all/generic.yml`
-```
+3. Modify required files:
 
-Adjust the environment as needed. At least configure the following files:
-
-```markdown
-- environments/[ENV]/hosts
-  - fill in the correct hostnames
-- environments/[ENV]/group_vars/all/generic.yml
-  - pg_hba configuration
-```
+- `environments/[ENV]/hosts` - fill in correct hostnames  
+- `environments/[ENV]/group_vars/all/generic.yml` - configure pg_hba  
+---
 
 <!-- This should be replaced on running PgVillage with certs signed by the orgs internal CA -->
 <!-- We might add an option to generate CSR's instead of generating a chain -->
 
-3: create the client certificates according to the work instruction [generate new certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
+4. Create the client certificates according to the work instruction [generate new certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
 
-```markdown
-4: Create a new commit, push and make a merge request (create it as a draft MR)
-```
 
-```
+5. Commit and Push the New Environment
+Create a new commit, push and make a merge request (create it as a draft MR)
+
+```bash
 NEW_ENV=[ENV]_[OMGEVING]
-```
-
-```markdown
 git add environments/$NEW_ENV
-```
-
-```markdown
 git commit -m "New environment $NEW_ENV"
-```
-
 git push
-
 #glab, or follow the link in the output of the `git push` command
-
----
-
 glab mr create
 
-5: Execute Ansible, check the output and resolve any issues according to the [Ansible documentation](../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/ansible/WebHome.html)
+```
 
-## Check the result:
+6. Execute Ansible Deployment
+  - check the output and resolve any issues according to the [Ansible documentation](ansible.md)
+
+**Check the result:**
 
 - Ensure that Postgres is working and check the PostgreSQL version:
 
 ```bash
 psql --version
-```
 
-```markdown
 ssh gurus-dbtdb-server3.int.corp.com
-```
 
-```markdown
 Last login: Thu Oct 2015 10:06 from 10.0.6.100
-```
 
-```
 [me@gurus-dbtdb-server3~]$ sudo iu postgres
-```
 
-### ClusterInfo
+#### ClusterInfo
 
-```markdown
 MasterKeeper: gurus_dbtdb_server2
-```
 
-## Keepers/DBtree
+#### Keepers/DBtree
 
-```markdown
 gurus_dbtdb_server2 (master)
-```
-
-```
 │── gurus_dbtdb_server3
-```
+└── gurus_dbtdb_server1
 
-```
-└─gurus_dbtdb_server1
-```
-
-```markdown
 [postgres@gurus-dbtdb-server3~]$ psql service=proxy
-```
 
 psql(14.5)
 
-```markdown
 SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-```
 
 Type "help" for help.
 
-```
-
 postgres=#
-
-- Check the status of [avchecker](../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/AV+checker/WebHome.html)
+```
+- Check the status of [avchecker](../tools/avchecker.md)
 - Create users as per [Extra database en/of user aanmaken](../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/Bestaand+cluster+aanpassen/WebHome.html)
 
 If everything is okay after the rollout, mark the Merge Request as Ready and ensure that the Merge Request gets merged.
-
-```
