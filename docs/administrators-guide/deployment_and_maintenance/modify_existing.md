@@ -9,17 +9,17 @@ date: 2025-11-11
 
 <!-- TDOD: This documentation should go and be replaced by docs on how to do this with a new run of Ansible -->
 
-# Introduction
+# Modifying an existing deployment
 
-Als onderdeel van het aanmaken van een nieuw cluster moet ook database users en databases aangemaakt worden.
+As part of creating a new cluster, database users and databases must also be created.
 
 The ambition is to manage this automatically based on PGFA.
 
-Voorlopig doen we dit met de hand.
+For now, we perform this manually.
 
-# Dependencies
+## Dependencies
 
-- Ansible setup according to [Ansible documentation](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/ansible/WebHome.html)
+- Ansible setup according to [Ansible documentation](ansible.md)
 - A properly stored database request form in teams:
   - Acme-IV-BI-Ops > General > Files > Database Request Forms >
 - A running PostgreSQL cluster. Optionally, you can:
@@ -27,25 +27,19 @@ Voorlopig doen we dit met de hand.
   - deploy via [link label] from servers to running database
     - This procedure is part of that procedure, so it should be good after this.
 
-# Werkinstructie
+## Work Instruction
 
-1: create user and database with `psql`
+### 1. Create user and database using ps
 
-Maak de users aan met de psql tool:
+Create users using the psql tool:
 
-```markdown
+```bash
 me@gurus-dbabh-server1 ~> ssh gurus-pgsdb-server1.int.corp.com
-```
 
-```
 [me@gurus-pgsdb-server1 ~] $ sudo -iu postgres
-```
 
-## Cluster Information
+#### Cluster Information
 
----
-
-```markdown
 Master Keeper: gurus_pgssdb_l10
 
 gurus_pgsdb_server1 (master)
@@ -85,152 +79,88 @@ GRANT
 new_db=#
 ```
 
-2: Adjustments to `hba.conf`
+### 2. Adjustments to hba.conf
 
 Execute everything on the gurus-dbabh-server1:
 
-First, create a new feature (not for expanding on new database servers, only for adjusting existing clusters):
+```bash
+
+#### Create a feature branch
 
 ENV=poc
-
-```markdown
 git checkout -b feature/changed*hba*$ENV dev
-```
 
-```markdown
+#### Adjust pg_hba configuration
+
 Adjust the HBA configuration in `environments/$ENV/group_vars/all/generic.yml`
-```
-
 Adjust the HBA configuration as needed.
 
 Be aware that for traffic via stolon-proxy, an accompanying SELinux rule must also be created.
 
-Als de hba config naar behoren is aangepast kan deze worden toegepast middels:
+#### Apply the updated configuration
 
 ENV=poc
-
-```markdown
 exportANSIBLE_VAULT_PASSWORD_FILE=~/git/ansible-postgres/bin/gpgvault
-```
-
-```markdown
 ansible-playbook -i environments/$ENV functional-all.yml --tags stolon
-```
 
-Then create a Merge Request (not for expanding on new database servers, only when adjusting existing clusters):
+#### Create a Merge Request
 
 ENV=poc
-
-```markdown
 git add environments/$ENV
-```
-
-```markdown
 git commit -m "HBA adjustments $ENV"
-```
-
 git push
-
 #glab, or follow the link in the output of the `git push` command
-
 glab mr create
 
-Check if everything has been rolled out properly:
+---
 
-```markdown
+#### Check if everything has been rolled out properly:
+
 me@gurus-dbabh-server1~> ssh gurus-pgsdb-server1.int.corp.com
-```
-
-```markdown
 [me@gurus-pgsdb-server1~] $ sudo -i postgres
-```
 
-```markdown
 ===ClusterInfo===
-```
 
-# MasterKeeper: gurus_pgssdb_server1
+#### MasterKeeper: gurus_pgssdb_server1
 
 ---
 
 ==Keepers/DBtree==
 
----
-
-```sql
 gurus_pgsdb_server1 (master)
-```
-
 ├─gurus_pgsdb_server2
-
 └─gurus_pgsdb_server3
 
-```
 [postgres@gurus-pgsdb-server1~] $ psql service=master
 ```
 
-## `psql (14.5)`
+### `psql (14.5)`
 
-```
+```bash
 SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-```
 
 Type "help" for help.
 
-```markdown
 postgres=# select \* from pg_hba_file_rules;
-```
 
-```markdown
-line_number | type | database | user_name | address | netmask | auth_method | options | error
-```
+ line_number |   type    |   database   |  user_name  |    address     |    netmask     | auth_method |          options           | error
+-------------+-----------+--------------+-------------+----------------+----------------+-------------+-----------------------------+-------
+ 1           | local     | postgres     | postgres    |                |                | peer        |                             |
+ 2           | local     | replication  | postgres    |                |                | peer        |                             |
+ 3           | hostssl   | all          | postgres    | 10.0.5.67      | 255.255.255.255| cert        | clientcert=verify-full      |
+ 4           | hostssl   | replication  | postgres    | 10.0.5.67      | 255.255.255.255| cert        | clientcert=verify-full      |
+ 5           | hostssl   | all          | postgres    | 10.0.5.68      | 255.255.255.255| cert        | clientcert=verify-full      |
+ 6           | hostssl   | replication  | postgres    | 10.0.5.68      | 255.255.255.255| cert        | clientcert=verify-full      |
+ 7           | local     | all          | all         |                |                | peer        |                             |
+ 8           | hostssl   | postgres     | avchecker   | samenet        |                | cert        | clientcert=verify-full      |
+ 9           | hostssl   | all          | all         | samenet        |                | cert        | clientcert=verify-full      |
+(9 rows)
 
--------------+---------+---------------+-------------+---------------+-----------------+-------------+--------------------------+-------
-
-```
-1| local | postgres | postgres |||| peer |
-```
-
-```
-2 | local | replication | postgres ||| peer ||
-```
-
-```markdown
-3 | hostssl | all | postgres | 10.0.5.67 | 255.255.255.255 | cert | clientcert=verify-full |
-```
-
-```markdown
-4 | hostssl | {replication} | {postgres} | 10.0.5.67 | 255.255.255.255 | cert | {clientcert=verify-full} |
-```
-
-```markdown
-5 | hostssl | {all} | postgres | 10.0.5.68 | 255.255.255.255 | cert | clientcert=verify-full |
-```
-
-```markdown
-6|hostssl| {replication}| {postgres} |10.0.5.68|255.255.255.255|cert| {clientcert=verify-full} |
-```
-
-```markdown
-7|local|{all} |{all}| ||peer||
-```
-
-```markdown
-8 | hostssl | {postgres} | {avchecker} | samenet | cert | clientcert=verify-full |
-```
-
-```markdown
-9 | hostssl | all | all | samenet | cert | clientcert=verify-full |
-```
-
-(9rows)
-
-```
 # postgres=#
 ```
 
-If everything looks good, then the status of the Merge Request can be changed to Ready.
+If everything looks good, the status of the Merge Request can be changed to **Ready**.
 
-3: nieuwe client certificaten
+### 3. Nieuwe client certificaten
 
 If necessary, these can be created according to the [procedure for new client certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html).

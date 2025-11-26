@@ -27,25 +27,25 @@ Therefore, the first step in troubleshooting is to identify which of these areas
 
 ---
 
-1. Check if Postgres itself is available:
+### 1. Check if Postgres itself is available:
 
-   - Use the checks described in the [avchecker](avchecker.md) documentation.
+   - Use the checks described in the [avchecker](../tools/avchecker.md) documentation.
    - Resolve all issues so that avchecker reports again that Postgres is available.
 
-2. Check if Postgres is available for the application:
+### 2. Check if Postgres is available for the application:
    - Network problems are outside the scope of the DBA.
 
-In principle, these kinds of issues are always resolved by network management, or Container Hosting (CHP).
+  In principle, these kinds of issues are always resolved by network management, or Container Hosting (CHP).
 
-Conduct the direction yourself, stay engaged in the process and provide clear information on what works (availability within the Postgres architecture) and what does not work (connectivity of the application to the VIP or to Postgres).
+  Conduct the direction yourself, stay engaged in the process and provide clear information on what works (availability within the Postgres architecture) and what does not work (connectivity of the application to the VIP or to Postgres).
 
 - For more information, see the documentation on [Connections and Connection Paths](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Connecties+en+connectiepaden/WebHome.html)
 
-3. Check if the client is correctly configured:
+### 3. Check if the client is correctly configured:
 
 !!! note
 
-    Issues from incorrect configuration result  from a change and are actually not part of service availability work!!!
+    Issues caused by incorrect configuration usually result from recent changes and are not part of service availability work.
 
 Ensure that the client configuration includes:
 
@@ -58,7 +58,8 @@ Ensure that the client configuration includes:
 - **Username** and **database name**
 - **Authentication:** client certificates (preferred) or password
 - **Session targeting:**  
-  `target_session_attrs` (libpq) or `targetServerType` (JDBC)
+    - `target_session_attrs` (libpq)  
+    - `targetServerType` (JDBC)
 - **SSL mode:** `sslmode=verify-full`
 
   Additionally:
@@ -66,7 +67,7 @@ Ensure that the client configuration includes:
   - Verify the PostgreSQL **pg_hba.conf** configuration.
   - Review **application logs** with the app administrator.
   - Check for **PostgreSQL log errors**.
-  - For more information, see the documentation on [client configuration](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html) and about [mTLS](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/WebHome.html).
+  - For more information, see the documentation on [client configuration](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html) and about [mTLS](../architecture/mtls.md).
 
 ---
 
@@ -83,6 +84,5 @@ In both situations, this can be resolved by referring to the [Point in Time Rest
     In almost all cases, the reason for a point-in-time restore is not due to an error in the Postgres architecture or by the DBA.
 
 
-> Therefore, in almost all cases, a point-in-time restore also does not result in downtime of the service.  
-> Take the time to perform a proper point-in-time restore...
-
+Therefore, in almost all cases, a point-in-time restore does not result in service downtime.  
+Take the time to perform a proper point-in-time restore.
