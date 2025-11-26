@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#important" class="md-skip">
+        <a href="#point-in-time-restore" class="md-skip">
           Skip to content
         </a>
       
@@ -830,6 +830,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -874,6 +876,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -882,10 +886,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#important" class="md-nav__link">
+  <a href="#restore-to-point-in-time" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Important
+        Restore to point in time
       
     </span>
   </a>
@@ -901,36 +905,47 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#restore-to-transaction-id-50851" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Restore to transaction ID 50851
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#markdown" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ```markdown
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="```markdown">
+    <nav class="md-nav" aria-label="Performance">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#-schema" class="md-nav__link">
+  <a href="#1-ssh-to-the-management-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        - schema:
+        1. SSH to the management server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ensure-correct-ansible-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ensure correct Ansible configuration:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-perform-pitr-using-ansible-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Perform PITR using Ansible (Examples)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-some-database-or-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore some database or table
       
     </span>
   </a>
@@ -1358,6 +1373,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1366,10 +1383,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#important" class="md-nav__link">
+  <a href="#restore-to-point-in-time" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Important
+        Restore to point in time
       
     </span>
   </a>
@@ -1385,36 +1402,47 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#restore-to-transaction-id-50851" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Restore to transaction ID 50851
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#markdown" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ```markdown
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="```markdown">
+    <nav class="md-nav" aria-label="Performance">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#-schema" class="md-nav__link">
+  <a href="#1-ssh-to-the-management-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        - schema:
+        1. SSH to the management server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ensure-correct-ansible-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ensure correct Ansible configuration:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-perform-pitr-using-ansible-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Perform PITR using Ansible (Examples)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-some-database-or-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore some database or table
       
     </span>
   </a>
@@ -1542,32 +1570,28 @@
   
 
 
-<h2 id="important">Important<a class="headerlink" href="#important" title="Permanent link">&para;</a></h2>
+<h1 id="point-in-time-restore">Point in time restore<a class="headerlink" href="#point-in-time-restore" title="Permanent link">&para;</a></h1>
 <ol>
-<li>In almost all cases, the reason for a point-in-time restore is not due to an error in the PostgreSQL architecture or by the DBA.</li>
+<li>
+<p>In almost all cases, the reason for a point-in-time restore is not due to an error in the PostgreSQL architecture or by the DBA.</p>
+<p>Therefore, in almost all cases, a Point-in-Time Restore does not cause application downtime.</p>
+<p>Take the time to perform a proper Point-in-Time Restore.</p>
+</li>
+<li>
+<p>In a Shared Cluster setup, it is important that a single database can be restored while the rest of the cluster remains operational.</p>
+<p>Actually, this is not a feature of the standard building block, but it can be executed.</p>
+<p>See chapter <em>Restore of Some Databases or Tables</em> for more information.</p>
+</li>
 </ol>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Daarom is in bijna alle gevallen Point in time Restore ook geen downtime van de dienst.
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Take the time to perform a proper Point-in-Time Restore...
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>2. In a Shared Cluster setup, it&#39;s important that a single database is restored while the rest remain available as usual.
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Actually, this is not a feature of the standard building block, but it can be executed.
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>See chapter _Restore of Some Databases or Tables_ for more information.
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>## Restore to point in time
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>[WAL-g](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/WAL-g/WebHome.html) supports performing a restore to Point in Time, but the procedure in combination with [stolon](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Stolon/WebHome.html) (High Availability Cluster Management) is complex.
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>```markdown
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>That&#39;s why it is included in an Ansible playbook, which does the following:
-</code></pre></div>
+<h2 id="restore-to-point-in-time">Restore to point in time<a class="headerlink" href="#restore-to-point-in-time" title="Permanent link">&para;</a></h2>
+<p><a href="../tools/wal-g.md">WAL-g</a> supports performing a restore to Point in Time, 
+but the procedure in combination with <a href="../tools/stolon.md">stolon</a> (High Availability Cluster Management) is complex.</p>
+<p>Therefore, the process is fully automated in an <strong>Ansible playbook</strong>, which performs these steps:</p>
 <ul>
 <li>Stop the stolon-keeper on all nodes</li>
 <li>Remove the Postgres data and recreate the folders with the correct permissions</li>
 <li>Generate the stolon custom_config required to perform a Point In Time Restore using stolon and wal-g</li>
-<li>Load the custom_config into the etcd config of stolon</li>
+<li>Load the <code>custom_config</code> into the etcd config of stolon</li>
 <li>Start stolon-keeper (one by one per node)</li>
 <li>Stolon starts on the master and<ul>
 <li>Finds pitr as the init mode and executes the restore script.</li>
@@ -1581,62 +1605,72 @@
 <li>Meanwhile, the standbys start, they clone from the master and become ReadOnly available</li>
 </ul>
 <h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
-<p>Point-in-time restore can be executed from the management server:</p>
-<p>1: go via SSH to the management server</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>2: Ensure a good Ansible configuration: [<span class="nt">Ansible</span>](<span class="na">../../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/ansible/WebHome.html</span>)
-</code></pre></div>
-<p>3: voer Point in Time restore uit middels Ansible. Een paar voorbeelden:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cd ~/git/ansible-postgres
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>export ANSIBLE_VAULT_PASSWORD_FILE=$PWD/bin/gpgvault
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gh"># Restore to August 30, 2022 at 09:10:11 AM:</span>
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ansible-playbook -i environments/poc/ ./restore.yml -e &#39;restore_target=&quot;2022-08-30T09:10:11&quot;&#39;
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gh"># Restore to the label mylabel1:</span>
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ansible-playbook -i environments/poc/ ./restore.yml -e restore_target=&quot;mylabel1&quot;
-</code></pre></div>
-<h1 id="restore-to-transaction-id-50851">Restore to transaction ID 50851<a class="headerlink" href="#restore-to-transaction-id-50851" title="Permanent link">&para;</a></h1>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ansible-playbook -i environments/poc/ ./restore.yml -e restore_target=&quot;50851&quot;
-</code></pre></div>
-<p>For a restore until the last moment, simply do not specify <code>-e restore_target=...</code>!</p>
-<p>Think about this: The <code>RESTORETARGETINPUT</code> is written (appended) to <code>/etc/default/wal-g</code>. Even if the restore goes well, it will not be removed! <strong>Check manually and adjust for starting restore.</strong></p>
-<p>Also check for <code>backup</code> files in the data directory that are created after a restore on the master and make a backup after the restore!</p>
-<h1 id="markdown">```markdown<a class="headerlink" href="#markdown" title="Permanent link">&para;</a></h1>
-<p>Restore some database or table</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>In a Shared Cluster setup, it&#39;s important that a single database is restored while the rest remains available.
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Eigenlijk is dit geen feature van het standaard bouwblok, maar kan dit wel uitgevoerd worden:
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>- Make a standby available (stop stolon-keeper as root or with adm account and sudo)
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>- Optionally free up or expand disk space there
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>- Set PGRESTORE to a value other than PGDATA (etc. export `PGRESTORE=`)
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>- Run the restore script with a restoration location, restore target, etc.:
-</code></pre></div>
-<p>/opt/wal-g/scripts/restore.sh "/data/postgres/data/restore" "2022-08-30 09:10:11"</p>
+<p>Point-in-time restore is executed from the <strong>management server</strong>.</p>
+<h3 id="1-ssh-to-the-management-server">1. SSH to the management server<a class="headerlink" href="#1-ssh-to-the-management-server" title="Permanent link">&para;</a></h3>
+<h3 id="2-ensure-correct-ansible-configuration">2. Ensure correct Ansible configuration:<a class="headerlink" href="#2-ensure-correct-ansible-configuration" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Start the instance manually, etc.</li>
+<li><a href="../ansible/">Ansible</a></li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>```markdown
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>/usr/pgsql-12/bin/pg_ctl start -D &quot;/data/postgres/data/restore&quot;
+<h3 id="3-perform-pitr-using-ansible-examples">3. Perform PITR using Ansible (Examples)<a class="headerlink" href="#3-perform-pitr-using-ansible-examples" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/git/ansible-postgres
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANSIBLE_VAULT_PASSWORD_FILE</span><span class="o">=</span><span class="nv">$PWD</span>/bin/gpgvault
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Restore to August 30, 2022 at 09:10:11 AM:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>environments/poc/<span class="w"> </span>./restore.yml<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;restore_target=&quot;2022-08-30T09:10:11&quot;&#39;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Restore to the label mylabel1:</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>environments/poc/<span class="w"> </span>./restore.yml<span class="w"> </span>-e<span class="w"> </span><span class="nv">restore_target</span><span class="o">=</span><span class="s2">&quot;mylabel1&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Restore to transaction ID 50851</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>environments/poc/<span class="w"> </span>./restore.yml<span class="w"> </span>-e<span class="w"> </span><span class="nv">restore_target</span><span class="o">=</span><span class="s2">&quot;50851&quot;</span>
 </code></pre></div>
-<p><strong>NOTE</strong>: This can be set up alongside an existing instance, as it starts on port 5433!!!</p>
+For a restore until the last moment, simply do not specify <code>-e restore_target=...</code>!</p>
+<p>!!! Notes:</p>
+<div class="language-text highlight"><pre><span></span><code>The `RESTORETARGETINPUT` is written (appended) to `/etc/default/wal-g`. Even if the restore goes well, it will not be removed! **Check manually and adjust for starting restore.**
+</code></pre></div>
+<p>Also check for <code>backup</code> files in the data directory that are created after a restore on the master and make a backup after the restore!</p>
+<h3 id="restore-some-database-or-table">Restore some database or table<a class="headerlink" href="#restore-some-database-or-table" title="Permanent link">&para;</a></h3>
+<p>In a Shared Cluster setup, it's important that a single database is restored while the rest remains available.</p>
+<p>This is not a standard feature of the building block, but it can be executed manually:</p>
+<h4 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h4>
 <ol>
-<li>Copy the data that needs to be restored to the master instance. For example:</li>
+<li>Prepare a standby node </li>
+<li>Make a standby available (stop stolon-keeper as root or with adm account and sudo)</li>
+<li>Optionally free up or expand disk space there</li>
+<li>Set PGRESTORE to a value other than PGDATA (etc. export <code>PGRESTORE=</code>)</li>
+<li>
+<p>Run the restore script with a restoration location, restore target, etc.:</p>
+</li>
+<li>
+<p>Run the restore script
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>/opt/wal-g/scripts/restore.sh<span class="w"> </span><span class="s2">&quot;/data/postgres/data/restore&quot;</span><span class="w"> </span><span class="s2">&quot;2022-08-30 09:10:11&quot;</span>
+</code></pre></div></p>
+</li>
+<li>Start the restored instance manually</li>
 </ol>
-<h2 id="-schema">- schema:<a class="headerlink" href="#-schema" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pg_dump [database] -n [myschema] | psql service=master
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>- Table (first truncate):
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>- pg_dump [database] -t &quot;[myschema].[mytable]&quot; | psql service=master
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>3. Stop the instance, discard the restore data
+<p><div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>/usr/pgsql-12/bin/pg_ctl<span class="w"> </span>start<span class="w"> </span>-D<span class="w"> </span><span class="s2">&quot;/data/postgres/data/restore&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="sb">````</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>!!!<span class="w"> </span>Note:
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">     </span>This<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span><span class="nb">set</span><span class="w"> </span>up<span class="w"> </span>alongside<span class="w"> </span>an<span class="w"> </span>existing<span class="w"> </span>instance,<span class="w"> </span>as<span class="w"> </span>it<span class="w"> </span>starts<span class="w"> </span>on<span class="w"> </span>port<span class="w"> </span><span class="m">5433</span>!!!
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="m">4</span>.<span class="w"> </span>Copy<span class="w"> </span>the<span class="w"> </span>restored<span class="w"> </span>data<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>master
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>-<span class="w"> </span>Restore<span class="w"> </span>a<span class="w"> </span>schema:
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="sb">```</span>bash
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>pg_dump<span class="w"> </span><span class="o">[</span>database<span class="o">]</span><span class="w"> </span>-n<span class="w"> </span><span class="o">[</span>myschema<span class="o">]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>master
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>-<span class="w"> </span>Table<span class="w"> </span><span class="o">(</span>first<span class="w"> </span>truncate<span class="o">)</span>:
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>-<span class="w"> </span>pg_dump<span class="w"> </span><span class="o">[</span>database<span class="o">]</span><span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;[myschema].[mytable]&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>master
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>/usr/pgsql-12/bin/pg_ctl stop -D &quot;/data/postgres/data/restore&quot;
+5. Stop and clean up the restore instance</p>
+<p><div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>/usr/pgsql-12/bin/pg_ctl<span class="w"> </span>stop<span class="w"> </span>-D<span class="w"> </span><span class="s2">&quot;/data/postgres/data/restore&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;/data/postgres/data/restore&quot;</span><span class="w">  </span>
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>rm -rf &quot;/data/postgres/data/restore&quot;  
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">4.</span> Restart Stolon Keeper (as root or with the <span class="sb">`adm`</span> account and <span class="sb">`sudo`</span>)
-</code></pre></div>
+6. Restart the Stolon Keeper 
+Run as root or with the adm account using sudo.</p>
 
 
 

@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduction" class="md-skip">
+        <a href="#refreshing-certificates-2" class="md-skip">
           Skip to content
         </a>
       
@@ -889,6 +889,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refreshing certificates (2)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -905,6 +923,60 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#work-instruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Work Instruction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cancelled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cancelled
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1265,6 +1337,47 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#work-instruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Work Instruction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cancelled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cancelled
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1381,132 +1494,144 @@
 
 <!-- This should be replaced by a playbook with chainsmith replacing certs and reloading services as required -->
 
-<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>Certificates are internally generated using an automation tool called <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/WebHome.html">chainsmith</a>.</p>
-<p>De basis hiervoor is echter om een nieuwe chain te genereren en te vervangen in 1 swing.</p>
-<p>Dit betekent ook een venster waarin de applicatie het server certificaat van PostgreSQL niet meer accepteert</p>
-<p>and a window where PostgreSQL no longer accepts the client certificate.</p>
-<p>Deze documentatie beschrijft een methode waarin binnen een paar handmatige stappen het certificaat wordt vervangen.</p>
-<p>Best case scenario betekent dit een paar keer een reload van PostgreSQL en een paar keer een reload van de applicatie.</p>
-<p>In practice, it will likely be a restart a couple of times, but even that is minimal downtime compared to a downtime window of several hours.</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># Dependencies
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>- Knowledge of [mTLS](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/WebHome.html)
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  - Note that this page is a guide, but reading it does not make one an expert in [mTLS](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/WebHome.html)
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>- Knowledge of Postgres and how it functions with mTLS
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>- Knowledge of [Ansible](https://docs.ansible.com/), [Ansible inventory](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html) and [Ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>- Knowledge of the application and the associated [PostgreSQL client and how it works with mTLS](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html)
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>- The option to execute this in a POC environment, a test, and an acceptance environment
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a># Werkinstructie
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>This comes down to this:
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>- Generate a new chain
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>  - According to [Procedure for replacing certificates with minimal downtime](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/certificaten+vervangen+met+downtime/WebHome.html)
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>- Adjust the configuration so that the root certificates / chains include both old and new certificate bundles
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>  - In the Ansible inventory
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>  - For the application, also perform a reload (or restart)
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    - From then on, the application will accept both the old and the new server certificate
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    - The client continues to connect with the old certificate
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>  - For PostgreSQL and all PostgreSQL components including pgQuartz, pgRoute66, and AVChecker (via Ansible)
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    - From then on, PostgreSQL will accept both the old and new server certificate
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    - PostgreSQL also works from that point onward with the new certificate
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    - All building block tools, including pgQuartz, pgRoute66, and AVChecker, will also log in using the new certificate
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>    - Application connections are still accepted via the old client certificate
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>- Adjust the application so it logs in with the new client certificate
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>  - From then on, the old bundles are no longer necessary
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>- Restore the bundles to use only the new certificates
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>  - Very important because if a certificate in the chain expires, the (client or server) certificate will no longer be trusted
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>  - Adjust in the Ansible inventory
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>  - Roll out at PostgreSQL (via Ansible)
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>## Cancelled
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>
-<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>1: Generate a new chain according to [Procedure for replacing certificates with minimal downtime](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/certificaten+vervangen+met+downtime/WebHome.html).
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
-<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>Sla de nieuwe certificaten op in een Merge Request.
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>- Create a new merge request if necessary
-<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>
-<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>ENV=poc
-<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>
-<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>```markdown
-<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>git checkout -b &quot;feature/new_certs_$ENV&quot; dev
-</code></pre></div>
-<h1 id="glab-or-follow-the-link-in-the-output-of-the-git-push-command">glab, or follow the link in the output of the git push command<a class="headerlink" href="#glab-or-follow-the-link-in-the-output-of-the-git-push-command" title="Permanent link">&para;</a></h1>
-<p>glab mr create</p>
+<h1 id="refreshing-certificates-2">Refreshing certificates (2)<a class="headerlink" href="#refreshing-certificates-2" title="Permanent link">&para;</a></h1>
+<p>Certificates are internally generated using an automation tool called <a href="../tools/chainsmith.md">chainsmith</a>.</p>
+<p>The basic idea is to generate a new certificate chain and replace the old one in a single step.</p>
+<p>This also means there will be a period during which the application will no longer accept the PostgreSQL <strong>server certificate</strong>,<br />
+and PostgreSQL will no longer accept the <strong>client certificate</strong>.</p>
+<p>This documentation describes a method in which certificates can be replaced through a few manual steps.</p>
+<p>In the best-case scenario, this results in only a few reloads of PostgreSQL and the application.<br />
+In practice, a couple of restarts may be required — but even then, this is still minimal downtime compared to a downtime window of several hours.</p>
+<hr />
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
-<li>ensure that the adjustments are saved in a new commit:</li>
+<li>Knowledge of:</li>
+<li><a href="../architecture/mtls.md">mTLS</a></li>
+<li>Note  that this page is a guide, but reading it does not make one an expert in <a href="../architecture/mtls.md">mTLS</a></li>
+<li>Knowledge of Postgres and how it functions with mTLS</li>
+<li>Knowledge of:</li>
+<li><a href="../ansible/">Ansible</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html">Ansible inventory</a>- <a href="https://docs.ansible.com/ansible/latest/user_guide/vault.html">Ansible-vault</a></li>
+<li>Knowledge of the application and the associated <a href="../architecture/mtls.md">PostgreSQL client and how it works with mTLS</a></li>
+<li>The option to execute this in a POC environment, a test, and an acceptance environment</li>
 </ul>
-<p>-</p>
-<p>ENV=poc</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git add config/chainsmith\_$ENV.yml environments/$ENV/group_vars/all/certs{,.vault}.yml
+<h2 id="work-instruction">Work Instruction<a class="headerlink" href="#work-instruction" title="Permanent link">&para;</a></h2>
+<p>Summary of the process:</p>
+<ol>
+<li>
+<p>Generate a new certificate chain<br />
+   Based on:<br />
+<a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/certificaten+vervangen+met+downtime/WebHome.html">Procedure for replacing certificates with minimal downtime</a></p>
+</li>
+<li>
+<p>Adjust the configuration so the <strong>root certificates</strong> or <strong>chains</strong> include both:</p>
+</li>
+<li>Old certificate bundle</li>
+<li>
+<p>New certificate bundle</p>
+<p>This is done in:
+  - Ansible inventory<br />
+  - Application configuration (reload or restart required)</p>
+<p>From this point:
+  - The application accepts <strong>both</strong> old and new server certificates<br />
+  - Client still connects with <strong>old</strong> certificate</p>
+<p>For PostgreSQL and building block components:
+  - PostgreSQL accepts both old and new certificates
+  - PostgreSQL immediately switches to using the <strong>new</strong> certificate
+  - Tools such as pgQuartz, pgRoute66, and AVChecker will authenticate using the <strong>new</strong> certificate
+  - Application connections still use the old client certificate</p>
+</li>
+<li>
+<p>Update the application to use the <strong>new client certificate</strong></p>
+<ul>
+<li>From this moment, the <strong>old bundles are no longer needed</strong></li>
+</ul>
+</li>
+<li>
+<p>Update the bundles so that <strong>only the new certificates</strong> remain</p>
+<ul>
+<li>Critical: if a certificate in the chain expires, authentication will fail</li>
+<li>Adjust the Ansible inventory  </li>
+<li>Roll out through Ansible</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="cancelled">Cancelled<a class="headerlink" href="#cancelled" title="Permanent link">&para;</a></h2>
+<p>1: Generate a new chain according to <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/certificaten+vervangen+met+downtime/WebHome.html">Procedure for replacing certificates with minimal downtime</a>.</p>
+<p>Save the new certificates in a Merge Request.
+- Create a new merge request if necessary</p>
+<p><div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">ENV</span><span class="o">=</span>poc
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;feature/new_certs_</span><span class="nv">$ENV</span><span class="s2">&quot;</span><span class="w"> </span>dev
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">#glab, or follow the link in the output of the git push command</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>glab<span class="w"> </span>mr<span class="w"> </span>create
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Ensure all changes are included:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nv">ENV</span><span class="o">=</span>poc
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>git<span class="w"> </span>add<span class="w"> </span>config/chainsmith<span class="se">\_</span><span class="nv">$ENV</span>.yml<span class="w"> </span>environments/<span class="nv">$ENV</span>/group_vars/all/certs<span class="o">{</span>,.vault<span class="o">}</span>.yml
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;New chainsmith configuration and certificates for </span><span class="nv">$ENV</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>git<span class="w"> </span>push
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git commit -m &quot;New chainsmith configuration and certificates for $ENV&quot;
-</code></pre></div>
-<p>git push</p>
-<p>2: Adjust the configuration so that the root certificates/chains contain both the old and new certificate bundles.</p>
+2: Adjust the configuration so that the root certificates/chains contain both the old and new certificate bundles.</p>
 <p>The old chain can be found on the existing database servers:</p>
 <ul>
 <li><code>~postgres/.postgresql/root.crt</code></li>
 <li><code>/data/postgres/data/certs/root.crt</code></li>
 </ul>
 <p>The easiest way is to prepend these with spaces:</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>[root@gurus-pgsdb-server1 ~]# sed &#39;s/^/    /&#39; ~postgres/.postgresql/root.crt
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>root@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span><span class="c1"># sed &#39;s/^/    /&#39; ~postgres/.postgresql/root.crt</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>-----BEGIN<span class="w"> </span>CERTIFICATE-----
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>MIIGRTCCBC2gAwIBAgIBATANBgkqhkiG9w0BAQsFADCB1zELMAkGA1UEBhMCTkwx
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>EDAOBgNVBBEMBzM3MjEgTUExEDAOBgNVBAgMB1V0cmVjaHQxEjAQBgNVBAcMCUJp
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>bHRob3ZlbjEiMCAGA1UECQwZQW50b25pZSB2IExlZXV3ZW5ob2VrbG4gOTE9MDsG
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>A1UECgw0Umlqa3NpbnN0aXR1dXQgdm9vciBWb2xrc2dlem9uZGhlaWQgZW4gTWls
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>aWV1IChSSVZNKTEaMBgGA1UECwwRUG9zdGdyZXMgYm91d2Jsb2sxETAPBgNVBAMM
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="o">[</span>root@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span><span class="c1"># sed &#39;s/^/ /&#39; /data/postgres/data/certs/root.crt</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>-----BEGIN<span class="w"> </span>CERTIFICATE-----
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>MIIGRTCCBC2gAwIBAgIBAjANBgkqhkiG9w0BAQsFADCB1zELMAkGA1UEBhMCTkwx
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>EDAOBgNVBBEMBzM3MjEgTUExEDAOBgNVBAgMB1V0cmVjaHQxEjAQBgNVBAcMCUJp
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>bHRob3ZlbjEiMCAGA1UECQwZQW50b25pZSB2IExlZXV3ZW5ob2VrbG4gOTE9MDsG
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>A1UECgw0Umlqa3NpbnN0aXR1dXQgdm9vciBWb2xrc2dlem9uZGhlaWQgZW4gTWls
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>aWV1IChSSVZNKTEaMBgGA1UECwwRUG9zdGdyZXMgYm91d2Jsb2sxETAPBgNVBAMM
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>CHBvc3RncmVzMB4XDTIyMDgxODE2NDgyOVoXDTI5MTExOTE2NDgyOVowgYsxCzAJ
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>The<span class="w"> </span>certificates<span class="w"> </span>can<span class="w"> </span>simply<span class="w"> </span>be<span class="w"> </span>added<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>inventory:
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="nv">ENV</span><span class="o">=</span>poc
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>vim<span class="w"> </span>environments/<span class="nv">$ENV</span>/group_vars/all/certs.yml
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="c1"># Add the client certificate to `certs.client.chain` (right before placing the new certificate above it).</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="c1"># Add the server certificate to certs.server.chain (just before placing the new certificate on top).</span>
 </code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>-----BEGIN CERTIFICATE-----
-</code></pre></div>
-<p>MIIGRTCCBC2gAwIBAgIBATANBgkqhkiG9w0BAQsFADCB1zELMAkGA1UEBhMCTkwx</p>
-<p>EDAOBgNVBBEMBzM3MjEgTUExEDAOBgNVBAgMB1V0cmVjaHQxEjAQBgNVBAcMCUJp</p>
-<p>bHRob3ZlbjEiMCAGA1UECQwZQW50b25pZSB2IExlZXV3ZW5ob2VrbG4gOTE9MDsG</p>
-<p>A1UECgw0Umlqa3NpbnN0aXR1dXQgdm9vciBWb2xrc2dlem9uZGhlaWQgZW4gTWls</p>
-<p>aWV1IChSSVZNKTEaMBgGA1UECwwRUG9zdGdyZXMgYm91d2Jsb2sxETAPBgNVBAMM</p>
-<p>...</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>[root@gurus-pgsdb-server1 ~]# sed &#39;s/^/ /&#39; /data/postgres/data/certs/root.crt
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>-----BEGIN CERTIFICATE-----
-</code></pre></div>
-<p>MIIGRTCCBC2gAwIBAgIBAjANBgkqhkiG9w0BAQsFADCB1zELMAkGA1UEBhMCTkwx</p>
-<p>EDAOBgNVBBEMBzM3MjEgTUExEDAOBgNVBAgMB1V0cmVjaHQxEjAQBgNVBAcMCUJp</p>
-<p>bHRob3ZlbjEiMCAGA1UECQwZQW50b25pZSB2IExlZXV3ZW5ob2VrbG4gOTE9MDsG</p>
-<p>A1UECgw0Umlqa3NpbnN0aXR1dXQgdm9vciBWb2xrc2dlem9uZGhlaWQgZW4gTWls</p>
-<p>aWV1IChSSVZNKTEaMBgGA1UECwwRUG9zdGdyZXMgYm91d2Jsb2sxETAPBgNVBAMM</p>
-<p>CHBvc3RncmVzMB4XDTIyMDgxODE2NDgyOVoXDTI5MTExOTE2NDgyOVowgYsxCzAJ</p>
-<p>...</p>
-<p>The certificates can simply be added to the current inventory:</p>
-<p>ENV=poc</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>vim environments/$ENV/group_vars/all/certs.yml
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gh"># Add the client certificate to `certs.client.chain` (right before placing the new certificate above it).</span>
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gh"># Add the server certificate to certs.server.chain (just before placing the new certificate on top).</span>
-</code></pre></div>
-<p>Note: By not including this change in the merge request (MR), we can easily roll it back later.</p>
-<h2 id="3-deliver-the-bundle-of-old-and-new-chains-to-the-application-administrators-and-ask-them-to-adjust-the-application-configuration-and-load-the-new-root-certificates">3: Deliver the bundle of old and new chains to the Application Administrators and ask them to adjust the application configuration and load the new root certificates.<a class="headerlink" href="#3-deliver-the-bundle-of-old-and-new-chains-to-the-application-administrators-and-ask-them-to-adjust-the-application-configuration-and-load-the-new-root-certificates" title="Permanent link">&para;</a></h2>
-<p>Eigenlijk is dit wat bij de vorige stap bij certs.server.chain is geplaatst.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By not including this change in the merge request (MR), we can easily roll it back later.</p>
+</div>
+<p>3: Deliver the bundle of old and new chains to the Application Administrators and ask them to adjust the application configuration and load the new root certificates.</p>
+<p>Actually, this is what was placed at the previous step at certs.server.chain.</p>
 <p>4: Reconfigure Postgres and all related tools from the building block:</p>
-<p>ENV=poc</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>cd ~/git/ansible-postgres
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>export ANSIBLE_VAULT_PASSWORD_FILE=~/git/ansible-postgres/bin/gpgvault
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>ansible-playbook -i environments/$ENV rollout_new_certs.yml
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">ENV</span><span class="o">=</span>poc
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>~/git/ansible-postgres
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANSIBLE_VAULT_PASSWORD_FILE</span><span class="o">=</span>~/git/ansible-postgres/bin/gpgvault
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>environments/<span class="nv">$ENV</span><span class="w"> </span>rollout_new_certs.yml
 </code></pre></div>
 <p>5: Deliver the entire bundle (only new <code>root.crt</code>, and the client certificates, configuration readme, etc.) to the application administrator.</p>
-<p>The procedure <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Antwoord+aan+de+aanvrager/WebHome.html">De procedure voor 'Antwoord aanvrager</a> can be followed.</p>
+<p>The procedure <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Antwoord+aan+de+aanvrager/WebHome.html">The procedure for 'Antwoord aanvrager</a> can be followed.</p>
 <p>Request application administrators to register with these new client certificates (configuration adjustment and reload/restart).</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>6: Roll back the changes, push to GitLab, and run Ansible again.
+<p>6: Roll back the changes, push to GitLab, and run Ansible again.</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">ENV</span><span class="o">=</span>poc
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>~/git/ansible-postgres
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>git<span class="w"> </span>reset<span class="w"> </span>environments/<span class="nv">$ENV</span>/group_vars/all/certs<span class="o">{</span>,vault<span class="o">}</span>.yml
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANSIBLE_VAULT_PASSWORD_FILE</span><span class="o">=</span>~/git/ansible-postgres/bin/gpgvault
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>environments/<span class="nv">$ENV</span><span class="w"> </span>rollout_new_certs.yml<span class="w"> </span>--tags<span class="w"> </span>stolon
 </code></pre></div>
-<p>ENV=poc</p>
-<p>cd ~/git/ansible-postgres</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>git reset environments/$ENV/group_vars/all/certs{,vault}.yml
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>export ANSIBLE_VAULT_PASSWORD_FILE=~/git/ansible-postgres/bin/gpgvault
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>ansible-playbook -i environments/$ENV rollout_new_certs.yml --tags stolon
-</code></pre></div>
-<p>7: With this, the adjustment has been successfully implemented.</p>
+<p>7: Completion</p>
+<p>With this final rollout, the environment is now fully migrated to the new certificates and the procedure is complete.</p>
 
 
 

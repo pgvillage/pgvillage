@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduction" class="md-skip">
+        <a href="#patching" class="md-skip">
           Skip to content
         </a>
       
@@ -805,6 +805,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patching
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -821,6 +839,49 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1265,6 +1326,36 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1379,41 +1470,66 @@
   
 
 
-<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>Het SBB is speciaal ontworpen om High Availability te kunnen garanderen.</p>
-<p>Patching mag hier weinig tot geen impact op hebben.</p>
-<p>Deze documentatie beschrijft hoe Patching vand eze HA omgeving plaats vindt en welek HA opties hiermee gegarandeerd worden.</p>
-<h1 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h1>
+<h1 id="patching">Patching<a class="headerlink" href="#patching" title="Permanent link">&para;</a></h1>
+<p>The SBB platform is specifically designed to guarantee High Availability (HA).</p>
+<p>Patching should have little to no impact on the running system.</p>
+<p>This documentation explains how patching is performed in this HA environment and what HA guarantees remain during the process.</p>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Satellite: <a href="https://gurus-satl6-server1.int.corp.com/">https://gurus-satl6-server1.int.corp.com/</a></li>
-<li>Here, the various patchsets per environment are maintained</li>
-<li>The SHS Patch Process</li>
+<li><strong>Satellite:</strong>   </li>
+<li><a href="https://gurus-satl6-server1.int.corp.com/">https://gurus-satl6-server1.int.corp.com/</a></li>
+<li>
+<p>Here, the various patchsets per environment are maintained</p>
+</li>
+<li>
+<p><strong>SHS Patch Process</strong></p>
+</li>
 <li>In this process, servers are divided into server groups (A, B, C, and D)</li>
 <li>The server groups are patched as a whole</li>
 <li>Patching is done entirely automatically</li>
-<li>The DBA team remains informed about the patching</li>
-<li>The Demote Script:</li>
+<li>
+<p>The DBA team remains informed about the patching</p>
+</li>
+<li>
+<p><strong>Demote Script</strong></p>
+</li>
 <li>~postgres/bin/demote.sh (Ansible managed <a href="https://gitlab.int.corp.com/gurus-db-team/ansible-postgres/-/blob/dev/roles/stolon/files/bin/demote.sh">in the stolon role</a>)</li>
 <li>Is executed before patching is performed</li>
 <li>Ensures that "this server is no longer a master"</li>
 <li>Only works if everything comes back correctly after patching</li>
 </ul>
-<h1 id="facts">Facts<a class="headerlink" href="#facts" title="Permanent link">&para;</a></h1>
+<h2 id="facts">Facts<a class="headerlink" href="#facts" title="Permanent link">&para;</a></h2>
 <ul>
 <li>The starting point is not that there are no issues</li>
 <li>the starting point is that all issues in A are encountered and resolved</li>
-<li>the starting point is that at P all issues have been encountered and resolved</li>
-<li>~postgres/bin/demote.sh</li>
+<li>
+<p>the starting point is that at P all issues have been encountered and resolved</p>
+</li>
+<li>
+<p><code>~postgres/bin/demote.sh</code></p>
+</li>
 <li>is executed by the patching process so that switchover can be carried out quickly</li>
 <li>This has an impact on running transactions (they are canceled, application may reinitiate them)</li>
-<li>This has an impact on maintenance jobs</li>
-<li>After ~postgres/bin/demote.sh, patching and reboot have almost no more impact</li>
+<li>
+<p>This has an impact on maintenance jobs</p>
+</li>
+<li>
+<p>After ~postgres/bin/demote.sh, patching and reboot have almost no more impact</p>
+</li>
 <li>The impact is a catch-up when the database server is back from the reboot</li>
-<li>The impact is also that read-only (RO) queries are terminated if the server reboots (see <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Keepalived/WebHome.html">router</a>).</li>
-<li>Application clients must</li>
+<li>
+<p>The impact is also that read-only (RO) queries are terminated if the server reboots (see <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Keepalived/WebHome.html">router</a>).</p>
+</li>
+<li>
+<p>Application clients must</p>
+</li>
 <li>use <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html">Client Connect Failover</a>, or</li>
-<li>use <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Keepalived/WebHome.html">a router with a VIP</a></li>
-<li>The router uses KeepAliveD and is configured without preferred master</li>
+<li>
+<p>use <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Keepalived/WebHome.html">a router with a VIP</a></p>
+</li>
+<li>
+<p>The router uses KeepAliveD and is configured without preferred master</p>
+</li>
 <li>the server that was master and reboots causes a failover to the other router</li>
 <li>per patch round, a maximum of 2 failovers can occur</li>
 <li>servers are patched separately, so there is always one available<ul>

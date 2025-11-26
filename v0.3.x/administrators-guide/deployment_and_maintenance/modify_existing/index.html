@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduction" class="md-skip">
+        <a href="#modifying-an-existing-deployment" class="md-skip">
           Skip to content
         </a>
       
@@ -777,6 +777,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modifying an existing deployment
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -793,6 +811,99 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#work-instruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Work Instruction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Work Instruction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-create-user-and-database-using-ps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Create user and database using ps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-adjustments-to-hbaconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Adjustments to hba.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#psql-145" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        psql (14.5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-nieuwe-client-certificaten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Nieuwe client certificaten
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1265,6 +1376,86 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#work-instruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Work Instruction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Work Instruction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-create-user-and-database-using-ps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Create user and database using ps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-adjustments-to-hbaconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Adjustments to hba.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#psql-145" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        psql (14.5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-nieuwe-client-certificaten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Nieuwe client certificaten
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1381,13 +1572,13 @@
 
 <!-- TDOD: This documentation should go and be replaced by docs on how to do this with a new run of Ansible -->
 
-<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>Als onderdeel van het aanmaken van een nieuw cluster moet ook database users en databases aangemaakt worden.</p>
+<h1 id="modifying-an-existing-deployment">Modifying an existing deployment<a class="headerlink" href="#modifying-an-existing-deployment" title="Permanent link">&para;</a></h1>
+<p>As part of creating a new cluster, database users and databases must also be created.</p>
 <p>The ambition is to manage this automatically based on PGFA.</p>
-<p>Voorlopig doen we dit met de hand.</p>
-<h1 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h1>
+<p>For now, we perform this manually.</p>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Ansible setup according to <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/ansible/WebHome.html">Ansible documentation</a></li>
+<li>Ansible setup according to <a href="../ansible/">Ansible documentation</a></li>
 <li>A properly stored database request form in teams:</li>
 <li>Acme-IV-BI-Ops &gt; General &gt; Files &gt; Database Request Forms &gt;</li>
 <li>A running PostgreSQL cluster. Optionally, you can:</li>
@@ -1397,127 +1588,127 @@
 </ul>
 </li>
 </ul>
-<h1 id="werkinstructie">Werkinstructie<a class="headerlink" href="#werkinstructie" title="Permanent link">&para;</a></h1>
-<p>1: create user and database with <code>psql</code></p>
-<p>Maak de users aan met de psql tool:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>me@gurus-dbabh-server1 ~&gt; ssh gurus-pgsdb-server1.int.corp.com
+<h2 id="work-instruction">Work Instruction<a class="headerlink" href="#work-instruction" title="Permanent link">&para;</a></h2>
+<h3 id="1-create-user-and-database-using-ps">1. Create user and database using ps<a class="headerlink" href="#1-create-user-and-database-using-ps" title="Permanent link">&para;</a></h3>
+<p>Create users using the psql tool:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>me@gurus-dbabh-server1<span class="w"> </span>~&gt;<span class="w"> </span>ssh<span class="w"> </span>gurus-pgsdb-server1.int.corp.com
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="o">[</span>me@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span><span class="w"> </span>$<span class="w"> </span>sudo<span class="w"> </span>-iu<span class="w"> </span>postgres
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">#### Cluster Information</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Master<span class="w"> </span>Keeper:<span class="w"> </span>gurus_pgssdb_l10
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>gurus_pgsdb_server1<span class="w"> </span><span class="o">(</span>master<span class="o">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>├─gurus_pg_s_db_server2
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>└─gurus_pg_s_db_server3
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="o">[</span>postgres@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>master
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>psql<span class="w"> </span><span class="o">(</span><span class="m">14</span>.5<span class="o">)</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># CREATE USER new_user;</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>CREATE<span class="w"> </span>ROLE
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="nv">create_new_db</span><span class="o">=</span><span class="c1"># \password create_new_user</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>Enter<span class="w"> </span>new<span class="w"> </span>password<span class="w"> </span><span class="k">for</span><span class="w"> </span>user<span class="w"> </span><span class="s2">&quot;new_user&quot;</span>:
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>Enter<span class="w"> </span>it<span class="w"> </span>again:
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># CREATE DATABASE new_db OWNER new_user;</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>CREATE<span class="w"> </span>DATABASE
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>REVOKE<span class="w"> </span>CONNECT<span class="w"> </span>ON<span class="w"> </span>DATABASE<span class="w"> </span>new_db<span class="w"> </span>FROM<span class="w"> </span>PUBLIC<span class="p">;</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>REVOKE
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="nv">new_db</span><span class="o">=</span>GRANT<span class="w"> </span>CONNECT<span class="w"> </span>ON<span class="w"> </span>DATABASE<span class="w"> </span>new_db<span class="w"> </span>TO<span class="w"> </span>new_user<span class="p">;</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>GRANT
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a><span class="nv">new_db</span><span class="o">=</span><span class="c1">#</span>
 </code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[me@gurus-pgsdb-server1 ~] $ sudo -iu postgres
-</code></pre></div>
-<h2 id="cluster-information">Cluster Information<a class="headerlink" href="#cluster-information" title="Permanent link">&para;</a></h2>
-<hr />
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Master Keeper: gurus_pgssdb_l10
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>gurus_pgsdb_server1 (master)
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>├─gurus_pg_s_db_server2
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>└─gurus_pg_s_db_server3
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>[postgres@gurus-pgsdb-server1 ~]$ psql service=master
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>psql (14.5)
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>Type &quot;help&quot; for help.
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>postgres=# CREATE USER new_user;
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>CREATE ROLE
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>create_new_db=# \password create_new_user
-<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
-<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>Enter new password for user &quot;new_user&quot;:
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>Enter it again:
-<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
-<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>postgres=# CREATE DATABASE new_db OWNER new_user;
-<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>
-<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>CREATE DATABASE
-<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>
-<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>REVOKE CONNECT ON DATABASE new_db FROM PUBLIC;
-<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>
-<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>REVOKE
-<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>
-<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>new_db=GRANT CONNECT ON DATABASE new_db TO new_user;
-<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>
-<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>GRANT
-<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>
-<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>new_db=#
-</code></pre></div>
-<p>2: Adjustments to <code>hba.conf</code></p>
+<h3 id="2-adjustments-to-hbaconf">2. Adjustments to hba.conf<a class="headerlink" href="#2-adjustments-to-hbaconf" title="Permanent link">&para;</a></h3>
 <p>Execute everything on the gurus-dbabh-server1:</p>
-<p>First, create a new feature (not for expanding on new database servers, only for adjusting existing clusters):</p>
-<p>ENV=poc</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git checkout -b feature/changed*hba*$ENV dev
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">#### Create a feature branch</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">ENV</span><span class="o">=</span>poc
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/changed*hba*<span class="nv">$ENV</span><span class="w"> </span>dev
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">#### Adjust pg_hba configuration</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>Adjust<span class="w"> </span>the<span class="w"> </span>HBA<span class="w"> </span>configuration<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="sb">`</span>environments/<span class="nv">$ENV</span>/group_vars/all/generic.yml<span class="sb">`</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Adjust<span class="w"> </span>the<span class="w"> </span>HBA<span class="w"> </span>configuration<span class="w"> </span>as<span class="w"> </span>needed.
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>Be<span class="w"> </span>aware<span class="w"> </span>that<span class="w"> </span><span class="k">for</span><span class="w"> </span>traffic<span class="w"> </span>via<span class="w"> </span>stolon-proxy,<span class="w"> </span>an<span class="w"> </span>accompanying<span class="w"> </span>SELinux<span class="w"> </span>rule<span class="w"> </span>must<span class="w"> </span>also<span class="w"> </span>be<span class="w"> </span>created.
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">#### Apply the updated configuration</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="nv">ENV</span><span class="o">=</span>poc
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nv">exportANSIBLE_VAULT_PASSWORD_FILE</span><span class="o">=</span>~/git/ansible-postgres/bin/gpgvault
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>environments/<span class="nv">$ENV</span><span class="w"> </span>functional-all.yml<span class="w"> </span>--tags<span class="w"> </span>stolon
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1">#### Create a Merge Request</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="nv">ENV</span><span class="o">=</span>poc
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>git<span class="w"> </span>add<span class="w"> </span>environments/<span class="nv">$ENV</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;HBA adjustments </span><span class="nv">$ENV</span><span class="s2">&quot;</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>git<span class="w"> </span>push
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="c1">#glab, or follow the link in the output of the `git push` command</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>glab<span class="w"> </span>mr<span class="w"> </span>create
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>---
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="c1">#### Check if everything has been rolled out properly:</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>me@gurus-dbabh-server1~&gt;<span class="w"> </span>ssh<span class="w"> </span>gurus-pgsdb-server1.int.corp.com
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="o">[</span>me@gurus-pgsdb-server1~<span class="o">]</span><span class="w"> </span>$<span class="w"> </span>sudo<span class="w"> </span>-i<span class="w"> </span><span class="nv">postgres</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="o">===</span><span class="nv">ClusterInfo</span><span class="o">===</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="c1">#### MasterKeeper: gurus_pgssdb_server1</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>---
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="o">==</span>Keepers/DBtree<span class="o">==</span>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>gurus_pgsdb_server1<span class="w"> </span><span class="o">(</span>master<span class="o">)</span>
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>├─gurus_pgsdb_server2
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>└─gurus_pgsdb_server3
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="o">[</span>postgres@gurus-pgsdb-server1~<span class="o">]</span><span class="w"> </span>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>master
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Adjust the HBA configuration in <span class="sb">`environments/$ENV/group_vars/all/generic.yml`</span>
+<h3 id="psql-145"><code>psql (14.5)</code><a class="headerlink" href="#psql-145" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># select \* from pg_hba_file_rules;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w"> </span>line_number<span class="w"> </span><span class="p">|</span><span class="w">   </span><span class="nb">type</span><span class="w">    </span><span class="p">|</span><span class="w">   </span>database<span class="w">   </span><span class="p">|</span><span class="w">  </span>user_name<span class="w">  </span><span class="p">|</span><span class="w">    </span>address<span class="w">     </span><span class="p">|</span><span class="w">    </span>netmask<span class="w">     </span><span class="p">|</span><span class="w"> </span>auth_method<span class="w"> </span><span class="p">|</span><span class="w">          </span>options<span class="w">           </span><span class="p">|</span><span class="w"> </span>error
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>-------------+-----------+--------------+-------------+----------------+----------------+-------------+-----------------------------+-------
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w"> </span><span class="m">1</span><span class="w">           </span><span class="p">|</span><span class="w"> </span><span class="nb">local</span><span class="w">     </span><span class="p">|</span><span class="w"> </span>postgres<span class="w">     </span><span class="p">|</span><span class="w"> </span>postgres<span class="w">    </span><span class="p">|</span><span class="w">                </span><span class="p">|</span><span class="w">                </span><span class="p">|</span><span class="w"> </span>peer<span class="w">        </span><span class="p">|</span><span class="w">                             </span><span class="p">|</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w"> </span><span class="m">2</span><span class="w">           </span><span class="p">|</span><span class="w"> </span><span class="nb">local</span><span class="w">     </span><span class="p">|</span><span class="w"> </span>replication<span class="w">  </span><span class="p">|</span><span class="w"> </span>postgres<span class="w">    </span><span class="p">|</span><span class="w">                </span><span class="p">|</span><span class="w">                </span><span class="p">|</span><span class="w"> </span>peer<span class="w">        </span><span class="p">|</span><span class="w">                             </span><span class="p">|</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w"> </span><span class="m">3</span><span class="w">           </span><span class="p">|</span><span class="w"> </span>hostssl<span class="w">   </span><span class="p">|</span><span class="w"> </span>all<span class="w">          </span><span class="p">|</span><span class="w"> </span>postgres<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="m">10</span>.0.5.67<span class="w">      </span><span class="p">|</span><span class="w"> </span><span class="m">255</span>.255.255.255<span class="p">|</span><span class="w"> </span>cert<span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="nv">clientcert</span><span class="o">=</span>verify-full<span class="w">      </span><span class="p">|</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w"> </span><span class="m">4</span><span class="w">           </span><span class="p">|</span><span class="w"> </span>hostssl<span class="w">   </span><span class="p">|</span><span class="w"> </span>replication<span class="w">  </span><span class="p">|</span><span class="w"> </span>postgres<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="m">10</span>.0.5.67<span class="w">      </span><span class="p">|</span><span class="w"> </span><span class="m">255</span>.255.255.255<span class="p">|</span><span class="w"> </span>cert<span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="nv">clientcert</span><span class="o">=</span>verify-full<span class="w">      </span><span class="p">|</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w"> </span><span class="m">5</span><span class="w">           </span><span class="p">|</span><span class="w"> </span>hostssl<span class="w">   </span><span class="p">|</span><span class="w"> </span>all<span class="w">          </span><span class="p">|</span><span class="w"> </span>postgres<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="m">10</span>.0.5.68<span class="w">      </span><span class="p">|</span><span class="w"> </span><span class="m">255</span>.255.255.255<span class="p">|</span><span class="w"> </span>cert<span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="nv">clientcert</span><span class="o">=</span>verify-full<span class="w">      </span><span class="p">|</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w"> </span><span class="m">6</span><span class="w">           </span><span class="p">|</span><span class="w"> </span>hostssl<span class="w">   </span><span class="p">|</span><span class="w"> </span>replication<span class="w">  </span><span class="p">|</span><span class="w"> </span>postgres<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="m">10</span>.0.5.68<span class="w">      </span><span class="p">|</span><span class="w"> </span><span class="m">255</span>.255.255.255<span class="p">|</span><span class="w"> </span>cert<span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="nv">clientcert</span><span class="o">=</span>verify-full<span class="w">      </span><span class="p">|</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w"> </span><span class="m">7</span><span class="w">           </span><span class="p">|</span><span class="w"> </span><span class="nb">local</span><span class="w">     </span><span class="p">|</span><span class="w"> </span>all<span class="w">          </span><span class="p">|</span><span class="w"> </span>all<span class="w">         </span><span class="p">|</span><span class="w">                </span><span class="p">|</span><span class="w">                </span><span class="p">|</span><span class="w"> </span>peer<span class="w">        </span><span class="p">|</span><span class="w">                             </span><span class="p">|</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w"> </span><span class="m">8</span><span class="w">           </span><span class="p">|</span><span class="w"> </span>hostssl<span class="w">   </span><span class="p">|</span><span class="w"> </span>postgres<span class="w">     </span><span class="p">|</span><span class="w"> </span>avchecker<span class="w">   </span><span class="p">|</span><span class="w"> </span>samenet<span class="w">        </span><span class="p">|</span><span class="w">                </span><span class="p">|</span><span class="w"> </span>cert<span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="nv">clientcert</span><span class="o">=</span>verify-full<span class="w">      </span><span class="p">|</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w"> </span><span class="m">9</span><span class="w">           </span><span class="p">|</span><span class="w"> </span>hostssl<span class="w">   </span><span class="p">|</span><span class="w"> </span>all<span class="w">          </span><span class="p">|</span><span class="w"> </span>all<span class="w">         </span><span class="p">|</span><span class="w"> </span>samenet<span class="w">        </span><span class="p">|</span><span class="w">                </span><span class="p">|</span><span class="w"> </span>cert<span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="nv">clientcert</span><span class="o">=</span>verify-full<span class="w">      </span><span class="p">|</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="o">(</span><span class="m">9</span><span class="w"> </span>rows<span class="o">)</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1"># postgres=#</span>
 </code></pre></div>
-<p>Adjust the HBA configuration as needed.</p>
-<p>Be aware that for traffic via stolon-proxy, an accompanying SELinux rule must also be created.</p>
-<p>Als de hba config naar behoren is aangepast kan deze worden toegepast middels:</p>
-<p>ENV=poc</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>exportANSIBLE_VAULT_PASSWORD_FILE=~/git/ansible-postgres/bin/gpgvault
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ansible-playbook -i environments/$ENV functional-all.yml --tags stolon
-</code></pre></div>
-<p>Then create a Merge Request (not for expanding on new database servers, only when adjusting existing clusters):</p>
-<p>ENV=poc</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>git add environments/$ENV
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git commit -m &quot;HBA adjustments $ENV&quot;
-</code></pre></div>
-<p>git push</p>
-<h1 id="glab-or-follow-the-link-in-the-output-of-the-git-push-command">glab, or follow the link in the output of the <code>git push</code> command<a class="headerlink" href="#glab-or-follow-the-link-in-the-output-of-the-git-push-command" title="Permanent link">&para;</a></h1>
-<p>glab mr create</p>
-<p>Check if everything has been rolled out properly:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>me@gurus-dbabh-server1~&gt; ssh gurus-pgsdb-server1.int.corp.com
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>[me@gurus-pgsdb-server1~] $ sudo -i postgres
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>===ClusterInfo===
-</code></pre></div>
-<h1 id="masterkeeper-gurus_pgssdb_server1">MasterKeeper: gurus_pgssdb_server1<a class="headerlink" href="#masterkeeper-gurus_pgssdb_server1" title="Permanent link">&para;</a></h1>
-<hr />
-<p>==Keepers/DBtree==</p>
-<hr />
-<div class="language-sql highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">gurus_pgsdb_server1</span><span class="w"> </span><span class="p">(</span><span class="n">master</span><span class="p">)</span>
-</code></pre></div>
-<p>├─gurus_pgsdb_server2</p>
-<p>└─gurus_pgsdb_server3</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>[postgres@gurus-pgsdb-server1~] $ psql service=master
-</code></pre></div>
-<h2 id="psql-145"><code>psql (14.5)</code><a class="headerlink" href="#psql-145" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-</code></pre></div>
-<p>Type "help" for help.</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>postgres=# select \* from pg_hba_file_rules;
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>line_number | type | database | user_name | address | netmask | auth_method | options | error
-</code></pre></div>
-<p>-------------+---------+---------------+-------------+---------------+-----------------+-------------+--------------------------+-------</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>1| local | postgres | postgres |||| peer |
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>2 | local | replication | postgres ||| peer ||
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>3 | hostssl | all | postgres | 10.0.5.67 | 255.255.255.255 | cert | clientcert=verify-full |
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>4 | hostssl | {replication} | {postgres} | 10.0.5.67 | 255.255.255.255 | cert | {clientcert=verify-full} |
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>5 | hostssl | {all} | postgres | 10.0.5.68 | 255.255.255.255 | cert | clientcert=verify-full |
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>6|hostssl| {replication}| {postgres} |10.0.5.68|255.255.255.255|cert| {clientcert=verify-full} |
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>7|local|{all} |{all}| ||peer||
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>8 | hostssl | {postgres} | {avchecker} | samenet | cert | clientcert=verify-full |
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>9 | hostssl | all | all | samenet | cert | clientcert=verify-full |
-</code></pre></div>
-<p>(9rows)</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a># postgres=#
-</code></pre></div>
-<p>If everything looks good, then the status of the Merge Request can be changed to Ready.</p>
-<p>3: nieuwe client certificaten</p>
+<p>If everything looks good, the status of the Merge Request can be changed to <strong>Ready</strong>.</p>
+<h3 id="3-nieuwe-client-certificaten">3. Nieuwe client certificaten<a class="headerlink" href="#3-nieuwe-client-certificaten" title="Permanent link">&para;</a></h3>
 <p>If necessary, these can be created according to the <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html">procedure for new client certificates</a>.</p>
 
 

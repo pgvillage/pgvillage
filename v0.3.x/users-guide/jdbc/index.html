@@ -27,7 +27,7 @@
     
     
       
-        <title>Introduction - PgVillage</title>
+        <title>JDBC Introduction - PgVillage</title>
       
     
     
@@ -58,14 +58,14 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Introduction - PgVillage" />
+<meta property="og:title" content="JDBC Introduction - PgVillage" />
 <meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/users-guide/jdbc.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/users-guide/jdbc/" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Introduction - PgVillage" />
+<meta property="twitter:title" content="JDBC Introduction - PgVillage" />
 <meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/users-guide/jdbc.png" />
 </head>
   
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduction" class="md-skip">
+        <a href="#jdbc-introduction" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction
+              JDBC Introduction
             
           </span>
         </div>
@@ -715,7 +715,7 @@
   <span class="md-ellipsis">
     
   
-    Client connection failover
+    Client Connection Failover
   
 
     
@@ -743,7 +743,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction
+    Clients Introduction
   
 
     
@@ -773,6 +773,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JDBC Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -780,7 +798,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction
+    JDBC Introduction
   
 
     
@@ -789,6 +807,49 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instruction
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1019,6 +1080,36 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instruction
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1107,47 +1198,44 @@
   
 
 
-<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>De jdbc client kan geconfigureerd worden met een jdbc url.</p>
-<p>Deze werkinstructie geeft wat suggesties voor de vorm.</p>
+<h1 id="jdbc-introduction">JDBC Introduction<a class="headerlink" href="#jdbc-introduction" title="Permanent link">&para;</a></h1>
+<p>The JDBC client can be configured with a JDBC URL.</p>
+<p>This work instruction provides some suggestions for the format.</p>
 <p>The SSL parameters are included (for convenience).</p>
-<h1 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h1>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">-</span><span class="w"> </span>[<span class="nt">server request</span>](<span class="na">../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+database+aanvraag+naar+server+aanvraag/WebHome.html</span>)
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">-</span><span class="w"> </span>[<span class="nt">set up cluster</span>](<span class="na">../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+server+naar+draaiende+database/WebHome.html</span>)
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">-</span><span class="w"> </span>[<span class="nt">client connection information</span>](<span class="na">../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html</span>)
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">-</span><span class="w"> </span>[<span class="nt">Client certificates</span>](<span class="na">../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Client+certificaten/WebHome.html</span>)
-</code></pre></div>
-<h1 id="instruction">Instruction<a class="headerlink" href="#instruction" title="Permanent link">&para;</a></h1>
-<p>Wat voorbeelden vn jdb urls:</p>
-<h1 id="rw">rw:<a class="headerlink" href="#rw" title="Permanent link">&para;</a></h1>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>postgres://{user}@{db hosts separated by ,}:5432/{database name}?sslmode=verify-full&amp;sslcert=/home/{user}/.postgresql/{user}.crt&amp;sslkey=/home/{user}/.postgresql/{user}.key&amp;sslrootcert=/home/{user}/.postgresql/root.crt
-</code></pre></div>
-<h1 id="proxy">proxy:<a class="headerlink" href="#proxy" title="Permanent link">&para;</a></h1>
-<p>-</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>postgres://{user}@{db hosts separated by ,}:25432/{database name}?sslmode=verify-full&amp;sslcert=/home/{user}/.postgresql/{user}.crt&amp;sslkey=/home/{user}/.postgresql/{user}.key&amp;sslrootcert=/home/{user}/.postgresql/root.crt
-</code></pre></div>
-<h1 id="vip_rw">vip_rw:<a class="headerlink" href="#vip_rw" title="Permanent link">&para;</a></h1>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>postgres://{user}@{vip fqdn}:5432/{database name}?sslmode=verify-full&amp;sslcert=/home/{user}/.postgresql/{user}.crt&amp;sslkey=/home/{user}/.postgresql/{user}.key&amp;sslrootcert=/home/{user}/.postgresql/root.crt
-</code></pre></div>
-<h2 id="vip_ro">vip_ro<a class="headerlink" href="#vip_ro" title="Permanent link">&para;</a></h2>
-<hr />
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>postgres://{user}@{vip fqdn}:5433/{database name}?sslmode=verify-full&amp;sslcert=/home/{user}/.postgresql/{user}.crt&amp;sslkey=/home/{user}/.postgresql/{user}.key&amp;sslrootcert=/home/{user}/.postgresql/root.crt
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+database+aanvraag+naar+server+aanvraag/WebHome.html">server request</a></li>
+<li><a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+server+naar+draaiende+database/WebHome.html">set up cluster</a></li>
+<li><a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html">client connection information</a></li>
+<li><a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Client+certificaten/WebHome.html">Client certificates</a></li>
+</ul>
+<h2 id="instruction">Instruction<a class="headerlink" href="#instruction" title="Permanent link">&para;</a></h2>
+<p>Some examples of JDB URLs:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">#rw:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>postgres://<span class="o">{</span>user<span class="o">}</span>@<span class="o">{</span>db<span class="w"> </span>hosts<span class="w"> </span>separated<span class="w"> </span>by<span class="w"> </span>,<span class="o">}</span>:5432/<span class="o">{</span>database<span class="w"> </span>name<span class="o">}</span>?sslmode<span class="o">=</span>verify-full<span class="p">&amp;</span><span class="nv">sslcert</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.crt<span class="p">&amp;</span><span class="nv">sslkey</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.key<span class="p">&amp;</span><span class="nv">sslrootcert</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/root.crt
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">#proxy:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>postgres://<span class="o">{</span>user<span class="o">}</span>@<span class="o">{</span>db<span class="w"> </span>hosts<span class="w"> </span>separated<span class="w"> </span>by<span class="w"> </span>,<span class="o">}</span>:25432/<span class="o">{</span>database<span class="w"> </span>name<span class="o">}</span>?sslmode<span class="o">=</span>verify-full<span class="p">&amp;</span><span class="nv">sslcert</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.crt<span class="p">&amp;</span><span class="nv">sslkey</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.key<span class="p">&amp;</span><span class="nv">sslrootcert</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/root.crt
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">#vip_rw:</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>postgres://<span class="o">{</span>user<span class="o">}</span>@<span class="o">{</span>vip<span class="w"> </span>fqdn<span class="o">}</span>:5432/<span class="o">{</span>database<span class="w"> </span>name<span class="o">}</span>?sslmode<span class="o">=</span>verify-full<span class="p">&amp;</span><span class="nv">sslcert</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.crt<span class="p">&amp;</span><span class="nv">sslkey</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.key<span class="p">&amp;</span><span class="nv">sslrootcert</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/root.crt
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># vip_ro</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>postgres://<span class="o">{</span>user<span class="o">}</span>@<span class="o">{</span>vip<span class="w"> </span>fqdn<span class="o">}</span>:5433/<span class="o">{</span>database<span class="w"> </span>name<span class="o">}</span>?sslmode<span class="o">=</span>verify-full<span class="p">&amp;</span><span class="nv">sslcert</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.crt<span class="p">&amp;</span><span class="nv">sslkey</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.key<span class="p">&amp;</span><span class="nv">sslrootcert</span><span class="o">=</span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/root.crt
 </code></pre></div>
 <p>Starting point is that:</p>
 <ul>
 <li><code>{user}</code> is replaced by the Postgres user.  </li>
 <li>This must match the Postgres user.  </li>
-<li>
-<h2 id="this-must-match-the-common-name-of-the-client-certificate">This must match the Common Name of the client certificate:<a class="headerlink" href="#this-must-match-the-common-name-of-the-client-certificate" title="Permanent link">&para;</a></h2>
-</li>
+<li>This must match the Common Name of the client certificate:  </li>
 </ul>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>openssl x509 -text -noout -in /home/{user}/.postgresql/{user}.crt | sed -n &#39;/Subject:/{s/.\*= //;p}&#39;
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">-</span><span class="w"> </span>{vip fqdn} moet vervangen worden door het IP adres van de VIP
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">-</span><span class="w"> </span>{database name} moet vervangen werden door de naam van de Postgres Database
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">-</span><span class="w"> </span>{list of all hosts, separated by ,} moet vervangen worden door een lijst van de servers, e.a.
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>- The certificate files are indeed stored in the respective subdirectory.
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;/Subject:/{s/.\*= //;p}&#39;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>-<span class="w"> </span><span class="o">{</span>vip<span class="w"> </span>fqdn<span class="o">}</span><span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>VIP
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>-<span class="w"> </span><span class="o">{</span>database<span class="w"> </span>name<span class="o">}</span><span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>name<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Postgres<span class="w"> </span>database
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>-<span class="w"> </span><span class="o">{</span>list<span class="w"> </span>of<span class="w"> </span>all<span class="w"> </span>hosts,<span class="w"> </span>separated<span class="w"> </span>by<span class="w"> </span>,<span class="o">}</span><span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>servers,<span class="w"> </span>etc.
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>gurus-pgsdb-server1.int.corp.com,<span class="w"> </span>gurus-pgsdb-server2.int.corp.com,<span class="w"> </span>gurus-pgsdb-server3.int.corp.com
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>-<span class="w"> </span>The<span class="w"> </span>certificate<span class="w"> </span>files<span class="w"> </span>are<span class="w"> </span>indeed<span class="w"> </span>stored<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>respective<span class="w"> </span>subdirectory.
 </code></pre></div>
 
 

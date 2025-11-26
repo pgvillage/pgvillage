@@ -27,7 +27,7 @@
     
     
       
-        <title>Client connection failover - PgVillage</title>
+        <title>Client Connection Failover - PgVillage</title>
       
     
     
@@ -58,14 +58,14 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Client connection failover - PgVillage" />
+<meta property="og:title" content="Client Connection Failover - PgVillage" />
 <meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/users-guide/client_connection_failover.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/users-guide/client_connection_failover/" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Client connection failover - PgVillage" />
+<meta property="twitter:title" content="Client Connection Failover - PgVillage" />
 <meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/users-guide/client_connection_failover.png" />
 </head>
   
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#belongs-to-component" class="md-skip">
+        <a href="#client-connection-failover" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Client connection failover
+              Client Connection Failover
             
           </span>
         </div>
@@ -714,6 +714,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -722,7 +724,7 @@
   <span class="md-ellipsis">
     
   
-    Client connection failover
+    Client Connection Failover
   
 
     
@@ -740,7 +742,7 @@
   <span class="md-ellipsis">
     
   
-    Client connection failover
+    Client Connection Failover
   
 
     
@@ -758,6 +760,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -766,10 +770,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#belongs-to-component" class="md-nav__link">
+  <a href="#requirements-and-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Belongs to Component
+        Requirements and dependencies
       
     </span>
   </a>
@@ -777,10 +781,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
+  <a href="#using-psql-service-files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        # Introduction
+        Using psql service files
       
     </span>
   </a>
@@ -788,29 +792,34 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#psql-op-linux" class="md-nav__link">
+  <a href="#master-hostgurus-pgsdb-server1intcorpcom-gurus-pgsdb-server2intcorpcom-gurus-pgsdb-server3intcorpcom-port5432-target_session_attrsread-write-sslmodeverify-full-standby-hostgurus-pgsdb-server1intcorpcom-gurus-pgsdb-server2intcorpcom-gurus-pgsdb-server3intcorpcom-port5432-target_session_attrsread-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        psql op Linux
+        #[master] host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com port=5432 target_session_attrs=read-write sslmode=verify-full #[standby] host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com port=5432 target_session_attrs=read-only
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gurus_pgsdb_server3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        gurus_pgsdb_server3
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="gurus_pgsdb_server3">
+    <nav class="md-nav" aria-label="#[master] host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com port=5432 target_session_attrs=read-write sslmode=verify-full #[standby] host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com port=5432 target_session_attrs=read-only">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#psql-on-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        psql on Linux
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pgadmin-for-windows" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -820,8 +829,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#dbeaver" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -829,11 +838,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -860,7 +864,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction
+    Clients Introduction
   
 
     
@@ -888,7 +892,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction
+    JDBC Introduction
   
 
     
@@ -1123,6 +1127,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1131,10 +1137,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#belongs-to-component" class="md-nav__link">
+  <a href="#requirements-and-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Belongs to Component
+        Requirements and dependencies
       
     </span>
   </a>
@@ -1142,10 +1148,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
+  <a href="#using-psql-service-files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        # Introduction
+        Using psql service files
       
     </span>
   </a>
@@ -1153,29 +1159,34 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#psql-op-linux" class="md-nav__link">
+  <a href="#master-hostgurus-pgsdb-server1intcorpcom-gurus-pgsdb-server2intcorpcom-gurus-pgsdb-server3intcorpcom-port5432-target_session_attrsread-write-sslmodeverify-full-standby-hostgurus-pgsdb-server1intcorpcom-gurus-pgsdb-server2intcorpcom-gurus-pgsdb-server3intcorpcom-port5432-target_session_attrsread-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        psql op Linux
+        #[master] host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com port=5432 target_session_attrs=read-write sslmode=verify-full #[standby] host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com port=5432 target_session_attrs=read-only
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gurus_pgsdb_server3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        gurus_pgsdb_server3
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="gurus_pgsdb_server3">
+    <nav class="md-nav" aria-label="#[master] host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com port=5432 target_session_attrs=read-write sslmode=verify-full #[standby] host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com port=5432 target_session_attrs=read-only">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#psql-on-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        psql on Linux
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pgadmin-for-windows" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1185,8 +1196,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#dbeaver" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1194,11 +1205,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1292,106 +1298,93 @@
   
 
 
-<h2 id="belongs-to-component">Belongs to Component<a class="headerlink" href="#belongs-to-component" title="Permanent link">&para;</a></h2>
-<hr />
-<p>Postgres</p>
-<h2 id="introduction"># Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
-<p>In the Postgres environment, clusters are provided that consist of 3 or more database clusters and a backup server. In some environments, currently the two DVP clusters and the POC environment, there are also two proxy servers with a VIP address.</p>
+<h1 id="client-connection-failover">Client Connection Failover<a class="headerlink" href="#client-connection-failover" title="Permanent link">&para;</a></h1>
+<p>In the Postgres environment, clusters are provided that consist of 3 or more database servers and a backup server. In some environments, currently the two DVP clusters and the POC environment, there are also two proxy servers with a VIP address.</p>
 <p>In environments with a VIP address, accessing the database is straightforward. By using the VIP, you always connect to the primary database.</p>
-<p>In environments without VIP and proxy servers, there are usually three database servers where it is not known which one is the primary; this can also change, for example, during patching. To connect to the primary database, there are a few options.
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>## Requirements and dependencies
+<p>In environments without VIP and proxy servers, there are usually three database servers where it is not known which one is the primary; this can also change, for example, during patching. To connect to the primary database, there are a few options.</p>
+<h2 id="requirements-and-dependencies">Requirements and dependencies<a class="headerlink" href="#requirements-and-dependencies" title="Permanent link">&para;</a></h2>
+<p>The database(s) can be accessed in various ways, each with its own specifics; we describe the following:</p>
+<ul>
+<li>psql on Linux  </li>
+<li>PGAdmin on Windows  </li>
+<li>DBeaver on Windows</li>
+</ul>
+<h2 id="using-psql-service-files">Using psql service files<a class="headerlink" href="#using-psql-service-files" title="Permanent link">&para;</a></h2>
+<p>Using <code>psql</code> on Windows allows you to utilize the 'service file' (<code>.pg_service.conf</code> in <code>$HOME</code>) for configuration, including connection details. Below is an example of how to connect to either a primary or slave server without knowing which one it is. In the 'service file', this can be specified as follows:</p>
+<h2 id="master-hostgurus-pgsdb-server1intcorpcom-gurus-pgsdb-server2intcorpcom-gurus-pgsdb-server3intcorpcom-port5432-target_session_attrsread-write-sslmodeverify-full-standby-hostgurus-pgsdb-server1intcorpcom-gurus-pgsdb-server2intcorpcom-gurus-pgsdb-server3intcorpcom-port5432-target_session_attrsread-only"><div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">#[master]</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>The database(s) can be accessed in various ways, each with its own specifics; we describe the following:
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>- psql on Linux  
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>- PGAdmin on Windows  
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>- DBeaver on Windows
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>## Performance
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Using `psql` on Windows allows you to utilize the &#39;service file&#39; (`.pg_service.conf` in `$HOME`) for configuration, including connection details. Below is an example of how to connect to either a primary or slave server without knowing which one it is. In the &#39;service file&#39;, this can be specified as follows:
-</code></pre></div>
-[master]
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>
-</code></pre></div>
-host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>`port=5432`
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>```markdown
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>target_session_attrs=read-write
-</code></pre></div></p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sslmode=verify-full
-</code></pre></div>
-<p>[standby]</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>host=gurus-pgsdb-server1.int.corp.com, gurus-pgsdb-server2.int.corp.com, gurus-pgsdb-server3.int.corp.com
-</code></pre></div>
-<p>port=5432</p>
-<p><code>target_session_attrs=read-only</code></p>
-<hr />
-<p>This way, the connection can be made with <code>service=master</code> to the primary database and with <code>server=standby</code> to any standby database:</p>
-<h2 id="psql-op-linux">psql op Linux<a class="headerlink" href="#psql-op-linux" title="Permanent link">&para;</a></h2>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nv">host</span><span class="o">=</span>gurus-pgsdb-server1.int.corp.com,<span class="w"> </span>gurus-pgsdb-server2.int.corp.com,<span class="w"> </span>gurus-pgsdb-server3.int.corp.com
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nv">port</span><span class="o">=</span><span class="m">5432</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nv">target_session_attrs</span><span class="o">=</span>read-write
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nv">sslmode</span><span class="o">=</span>verify-full
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1">#[standby]</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nv">host</span><span class="o">=</span>gurus-pgsdb-server1.int.corp.com,<span class="w"> </span>gurus-pgsdb-server2.int.corp.com,<span class="w"> </span>gurus-pgsdb-server3.int.corp.com
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nv">port</span><span class="o">=</span><span class="m">5432</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nv">target_session_attrs</span><span class="o">=</span>read-only
+</code></pre></div><a class="headerlink" href="#master-hostgurus-pgsdb-server1intcorpcom-gurus-pgsdb-server2intcorpcom-gurus-pgsdb-server3intcorpcom-port5432-target_session_attrsread-write-sslmodeverify-full-standby-hostgurus-pgsdb-server1intcorpcom-gurus-pgsdb-server2intcorpcom-gurus-pgsdb-server3intcorpcom-port5432-target_session_attrsread-only" title="Permanent link">&para;</a></h2>
+<p>This way, the connection can be made with <code>service=master</code> to the primary database and with <code>service=standby</code> to any standby database:</p>
+<h3 id="psql-on-linux">psql on Linux<a class="headerlink" href="#psql-on-linux" title="Permanent link">&para;</a></h3>
 <p>The situation:</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gurus_pgsdb_server1 (master)
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gurus_pgsdb_server1<span class="w"> </span><span class="o">(</span>master<span class="o">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├─gurus<span class="se">\_</span>pgsdb<span class="se">\_</span>server2
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>├─gurus_pgsdb_server3
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>$<span class="w"> </span>hostname<span class="w"> </span>--fqdn
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>scc-pgsdb-server2.int.corp.com
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>master
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>psql<span class="w"> </span><span class="o">(</span><span class="m">14</span>.5<span class="o">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># select pg_is_in_recovery();</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>pg_is_in_recovery
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>-----------------
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>f
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># exit;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="c1">## Database is not recovering and is therefore the primary!</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>standby
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>psql<span class="w"> </span><span class="o">(</span><span class="m">14</span>.5<span class="o">)</span>
 </code></pre></div>
-<p>├─gurus_pgsdb_server2</p>
-<h1 id="gurus_pgsdb_server3">gurus_pgsdb_server3<a class="headerlink" href="#gurus_pgsdb_server3" title="Permanent link">&para;</a></h1>
-<p>$ hostname --fqdn</p>
-<p><code>scc-pgsdb-server2.int.corp.com</code></p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$ <span class="gs">**psql service=master**</span>
-</code></pre></div>
-<p>psql (14.5)</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-</code></pre></div>
-<p>Type "help" for help.</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>postgres=# select pg_is_in_recovery();
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pg_is_in_recovery
-</code></pre></div>
-<p>-------------------</p>
-<p>f</p>
-<p>(1 row)</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>postgres=# exit;
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Database is not recovering and is therefore the primary!
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$ <span class="gs">**psql service=primary**</span>
-</code></pre></div>
-<p>psql (14.5)</p>
 <p>SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)</p>
 <p>Enter "help" for assistance.</p>
 <p>The indication of standby and master comes from the 'service file' and can be filled or expanded according to your own understanding.</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>SELECT pg_is_in_recovery();
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="sb">`pg_is_in_recovery`</span>
-</code></pre></div>
-<p>-------------------</p>
-<p>t</p>
-<p>(1 row)</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>postgres=# exit;
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>SELECT<span class="w"> </span>pg_is_in_recovery<span class="o">()</span><span class="p">;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="sb">`</span>pg_is_in_recovery<span class="sb">`</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>-----------------
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>t
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="o">(</span><span class="m">1</span><span class="w"> </span>row<span class="o">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># exit;</span>
 </code></pre></div>
 <p>Now we see that the database is in <code>recovery_mode</code>, which means it's a standby/slave database.</p>
 <h2 id="pgadmin-for-windows">PGAdmin for Windows<a class="headerlink" href="#pgadmin-for-windows" title="Permanent link">&para;</a></h2>
 <p>For PGAdmin, it also applies that this can make use of the aforementioned 'service file'; it works identically to what has been described above. If PGAdmin is used on Windows, then the peculiarity is the name and location of the 'service file', namely:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>
-</code></pre></div>
 <p><strong>\%APPDATA%\postgresql.pg_service.conf</strong> (where \%APPDATA\% refers to the Application Data subdirectory in the user's profile), where on Linux this file is: <strong>~/.pg_service.conf</strong></p>
-<p>In de windows van PGAdmin kan dit verder eenvoudig worden ingevuld.</p>
+<p>In the windows of PGAdmin, this can be easily filled in further.</p>
 <p>The 'service file' contains the following:</p>
-<p><code>[aermaster]</code></p>
-<p><code>port=5432</code></p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>target_session_attrs=read-write
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># [aermaster]</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nv">port</span><span class="o">=</span><span class="m">5432</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nv">target_session_attrs</span><span class="o">=</span>read-write
 </code></pre></div>
 <p>So if we make the connection this way, it ends up on the master!</p>
-<p><img alt="1672243206877-313.png" src="../../../../../../../../../attachment/xwiki/Infrastructuur/Team%3A+DBA/Algemene+Restore+Server+voor+DBA-Linux/Postgres/Bouwsteen/Onderhoud/Connect+to+primary+or+slave/WebHome/1672243206877-313.png" /></p>
 <h2 id="dbeaver">Dbeaver<a class="headerlink" href="#dbeaver" title="Permanent link">&para;</a></h2>
 <p>For DBeaver on Windows, it works a bit differently; here, the JDBC URL is used, which needs to be entered in the DBeaver window, somewhat depending on the version.</p>
 <p>An example is: <code>jdbc:postgresql://node1,node2,node3/accounting?targetServerType=primary</code></p>
-<p>Hiermee wordt weer bereikt dat de connectie wordt gemaakt naar de master database waar read/write acties mogelijk zijn.</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>![1672242748155-292.png](../../../../../../../../../attachment/xwiki/Infrastructuur/Team%3A%20DBA/Algemene%20Restore%20Server%20voor%20DBA-Linux/Postgres/Bouwsteen/Onderhoud/Connect%20to%20primary%20or%20slave/WebHome/1672242748155-292.png)
-</code></pre></div>
+<p>This ensures that the connection is made to the master database where read/write actions are possible.</p>
 <p>NB: Screenprint is a newer version than what's present on the management server; this is version 22.3.0.</p>
-<p>Als de connect niet ' goed' wordt gemaakt, bv connected aan readonly (slave) omgeving kan de volgende 'foutmelding' worden getoond als er een poging wordt gedaan om iets weg te schrijven:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Caused by: liquibase.exception.DatabaseException: ERROR: cannot execute CREATE TABLE in a read-only transaction [Failed SQL: (0)]
+<p>If the connection is not made 'correctly', e.g., connected to a readonly (slave) environment, the following 'error message' may be shown when an attempt is made to write something:</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Caused by: liquibase.exception.DatabaseException: ERROR: cannot execute CREATE TABLE in a read-only transaction [Failed SQL: (0)]
 </code></pre></div>
 <p>This will then be displayed, an error message, but clearly explainable!</p>
 

@@ -900,6 +900,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Application does not have access to Postgres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-check-if-postgres-itself-is-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Check if Postgres itself is available:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-check-if-postgres-is-available-for-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Check if Postgres is available for the application:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-check-if-the-client-is-correctly-configured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Check if the client is correctly configured:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1257,6 +1296,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Application does not have access to Postgres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-check-if-postgres-itself-is-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Check if Postgres itself is available:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-check-if-postgres-is-available-for-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Check if Postgres is available for the application:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-check-if-the-client-is-correctly-configured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Check if the client is correctly configured:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1399,34 +1477,24 @@
 </ol>
 <p>Therefore, the first step in troubleshooting is to identify which of these areas is causing the issue.</p>
 <hr />
-<ol>
-<li>
-<p>Check if Postgres itself is available:</p>
-</li>
-<li>
-<p>Use the checks described in the <a href="avchecker.md">avchecker</a> documentation.</p>
-</li>
-<li>
-<p>Resolve all issues so that avchecker reports again that Postgres is available.</p>
-</li>
-<li>
-<p>Check if Postgres is available for the application:</p>
-</li>
+<h3 id="1-check-if-postgres-itself-is-available">1. Check if Postgres itself is available:<a class="headerlink" href="#1-check-if-postgres-itself-is-available" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Use the checks described in the <a href="../tools/avchecker.md">avchecker</a> documentation.</li>
+<li>Resolve all issues so that avchecker reports again that Postgres is available.</li>
+</ul>
+<h3 id="2-check-if-postgres-is-available-for-the-application">2. Check if Postgres is available for the application:<a class="headerlink" href="#2-check-if-postgres-is-available-for-the-application" title="Permanent link">&para;</a></h3>
+<ul>
 <li>Network problems are outside the scope of the DBA.</li>
-</ol>
+</ul>
 <p>In principle, these kinds of issues are always resolved by network management, or Container Hosting (CHP).</p>
 <p>Conduct the direction yourself, stay engaged in the process and provide clear information on what works (availability within the Postgres architecture) and what does not work (connectivity of the application to the VIP or to Postgres).</p>
 <ul>
-<li>
-<p>For more information, see the documentation on <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Connecties+en+connectiepaden/WebHome.html">Connections and Connection Paths</a></p>
-</li>
-<li>
-<p>Check if the client is correctly configured:</p>
-</li>
+<li>For more information, see the documentation on <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Connecties+en+connectiepaden/WebHome.html">Connections and Connection Paths</a></li>
 </ul>
+<h3 id="3-check-if-the-client-is-correctly-configured">3. Check if the client is correctly configured:<a class="headerlink" href="#3-check-if-the-client-is-correctly-configured" title="Permanent link">&para;</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Issues from incorrect configuration result  from a change and are actually not part of service availability work!!!</p>
+<p>Issues caused by incorrect configuration usually result from recent changes and are not part of service availability work.</p>
 </div>
 <p>Ensure that the client configuration includes:</p>
 <ul>
@@ -1438,8 +1506,11 @@
 <li>5432 (direct connection)</li>
 <li><strong>Username</strong> and <strong>database name</strong></li>
 <li><strong>Authentication:</strong> client certificates (preferred) or password</li>
-<li><strong>Session targeting:</strong><br />
-<code>target_session_attrs</code> (libpq) or <code>targetServerType</code> (JDBC)</li>
+<li><strong>Session targeting:</strong>  <ul>
+<li><code>target_session_attrs</code> (libpq)  </li>
+<li><code>targetServerType</code> (JDBC)</li>
+</ul>
+</li>
 <li><strong>SSL mode:</strong> <code>sslmode=verify-full</code></li>
 </ul>
 <p>Additionally:</p>
@@ -1447,7 +1518,7 @@
 <li>Verify the PostgreSQL <strong>pg_hba.conf</strong> configuration.</li>
 <li>Review <strong>application logs</strong> with the app administrator.</li>
 <li>Check for <strong>PostgreSQL log errors</strong>.</li>
-<li>For more information, see the documentation on <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html">client configuration</a> and about <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/WebHome.html">mTLS</a>.</li>
+<li>For more information, see the documentation on <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html">client configuration</a> and about <a href="../architecture/mtls.md">mTLS</a>.</li>
 </ul>
 <hr />
 <h2 id="recovery-emergency-restore">Recovery / Emergency Restore<a class="headerlink" href="#recovery-emergency-restore" title="Permanent link">&para;</a></h2>
@@ -1458,10 +1529,8 @@
 <p class="admonition-title">Note</p>
 <p>In almost all cases, the reason for a point-in-time restore is not due to an error in the Postgres architecture or by the DBA.</p>
 </div>
-<blockquote>
-<p>Therefore, in almost all cases, a point-in-time restore also does not result in downtime of the service.<br />
-Take the time to perform a proper point-in-time restore...</p>
-</blockquote>
+<p>Therefore, in almost all cases, a point-in-time restore does not result in service downtime.<br />
+Take the time to perform a proper point-in-time restore.</p>
 
 
 

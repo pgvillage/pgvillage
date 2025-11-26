@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#belongs-to-component" class="md-skip">
+        <a href="#component-postgresql-building-block" class="md-skip">
           Skip to content
         </a>
       
@@ -864,6 +864,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -908,6 +910,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -916,43 +920,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#belongs-to-component" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Belongs to component
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Introduction
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#requirements-and-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        # Requirements and Dependencies
+        Requirements and Dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requirements and Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poc-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POC Results
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#uitvoering" class="md-nav__link">
+  <a href="#execution" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Uitvoering
+        Execution
       
     </span>
   </a>
@@ -1257,6 +1256,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1265,43 +1266,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#belongs-to-component" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Belongs to component
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Introduction
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#requirements-and-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        # Requirements and Dependencies
+        Requirements and Dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requirements and Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poc-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POC Results
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#uitvoering" class="md-nav__link">
+  <a href="#execution" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Uitvoering
+        Execution
       
     </span>
   </a>
@@ -1424,20 +1420,16 @@
   
 
 
-  <h1>Verifying a PgVillage deployment</h1>
-
-<h2 id="belongs-to-component">Belongs to component<a class="headerlink" href="#belongs-to-component" title="Permanent link">&para;</a></h2>
-<p>Bouwsteen Postgres</p>
-<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
-<p>Bouwsteen Postgres bevat volgende componenten</p>
-<p>- PostgreSQL</p>
-<p>- Stolon</p>
-<p>- Etcd</p>
+<h1 id="component-postgresql-building-block">Component: PostgreSQL Building Block<a class="headerlink" href="#component-postgresql-building-block" title="Permanent link">&para;</a></h1>
+<p>The PostgreSQL Building Block consists of the following components:</p>
 <ul>
-<li>wal-g</li>
+<li><strong>PostgreSQL</strong></li>
+<li><strong>Stolon</strong></li>
+<li><strong>Etcd</strong></li>
+<li><strong>wal-g</strong></li>
 </ul>
-<h2 id="requirements-and-dependencies"># Requirements and Dependencies<a class="headerlink" href="#requirements-and-dependencies" title="Permanent link">&para;</a></h2>
-<p>Postgres:</p>
+<h2 id="requirements-and-dependencies">Requirements and Dependencies<a class="headerlink" href="#requirements-and-dependencies" title="Permanent link">&para;</a></h2>
+<p>PostgreSQL</p>
 <ol>
 <li><code>sudo su - postgres</code></li>
 <li><code>psql</code></li>
@@ -1446,126 +1438,105 @@
 <li><code>/usr/pgsql-12/bin/pgbench -i -s10000 pgbench</code> # filling</li>
 <li>Test: <code>/usr/pgsql-12/bin/pgbench -c 10 -l -j 4 -P 120 -T 600 pgbench</code></li>
 </ol>
-<p>POC result:</p>
-<p>starting vacuum...end.</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>progress: 120.0 s, 210.3 tps, lat 47.515 ms stddev 29.338
+<h3 id="poc-results">POC Results<a class="headerlink" href="#poc-results" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>starting<span class="w"> </span>vacuum...end.
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>progress:<span class="w"> </span><span class="m">120</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">210</span>.3<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">47</span>.515<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">29</span>.338
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>progress:<span class="w"> </span><span class="m">240</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">275</span>.6<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">36</span>.283<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">21</span>.895
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>progress:<span class="w"> </span><span class="m">360</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">415</span>.2<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">24</span>.077<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">49</span>.606
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>progress:<span class="w"> </span><span class="m">480</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">497</span>.7<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">20</span>.087<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">18</span>.762
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>progress:<span class="w"> </span><span class="m">600</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">522</span>.0<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">19</span>.151<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">16</span>.870
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Transaction<span class="w"> </span>Type:<span class="w"> </span>&lt;builtin:<span class="w"> </span>TPC-B&gt;
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>Scaling<span class="w"> </span>factor:<span class="w"> </span><span class="m">10000</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>query<span class="w"> </span>mode:<span class="w"> </span>simple
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>number<span class="w"> </span>of<span class="w"> </span>clients:<span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>number<span class="w"> </span>of<span class="w"> </span>threads:<span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>duration:<span class="w"> </span><span class="m">600</span><span class="w"> </span>s
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>number<span class="w"> </span>of<span class="w"> </span>transactions<span class="w"> </span>actually<span class="w"> </span>processed:<span class="w"> </span><span class="m">230507</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>average<span class="w"> </span><span class="nv">latency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">26</span>.023<span class="w"> </span>ms
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>latency<span class="w"> </span><span class="nv">stddev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span>.854<span class="w"> </span>ms
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="nv">tps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">384</span>.125073<span class="w"> </span><span class="o">(</span>including<span class="w"> </span>connection<span class="w"> </span>establishments<span class="o">)</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="nv">tps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">384</span>.128736<span class="w"> </span><span class="o">(</span>excluding<span class="w"> </span>connection<span class="w"> </span>establishments<span class="o">)</span>
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>progress: 240.0 s, 275.6 tps, lat 36.283 ms stddev 21.895
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>progress: 360.0 s, 415.2 tps, lat 24.077 ms stddev 49.606
-</code></pre></div>
-<p>progress: 480.0 s, 497.7 tps, lat 20.087 ms stddev 18.762</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>
-</code></pre></div>
-<p>progress: 600.0 s, 522.0 tps, lat 19.151 ms stddev 16.870</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>```markdown
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Transaction Type: &lt;builtin: TPC-B (sort of)&gt;
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Scaling factor: 10000
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>query mode: simple
-</code></pre></div>
-<p>number of clients: 10</p>
-<p>number of threads: 4</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>
-</code></pre></div>
-<p>duration: 600 s</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>number of transactions actually processed: 230507
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>```markdown
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>average latency = 26.023 ms
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>latency stddev = 30.854 ms
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>tps = 384.125073 (inclusief verbindingsinstellingen)
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>tps = 384.128736 (excluding connections establishing)
-</code></pre></div>
-<p>Is this good?</p>
-<p>ETCD:</p>
-<ol>
-<li>as postgres: etcdctl check performance</li>
-<li>can be run on one of the three nodes.</li>
-</ol>
-<p>STOLON:</p>
-<p>on the master: <code>/home/postgres/bin/demote.sh</code></p>
-<p>on standby: <code>/home/postgres/bin/reinstate.sh</code></p>
-<p>On a standby or master: reboot or <code>kill -9</code> stolon-keeper.</p>
-<p>as PostgreSQL user: <code>'stolonctl status'</code></p>
-<p>== Active Sentinels ==</p>
+<h4 id="etcd">Etcd<a class="headerlink" href="#etcd" title="Permanent link">&para;</a></h4>
+<p>As postgres: <code>etcdctl check performance</code>
+This command can be run on any of the three nodes.</p>
 <hr />
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>ID          LEADER
+<h4 id="stolon">Stolon<a class="headerlink" href="#stolon" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>On<span class="w"> </span>the<span class="w"> </span>master:
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>/home/postgres/bin/demote.sh
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>On<span class="w"> </span>a<span class="w"> </span>standby:
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>/home/postgres/bin/reinstate.sh
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>On<span class="w"> </span>a<span class="w"> </span>keeper<span class="w"> </span><span class="o">(</span>master<span class="w"> </span>or<span class="w"> </span>standby<span class="o">)</span>:
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>reboot
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span>stolon-keeper
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>As<span class="w"> </span>the<span class="w"> </span>PostgreSQL<span class="w"> </span>user:
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>stolonctl<span class="w"> </span><span class="nv">status</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="o">==</span><span class="w"> </span>Active<span class="w"> </span><span class="nv">Sentinels</span><span class="w"> </span><span class="o">==</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>ID<span class="w">           </span>LEADER
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>81cfd599<span class="w">     </span><span class="nb">false</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>d4c10d79<span class="w">     </span><span class="nb">true</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>f71041f5<span class="w">     </span><span class="nb">false</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="o">===</span><span class="w"> </span>Active<span class="w"> </span><span class="nv">Proxies</span><span class="w"> </span><span class="o">===</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>ID
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>6b72f506
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>b9e1cb00
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="nv">cde31aea</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="o">===</span><span class="w"> </span><span class="nv">Keepers</span><span class="w"> </span><span class="o">===</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>UID<span class="w">                   </span>HEALTHY<span class="w">  </span>PG<span class="w"> </span>LISTEN<span class="w"> </span>ADDRESS<span class="w">   </span>PG<span class="w"> </span>HEALTHY<span class="w">  </span>PG<span class="w"> </span>WANTED<span class="w"> </span>GEN<span class="w">  </span>PG<span class="w"> </span>CUR<span class="w"> </span>GEN
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>gurus_pgsdb_server1<span class="w">   </span><span class="nb">true</span><span class="w">     </span><span class="m">10</span>.0.5.66:5432<span class="w">      </span><span class="nb">true</span><span class="w">        </span><span class="m">2</span><span class="w">              </span><span class="m">2</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>gurus_pgsdb_server2<span class="w">   </span><span class="nb">true</span><span class="w">     </span><span class="m">10</span>.0.5.67:5432<span class="w">      </span><span class="nb">true</span><span class="w">        </span><span class="m">5</span><span class="w">              </span><span class="m">5</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>gurus_pgsdb_server3<span class="w">   </span><span class="nb">true</span><span class="w">     </span><span class="m">10</span>.0.5.68:5432<span class="w">      </span><span class="nb">true</span><span class="w">        </span><span class="m">2</span><span class="w">              </span><span class="nv">2</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="o">===</span><span class="w"> </span>Cluster<span class="w"> </span><span class="nv">Information</span><span class="w"> </span><span class="o">===</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>Master<span class="w"> </span>Keeper:<span class="w"> </span><span class="nv">gurus_pgsdb_server2</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="o">==</span><span class="w"> </span>Keepers/Database<span class="w"> </span><span class="nv">Tree</span><span class="w"> </span><span class="o">==</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>gurus_pgsdb_server2<span class="w"> </span><span class="o">(</span>master<span class="o">)</span>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>├─<span class="w"> </span>gurus_pgsdb_server3
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>└─<span class="w"> </span>gurus_pgsdb_server1
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="c1"># Run 24/5/2022</span>
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="o">[</span>postgres@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>/usr/pgsql-12/bin/pgbench<span class="w"> </span>-c<span class="w"> </span><span class="m">10</span><span class="w"> </span>-l<span class="w"> </span>-j<span class="w"> </span><span class="m">4</span><span class="w"> </span>-P<span class="w"> </span><span class="m">120</span><span class="w"> </span>-T<span class="w"> </span><span class="m">600</span><span class="w"> </span>pgbench
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>starting<span class="w"> </span>vacuum...end.
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>progress:<span class="w"> </span><span class="m">120</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">365</span>.6<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">27</span>.336<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">15</span>.355
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>progress:<span class="w"> </span><span class="m">240</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">361</span>.2<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">27</span>.673<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">16</span>.090
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>progress:<span class="w"> </span><span class="m">360</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">289</span>.1<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">34</span>.586<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">40</span>.564
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>progress:<span class="w"> </span><span class="m">480</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">343</span>.4<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">29</span>.108<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">17</span>.820
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>progress:<span class="w"> </span><span class="m">600</span>.0<span class="w"> </span>s,<span class="w"> </span><span class="m">354</span>.7<span class="w"> </span>tps,<span class="w"> </span>lat<span class="w"> </span><span class="m">28</span>.194<span class="w"> </span>ms<span class="w"> </span>stddev<span class="w"> </span><span class="m">17</span>.010
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="c1"># Additional info:</span>
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>transaction<span class="w"> </span>type:<span class="w"> </span>&lt;builtin:<span class="w"> </span>TPC-B&gt;
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>scaling<span class="w"> </span>factor:<span class="w"> </span><span class="m">10000</span>
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>query<span class="w"> </span>mode:<span class="w"> </span>simple
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>number<span class="w"> </span>of<span class="w"> </span>clients:<span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a>number<span class="w"> </span>of<span class="w"> </span>threads:<span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>duration:<span class="w"> </span><span class="m">600</span><span class="w"> </span>s
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a>
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>Number<span class="w"> </span>of<span class="w"> </span>transactions<span class="w"> </span>processed:<span class="w"> </span><span class="m">205685</span>
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>average<span class="w"> </span><span class="nv">latency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">29</span>.163<span class="w"> </span>ms
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>latency<span class="w"> </span><span class="nv">stddev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">22</span>.633<span class="w"> </span>ms
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a><span class="nv">tps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">342</span>.771509<span class="w"> </span><span class="o">(</span>including<span class="w"> </span>connection<span class="w"> </span>establishments<span class="o">)</span>
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a><span class="nv">tps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">342</span>.778836<span class="w"> </span><span class="o">(</span>excluding<span class="w"> </span>connection<span class="w"> </span>establishments<span class="o">)</span>
 </code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>81cfd599 false
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>d4c10d79 true
-</code></pre></div>
-<p>f71041f5        false</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>=== Active Proxies ===
-</code></pre></div>
-<p>ID</p>
-<p>6b72f506</p>
-<p>b9e1cb00</p>
-<p>cde31aea</p>
-<p>=== Keepers ===</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>UID              HEALTHY PG LISTEN ADDRESS      PG HEALTHY      PG WANTED
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>GENERATION      PG CURRENT GENERATION
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>gurus_pgsdb_server1 true 10.0.5.66:5432 true 2 2
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>```markdown
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>gurus_pgsql_server2 true 10.0.5.67:5432 true 5 5
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>gurus_pgsdb_server3 true 10.0.5.68:5432 true 2 2
-</code></pre></div>
-<p>=== Cluster Information ===</p>
-<hr />
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>Master Keeper: gurus_pgsdb_server2
-</code></pre></div>
-<p>== Keepers/Database Tree ==</p>
-<hr />
-<p><code>gurus_pgsdb_server2 (master)</code></p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>├─gurus_pgsgdb_server3
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">-</span><span class="w"> </span>gurus_pgsdb_server1
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>Run 24/5/2022
-</code></pre></div>
-<p>[postgres@gurus-pgsdb-server2 ~]$ /usr/pgsql-12/bin/pgbench -c 10 -l -j 4 -P 120 -T 600 pgbench</p>
-<p>starting vacuum...end.</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>progress: 120.0 s, 365.6 tps, lat 27.336 ms stddev 15.355
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>progress: 240.0 s, 361.2 tps, lat 27.673 ms stddev 16.090
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>progress: 360.0 s, 289.1 tps, lat 34.586 ms stddev 40.564
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>progress: 480.0 s, 343.4 tps, lat 29.108 ms stddev 17.820
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>progress: 600.0 s, 354.7 tps, lat 28.194 ms stddev 17.010
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>transaction type: &lt;builtin: TPC-B (soort van)&gt;
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>scaling factor: 10000
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>query mode: simple
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>number of clients: 10
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>aantal threads: 4
-</code></pre></div>
-<p>duration: 600 s</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>aantal transacties dat daadwerkelijk verwerkt zijn: 205685
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>average latency = 29.163 ms
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>latency stddev = 22.633 ms
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>tps = 342.771509 (including connection establishments)
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>tps = 342.778836 (excluding connections establishing)
-</code></pre></div>
-<p>=================================================</p>
-<h2 id="uitvoering">Uitvoering<a class="headerlink" href="#uitvoering" title="Permanent link">&para;</a></h2>
+<h2 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h2>
 
 
 

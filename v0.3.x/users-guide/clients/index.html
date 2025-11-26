@@ -27,7 +27,7 @@
     
     
       
-        <title>Introduction - PgVillage</title>
+        <title>Clients Introduction - PgVillage</title>
       
     
     
@@ -58,14 +58,14 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Introduction - PgVillage" />
+<meta property="og:title" content="Clients Introduction - PgVillage" />
 <meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/users-guide/clients.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/users-guide/clients/" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Introduction - PgVillage" />
+<meta property="twitter:title" content="Clients Introduction - PgVillage" />
 <meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/users-guide/clients.png" />
 </head>
   
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduction" class="md-skip">
+        <a href="#clients-introduction" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction
+              Clients Introduction
             
           </span>
         </div>
@@ -715,7 +715,7 @@
   <span class="md-ellipsis">
     
   
-    Client connection failover
+    Client Connection Failover
   
 
     
@@ -745,6 +745,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clients Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -752,7 +770,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction
+    Clients Introduction
   
 
     
@@ -761,6 +779,49 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -781,7 +842,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction
+    JDBC Introduction
   
 
     
@@ -1019,6 +1080,36 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1107,13 +1198,13 @@
   
 
 
-<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>Er zijn vele verschillende programeertalen die een verbidning kunnen maken naar PostgreSQL en de meesten hebben een eigen client.</p>
-<p>Deze documentaie helpt de eindgebruiker op weg om suucesvol een client verbinding op te zetten.</p>
-<h1 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h1>
+<h1 id="clients-introduction">Clients Introduction<a class="headerlink" href="#clients-introduction" title="Permanent link">&para;</a></h1>
+<p>There are many different programming languages that can create a connection to PostgreSQL, and most of them have their own client.</p>
+<p>This documentation helps the end user get started with successfully setting up a client connection.</p>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
 <li>JDBC documentation (Java)</li>
-<li><a href="https://jdbc.postgresql.org/documentation/use/#connection-parameters/">https://jdbc.postgresql.org/documentation/use/#connection-parameters/</a></li>
+<li><a href="../jdbc/">JDBC</a></li>
 <li>
 <p><a href="https://jdbc.postgresql.org/documentation/ssl/">https://jdbc.postgresql.org/documentation/ssl/</a></p>
 </li>
@@ -1138,18 +1229,18 @@
 </li>
 <li><a href="https://www.postgresql.org/docs/current/libpq-pgservice.html">https://www.postgresql.org/docs/current/libpq-pgservice.html</a></li>
 <li>
-<p><a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Antwoord+aan+de+aanvrager/pg_service/WebHome.html">pg_service</a></p>
+<p><a href="../../architecture/pg_service/">pg_service</a></p>
 </li>
 <li>
 <p>Client certificates:</p>
 </li>
-<li><a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Client+certificaten/WebHome.html">General information</a></li>
+<li><a href="../../architecture/mtls/">General information</a></li>
 <li><a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/nieuw+client+certificaat/WebHome.html">Generate new certificates</a></li>
-<li><a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/openssl/WebHome.html">openssl commands to convert and read</a></li>
+<li><a href="../../administrators-guide/troubleshooting/openssl/">openssl commands to convert and read</a></li>
 </ul>
-<h1 id="instructions">Instructions<a class="headerlink" href="#instructions" title="Permanent link">&para;</a></h1>
-<p>Afhankelijk van de driver dient de configuratie op een andere manier te geschieden.</p>
-<p>Kijk bij de Afhankelijkheden lijst naar de bestreffende soort driver en lees de bijbehorende documentatie.</p>
+<h2 id="instructions">Instructions<a class="headerlink" href="#instructions" title="Permanent link">&para;</a></h2>
+<p>Depending on the driver, the configuration must be done in a different way.</p>
+<p>Check the Dependencies list for the relevant type of driver and read the associated documentation.</p>
 <p>Furthermore, the following should be taken into account:</p>
 <ul>
 <li>Use the latest version of the driver whenever possible</li>
@@ -1171,7 +1262,7 @@
 <li>however, it also has disadvantages<ul>
 <li>follow the master is 100% dependent on the intelligence of the driver and the software that uses it</li>
 <li>See the following documentation for Client Connect Failover (follow the master)</li>
-<li>jdbc: <a href="https://jdbc.postgresql.org/documentation/use/#connection-fail-over">https://jdbc.postgresql.org/documentation/use/#connection-fail-over</a></li>
+<li>jdbc: <a href="../client_connection_failover/">client_connection_failover</a></li>
 <li>libpq: <a href="https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS">https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS</a><ul>
 <li>Check out target_session_attrs</li>
 <li>Options are version-dependent</li>
