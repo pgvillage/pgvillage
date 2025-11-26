@@ -1,13 +1,13 @@
-# Introduction
+# Clients Introduction
 
-Er zijn vele verschillende programeertalen die een verbidning kunnen maken naar PostgreSQL en de meesten hebben een eigen client.
+There are many different programming languages that can create a connection to PostgreSQL, and most of them have their own client.
 
-Deze documentaie helpt de eindgebruiker op weg om suucesvol een client verbinding op te zetten.
+This documentation helps the end user get started with successfully setting up a client connection.
 
-# Dependencies
+## Dependencies
 
 - JDBC documentation (Java)
-  - [https://jdbc.postgresql.org/documentation/use/#connection-parameters/](https://jdbc.postgresql.org/documentation/use/#connection-parameters/)
+  - [JDBC](jdbc.md)
   - [https://jdbc.postgresql.org/documentation/ssl/](https://jdbc.postgresql.org/documentation/ssl/)
   
 - libpq documentation (Python => psycopg2, C clients, PostgreSQL tools)
@@ -19,20 +19,20 @@ Deze documentaie helpt de eindgebruiker op weg om suucesvol een client verbindin
   
 - Information for the applicant: [mail to the applicant](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Antwoord+aan+de+aanvrager/WebHome.html)
 
-- pg\_service.conf information
+- pg_service.conf information
   - [https://www.postgresql.org/docs/current/libpq-pgservice.html](https://www.postgresql.org/docs/current/libpq-pgservice.html)
-  - [pg\_service](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Antwoord+aan+de+aanvrager/pg_service/WebHome.html)
+  - [pg_service](../architecture/pg_service.md)
 
 - Client certificates:
-  - [General information](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Client+certificaten/WebHome.html)
+  - [General information](../architecture/mtls.md)
   - [Generate new certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/nieuw+client+certificaat/WebHome.html)
-  - [openssl commands to convert and read](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/openssl/WebHome.html)
+  - [openssl commands to convert and read](../administrators-guide/troubleshooting/openssl.md)
 
-# Instructions
+## Instructions
 
-Afhankelijk van de driver dient de configuratie op een andere manier te geschieden.
+Depending on the driver, the configuration must be done in a different way.
 
-Kijk bij de Afhankelijkheden lijst naar de bestreffende soort driver en lees de bijbehorende documentatie.
+Check the Dependencies list for the relevant type of driver and read the associated documentation.
 
 Furthermore, the following should be taken into account:
 
@@ -51,8 +51,8 @@ Furthermore, the following should be taken into account:
   - however, it also has disadvantages
     - follow the master is 100% dependent on the intelligence of the driver and the software that uses it
     - See the following documentation for Client Connect Failover (follow the master)
-      - jdbc: [https://jdbc.postgresql.org/documentation/use/#connection-fail-over](https://jdbc.postgresql.org/documentation/use/#connection-fail-over)
+      - jdbc: [client_connection_failover](../users-guide/client_connection_failover.md)
       - libpq: [https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS)
-        - Check out target\_session\_attrs
+        - Check out target_session_attrs
         - Options are version-dependent
 
