@@ -43,7 +43,7 @@ Summary of the process:
 
 1. Generate a new certificate chain  
    Based on:  
-   [Procedure for replacing certificates with minimal downtime](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/certificaten+vervangen+met+downtime/WebHome.html)
+   [Procedure for replacing certificates with minimal downtime](refresh_certificates.md)
    
 2. Adjust the configuration so the **root certificates** or **chains** include both:
    - Old certificate bundle
@@ -75,7 +75,7 @@ Summary of the process:
 
 ## Cancelled
 
-1: Generate a new chain according to [Procedure for replacing certificates with minimal downtime](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/certificaten+vervangen+met+downtime/WebHome.html).
+1: Generate a new chain according to [Procedure for replacing certificates with minimal downtime](refresh_certificates.md).
 
 Save the new certificates in a Merge Request.
 - Create a new merge request if necessary
@@ -150,9 +150,6 @@ ansible-playbook -i environments/$ENV rollout_new_certs.yml
 ```
 
 5: Deliver the entire bundle (only new `root.crt`, and the client certificates, configuration readme, etc.) to the application administrator.
-
-The procedure [The procedure for 'Antwoord aanvrager](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Antwoord+aan+de+aanvrager/WebHome.html) can be followed.
-
 Request application administrators to register with these new client certificates (configuration adjustment and reload/restart).
 
 6: Roll back the changes, push to GitLab, and run Ansible again.

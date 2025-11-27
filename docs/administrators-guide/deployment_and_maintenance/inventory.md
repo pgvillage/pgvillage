@@ -140,7 +140,7 @@ rsync -av environments/geo_a environments/$NEW_ENV
 <!-- This should be replaced on running PgVillage with certs signed by the orgs internal CA -->
 <!-- We might add an option to generate CSR's instead of generating a chain -->
 
-4. Create the client certificates according to the work instruction [generate new certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
+4. Create the client certificates according to the work instruction [generate new certificates](byo-server-certs.md)
 
 
 5. Commit and Push the New Environment
@@ -193,6 +193,6 @@ Type "help" for help.
 postgres=#
 ```
 - Check the status of [avchecker](../tools/avchecker.md)
-- Create users as per [Extra database en/of user aanmaken](../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/Bestaand+cluster+aanpassen/WebHome.html)
+- Create users as per [Extra database en/of user aanmaken](modify_existing.md)
 
 If everything is okay after the rollout, mark the Merge Request as Ready and ensure that the Merge Request gets merged.

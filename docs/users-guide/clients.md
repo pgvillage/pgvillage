@@ -17,7 +17,7 @@ This documentation helps the end user get started with successfully setting up a
 - nPGSQL (.NET)
   - [https://www.npgsql.org/doc/](https://www.npgsql.org/doc/)
   
-- Information for the applicant: [mail to the applicant](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Antwoord+aan+de+aanvrager/WebHome.html)
+- Information for the applicant: define an internal template to send to every requestor, and send the mail once the request has been fulfilled
 
 - pg_service.conf information
   - [https://www.postgresql.org/docs/current/libpq-pgservice.html](https://www.postgresql.org/docs/current/libpq-pgservice.html)
@@ -25,7 +25,7 @@ This documentation helps the end user get started with successfully setting up a
 
 - Client certificates:
   - [General information](../architecture/mtls.md)
-  - [Generate new certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/nieuw+client+certificaat/WebHome.html)
+  - [Generate new certificates](../administrators-guide/deployment_and_maintenance/byo-client-certs.md)
   - [openssl commands to convert and read](../administrators-guide/troubleshooting/openssl.md)
 
 ## Instructions
@@ -42,7 +42,7 @@ Furthermore, the following should be taken into account:
     - [https://www.postgresql.org/support/versioning/](https://www.postgresql.org/support/versioning/) => September 30, 2021
     - [https://mvnrepository.com/artifact/org.postgresql/postgresql](https://mvnrepository.com/artifact/org.postgresql/postgresql) => at least 42.3.0
 - The client certificate, private key, and root certificate must be readable by the application user account.
-- Ensure the path is configured correctly. See [mail to the requester](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Antwoord+aan+de+aanvrager/WebHome.html) for options to deliver the information to the end-user.
+- Ensure the path is configured correctly.
   - Note: Private keys must only be sent encrypted!!!
 - Direct connection to PostgreSQL (port 5432 of the database hosts)
   - has several advantages

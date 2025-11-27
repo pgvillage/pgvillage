@@ -39,7 +39,7 @@ Therefore, the first step in troubleshooting is to identify which of these areas
 
   Conduct the direction yourself, stay engaged in the process and provide clear information on what works (availability within the Postgres architecture) and what does not work (connectivity of the application to the VIP or to Postgres).
 
-- For more information, see the documentation on [Connections and Connection Paths](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Connecties+en+connectiepaden/WebHome.html)
+- For more information, see the documentation on [Connections and Connection Paths](connectivity.md)
 
 ### 3. Check if the client is correctly configured:
 
@@ -67,7 +67,7 @@ Ensure that the client configuration includes:
   - Verify the PostgreSQL **pg_hba.conf** configuration.
   - Review **application logs** with the app administrator.
   - Check for **PostgreSQL log errors**.
-  - For more information, see the documentation on [client configuration](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html) and about [mTLS](../architecture/mtls.md).
+  - For more information, see the documentation on [client configuration](../../users-guide/clients.md) and about [mTLS](../architecture/mtls.md).
 
 ---
 
@@ -77,7 +77,7 @@ It may happen that an application administrator requests a point-in-time restore
 
 It is also possible that due to a disaster scenario all replica instances are no longer available and can only be restored using a Restore (latest point in time).
 
-In both situations, this can be resolved by referring to the [Point in Time Restore](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Point+in+time+Restore/WebHome.html) documentation.
+In both situations, this can be resolved by referring to the [Point in Time Restore](../deployment_and_maintenance/point_in_time_restore.md) documentation.
 
 !!! note
 

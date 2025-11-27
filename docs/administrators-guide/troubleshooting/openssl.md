@@ -79,7 +79,7 @@ Certificate will not expire
 
 This command looks at expiration in the coming week (3600 sec × 24 hours × 7 days)
 
-If the certificates have expired, a new chain must be created and distributed through this procedure: [Generate and Roll Out New Certificates](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
+If the certificates have expired, a new chain must be created and distributed through this procedure: [Generate and Roll Out New Certificates](../deployment_and_maintenance/byo-server-certs.md)
 
 ### Certificate is not accepted
 

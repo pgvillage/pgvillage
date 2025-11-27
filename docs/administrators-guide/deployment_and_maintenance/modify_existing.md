@@ -23,7 +23,7 @@ For now, we perform this manually.
 - A properly stored database request form in teams:
   - Acme-IV-BI-Ops > General > Files > Database Request Forms >
 - A running PostgreSQL cluster. Optionally, you can:
-  - request servers according to [From database request to server request](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Van+database+aanvraag+naar+server+aanvraag/WebHome.html)
+  - request servers according to [From database request to server request](inventory.md)
   - deploy via [link label] from servers to running database
     - This procedure is part of that procedure, so it should be good after this.
 
@@ -163,4 +163,4 @@ If everything looks good, the status of the Merge Request can be changed to **Re
 
 ### 3. Nieuwe client certificaten
 
-If necessary, these can be created according to the [procedure for new client certificates](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html).
+If necessary, these can be created according to the [procedure for new client certificates](byo-client-certs.md).
