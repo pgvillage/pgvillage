@@ -357,4 +357,4 @@ After that, the backup was discarded and restored.
 
 This approach is **not recommended** for production use.
 
-It is better to use the [Point in time restore](../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Point+in+Time+Restore/WebHome.html) procedure. It also executes an init but with the PITR option so that the latest backup is restored from WAL-G.
+It is better to use the [Point in time restore](../administrators-guide/deployment_and_maintenance/point_in_time_restore.md) procedure. It also executes an init but with the PITR option so that the latest backup is restored from wal-g.

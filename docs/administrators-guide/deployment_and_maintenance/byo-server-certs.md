@@ -1,6 +1,8 @@
-**Note:** For automation and reproducibility, [ChainSmith](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/WebHome.html) is used.
 
 # Introduction
+
+!!! note
+    For automation and reproducibility, [ChainSmith](../../tools/chainsmith.md) is used.
 
 Binnen deze bouwsteen worden server certificaten gebruikt voor identificatie van postgres database servers.
 
@@ -10,7 +12,7 @@ Furthermore, the traffic is encrypted in such a way that only the client and ser
 
 The PostgreSQL client uses a root certificate to verify the trustworthiness of the PostgreSQL database server.
 
-# Requirements
+## Requirements
 
 To be able to authenticate with client certificates, the following is needed:
 
@@ -21,7 +23,7 @@ To be able to authenticate with client certificates, the following is needed:
   - matching the server FQDN
 - a root certificate on the client that trusts the server certificate
 
-# How it works
+## How it works
 
 ## Why SAN Certificates?
 
@@ -48,7 +50,7 @@ This means, for example, that a connection on VIP:5432 sees the same certificate
 It is possible to make (part of) the traffic accept a certificate with an incorrect CN, but it's better to use a SAN certificate.  
 ```
 
-### For which hosts?
+## For which hosts?
 
 The following certificates need to be applied for:
 
@@ -66,13 +68,9 @@ This can be with Ansible inventory adjustments 1 certificate
 
 2. A certificate for the backup server. This traffic is actually completely separated, but the existing automation for certificate chains is reused to also create this chain.
 
-### Hoe de CSR aanmaken
+# Creating the certificates
 
-> **Note:** This is reference documentation. Use [Documentatie uitrollen nieuwe certificaten](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
-
----
-
-As a basis, the procedure used is found on [this link](https://support.citrix.com/article/CTX227983).
+## Generating a csr
 
 ```
 1: Create a configuration file for OpenSSL. Save this as req.conf.
@@ -88,7 +86,7 @@ Voorbeelden in het volgende hoofdstuk
 openssl req -new -out company_san.csr -newkey rsa:4096 -nodes -sha256 -keyout company_san.key.temp -config req.conf
 ```
 
-# Convert the key into PKCS#1
+## Convert the key into PKCS#1
 
 ```markdown
 openssl rsa -in company_san.key.temp -out company_san.key
@@ -145,30 +143,19 @@ sed 's/^/        /'${ENDPOINT}.pem
 ./generate.sh awitness
 
 ```
-3: Store the private key in Ansible Vault
+## Store the private key somewhere safe
 ```
 
-- Located in `vault/certs/`
-- Most are symlinks.
-- You need the `acme-vbepr-v*.acme.corp.com.yml` and the `acme-vberm-l01*.acme.corp.com.yml`.
-- Open with `ansible-vault edit [file]`
-- Pay attention to the alignment (2 spaces) under `private_ssl_key`.
+Options:
+- Hashicorp Vault, OpenBAU, etc.
+- Team password database
+- COmbination (encrypted private keys, with passwords in team password safe, etc.)
 
-```
-4: Create a JIRA ticket with the details:
-```
+## Request signing the certificates from you internal CA
 
-- With label BI-CIF-SERVICES
-- With the CSR (company_san.csr and company_san.csr.txt)
-- With a description of what the CSR is for
+## Deploy Certificates
 
-### Deploy Certificates
 
-```
-Note: This is reference documentation. Use [Chainsmith](../../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/WebHome.html)...
-```
-
-```markdown
 1. Save the certificates in Ansible Vault as well  
    - Certificates themselves are located in `vault/certs/`  
    - Most files there are symlinks.  
@@ -184,19 +171,15 @@ Note: This is reference documentation. Use [Chainsmith](../../../../../../../../
 
 3. Deploy via Ansible. Steps: pgbouncer, postgres, and nginx.  
    - Everything should be automatically reloaded if done correctly, but manual reloading may still be necessary.
-```
 
 ### Tips and Tricks
 
 ---
 
-See [OpenSSL](../../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/OpenSSL/WebHome.html) for commands for verification.
+See [OpenSSL](https://docs.openssl.org/master/man1/openssl-cmds/) for commands for verification.
 
 ### Examples `rec.conf`
 
-```markdown
-Warning: This is reference documentation. Use [Chainsmith](../../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/WebHome.html)...
-```
 ```
 
 #### BackEnd in A

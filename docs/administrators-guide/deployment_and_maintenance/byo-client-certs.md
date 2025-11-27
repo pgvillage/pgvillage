@@ -1,4 +1,4 @@
-> Note: For automation and reproducibility, [ChainSmith](https://wiki.corp.com/xwiki/bin/view/Infrastructuur/Team%3A%20DBA/Werkinstrukties/Postgres/Bouwsteen/Chainsmith/) is used. and [Documentation Generate and Roll Out New Certificates](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
+> Note: For automation and reproducibility, [ChainSmith](../../tools/chainsmith.md) is used. and [Documentation Generate and Roll Out New Certificates](byo-client-certs.md)
 
 # Introduction
 
@@ -43,7 +43,7 @@ Om met client certificaten te kunnen authentiseren is het volgende nodig:
 
 ---
 
-> **Note:** This is reference documentation. Use [Chainsmith](/xwiki/bin/get/Infrastructuur/Team%3A%20DBA/Werkinstrukties/Postgres/Bouwsteen/mTLS/Server%20certificaten/?sheet=CKEditor.ResourceDispatcher&outputSyntax=plain&language=en&type=doc&reference=Infrastructuur.Team%5C%3A+DBA.Werkinstrukties.Postgres.Bouwsteen.Chainsmith.WebHome&typed=true) and the [generate and roll out new certificates documentation](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html)
+> **Note:** This is reference documentation. Use [Chainsmith](../../tools/chainsmith.md) and the [generate and roll out new certificates documentation](byo-client-certs.md)
 
 Voor het genereren van client certificaten is alleen een recente versie van openssl nodig.
 
@@ -301,5 +301,4 @@ openssl x509 -req -in pgquartz.req -CA ca.cer -CAkey ca.pem -set\_serial 101 -ex
 
 # Distribution
 
-Use the documentation for [Generate and Roll Out New Certificates](../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollin/WebHome.html)
-
+Use the documentation for [Generate and Roll Out New Certificates](byo-client-certs.md)
