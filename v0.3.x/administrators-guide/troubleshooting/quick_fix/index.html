@@ -309,8 +309,15 @@
   
     
     
+      
+  
+  
+  
+  
+    
+    
       <li class="md-tabs__item">
-        <a href="../../../about/branding" class="md-tabs__link">
+        <a href="../../../about/branding/" class="md-tabs__link">
           
   
   
@@ -320,6 +327,9 @@
 
         </a>
       </li>
+    
+  
+
     
   
 
@@ -643,6 +653,10 @@
   
     
     
+      
+        
+      
+        
       
         
       
@@ -1233,7 +1247,11 @@
   
   
   
-    <a href="../../../about/branding" class="md-nav__link">
+    
+  
+  
+  
+    <a href="../../../about/branding/" class="md-nav__link">
       
   
   
@@ -1252,6 +1270,8 @@
         <span class="md-nav__icon md-icon"></span>
       
     </a>
+  
+
   
 
       
@@ -1489,7 +1509,7 @@
 <p>In principle, these kinds of issues are always resolved by network management, or Container Hosting (CHP).</p>
 <p>Conduct the direction yourself, stay engaged in the process and provide clear information on what works (availability within the Postgres architecture) and what does not work (connectivity of the application to the VIP or to Postgres).</p>
 <ul>
-<li>For more information, see the documentation on <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Connecties+en+connectiepaden/WebHome.html">Connections and Connection Paths</a></li>
+<li>For more information, see the documentation on <a href="../connectivity/">Connections and Connection Paths</a></li>
 </ul>
 <h3 id="3-check-if-the-client-is-correctly-configured">3. Check if the client is correctly configured:<a class="headerlink" href="#3-check-if-the-client-is-correctly-configured" title="Permanent link">&para;</a></h3>
 <div class="admonition note">
@@ -1518,13 +1538,13 @@
 <li>Verify the PostgreSQL <strong>pg_hba.conf</strong> configuration.</li>
 <li>Review <strong>application logs</strong> with the app administrator.</li>
 <li>Check for <strong>PostgreSQL log errors</strong>.</li>
-<li>For more information, see the documentation on <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Clients/WebHome.html">client configuration</a> and about <a href="../architecture/mtls.md">mTLS</a>.</li>
+<li>For more information, see the documentation on <a href="../../../users-guide/clients/">client configuration</a> and about <a href="../architecture/mtls.md">mTLS</a>.</li>
 </ul>
 <hr />
 <h2 id="recovery-emergency-restore">Recovery / Emergency Restore<a class="headerlink" href="#recovery-emergency-restore" title="Permanent link">&para;</a></h2>
 <p>It may happen that an application administrator requests a point-in-time restore to be performed, for example because too much data has been deleted or to roll back database changes from an application update.</p>
 <p>It is also possible that due to a disaster scenario all replica instances are no longer available and can only be restored using a Restore (latest point in time).</p>
-<p>In both situations, this can be resolved by referring to the <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Point+in+time+Restore/WebHome.html">Point in Time Restore</a> documentation.</p>
+<p>In both situations, this can be resolved by referring to the <a href="../../deployment_and_maintenance/point_in_time_restore/">Point in Time Restore</a> documentation.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In almost all cases, the reason for a point-in-time restore is not due to an error in the Postgres architecture or by the DBA.</p>

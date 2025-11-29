@@ -10,13 +10,13 @@
         <meta name="author" content="Nibble-IT">
       
       
-        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/deployment_and_maintenance/refresh_certificates/">
+        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/deployment_and_maintenance/byo-server-certs/">
       
       
-        <link rel="prev" href="../point_in_time_restore/">
+        <link rel="prev" href="../byo-client-certs/">
       
       
-        <link rel="next" href="../replacing_certificates/">
+        <link rel="next" href="../inventory/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Refreshing certificates - PgVillage</title>
+        <title>Introduction - PgVillage</title>
       
     
     
@@ -58,15 +58,15 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Refreshing certificates - PgVillage" />
-<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/deployment_and_maintenance/refresh_certificates.png" />
+<meta property="og:title" content="Introduction - PgVillage" />
+<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/deployment_and_maintenance/byo-server-certs.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/deployment_and_maintenance/refresh_certificates/" />
+<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/deployment_and_maintenance/byo-server-certs/" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Refreshing certificates - PgVillage" />
-<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/deployment_and_maintenance/refresh_certificates.png" />
+<meta property="twitter:title" content="Introduction - PgVillage" />
+<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/deployment_and_maintenance/byo-server-certs.png" />
 </head>
   
   
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#refreshing-certificates" class="md-skip">
+        <a href="#introduction" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Refreshing certificates
+              Introduction
             
           </span>
         </div>
@@ -779,10 +779,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../byo-server-certs/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -798,6 +825,61 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-san-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why SAN Certificates?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -919,37 +1001,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Refreshing certificates
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../refresh_certificates/" class="md-nav__link">
         
   
   
@@ -965,78 +1020,6 @@
   
 
       </a>
-      
-        
-
-  
-
-<nav class="md-nav md-nav--secondary" aria-label="On this page">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      On this page
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependencies
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#work-instructions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Work Instructions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Work Instructions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-check-the-database-request-form-and-update-chainsmith-configuration-if-needed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Check the database request form and update Chainsmith configuration (if needed)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-generate-the-new-certificates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Generate the new certificates
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1437,10 +1420,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dependencies
+        Requirements
       
     </span>
   </a>
@@ -1448,41 +1431,24 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#work-instructions" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Work Instructions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Work Instructions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-check-the-database-request-form-and-update-chainsmith-configuration-if-needed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Check the database request form and update Chainsmith configuration (if needed)
+        How it works
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#2-generate-the-new-certificates" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#why-san-certificates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Generate the new certificates
+        Why SAN Certificates?
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1594,7 +1560,7 @@
 
 
   
-    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/administrators-guide/deployment_and_maintenance/refresh_certificates.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/administrators-guide/deployment_and_maintenance/byo-server-certs.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1602,63 +1568,179 @@
   
 
 
-<h1 id="refreshing-certificates">Refreshing certificates<a class="headerlink" href="#refreshing-certificates" title="Permanent link">&para;</a></h1>
-<p>In the SBB PostgreSQL, an <a href="../../../architecture/mtls/">mTLS</a> chain is used with <a href="../byo-server-certs/">server-</a> and <a href="../byo-client-certs/">client-</a> certificates.</p>
-<p>The chain is generated using <a href="chainsmith.md">Chainsmith</a> and (re)generated using this procedure.</p>
-<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For automation and reproducibility, <a href="../../../tools/chainsmith/">ChainSmith</a> is used.</p>
+</div>
+<p>Binnen deze bouwsteen worden server certificaten gebruikt voor identificatie van postgres database servers.</p>
+<p>Dit heeft als voordeel dat de client met abslute zekerheid weet dat de communicatie direct et de database server plaats vindt.</p>
+<p>Furthermore, the traffic is encrypted in such a way that only the client and server know about the communication (TLS in transit).</p>
+<p>The PostgreSQL client uses a root certificate to verify the trustworthiness of the PostgreSQL database server.</p>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p>To be able to authenticate with client certificates, the following is needed:</p>
 <ul>
-<li><a href="../tools/chainsmith.md">chainsmith</a></li>
-<li><a href="../inventory/">nieuwe uitrol</a></li>
-<li><a href="../ansible/">ansible</a></li>
+<li>hostssl in the hba file</li>
+<li>ssl=on within postgres</li>
+<li>a valid server certificate</li>
+<li>not yet expired</li>
+<li>matching the server FQDN</li>
+<li>a root certificate on the client that trusts the server certificate</li>
 </ul>
-<h2 id="work-instructions">Work Instructions<a class="headerlink" href="#work-instructions" title="Permanent link">&para;</a></h2>
-<h3 id="1-check-the-database-request-form-and-update-chainsmith-configuration-if-needed">1. Check the database request form and update Chainsmith configuration (if needed)<a class="headerlink" href="#1-check-the-database-request-form-and-update-chainsmith-configuration-if-needed" title="Permanent link">&para;</a></h3>
-<p>Adjust:</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ansible/config/chainsmith_<span class="o">[</span>ENV<span class="o">]</span>.yml
+<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<h2 id="why-san-certificates">Why SAN Certificates?<a class="headerlink" href="#why-san-certificates" title="Permanent link">&para;</a></h2>
+<p>For the FrontEnd, a SAN certificate is not required, but it's still nice to have one.</p>
+<p>Het primaire verkeer komt binnen op de VIP en derhalve moet de CN van het certificaat overeenkomen met de CN van de VIP.</p>
+<p>The VIP can be linked to two hosts and on both hosts, HAProxy ensures that the traffic is balanced across two other hosts.</p>
+<p>Since the API can be called via the VIP, but also on the hostnames of the 4 hosts, the certificate should actually have all 4 hosts as alternate names.</p>
+<p>For Postgres certificates, there are more types of traffic and also traffic directed towards hosts. In fact:</p>
+<ul>
+<li>Most of the traffic comes in on the VIP.</li>
+<li>However, there is also replication traffic to the master and to the cascading standby.</li>
+<li>There is also traffic from PgBouncer (on the proxies) to the master database server.</li>
+<li>Connecting to the VIP means that you are transparently connected at the TCP level to:</li>
+<li>Postgres on the RW part (5432)</li>
+<li>Postgres on the RO part (5433)</li>
+<li>PgBouncer on the RO part (6433)</li>
+</ul>
+<p>This means, for example, that a connection on VIP:5432 sees the same certificate as a replication connection on MASTER:5432 (and those are different hostnames).</p>
+<p>It is possible to make (part of) the traffic accept a certificate with an incorrect CN, but it's better to use a SAN certificate.<br />
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>## For which hosts?
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># If configuration changes are needed, create a merge request:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>The following certificates need to be applied for:
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nv">ENV</span><span class="o">=</span>poc
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>checkout<span class="w"> </span>dev<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;feature/chainsmith_</span><span class="k">$(</span>printenv<span class="w"> </span>ENV<span class="k">)</span><span class="s2">.yml&quot;</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>git<span class="w"> </span>add<span class="w"> </span>config/chainsmith<span class="se">\_</span><span class="nv">$ENV</span>.yml
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;New chainsmith config </span><span class="nv">$ENV</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>git<span class="w"> </span>push
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1">#Use `glab`, or follow the link in the output of the `git push` command.</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>glab<span class="w"> </span>mr<span class="w"> </span>create
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>---
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>1. A certificate for PostgreSQL traffic (backend) for the following CN/Alternatives:
+</code></pre></div></p>
+<p>De huidige chainsmith configuratie genereert aparte certificaten voor iedere host.</p>
+<p>This can be with Ansible inventory adjustments 1 certificate<br />
+   - VIP (CN)<br />
+   - Backend Proxy 1 and 2 (Alternative)<br />
+   - All postgres servers (Alternative)  </p>
+<ol>
+<li>A certificate for the backup server. This traffic is actually completely separated, but the existing automation for certificate chains is reused to also create this chain.</li>
+</ol>
+<h1 id="creating-the-certificates">Creating the certificates<a class="headerlink" href="#creating-the-certificates" title="Permanent link">&para;</a></h1>
+<h2 id="generating-a-csr">Generating a csr<a class="headerlink" href="#generating-a-csr" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>1: Create a configuration file for OpenSSL. Save this as req.conf.
 </code></pre></div>
-<p><strong>Ensure correct certificate extensions</strong></p>
-<ul>
-<li>JDBC requires the following extensions (both client and server):</li>
+<p>Voorbeelden in het volgende hoofdstuk</p>
+<p>2: Generate the CSR and the private key:</p>
+<p># Generate</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>openssl req -new -out company_san.csr -newkey rsa:4096 -nodes -sha256 -keyout company_san.key.temp -config req.conf
+</code></pre></div>
+<h2 id="convert-the-key-into-pkcs1">Convert the key into PKCS#1<a class="headerlink" href="#convert-the-key-into-pkcs1" title="Permanent link">&para;</a></h2>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>openssl rsa -in company_san.key.temp -out company_san.key
+</code></pre></div>
+<p># Zet de CSR in leesbaar formaat in een file ernaast</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>openssl req -text -noout -verify -in company_san.csr &gt; company_san.csr.txt
+</code></pre></div>
+<p>Or a simple little script:</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gh"># In the Folder with the Configuration Files:</span>
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gh"># cat generate.sh</span>
+</code></pre></div>
+<h1 id="binbash">!/bin/bash<a class="headerlink" href="#binbash" title="Permanent link">&para;</a></h1>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ENDPOINT=${1:-unknown}
+</code></pre></div>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="sb">`-f ${ENDPOINT}.conf || echo &quot;${ENDPOINT}.conf does not exist&quot;; exit 1`</span>
+</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-out<span class="w"> </span><span class="si">${</span><span class="nv">ENDPOINT</span><span class="si">}</span>.csr<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-sha256<span class="w"> </span>-keyout<span class="w"> </span><span class="si">${</span><span class="nv">ENDPOINT</span><span class="si">}</span>.key.temp<span class="w"> </span>-config<span class="w"> </span><span class="si">${</span><span class="nv">ENDPOINT</span><span class="si">}</span>.conf
+</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>openssl<span class="w"> </span>req<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-verify<span class="w"> </span>-in<span class="w"> </span><span class="si">${</span><span class="nv">ENDPOINT</span><span class="si">}</span>.csr<span class="w"> </span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">ENDPOINT</span><span class="si">}</span>.csr.txt
+</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>openssl<span class="w"> </span>rsa<span class="w"> </span>-in<span class="w"> </span><span class="si">${</span><span class="nv">ENDPOINT</span><span class="si">}</span>.key.temp<span class="w"> </span>-out<span class="w"> </span><span class="si">${</span><span class="nv">ENDPOINT</span><span class="si">}</span>.pem
+</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sed<span class="w"> </span><span class="s1">&#39;s/^/        /&#39;</span><span class="si">${</span><span class="nv">ENDPOINT</span><span class="si">}</span>.pem
+</code></pre></div>
+<p># Call:</p>
+<p>./generate.sh abackend</p>
+<p>./generate.sh afrontend</p>
+<p>./generate.sh awitness</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>## Store the private key somewhere safe
+</code></pre></div>
+<p>Options:
+- Hashicorp Vault, OpenBAU, etc.
+- Team password database
+- COmbination (encrypted private keys, with passwords in team password safe, etc.)</p>
+<h2 id="request-signing-the-certificates-from-you-internal-ca">Request signing the certificates from you internal CA<a class="headerlink" href="#request-signing-the-certificates-from-you-internal-ca" title="Permanent link">&para;</a></h2>
+<h2 id="deploy-certificates">Deploy Certificates<a class="headerlink" href="#deploy-certificates" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Save the certificates in Ansible Vault as well  </li>
+<li>Certificates themselves are located in <code>vault/certs/</code>  </li>
+<li>Most files there are symlinks.  </li>
+<li>You need the <code>acme-vbepr-v*.acme.corp.com.yml</code> and <code>acme-vberm-l01*.acme.corp.com.yml</code>  </li>
+<li>Open with <code>ansible-vault edit [file]</code>  </li>
+<li>Pay attention to the alignment (2 spaces) under <code>public_ssl_key</code>.  </li>
 <li>
-<p>keyUsages:</p>
-<ul>
-<li>keyEncipherment</li>
-<li>dataEncipherment</li>
-<li>digitalSignature</li>
-</ul>
+<p>Enter the certificate, followed by the certificates from the chain. The root certificate at the bottom can be omitted.  </p>
 </li>
 <li>
-<p>extendedKeyUsages:</p>
-<ul>
-<li>serverAuth</li>
-</ul>
+<p>If necessary, also update the root certificate  </p>
 </li>
-</ul>
-<h3 id="2-generate-the-new-certificates">2. Generate the new certificates<a class="headerlink" href="#2-generate-the-new-certificates" title="Permanent link">&para;</a></h3>
-<ul>
-<li>When using chainsmith: <a href="chainsmith.md">Rerun Chainsmith</a></li>
-<li>When using <code>bring your own</code> certificates: <a href="../byo-server-certs/">byo server certs</a></li>
-</ul>
-<p>Once the certificate rollout is complete, <strong>PostgreSQL and the application will run using the refreshed certificates.</strong></p>
+<li>Found in <code>"environments/000_cross_env_vars"</code> as key <code>postgres_root_cert</code>  </li>
+<li>It is placed correctly for all PostgreSQL clients  </li>
+<li>
+<p>This should contain the root certificate of the chain. This would be the lowest one from the chain (omitted at point 1).  </p>
+</li>
+<li>
+<p>Deploy via Ansible. Steps: pgbouncer, postgres, and nginx.  </p>
+</li>
+<li>Everything should be automatically reloaded if done correctly, but manual reloading may still be necessary.</li>
+</ol>
+<h3 id="tips-and-tricks">Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Permanent link">&para;</a></h3>
+<hr />
+<p>See <a href="https://docs.openssl.org/master/man1/openssl-cmds/">OpenSSL</a> for commands for verification.</p>
+<h3 id="examples-recconf">Examples <code>rec.conf</code><a class="headerlink" href="#examples-recconf" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>#### BackEnd in A
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>\[req\]
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>`distinguished_name = req_distinguished_name`
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>---
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>```markdown
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>req_extensions=v3_req
+</code></pre></div>
+<p>no prompt</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>[request distinguished name]
+</code></pre></div>
+<p>C=NL</p>
+<p>UTRECHT</p>
+<p><code>L = Bilthoven</code></p>
+<p>= National Institute for Public Health and the Environment (Acme)</p>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>CN=acme-vbepr-v01a.acme.corp.com
+</code></pre></div>
+<p><code>[v3_req]</code></p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>keyUsage = keyEncipherment, dataEncipherment
+</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>extendedKeyUsage=serverAuth
+</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>subjectAltName = @alt_names
+</code></pre></div>
+<p>[alt_names]</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>DNS.1=acme-vbepr-server1.acme.corp.com
+</code></pre></div>
+<p>DNS.2=acme-vbepr-server2.acme.corp.com</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>DNS.3=acme-vbedb-server1.rivv.corp.com
+</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>DNS.4=acme-vbedb-server2.acme.corp.com
+</code></pre></div>
+<p>DNS.5=acme-vbedb-server3.acme.corp.com</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>DNS.6=acme-vbedb-server4.acme.corp.com
+</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>DNS.7= acme-vbedb-server5.acme.corp.com
+</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>DNS.8=acme-vbedb-server6.rivv.corp.com
+</code></pre></div>
 
 
 
 
 
 
-
-  
-  
 
 
 

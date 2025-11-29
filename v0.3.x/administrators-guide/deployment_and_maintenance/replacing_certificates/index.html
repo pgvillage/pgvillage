@@ -309,8 +309,15 @@
   
     
     
+      
+  
+  
+  
+  
+    
+    
       <li class="md-tabs__item">
-        <a href="../../../about/branding" class="md-tabs__link">
+        <a href="../../../about/branding/" class="md-tabs__link">
           
   
   
@@ -320,6 +327,9 @@
 
         </a>
       </li>
+    
+  
+
     
   
 
@@ -660,6 +670,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -720,6 +734,62 @@
     
   
     Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../byo-client-certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Byo client certs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../byo-server-certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
   
 
     
@@ -1289,7 +1359,11 @@
   
   
   
-    <a href="../../../about/branding" class="md-nav__link">
+    
+  
+  
+  
+    <a href="../../../about/branding/" class="md-nav__link">
       
   
   
@@ -1308,6 +1382,8 @@
         <span class="md-nav__icon md-icon"></span>
       
     </a>
+  
+
   
 
       
@@ -1521,7 +1597,7 @@ In practice, a couple of restarts may be required — but even then, this is sti
 <li>
 <p>Generate a new certificate chain<br />
    Based on:<br />
-<a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/certificaten+vervangen+met+downtime/WebHome.html">Procedure for replacing certificates with minimal downtime</a></p>
+<a href="../refresh_certificates/">Procedure for replacing certificates with minimal downtime</a></p>
 </li>
 <li>
 <p>Adjust the configuration so the <strong>root certificates</strong> or <strong>chains</strong> include both:</p>
@@ -1558,7 +1634,7 @@ In practice, a couple of restarts may be required — but even then, this is sti
 </ol>
 <hr />
 <h2 id="cancelled">Cancelled<a class="headerlink" href="#cancelled" title="Permanent link">&para;</a></h2>
-<p>1: Generate a new chain according to <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/certificaten+vervangen+met+downtime/WebHome.html">Procedure for replacing certificates with minimal downtime</a>.</p>
+<p>1: Generate a new chain according to <a href="../refresh_certificates/">Procedure for replacing certificates with minimal downtime</a>.</p>
 <p>Save the new certificates in a Merge Request.
 - Create a new merge request if necessary</p>
 <p><div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">ENV</span><span class="o">=</span>poc
@@ -1620,9 +1696,8 @@ In practice, a couple of restarts may be required — but even then, this is sti
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANSIBLE_VAULT_PASSWORD_FILE</span><span class="o">=</span>~/git/ansible-postgres/bin/gpgvault
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>environments/<span class="nv">$ENV</span><span class="w"> </span>rollout_new_certs.yml
 </code></pre></div>
-<p>5: Deliver the entire bundle (only new <code>root.crt</code>, and the client certificates, configuration readme, etc.) to the application administrator.</p>
-<p>The procedure <a href="../../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Antwoord+aan+de+aanvrager/WebHome.html">The procedure for 'Antwoord aanvrager</a> can be followed.</p>
-<p>Request application administrators to register with these new client certificates (configuration adjustment and reload/restart).</p>
+<p>5: Deliver the entire bundle (only new <code>root.crt</code>, and the client certificates, configuration readme, etc.) to the application administrator.
+Request application administrators to register with these new client certificates (configuration adjustment and reload/restart).</p>
 <p>6: Roll back the changes, push to GitLab, and run Ansible again.</p>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">ENV</span><span class="o">=</span>poc
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>~/git/ansible-postgres

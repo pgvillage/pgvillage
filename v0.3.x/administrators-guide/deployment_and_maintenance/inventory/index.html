@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/deployment_and_maintenance/inventory/">
       
       
-        <link rel="prev" href="../ansible/">
+        <link rel="prev" href="../byo-server-certs/">
       
       
         <link rel="next" href="../modify_existing/">
@@ -309,8 +309,15 @@
   
     
     
+      
+  
+  
+  
+  
+    
+    
       <li class="md-tabs__item">
-        <a href="../../../about/branding" class="md-tabs__link">
+        <a href="../../../about/branding/" class="md-tabs__link">
           
   
   
@@ -320,6 +327,9 @@
 
         </a>
       </li>
+    
+  
+
     
   
 
@@ -660,6 +670,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -720,6 +734,62 @@
     
   
     Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../byo-client-certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Byo client certs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../byo-server-certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
   
 
     
@@ -1334,7 +1404,11 @@
   
   
   
-    <a href="../../../about/branding" class="md-nav__link">
+    
+  
+  
+  
+    <a href="../../../about/branding/" class="md-nav__link">
       
   
   
@@ -1353,6 +1427,8 @@
         <span class="md-nav__icon md-icon"></span>
       
     </a>
+  
+
   
 
       
@@ -1712,7 +1788,7 @@
 
 <ol>
 <li>
-<p>Create the client certificates according to the work instruction <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%253A+DBA/Werkinstrukties/Postgres/Bouwsteen/Onderhoud/Nieuwe+certificaten+genereren+en+uitrollen/WebHome.html">generate new certificates</a></p>
+<p>Create the client certificates according to the work instruction <a href="../byo-server-certs/">generate new certificates</a></p>
 </li>
 <li>
 <p>Commit and Push the New Environment
@@ -1763,7 +1839,7 @@ Create a new commit, push and make a merge request (create it as a draft MR)</p>
 <a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1">#</span>
 </code></pre></div>
 - Check the status of <a href="../tools/avchecker.md">avchecker</a>
-- Create users as per <a href="../../../../../../../../pages/xwiki/Infrastructuur/Team%3A+DBA/Werkinstrukties/Postgres/Bouwsteen/Bestaand+cluster+aanpassen/WebHome.html">Extra database en/of user aanmaken</a></p>
+- Create users as per <a href="../modify_existing/">Extra database en/of user aanmaken</a></p>
 <p>If everything is okay after the rollout, mark the Merge Request as Ready and ensure that the Merge Request gets merged.</p>
 
 
