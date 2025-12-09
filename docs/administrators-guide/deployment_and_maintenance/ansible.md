@@ -30,7 +30,6 @@ Ensure that SSH access is properly configured.
 To perform this procedure, you will need:
 
 - Access to the **management server**  
-  (See also the [SSH documentation](../ssh.md))
 - Access to the **Ansible code repository:**  
   [https://github.com/pgvillage/pgvillage](https://github.com/pgvillage/pgvillage)
 
@@ -88,6 +87,6 @@ ansible-playbook -i environments/[ENV] functional-all.yml --tags stolon,avchecke
 
 For other related examples and procedures, refer to the following documentation:
 
-- [Chainsmith](../tools/chainsmith.md)
+- [Chainsmith](../../tools/chainsmith.md)
 - [Inventory](inventory.md)
 
