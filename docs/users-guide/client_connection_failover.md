@@ -43,11 +43,11 @@ The situation:
 ```bash
 gurus_pgsdb_server1 (master)
 
-├─gurus\_pgsdb\_server2
+├─gurus_pgsdb_server2
 ├─gurus_pgsdb_server3
 
 $ hostname --fqdn
-scc-pgsdb-server2.int.corp.com
+gurus-pgsdb-server2.int.corp.com
 
 $ psql service=master
 

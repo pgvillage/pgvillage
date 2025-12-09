@@ -87,7 +87,7 @@ export STOLON_CTL_STORE_BACKEND=etcdv3
 ### Check Cluster Status
 
 ```bash
-[root@acme-dvppg1db-server1 sysconfig]#/usr/local/bin/stolonctl status
+[root@gurus-pgsdb-server1 sysconfig]#/usr/local/bin/stolonctl status
 ```
 
 === Active Sentinels ===
@@ -107,19 +107,19 @@ ID
 === Keepers ===
 
 UID HEALTHY PG_LISTEN_ADDRESS PG_HEALTHY PG_WANTED_GEN PG_CURRENT_GEN
-acme_dvppg1db_server1 true 10.0.4.42:5432 true 33 33
-acme_dvppg1db_server2 true 10.0.4.43:5432 true 55 55
-acme_dvppg1db_server3 true 10.0.4.44:5432 true 33 33
-acme_dvppg1db_server4 true 10.0.4.45:5432 true 33 33
+gurus-pgsdb-server1 true 10.0.4.42:5432 true 33 33
+gurus-pgsdb-server2 true 10.0.4.43:5432 true 55 55
+gurus-pgsdb-server3 true 10.0.4.44:5432 true 33 33
+gurus-pgsdb-server4 true 10.0.4.45:5432 true 33 33
 
 ===Cluster Info===
-MasterKeeper: acme_dvppg1db_server2
+MasterKeeper: gurus-pgsdb-server2
 
 == Keepers/DB Tree ==
-acme_dvppg1db_server2 (master)
-├─ acme_dvppg1db_server4
-├─ acme_dvppg1db_server3
-└─ acme_dvppg1db_server1
+gurus-pgsdb-server2 (master)
+├─ gurus-pgsdb-server4
+├─ gurus-pgsdb-server3
+└─ gurus-pgsdb-server1
 
 ---
 
@@ -134,7 +134,7 @@ export STOLONCTL_STORE_BACKEND=etcdv3
 
 # Request cluster spec
 
-[root@acme-dvppg1db-server1 sysconfig]# /usr/local/bin/stolonctl spec
+[root@gurus-pgsdb-server1 sysconfig]# /usr/local/bin/stolonctl spec
 
 Outcome:
 
@@ -258,7 +258,7 @@ stolonctl -h
 Or use the `--help` option:
 stolonctl --help
 
-[root@acme-dvppg1db-server1 sysconfig]# /usr/local/bin/stolonctl
+[root@gurus-pgsdb-server1 sysconfig]# /usr/local/bin/stolonctl
 
 stolon command line client
 

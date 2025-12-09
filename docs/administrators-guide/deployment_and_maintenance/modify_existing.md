@@ -34,7 +34,7 @@ For now, we perform this manually.
 Create users using the psql tool:
 
 ```bash
-me@gurus-dbabh-server1 ~> ssh gurus-pgsdb-server1.int.corp.com
+me@gurus-ansible-server1 ~> ssh gurus-pgsdb-server1.int.corp.com
 
 [me@gurus-pgsdb-server1 ~] $ sudo -iu postgres
 
@@ -81,7 +81,7 @@ new_db=#
 
 ### 2. Adjustments to hba.conf
 
-Execute everything on the gurus-dbabh-server1:
+Execute everything on the gurus-ansible-server1:
 
 ```bash
 
@@ -116,7 +116,7 @@ glab mr create
 
 #### Check if everything has been rolled out properly:
 
-me@gurus-dbabh-server1~> ssh gurus-pgsdb-server1.int.corp.com
+me@gurus-ansible-server1~> ssh gurus-pgsdb-server1.int.corp.com
 [me@gurus-pgsdb-server1~] $ sudo -i postgres
 
 ===ClusterInfo===
