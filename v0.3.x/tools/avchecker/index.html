@@ -1602,42 +1602,42 @@
 <hr />
 <h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
 <p>Status control works best via <code>journalctl</code> commands.</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>root@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@routerro | head</span>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>root@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@routerro | head</span>
 </code></pre></div>
 <p>Example logs:</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>-- Logs begin at Sun 2022-10-16 02:26:36 CEST. --
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Oct 16 00:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Oct 16 00:38:06 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Oct 16 03:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Oct 16 03:38:06 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>Oct 16 03:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>Oct 16 03:38:06 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>Oct 16 03:06:38 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>Oct 16 03:06:38 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>Oct 16 02:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>Oct 16 02:38:06 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>Oct 16 02:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>Oct 16 02:52:16 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>Oct 1602:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>Oct 1602:52:16 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>Oct 16 05:02:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>Oct 16 05:02:16 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 <a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>Oct 1602:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>Oct 1602:52:16 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 </code></pre></div>
 <hr />
 <h3 id="proxy-service-example">Proxy Service Example<a class="headerlink" href="#proxy-service-example" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">[</span>root@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@proxy</span>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">[</span>root@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@proxy</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">#Logs begin at Sun 2022-10-16 02:26:36 CEST.</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Oct<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="m">20</span>:25:28<span class="w"> </span>acme-dvppg1db-server2<span class="w"> </span>avchecker.py<span class="o">[</span><span class="m">629455</span><span class="o">]</span>:<span class="w"> </span><span class="m">0</span>:00:08.314879
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Oct<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="m">20</span>:25:28<span class="w"> </span>gurus-pgsdb-server2<span class="w"> </span>avchecker.py<span class="o">[</span><span class="m">629455</span><span class="o">]</span>:<span class="w"> </span><span class="m">0</span>:00:08.314879
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="o">[</span>root@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@stolon</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="o">[</span>root@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@stolon</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>--<span class="w"> </span>Logs<span class="w"> </span>begin<span class="w"> </span>at<span class="w"> </span>Sun<span class="w"> </span><span class="m">2022</span>-10-16<span class="w"> </span><span class="m">02</span>:26:36<span class="w"> </span>CEST.
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="o">[</span>root@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@routerrw</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="o">[</span>root@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span><span class="c1"># journalctl -efu avchecker@routerrw</span>
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>--<span class="w"> </span>Logs<span class="w"> </span>begin<span class="w"> </span>at<span class="w"> </span>Sun<span class="w"> </span><span class="m">2022</span>-10-16<span class="w"> </span><span class="m">02</span>:26:36<span class="w"> </span>CEST.
 </code></pre></div>
@@ -1649,7 +1649,7 @@
 <p>As an alternative, it can be decided, for example, to give a notification every n times and skip the rest.</p>
 <p>This feature is (for now) not implemented.</p>
 <p>For the proxy service, you see a notification:</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Oct 16 20:25:28 acme-dvppg1db-server2 avchecker.py[629455]: 0:00:08.314879
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Oct 16 20:25:28 gurus-pgsdb-server2 avchecker.py[629455]: 0:00:08.314879
 </code></pre></div>
 <p>This indicates that <strong>stolon-proxy</strong> took <strong>8.31 seconds</strong> to reconnect and rewrite data.<br />
 Possible causes:</p>
@@ -1697,7 +1697,7 @@ Possible causes:</p>
 </code></pre></div>
 <p>If you encounter issues with <code>avchecker@stolon</code>, investigate and resolve them before proceeding</p>
 <p>Check whether there is a master available, if it can be reached from the current server, and ensure that the client certificates are functioning correctly (for example, they have not expired):</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="o">[</span>postgres@acme-dvppg1db-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>master
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="o">[</span>postgres@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>master
 </code></pre></div>
 <h2 id="postgresql-1211">PostgreSQL (12.11)<a class="headerlink" href="#postgresql-1211" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
@@ -1706,7 +1706,7 @@ Possible causes:</p>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># \q</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="o">[</span>postgres@acme-dvppg1db-server1<span class="w"> </span>~<span class="o">]</span>$
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="o">[</span>postgres@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span>$
 </code></pre></div>
 <p>Connecting with <code>service=master</code> does the following:</p>
 <ul>
@@ -1735,7 +1735,7 @@ Possible causes:</p>
 <p>Other issues may be related to firewalling (but the AvChecker also connects locally, and the stolon proxy connects to the master in the same way as the service=<code>stolon</code> check).</p>
 <hr />
 <p>Eventueel kan stolon-proxy ook gecontroleerd worden met psql:</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="o">[</span>postgres@acme-dvppg1db-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>proxy
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="o">[</span>postgres@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>psql<span class="w"> </span><span class="nv">service</span><span class="o">=</span>proxy
 </code></pre></div>
 <p>PostgreSQL (12.11)</p>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
@@ -1743,7 +1743,7 @@ Possible causes:</p>
 <h2 id="type-help-for-help">Type "help" for help.<a class="headerlink" href="#type-help-for-help" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nv">postgres</span><span class="o">=</span><span class="c1"># \q</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="o">[</span>postgres@acme-dvppg1db-server1<span class="w"> </span>~<span class="o">]</span>$
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="o">[</span>postgres@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span>$
 </code></pre></div>
 <p>Connecting with <code>service=proxy</code> does the following:</p>
 <ul>

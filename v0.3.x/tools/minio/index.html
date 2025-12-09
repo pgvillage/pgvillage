@@ -1206,8 +1206,8 @@
 <p>Within Acme, however, there is no Cloud Storage available and therefore MinIO is deployed so that WAL-G can subsequently transport the backups to MinIO so that they:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Note that using native Object storage from your Cloud provider, backup solution or storage solution is preferred over a VM withh Minio.
-This solution is only meant to provide an option whhen no other Object STorage solution is available.</p>
+<p>Note that using native Object storage from your Cloud provider, backup solution or storage solution is preferred over a VM with Minio.
+This solution is only meant to provide an option whhen no other Object Storage solution is available.</p>
 </div>
 <hr />
 <ul>
@@ -1219,7 +1219,7 @@ This solution is only meant to provide an option whhen no other Object STorage s
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <p>For MinIO, the following components are required:</p>
 <ul>
-<li>MinIO and mcli are both run on a separate backup server (e.g., acme-dvppg1 <strong>bc</strong>-server1)</li>
+<li>MinIO and mcli are both run on a separate backup server (e.g., gurus-backup-server1)</li>
 </ul>
 <h3 id="server">Server:<a class="headerlink" href="#server" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1246,13 +1246,13 @@ This solution is only meant to provide an option whhen no other Object STorage s
 <p>1: Ensure routing to the management console (SSH proxy, opening ports in the firewall, etc.).</p>
 <p>You can then use a browser to connect to this port and browse through the bucket (MinIO).</p>
 <p>2: (Advice) Use <code>mcli</code> on the backup server under the <code>minio-user</code> account.</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>me@gurus-dbabh-server1<span class="w"> </span>~/g/ansible-postgres<span class="w"> </span><span class="o">(</span>tmp<span class="o">)</span>&gt;<span class="w"> </span>ssh<span class="w"> </span>acme-dvppg1bc-server1.acme.corp.com
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>me@gurus-ansible-server1<span class="w"> </span>~/g/ansible-postgres<span class="w"> </span><span class="o">(</span>tmp<span class="o">)</span>&gt;<span class="w"> </span>ssh<span class="w"> </span>gurus-backup-server1.acme.corp.com
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">#Last login: Thu Oct 13 21:12:47 2022 from 10.0.6.100</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="o">[</span>me@acme-dvppg1bc-server1<span class="w"> </span>~<span class="o">]</span><span class="w"> </span>$<span class="w"> </span>sudo<span class="w"> </span>-i<span class="w"> </span>uminio-user
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="o">[</span>me@gurus-backup-server1<span class="w"> </span>~<span class="o">]</span><span class="w"> </span>$<span class="w"> </span>sudo<span class="w"> </span>-i<span class="w"> </span>uminio-user
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="o">[</span>minio-user@acme-dvppg1bc-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>/usr/local/bin/mcli<span class="w"> </span>ls<span class="w"> </span>minio/backup/basebackups_005/
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="o">[</span>minio-user@gurus-backup-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>/usr/local/bin/mcli<span class="w"> </span>ls<span class="w"> </span>minio/backup/basebackups_005/
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="o">[</span><span class="m">2022</span>-10-11<span class="w"> </span><span class="m">16</span>:54:12<span class="w"> </span>CEST<span class="o">]</span><span class="w"> </span>404B<span class="w"> </span>STANDARD<span class="w"> </span>base_000000010000000C0000000E_backup_stop_sentinel.json
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
@@ -1279,7 +1279,7 @@ This solution is only meant to provide an option whhen no other Object STorage s
 <p>This temporary folder is cleaned up every 24 hours, removing all data that is 24 hours or older.</p>
 <p>In theory, temporary data can therefore be cleaned up 47 hours later (if delays occur).</p>
 <p>While the storage behind MinIO is typically sized sufficiently, if you need to free up space (e.g., by cleaning old backups), you can manually clean temporary data by restarting the MinIO service:</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>me@acme-dvppg1bc-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>minio.service
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>me@gurus-backup-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>minio.service
 </code></pre></div>
 <p>This only affects a backup and restore (they need to be restarted).</p>
 <hr />

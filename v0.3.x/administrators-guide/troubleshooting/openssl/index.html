@@ -1631,7 +1631,7 @@
 <h1 id="openssl">OpenSSL<a class="headerlink" href="#openssl" title="Permanent link">&para;</a></h1>
 <p>The <code>openssl</code> Linux command can be used for performing all certificate-related tasks, including:</p>
 <ul>
-<li>Generate new private keys, certificate signing requests, certificates, etc. (<a href="../tools/chainsmith.md">chainsmith</a> uses openssl)</li>
+<li>Generate new private keys, certificate signing requests, certificates, etc. (<a href="../../../tools/chainsmith/">chainsmith</a> uses openssl)</li>
 <li>Query information about certificates, including lifetime/expiry, subject/CommonName, x509 extensions, etc.</li>
 <li>Verification of the combination of a certificate and private key</li>
 <li>Verification of a certificate chain</li>
@@ -1654,7 +1654,7 @@
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># To request a certificate from a PostgreSQL server:</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>Open<span class="w"> </span>a<span class="w"> </span>connection<span class="w"> </span>to<span class="w"> </span>initiate<span class="w"> </span>TLS<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>PostgreSQL<span class="w"> </span>server<span class="w"> </span>on<span class="w"> </span><span class="sb">`</span>acme-dvppg1db-server1.acme.corp.com<span class="sb">`</span><span class="w"> </span>at<span class="w"> </span>port<span class="w"> </span><span class="sb">`</span><span class="m">5432</span><span class="sb">`</span>,<span class="w"> </span>and<span class="w"> </span>display<span class="w"> </span>the<span class="w"> </span>certificates<span class="w"> </span>using<span class="w"> </span>OpenSSL.
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>Open<span class="w"> </span>a<span class="w"> </span>connection<span class="w"> </span>to<span class="w"> </span>initiate<span class="w"> </span>TLS<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>PostgreSQL<span class="w"> </span>server<span class="w"> </span>on<span class="w"> </span><span class="sb">`</span>gurus-pgsdb-server1.acme.corp.com<span class="sb">`</span><span class="w"> </span>at<span class="w"> </span>port<span class="w"> </span><span class="sb">`</span><span class="m">5432</span><span class="sb">`</span>,<span class="w"> </span>and<span class="w"> </span>display<span class="w"> </span>the<span class="w"> </span>certificates<span class="w"> </span>using<span class="w"> </span>OpenSSL.
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># To view the certificate chain that Postgres provides:</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>openssl<span class="w"> </span>crl2pkcs7<span class="w"> </span>-nocrl<span class="w"> </span>-certfile<span class="w"> </span>/data/postgres/data/certs/server.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>pkcs7<span class="w"> </span>-print_certs
@@ -1669,7 +1669,7 @@
 <h3 id="certificate-expired">Certificate expired<a class="headerlink" href="#certificate-expired" title="Permanent link">&para;</a></h3>
 <p>Since work is being done with a single mutual TLS (mTLS) chain where all client and server certificates have the same expiry date, the expiry can be checked on one certificate to validate the entire chain.</p>
 <p>To check expiration:</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>postgres@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>/data/postgres/data/certs/server.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A2<span class="w"> </span>Validity
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>postgres@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>/data/postgres/data/certs/server.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A2<span class="w"> </span>Validity
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Validity</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>NotBefore:<span class="w"> </span>Oct<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">04</span>:48:08<span class="w"> </span><span class="m">2022</span><span class="w"> </span>GMT
@@ -1678,7 +1678,7 @@
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>In<span class="w"> </span>this<span class="w"> </span>example,<span class="w"> </span>the<span class="w"> </span>certificates<span class="w"> </span>expire<span class="w"> </span>on<span class="w"> </span>October<span class="w"> </span><span class="m">11</span>,<span class="w"> </span><span class="m">2023</span><span class="w"> </span><span class="o">(</span><span class="m">4</span>:48<span class="w"> </span>GMT<span class="w"> </span>is<span class="w"> </span><span class="m">6</span>:48<span class="w"> </span>CEST<span class="o">)</span>...
 </code></pre></div>
 <h3 id="check-if-certificate-expires-within-the-next-7-days">Check if certificate expires within the next 7 days<a class="headerlink" href="#check-if-certificate-expires-within-the-next-7-days" title="Permanent link">&para;</a></h3>
-<p><div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="o">[</span>me@acme-dvppg1db-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sudo<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-checkend<span class="w"> </span><span class="k">$(</span><span class="m">60</span><span class="w"> </span>*<span class="w"> </span><span class="m">60</span><span class="w"> </span>*<span class="w"> </span><span class="m">24</span><span class="w"> </span>*<span class="w"> </span><span class="m">7</span><span class="k">)</span><span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>~postgres/.postgresql/postgresql.crt
+<p><div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="o">[</span>me@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sudo<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-checkend<span class="w"> </span><span class="k">$(</span><span class="m">60</span><span class="w"> </span>*<span class="w"> </span><span class="m">60</span><span class="w"> </span>*<span class="w"> </span><span class="m">24</span><span class="w"> </span>*<span class="w"> </span><span class="m">7</span><span class="k">)</span><span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>~postgres/.postgresql/postgresql.crt
 </code></pre></div>
 Certificate will not expire</p>
 <p>This command looks at expiration in the coming week (3600 sec × 24 hours × 7 days)</p>
@@ -1707,16 +1707,16 @@ Certificate will not expire</p>
 </ul>
 <h4 id="the-chain-can-be-validated-as-follows">The chain can be validated as follows:<a class="headerlink" href="#the-chain-can-be-validated-as-follows" title="Permanent link">&para;</a></h4>
 <p><div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Verifying the server certificate:</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="o">[</span>postgres@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span>$
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="o">[</span>postgres@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span>$
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>openssl<span class="w"> </span>verify<span class="w"> </span>-CAfile<span class="w"> </span>~/postgres/.postgresql/root.crt<span class="w"> </span>/data/postgres/data/certs/server.crt
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>/data/postgres/data/certs/server.crt:<span class="w"> </span>OK
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Verifying the client certificate:</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="o">[</span>postgres@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span><span class="w"> </span>$<span class="w"> </span>openssl<span class="w"> </span>verify<span class="w"> </span>-CAfile<span class="w"> </span>/data/postgres/data/certs/root.crt<span class="w"> </span>~/.postgresql/postgresql.crt
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="o">[</span>postgres@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span><span class="w"> </span>$<span class="w"> </span>openssl<span class="w"> </span>verify<span class="w"> </span>-CAfile<span class="w"> </span>/data/postgres/data/certs/root.crt<span class="w"> </span>~/.postgresql/postgresql.crt
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>/var/lib/pgsql/.postgresql/postgresql.crt:<span class="w"> </span>OK
 </code></pre></div>
 In order to validate other certificates, the certificates must therefore be brought together.</p>
-<p>Copy anything if necessary into the <code>gurus-dbabh-server1</code> in a temporary folder.</p>
+<p>Copy anything if necessary into the <code>gurus-ansible-server1</code> in a temporary folder.</p>
 <p>P.S. certificates are public data and not secret.</p>
 <p>So copying them to temporary folders is also not a security issue.</p>
 <h3 id="subject-and-common-name">Subject and Common Name<a class="headerlink" href="#subject-and-common-name" title="Permanent link">&para;</a></h3>
@@ -1738,7 +1738,7 @@ In order to validate other certificates, the certificates must therefore be brou
 </code></pre></div>
 <p>In the example, it can be seen that:</p>
 <ul>
-<li>the server certificate with Common Name (CN) acme-dvppg1db-server2.acme.corp.com is accepted.</li>
+<li>the server certificate with Common Name (CN) gurus-pgsdb-server2.acme.corp.com is accepted.</li>
 <li>The certificate will therefore be accepted when clients connect to this host.</li>
 <li>the client certificate with Common Name (CN) postgres</li>
 <li>This certificate will therefore be accepted when the client attempts to log in as the postgres user.</li>
@@ -1753,31 +1753,31 @@ In order to validate other certificates, the certificates must therefore be brou
 - Data Encryption</p>
 <p>Chainsmith enables these extensions.</p>
 <p>Verify:</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="o">[</span>postgres@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>data/postgres/data/certs/server.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A1<span class="w"> </span><span class="s1">&#39;X509v3 Key Usage:&#39;</span>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="o">[</span>postgres@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>data/postgres/data/certs/server.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A1<span class="w"> </span><span class="s1">&#39;X509v3 Key Usage:&#39;</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>X509v3KeyUsage:
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Digital<span class="w"> </span>Signature,<span class="w"> </span>Key<span class="w"> </span>Encipherment,<span class="w"> </span>Data<span class="w"> </span>Encipherment
 </code></pre></div>
 <h3 id="subject-alternative-name">Subject Alternative Name<a class="headerlink" href="#subject-alternative-name" title="Permanent link">&para;</a></h3>
-<p>Since TCP proxies (such as <a href="../tools/stolon.md">stolon-proxy</a> and <a href="../tools/haproxy.md">HAProxy</a>) are also used in the PostgreSQL architecture, it is possible that a client connects to an FQDN different from that of the server they are actually connecting to.</p>
-<p>For example, he connects to the VIP (acme-dvppg1 <strong>pr-v</strong> 01p.acme.corp.com) and accesses the primary database server, such as acme-dvppg1 <strong>pr-v</strong> 02p.acme.corp.com, via HAProxy and stolon-proxy.</p>
+<p>Since TCP proxies (such as <a href="../../../tools/stolon/">stolon-proxy</a> and <a href="../../../tools/haproxy/">HAProxy</a>) are also used in the PostgreSQL architecture, it is possible that a client connects to an FQDN different from that of the server they are actually connecting to.</p>
+<p>For example, he connects to the VIP (gurus-pgspr-vip.acme.corp.com) and accesses the primary database server, such as gurus-pgsdb-server1.acme.corp.com, via HAProxy and stolon-proxy.</p>
 <p>X.509 has an additional extension called Subject Alternative Names (SAN), which allows for configuring extra hostnames.</p>
 <p>These can be requested via:</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">[</span>postgres@acme-dvppg1db-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>/data/postgres/data/certs/server.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A1<span class="w"> </span><span class="s1">&#39;X509v3 Subject Alternative Name:&#39;</span>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">[</span>postgres@gurus-pgsdb-server2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>/data/postgres/data/certs/server.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A1<span class="w"> </span><span class="s1">&#39;X509v3 Subject Alternative Name:&#39;</span>
 </code></pre></div>
 <p>!!! Note:</p>
 <div class="language-text highlight"><pre><span></span><code>The translation task does not apply to shell commands or file paths.
 </code></pre></div>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>X509v3<span class="w"> </span>Subject<span class="w"> </span>Alternative<span class="w"> </span>Name:
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>DNS:<span class="w"> </span>acme-dvppg1db-server2.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.43<span class="w">  </span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>DNS:<span class="w"> </span>acme-dvppg1pr-v01p.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.28<span class="w">  </span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>DNS:<span class="w"> </span>acme-dvppg1pr-server1.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.26<span class="w">  </span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>DNS:<span class="w"> </span>acme-dvppg1pr-server2.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.27<span class="w">  </span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>DNS:<span class="w"> </span>acme-dvppg1db-server1.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.42<span class="w">  </span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>DNS:<span class="w"> </span>acme-dvppg1db-server3.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.44<span class="w">  </span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>DNS:<span class="w"> </span>acme-dvppg1db-server4.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.45
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>DNS:<span class="w"> </span>gurus-backup-server1server2.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.43<span class="w">  </span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>DNS:<span class="w"> </span>gurus-pgspr-vip.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.28<span class="w">  </span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>DNS:<span class="w"> </span>gurus-pgspr-server1.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.26<span class="w">  </span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>DNS:<span class="w"> </span>gurus-pgspr-server2.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.27<span class="w">  </span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>DNS:<span class="w"> </span>gurus-pgsdb-server1.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.42<span class="w">  </span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>DNS:<span class="w"> </span>gurus-pgsdb-server3.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.44<span class="w">  </span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>DNS:<span class="w"> </span>gurus-pgsdb-server4.acme.corp.com,<span class="w"> </span>IP<span class="w"> </span>Address:<span class="w"> </span><span class="m">10</span>.0.4.45
 </code></pre></div>
 <p>!!! Note:</p>
 <div class="language-text highlight"><pre><span></span><code>In addition to DNS entries, this SAN also has IP entries, but it seems the PostgreSQL client does not handle them well.
@@ -1806,7 +1806,7 @@ DBeaver specifically requires <strong>PKCS8 DER (no password)</strong>.</p>
 <a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="c1"># PKCS12 Format (Suitable for JDBC, Always with Password So Same Command)</span>
 <a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>openssl<span class="w"> </span>pkcs12<span class="w"> </span>-export<span class="w"> </span>-nokeys<span class="w"> </span>-in<span class="w"> </span>cims_rw.pem<span class="w"> </span>-out<span class="w"> </span>cims_rw.p12
 </code></pre></div>
-<p><a href="../tools/chainsmith.md">Chainsmith</a> generates automatically the standard PEM and PKCS8 format keys.</p>
+<p><a href="../../../tools/chainsmith/">Chainsmith</a> generates automatically the standard PEM and PKCS8 format keys.</p>
 <p>These can be found in the temporary folder (or the GPG archive).</p>
 <p>Example for client certificates for the Postgres user:</p>
 <ul>

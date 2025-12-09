@@ -761,7 +761,7 @@
   <span class="md-ellipsis">
     
   
-    Byo client certs
+    Bring Your Own - Client Certificates
   
 
     
@@ -789,7 +789,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction
+    Bring Your Own - Server Certificates
   
 
     
@@ -1604,10 +1604,10 @@
 
 <h1 id="refreshing-certificates">Refreshing certificates<a class="headerlink" href="#refreshing-certificates" title="Permanent link">&para;</a></h1>
 <p>In the SBB PostgreSQL, an <a href="../../../architecture/mtls/">mTLS</a> chain is used with <a href="../byo-server-certs/">server-</a> and <a href="../byo-client-certs/">client-</a> certificates.</p>
-<p>The chain is generated using <a href="chainsmith.md">Chainsmith</a> and (re)generated using this procedure.</p>
+<p>The chain is generated using <a href="../../../tools/chainsmith/">Chainsmith</a> and (re)generated using this procedure.</p>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../tools/chainsmith.md">chainsmith</a></li>
+<li><a href="../../../tools/chainsmith/">chainsmith</a></li>
 <li><a href="../inventory/">nieuwe uitrol</a></li>
 <li><a href="../ansible/">ansible</a></li>
 </ul>
@@ -1646,7 +1646,7 @@
 </ul>
 <h3 id="2-generate-the-new-certificates">2. Generate the new certificates<a class="headerlink" href="#2-generate-the-new-certificates" title="Permanent link">&para;</a></h3>
 <ul>
-<li>When using chainsmith: <a href="chainsmith.md">Rerun Chainsmith</a></li>
+<li>When using chainsmith: <a href="../../../tools/chainsmith/">Rerun Chainsmith</a></li>
 <li>When using <code>bring your own</code> certificates: <a href="../byo-server-certs/">byo server certs</a></li>
 </ul>
 <p>Once the certificate rollout is complete, <strong>PostgreSQL and the application will run using the refreshed certificates.</strong></p>

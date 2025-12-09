@@ -27,7 +27,7 @@
     
     
       
-        <title>Byo client certs - PgVillage</title>
+        <title>Bring Your Own - Client Certificates - PgVillage</title>
       
     
     
@@ -58,14 +58,14 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Byo client certs - PgVillage" />
+<meta property="og:title" content="Bring Your Own - Client Certificates - PgVillage" />
 <meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/deployment_and_maintenance/byo-client-certs.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v0.3.x/administrators-guide/deployment_and_maintenance/byo-client-certs/" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Byo client certs - PgVillage" />
+<meta property="twitter:title" content="Bring Your Own - Client Certificates - PgVillage" />
 <meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v0.3.x/assets/images/social/administrators-guide/deployment_and_maintenance/byo-client-certs.png" />
 </head>
   
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduction" class="md-skip">
+        <a href="#bring-your-own-client-certificates" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Byo client certs
+              Bring Your Own - Client Certificates
             
           </span>
         </div>
@@ -763,6 +763,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bring Your Own - Client Certificates
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -770,7 +788,7 @@
   <span class="md-ellipsis">
     
   
-    Byo client certs
+    Bring Your Own - Client Certificates
   
 
     
@@ -779,6 +797,71 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLDR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-do-you-set-this-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How do you set this up
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -799,7 +882,7 @@
   <span class="md-ellipsis">
     
   
-    Introduction
+    Bring Your Own - Server Certificates
   
 
     
@@ -1341,6 +1424,58 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLDR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-do-you-set-this-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How do you set this up
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1455,189 +1590,62 @@
   
 
 
-<blockquote>
-<p>Note: For automation and reproducibility, <a href="../../../tools/chainsmith/">ChainSmith</a> is used. and <a href="./">Documentation Generate and Roll Out New Certificates</a></p>
-</blockquote>
-<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>Binnen deze bouwsteen worden client certificaten gebruikt voor authenticatie van postgres users.</p>
-<p>Client certificaat authenticatie heeft als voordeel dat het certificaat en de key niet op de PostgreSQL database servers bekend hoeft te zijn.</p>
-<p>PostgreSQL gebruikt een root certificaat om de betrouwbaarheid van het client certificaat te controleren.</p>
-<p>Dat kan (als het intermediate met de sleutel bewaard is) ook achteraf nieuwe certificaten worden uitgegeven.</p>
-<p>Further, each client certificate is issued for a specific user, making it harder to remember and copy, and requiring server TLS.</p>
-<p>Het is dus een veiligere oplossing. Het vereist echter ook een hoger kennis niveau, met name in beheer.</p>
-<h1 id="benodigdheden">Benodigdheden<a class="headerlink" href="#benodigdheden" title="Permanent link">&para;</a></h1>
-<p>Om met client certificaten te kunnen authentiseren is het volgende nodig:</p>
+<h1 id="bring-your-own-client-certificates">Bring your own - Client Certificates<a class="headerlink" href="#bring-your-own-client-certificates" title="Permanent link">&para;</a></h1>
+<h2 id="tldr">TLDR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
 <ul>
-<li>A TLS connection. That means:</li>
-<li><code>hostssl</code> in the HBA file</li>
-<li><code>ssl=on</code> within PostgreSQL</li>
-<li>a valid server certificate<ul>
-<li>not expired</li>
-<li>corresponding to the server FQDN</li>
+<li>create a CSR for a client certificate, with the user to connect to PostgreSQL as the common name</li>
+<li>have it signed by your own CA</li>
+<li>have the root shipped to PostgreSQL as <code>$PGDATA/root.crt</code> (and reload if needed)</li>
+<li>make sure the hba file has a corresponding line and set method to <code>cert</code> (and reload if needed)</li>
+<li>ship the client certificate (with chain), and private key to the client (to ~/.postgresql.postgres.crt and ~/.postgresql/postgres.key)</li>
+<li>make sure tls is working properly</li>
 </ul>
-</li>
-<li>a root certificate on the client that trusts the server certificate</li>
-<li>A valid client certificate</li>
-<li>not expired</li>
-<li>corresponding to the user who is logging in</li>
-<li>A root certificate on the PostgreSQL database server that trusts the client certificate</li>
-<li>A rule in the PostgreSQL HBA file that prescribes certificates as an authentication method for this communication</li>
-<li>Managed with Ansible: <code>environments/[ENVIRONMENT]/group_vars/all/generic.yml</code></li>
-<li>Example:</li>
-</ul>
-<p><strong>hostssl</strong> cmdbvm cmdb 10.0.6.188/32 <strong>cert</strong></p>
-<p><strong>Note:</strong> Both <code>hostssl</code> and <code>cert</code> are required.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>do this for all client certificate connections, also the internal services, such as:
+- postgres
+- avchecker
+- pgquartz
+- pgfga
+- pgroute66
+- minio</p>
+</div>
+<p>and you should be good to go...</p>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>By default PgVillage uses <a href="../../../tools/chainsmith/">chainsmith</a> for managing server and client certificates.
+There is an option to use certificates signed by your own CA.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you sign your client certificates by your CA, you also need to use your CA root certificate for PostgreSQL to accept client certificates.
+Which basically means that all client certificztes signed by the CA will be accepted if a corresponding user exists in PostgreSQL.
+Which adds a securitu risk. When someone in your organization requests a client certificate with common name <code>postgres</code>, and your CA signs off on it,
+the requestor receives a client certiicate which has access to all PostgreSQL clusters as the root user (postgres) with superuser permissions.
+This is why we like the Chainsmith option over trustinging client certificates issued by a company wide CA.</p>
+</div>
+<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<p>Whenever 
+- A client connects to PostgreSQL;
+- PostgreSQL is configured to accept client certificates (cert as method in the hba file);
+- The root certificate (or intermediate certificate) is trusted by PostgreSQL;
+- The user that is trying to connect is listed in the client certificate as the Common Name; and
+- The user exists in PostgreSQL</p>
+<p>then the connection is accepted and enters postgreSQL as the user (as specificed).</p>
+<h2 id="how-do-you-set-this-up">How do you set this up<a class="headerlink" href="#how-do-you-set-this-up" title="Permanent link">&para;</a></h2>
 <ul>
-<li>The rule must be the first one that applies (not under another rule with a different method).</li>
+<li>configure all properly</li>
+<li>reload PostgreSQL</li>
+<li>reconnect</li>
+<li>check that all works as expected</li>
 </ul>
-<h1 id="reference-material">Reference material<a class="headerlink" href="#reference-material" title="Permanent link">&para;</a></h1>
-<hr />
-<blockquote>
-<p><strong>Note:</strong> This is reference documentation. Use <a href="../../../tools/chainsmith/">Chainsmith</a> and the <a href="./">generate and roll out new certificates documentation</a></p>
-</blockquote>
-<p>Voor het genereren van client certificaten is alleen een recente versie van openssl nodig.</p>
-<p>Verder beschrijft deze WI alle stappen die nodig zijn voor het genereren van een nieuwe chain.</p>
-<p>The WI is inspired by, among other things:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[<span class="nt">https://www.makethenmakeinstall.com/2014/05/ssl-client-authentication-step-by-step/</span>](<span class="na">https://www.makethenmakeinstall.com/2014/05/ssl-client-authentication-step-by-step/</span>)
-</code></pre></div>
-<h2 id="aanmaken-ca">Aanmaken CA<a class="headerlink" href="#aanmaken-ca" title="Permanent link">&para;</a></h2>
-<p>certificaten worden altijd ondertekend door een ander certificaat.</p>
-<p>Voor server certificaten kan dit extern signed worden met een lange chain van intermediate certs.</p>
-<p>En in andere situaties kan een certificaat self signed zijn.</p>
-<p>Voor client certificaten is het nodig dat er een CA is.</p>
-<p>And for our application, an intermediate actually has little added value.</p>
-<p>We gaan daarom een CA maken die direct client certificaten kan ondertekenen.</p>
-<p>On the system with OpenSSL:</p>
-<p># Go to a new folder. Here come the temporary certificates and private keys:</p>
-<p>cd$(mktemp -d)</p>
-<h1 id="copy-etcpkitlsopensslcnf-into-this-folder">Copy <code>/etc/pki/tls/openssl.cnf</code> into this folder:<a class="headerlink" href="#copy-etcpkitlsopensslcnf-into-this-folder" title="Permanent link">&para;</a></h1>
-<hr />
-<p>cp /etc/pki/tls/openssl.cnf ./ca.cnf</p>
-<p>Then adjust the following in the locally copied <code>ca.cnf</code>:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[Your specific changes here]
-</code></pre></div>
-<ul>
-<li>In the chapter [ req ], it must:</li>
-<li>remove an existing option: <code>attributes = req_attributes</code></li>
-<li>add a new option: <code>prompt = no</code></li>
-<li>The entire existing content in the chapter [ req_distinguished_name ] can be replaced with:</li>
-</ul>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>CN = <span class="gs">**[REPLACED BY VIP HOSTNAME FOR API OR POSTGRES]**</span>
-</code></pre></div>
-<p>C = NL</p>
-<p>UT = Utrecht</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>L = Bilthoven
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>=  National Institute for Public Health and the Environment (Acme)
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">-</span><span class="w"> </span>In the chapter <span class="sb">`[usr_cert]`</span>, <span class="sb">`nsCertType = client, email`</span> must be set
-</code></pre></div>
-<p>Example diff:</p>
-<p>diff /etc/pki/tls/openssl.cnf ca.cnf</p>
-<p>110d109</p>
-<p>&lt; attributes  = req_attributes</p>
-<p>111a111</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>&gt; prompt = no
-</code></pre></div>
-<p>129,156c129,133</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>countryName = Landnaam (2 letters code)
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>&lt;countryName_default = XX&gt;
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>&lt; countryName_min = 2 &gt;
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>&lt; countryName_max     = 2 &gt;
-</code></pre></div>
-<p>&lt;</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>&lt;stateOrProvinceName&gt; = State or Province Name (full name)
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gh"># stateOrProvinceName_default = Default Province</span>
-</code></pre></div>
-<p>&lt;</p>
-<p>&lt; localityName   = Locality Name (eg, city)</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>&lt;localityName_default = Default City&gt;
-</code></pre></div>
-<p>&lt;</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>&lt; 0.organizationName = Organization Name (e.g., company)
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>&lt; 0.organizationName_default = Default Company Ltd&gt;
-</code></pre></div>
-<p>&lt;</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gh"># We can do this, but it&#39;s not usually necessary :-)</span>
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="gh">#1.organizationName = Second Organization Name (e.g., company)</span>
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gh">#1.organizationName_default = World Wide Web Pty Ltd</span>
-</code></pre></div>
-<p>&lt;</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>organizationalUnitName = Organizational Unit Name (e.g., section)
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="gh"># organizationalUnitName_default =</span>
-</code></pre></div>
-<p>&lt;</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>commonName = Common Name (e.g., your name or your server&#39;s hostname)
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>&lt; commonName_max   = 64 &gt;
-</code></pre></div>
-<p>&lt;</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>emailAddress = Email Address
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>emailAddress_max = 64
-</code></pre></div>
-<p>&lt;</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="gh"># SET-ex3 = SET extension number 3</span>
-</code></pre></div>
-<p>---</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>&gt; CN = acme-vbepr-v01a.acme.corp.com
-</code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>&gt; C = NL
-</code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>ST = Utrecht
-</code></pre></div>
-<blockquote>
-<p>L = Bilthoven</p>
-<p>O = National Institute for Public Health and the Environment (Acme)</p>
-</blockquote>
-<p>184c161</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="gh"># nsCertType = client, email</span>
-</code></pre></div>
-<p>---</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>nsCertType = client, email
-</code></pre></div>
-<p>Then the root certificate can be created:</p>
-<p>openssl req -newkey rsa:4096 -nodes -keyform PEM -keyout ca.pem -x509 -days 3650 -outform PEM -out ca.cer -config ca.cnf</p>
-<p>Generating a 4096 bit RSA private key</p>
-<p>.........................................................++</p>
-<p>.................................++</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>generating a new private key and saving it to &#39;ca.pem&#39;
-</code></pre></div>
-<p>-----</p>
-<h2 id="aanmaken-van-een-client-certificaat">Aanmaken van een client certificaat<a class="headerlink" href="#aanmaken-van-een-client-certificaat" title="Permanent link">&para;</a></h2>
-<p>Take care:</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">-</span><span class="w"> </span>For Postgres: Create a client certificate for every user who logs in with client certificates. Use the username as CN in the config file:
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>postgres
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>avchecker
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>pgquartz
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>pgfga
-</code></pre></div>
-<p>For each client, a separate request must be made. Example for <code>pgrep_user</code>:</p>
-<h1 id="copy-the-config-and-adjust-cn-to-the-username">Copy the config and adjust CN = ... to the username<a class="headerlink" href="#copy-the-config-and-adjust-cn-to-the-username" title="Permanent link">&para;</a></h1>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>sed &#39;s/CN \*=.* /CN = pgquartz/ &#39; ca.cnf &gt; pgquartz.cnf
-</code></pre></div>
-<p># Generate a new private key:</p>
-<p>openssl genrsa -out pgquartz.key 4096</p>
-<h1 id="generate-a-new-csr">Generate a New CSR<a class="headerlink" href="#generate-a-new-csr" title="Permanent link">&para;</a></h1>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>openssl req -new -key pgquartz.key -out pgquartz.req -config pgquartz.cnf
-</code></pre></div>
-<p># Sign the certificate (fill in your own made-up password from step 1)</p>
-<p>openssl x509 -req -in pgquartz.req -CA ca.cer -CAkey ca.pem -set_serial 101 -extensions client -days 365 -outform PEM -out pgquartz.crt</p>
-<h1 id="distribution">Distribution<a class="headerlink" href="#distribution" title="Permanent link">&para;</a></h1>
-<p>Use the documentation for <a href="./">Generate and Roll Out New Certificates</a></p>
 
 
 
 
 
 
+
+  
+  
 
 
 

@@ -1368,7 +1368,7 @@ The goal is to get these two pull requests merged upstream so separate builds ar
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">STOLON_CTL_STORE_BACKEND</span><span class="o">=</span>etcdv3
 </code></pre></div>
 <h3 id="check-cluster-status">Check Cluster Status<a class="headerlink" href="#check-cluster-status" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>root@acme-dvppg1db-server1<span class="w"> </span>sysconfig<span class="o">]</span><span class="c1">#/usr/local/bin/stolonctl status</span>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>root@gurus-pgsdb-server1<span class="w"> </span>sysconfig<span class="o">]</span><span class="c1">#/usr/local/bin/stolonctl status</span>
 </code></pre></div>
 <p>=== Active Sentinels ===
 ID LEADER
@@ -1384,17 +1384,17 @@ ID
 534074d4</p>
 <p>=== Keepers ===</p>
 <p>UID HEALTHY PG_LISTEN_ADDRESS PG_HEALTHY PG_WANTED_GEN PG_CURRENT_GEN
-acme_dvppg1db_server1 true 10.0.4.42:5432 true 33 33
-acme_dvppg1db_server2 true 10.0.4.43:5432 true 55 55
-acme_dvppg1db_server3 true 10.0.4.44:5432 true 33 33
-acme_dvppg1db_server4 true 10.0.4.45:5432 true 33 33</p>
+gurus-pgsdb-server1 true 10.0.4.42:5432 true 33 33
+gurus-pgsdb-server2 true 10.0.4.43:5432 true 55 55
+gurus-pgsdb-server3 true 10.0.4.44:5432 true 33 33
+gurus-pgsdb-server4 true 10.0.4.45:5432 true 33 33</p>
 <p>===Cluster Info===
-MasterKeeper: acme_dvppg1db_server2</p>
+MasterKeeper: gurus-pgsdb-server2</p>
 <p>== Keepers/DB Tree ==
-acme_dvppg1db_server2 (master)
-├─ acme_dvppg1db_server4
-├─ acme_dvppg1db_server3
-└─ acme_dvppg1db_server1</p>
+gurus-pgsdb-server2 (master)
+├─ gurus-pgsdb-server4
+├─ gurus-pgsdb-server3
+└─ gurus-pgsdb-server1</p>
 <hr />
 <h2 id="query-the-current-configuration">Query the current configuration<a class="headerlink" href="#query-the-current-configuration" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">#set up config required for stolonctl</span>
@@ -1405,7 +1405,7 @@ acme_dvppg1db_server2 (master)
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Request cluster spec</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="o">[</span>root@acme-dvppg1db-server1<span class="w"> </span>sysconfig<span class="o">]</span><span class="c1"># /usr/local/bin/stolonctl spec</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="o">[</span>root@gurus-pgsdb-server1<span class="w"> </span>sysconfig<span class="o">]</span><span class="c1"># /usr/local/bin/stolonctl spec</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>Outcome:
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
@@ -1522,7 +1522,7 @@ acme_dvppg1db_server2 (master)
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Or<span class="w"> </span>use<span class="w"> </span>the<span class="w"> </span><span class="sb">`</span>--help<span class="sb">`</span><span class="w"> </span>option:
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>stolonctl<span class="w"> </span>--help
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="o">[</span>root@acme-dvppg1db-server1<span class="w"> </span>sysconfig<span class="o">]</span><span class="c1"># /usr/local/bin/stolonctl</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="o">[</span>root@gurus-pgsdb-server1<span class="w"> </span>sysconfig<span class="o">]</span><span class="c1"># /usr/local/bin/stolonctl</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>stolon<span class="w"> </span><span class="nb">command</span><span class="w"> </span>line<span class="w"> </span>client
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
