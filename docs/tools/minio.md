@@ -14,8 +14,8 @@ The standard building block makes backups using WAL-G and WAL-G stores the backu
 Within Acme, however, there is no Cloud Storage available and therefore MinIO is deployed so that WAL-G can subsequently transport the backups to MinIO so that they:
 
 !!! note
-    Note that using native Object storage from your Cloud provider, backup solution or storage solution is preferred over a VM withh Minio.
-    This solution is only meant to provide an option whhen no other Object STorage solution is available.
+    Note that using native Object storage from your Cloud provider, backup solution or storage solution is preferred over a VM with Minio.
+    This solution is only meant to provide an option whhen no other Object Storage solution is available.
 
 ---
 
@@ -29,7 +29,7 @@ This means that MinIO can be replaced by a future Cloud Storage (bucket) system 
 
 For MinIO, the following components are required:
 
-- MinIO and mcli are both run on a separate backup server (e.g., acme-dvppg1 **bc**-server1)
+- MinIO and mcli are both run on a separate backup server (e.g., gurus-backup-server1)
 
 ### Server:
 
@@ -64,13 +64,13 @@ You can then use a browser to connect to this port and browse through the bucket
 2: (Advice) Use `mcli` on the backup server under the `minio-user` account.
 
 ```bash
-me@gurus-dbabh-server1 ~/g/ansible-postgres (tmp)> ssh acme-dvppg1bc-server1.acme.corp.com
+me@gurus-ansible-server1 ~/g/ansible-postgres (tmp)> ssh gurus-backup-server1.acme.corp.com
 
 #Last login: Thu Oct 13 21:12:47 2022 from 10.0.6.100
 
-[me@acme-dvppg1bc-server1 ~] $ sudo -i uminio-user
+[me@gurus-backup-server1 ~] $ sudo -i uminio-user
 
-[minio-user@acme-dvppg1bc-server1 ~]$ /usr/local/bin/mcli ls minio/backup/basebackups_005/
+[minio-user@gurus-backup-server1 ~]$ /usr/local/bin/mcli ls minio/backup/basebackups_005/
 
 [2022-10-11 16:54:12 CEST] 404B STANDARD base_000000010000000C0000000E_backup_stop_sentinel.json
 
@@ -104,7 +104,7 @@ In theory, temporary data can therefore be cleaned up 47 hours later (if delays 
 While the storage behind MinIO is typically sized sufficiently, if you need to free up space (e.g., by cleaning old backups), you can manually clean temporary data by restarting the MinIO service:
 
 ```bash
-[me@acme-dvppg1bc-server1 ~]$ sudo systemctl restart minio.service
+[me@gurus-backup-server1 ~]$ sudo systemctl restart minio.service
 ```
 
 This only affects a backup and restore (they need to be restarted).

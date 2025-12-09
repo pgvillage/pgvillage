@@ -40,7 +40,7 @@ openssl s_client -showcerts -servername acme-vbepr-v11a.acme.corp.com -connect a
 
 # To request a certificate from a PostgreSQL server:
 
-Open a connection to initiate TLS with the PostgreSQL server on `acme-dvppg1db-server1.acme.corp.com` at port `5432`, and display the certificates using OpenSSL.
+Open a connection to initiate TLS with the PostgreSQL server on `gurus-pgsdb-server1.acme.corp.com` at port `5432`, and display the certificates using OpenSSL.
 
 # To view the certificate chain that Postgres provides:
 openssl crl2pkcs7 -nocrl -certfile /data/postgres/data/certs/server.crt | openssl pkcs7 -print_certs
@@ -61,7 +61,7 @@ Since work is being done with a single mutual TLS (mTLS) chain where all client 
 To check expiration:
 
 ```bash
-[postgres@acme-dvppg1db-server2 ~]$ openssl x509 -text -noout -in /data/postgres/data/certs/server.crt | grep -A2 Validity
+[postgres@gurus-pgsdb-server2 ~]$ openssl x509 -text -noout -in /data/postgres/data/certs/server.crt | grep -A2 Validity
 
 # Validity
 NotBefore: Oct 10 04:48:08 2022 GMT
@@ -73,7 +73,7 @@ In this example, the certificates expire on October 11, 2023 (4:48 GMT is 6:48 C
 ### Check if certificate expires within the next 7 days
 
 ```bash
-[me@acme-dvppg1db-server1 ~]$ sudo openssl x509 -checkend $(60 * 60 * 24 * 7) -noout -in ~postgres/.postgresql/postgresql.crt
+[me@gurus-pgsdb-server1 ~]$ sudo openssl x509 -checkend $(60 * 60 * 24 * 7) -noout -in ~postgres/.postgresql/postgresql.crt
 ```
 Certificate will not expire
 
@@ -108,17 +108,17 @@ To be able to accept connections, the software must trust the certificate, which
 
 ```bash
 # Verifying the server certificate:
-[postgres@acme-dvppg1db-server2 ~]$
+[postgres@gurus-pgsdb-server2 ~]$
 openssl verify -CAfile ~/postgres/.postgresql/root.crt /data/postgres/data/certs/server.crt
 /data/postgres/data/certs/server.crt: OK
 
 # Verifying the client certificate:
-[postgres@acme-dvppg1db-server2 ~] $ openssl verify -CAfile /data/postgres/data/certs/root.crt ~/.postgresql/postgresql.crt
+[postgres@gurus-pgsdb-server2 ~] $ openssl verify -CAfile /data/postgres/data/certs/root.crt ~/.postgresql/postgresql.crt
 /var/lib/pgsql/.postgresql/postgresql.crt: OK
 ```
 In order to validate other certificates, the certificates must therefore be brought together.
 
-Copy anything if necessary into the `gurus-dbabh-server1` in a temporary folder.
+Copy anything if necessary into the `gurus-ansible-server1` in a temporary folder.
 
 P.S. certificates are public data and not secret.
 
@@ -147,7 +147,7 @@ Subject: C=NL, postalCode=1261 WZ, ST=Utrecht, L=Blaricum, street=Binnendelta 1-
 
 In the example, it can be seen that:
 
-- the server certificate with Common Name (CN) acme-dvppg1db-server2.acme.corp.com is accepted.
+- the server certificate with Common Name (CN) gurus-pgsdb-server2.acme.corp.com is accepted.
   - The certificate will therefore be accepted when clients connect to this host.
 - the client certificate with Common Name (CN) postgres
   - This certificate will therefore be accepted when the client attempts to log in as the postgres user.
@@ -170,7 +170,7 @@ Chainsmith enables these extensions.
 Verify:
 
 ```bash
-[postgres@acme-dvppg1db-server2 ~]$ openssl x509 -text -noout -in data/postgres/data/certs/server.crt | grep -A1 'X509v3 Key Usage:'
+[postgres@gurus-pgsdb-server2 ~]$ openssl x509 -text -noout -in data/postgres/data/certs/server.crt | grep -A1 'X509v3 Key Usage:'
 
 X509v3KeyUsage:
 
@@ -181,14 +181,14 @@ Digital Signature, Key Encipherment, Data Encipherment
 
 Since TCP proxies (such as [stolon-proxy](../../tools/stolon.md) and [HAProxy](../../tools/haproxy.md)) are also used in the PostgreSQL architecture, it is possible that a client connects to an FQDN different from that of the server they are actually connecting to.
 
-For example, he connects to the VIP (acme-dvppg1 **pr-v** 01p.acme.corp.com) and accesses the primary database server, such as acme-dvppg1 **pr-v** 02p.acme.corp.com, via HAProxy and stolon-proxy.
+For example, he connects to the VIP (gurus-pgspr-vip.acme.corp.com) and accesses the primary database server, such as gurus-pgsdb-server1.acme.corp.com, via HAProxy and stolon-proxy.
 
 X.509 has an additional extension called Subject Alternative Names (SAN), which allows for configuring extra hostnames.
 
 These can be requested via:
 
 ```bash
-[postgres@acme-dvppg1db-server2 ~]$ openssl x509 -text -noout -in /data/postgres/data/certs/server.crt | grep -A1 'X509v3 Subject Alternative Name:'
+[postgres@gurus-pgsdb-server2 ~]$ openssl x509 -text -noout -in /data/postgres/data/certs/server.crt | grep -A1 'X509v3 Subject Alternative Name:'
 ```
 
 !!! Note:
@@ -198,13 +198,13 @@ These can be requested via:
 ```bash
 X509v3 Subject Alternative Name:
 
-DNS: acme-dvppg1db-server2.acme.corp.com, IP Address: 10.0.4.43  
-DNS: acme-dvppg1pr-v01p.acme.corp.com, IP Address: 10.0.4.28  
-DNS: acme-dvppg1pr-server1.acme.corp.com, IP Address: 10.0.4.26  
-DNS: acme-dvppg1pr-server2.acme.corp.com, IP Address: 10.0.4.27  
-DNS: acme-dvppg1db-server1.acme.corp.com, IP Address: 10.0.4.42  
-DNS: acme-dvppg1db-server3.acme.corp.com, IP Address: 10.0.4.44  
-DNS: acme-dvppg1db-server4.acme.corp.com, IP Address: 10.0.4.45
+DNS: gurus-backup-server1server2.acme.corp.com, IP Address: 10.0.4.43  
+DNS: gurus-pgspr-vip.acme.corp.com, IP Address: 10.0.4.28  
+DNS: gurus-pgspr-server1.acme.corp.com, IP Address: 10.0.4.26  
+DNS: gurus-pgspr-server2.acme.corp.com, IP Address: 10.0.4.27  
+DNS: gurus-pgsdb-server1.acme.corp.com, IP Address: 10.0.4.42  
+DNS: gurus-pgsdb-server3.acme.corp.com, IP Address: 10.0.4.44  
+DNS: gurus-pgsdb-server4.acme.corp.com, IP Address: 10.0.4.45
 ```
 
 !!! Note:

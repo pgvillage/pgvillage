@@ -49,30 +49,30 @@ For troubleshooting, check the service logs:
 ---
 
 ```bash
-[me@pgv-dvppg1pr-server2 ~] $ sudo journalctl -efu pgroute66.service
+[me@gurus-pgspr-server2 ~] $ sudo journalctl -efu pgroute66.service
 
 -- Logs begin at Thu 2022-10-13 02:09:58 CEST.
-Oct 13 22:29:19 pgv-dvppg1pr-server2 pgroute66[1608249]: [GIN] 2022/10/13 - 22:29:19 | 200 | 1.780668ms | 127.0.0.1 | GET "/v1/standbys"
-Oct 13 22:29:19 pgv-dvppg1pr-server2 pgroute66[1608249]: [GIN] 2022/10/13 - 22:29:19 | 200 | 1.951384ms | 127.0.0.1 | GET "/v1/primary"
-Oct 13 22:29:21 pgv-dvppg1pr-server2 pgroute66[1608249]: [GIN] 2022/10/13 - 22:29:21 | 200 | 1.812061ms | 127.0.0.1 | GET "/v1/primary"
-Oct 13 22:29:19 pgv-dvppg1pr-server2 pgroute66[1608249]: [GIN] 2022/10/13 - 22:29:19 | 200 | 1.986874ms | 127.0.0.1 | GET "/v1/standbys"
-Oct 13 22:29:20 pgv-dvppg1pr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:20 | 200 | 1.917752ms |   127.0.0.1 | GET "/v1/standbys"
-Oct 13 22:29:20 pgv-dvppg1pr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:20 | 200 | 1.69516ms |     127.0.0.1 | GET "/v1/primary"
-Oct 13 22:29:21 pgv-dvppg1pr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:21 | 200 | 1.957809ms |   127.0.0.1 | GET "/v1/standbys"
-Oct 13 22:29:21 pgv-dvppg1pr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:21 | 200 | 1.812061ms |   127.0.0.1 | GET  "/v1/primary"
-Oct 13 22:29:21 pgv-dvppg1pr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:21 | 200 | 1.606772ms |  127.0.0.1 | GET "/v1/standbys"
+Oct 13 22:29:19 gurus-pgspr-server2 pgroute66[1608249]: [GIN] 2022/10/13 - 22:29:19 | 200 | 1.780668ms | 127.0.0.1 | GET "/v1/standbys"
+Oct 13 22:29:19 gurus-pgspr-server2 pgroute66[1608249]: [GIN] 2022/10/13 - 22:29:19 | 200 | 1.951384ms | 127.0.0.1 | GET "/v1/primary"
+Oct 13 22:29:21 gurus-pgspr-server2 pgroute66[1608249]: [GIN] 2022/10/13 - 22:29:21 | 200 | 1.812061ms | 127.0.0.1 | GET "/v1/primary"
+Oct 13 22:29:19 gurus-pgspr-server2 pgroute66[1608249]: [GIN] 2022/10/13 - 22:29:19 | 200 | 1.986874ms | 127.0.0.1 | GET "/v1/standbys"
+Oct 13 22:29:20 gurus-pgspr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:20 | 200 | 1.917752ms |   127.0.0.1 | GET "/v1/standbys"
+Oct 13 22:29:20 gurus-pgspr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:20 | 200 | 1.69516ms |     127.0.0.1 | GET "/v1/primary"
+Oct 13 22:29:21 gurus-pgspr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:21 | 200 | 1.957809ms |   127.0.0.1 | GET "/v1/standbys"
+Oct 13 22:29:21 gurus-pgspr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:21 | 200 | 1.812061ms |   127.0.0.1 | GET  "/v1/primary"
+Oct 13 22:29:21 gurus-pgspr-server2 pgroute66[1608249]: [GIN]2022/10/13 - 22:29:21 | 200 | 1.606772ms |  127.0.0.1 | GET "/v1/standbys"
 ```
 
 If necessary, the logging can also be temporarily increased by raising the log level to debug in the config file:
 
 ```bash
-[me@pgv-dvppg1pr-server2 ~]$ vim /etc/pgroute66/config.yaml
+[me@gurus-pgspr-server2 ~]$ vim /etc/pgroute66/config.yaml
 
-[me@pgv-dvppg1pr-server2 ~]$ grep loglevel /etc/pgroute66/config.yaml
+[me@gurus-pgspr-server2 ~]$ grep loglevel /etc/pgroute66/config.yaml
 
 loglevel: develop
 
-[me@pgv-dvppg1pr-server2 ~]$ systemctl restart pgroute66.service
+[me@gurus-pgspr-server2 ~]$ systemctl restart pgroute66.service
 ```
 
 !!! note
