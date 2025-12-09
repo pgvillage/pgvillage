@@ -23,8 +23,8 @@ date: 2025-11-11
 
 ## Restore to point in time
 
-[WAL-g](../tools/wal-g.md) supports performing a restore to Point in Time, 
-but the procedure in combination with [stolon](../tools/stolon.md) (High Availability Cluster Management) is complex.
+[WAL-g](../../tools/wal-g.md) supports performing a restore to Point in Time, 
+but the procedure in combination with [stolon](../../tools/stolon.md) (High Availability Cluster Management) is complex.
 
 Therefore, the process is fully automated in an **Ansible playbook**, which performs these steps:
 

@@ -11,7 +11,7 @@ date: 2025-11-11
 
 # Refreshing certificates (2)
 
-Certificates are internally generated using an automation tool called [chainsmith](../tools/chainsmith.md).
+Certificates are internally generated using an automation tool called [chainsmith](../../tools/chainsmith.md).
 
 The basic idea is to generate a new certificate chain and replace the old one in a single step.
 
@@ -28,13 +28,14 @@ In practice, a couple of restarts may be required — but even then, this is sti
 ## Dependencies
 
 - Knowledge of:
-  - [mTLS](../architecture/mtls.md)
-   - Note  that this page is a guide, but reading it does not make one an expert in [mTLS](../architecture/mtls.md)
+  - [mTLS](../../architecture/mtls.md)
+   - Note  that this page is a guide, but reading it does not make one an expert in [mTLS](../../architecture/mtls.md)
 - Knowledge of Postgres and how it functions with mTLS
 - Knowledge of:
 - [Ansible](ansible.md)
-- [Ansible inventory](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html)- [Ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
-- Knowledge of the application and the associated [PostgreSQL client and how it works with mTLS](../architecture/mtls.md)
+- [Ansible inventory](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html)
+- [Ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
+- Knowledge of the application and the associated [PostgreSQL client and how it works with mTLS](../../users-guide/clients.md)
 - The option to execute this in a POC environment, a test, and an acceptance environment
 
 ## Work Instruction

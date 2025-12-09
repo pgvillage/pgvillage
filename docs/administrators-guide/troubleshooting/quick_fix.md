@@ -29,7 +29,7 @@ Therefore, the first step in troubleshooting is to identify which of these areas
 
 ### 1. Check if Postgres itself is available:
 
-   - Use the checks described in the [avchecker](../tools/avchecker.md) documentation.
+   - Use the checks described in the [avchecker](../../tools/avchecker.md) documentation.
    - Resolve all issues so that avchecker reports again that Postgres is available.
 
 ### 2. Check if Postgres is available for the application:
@@ -67,7 +67,7 @@ Ensure that the client configuration includes:
   - Verify the PostgreSQL **pg_hba.conf** configuration.
   - Review **application logs** with the app administrator.
   - Check for **PostgreSQL log errors**.
-  - For more information, see the documentation on [client configuration](../../users-guide/clients.md) and about [mTLS](../architecture/mtls.md).
+  - For more information, see the documentation on [client configuration](../../users-guide/clients.md) and about [mTLS](../../architecture/mtls.md).
 
 ---
 

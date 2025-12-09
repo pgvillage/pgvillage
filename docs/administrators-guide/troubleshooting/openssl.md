@@ -11,7 +11,7 @@ date: 2025-11-11
 
 The `openssl` Linux command can be used for performing all certificate-related tasks, including:
 
-- Generate new private keys, certificate signing requests, certificates, etc. ([chainsmith](../tools/chainsmith.md) uses openssl)
+- Generate new private keys, certificate signing requests, certificates, etc. ([chainsmith](../../tools/chainsmith.md) uses openssl)
 - Query information about certificates, including lifetime/expiry, subject/CommonName, x509 extensions, etc.
 - Verification of the combination of a certificate and private key
 - Verification of a certificate chain
@@ -179,7 +179,7 @@ Digital Signature, Key Encipherment, Data Encipherment
 
 ### Subject Alternative Name
 
-Since TCP proxies (such as [stolon-proxy](../tools/stolon.md) and [HAProxy](../tools/haproxy.md)) are also used in the PostgreSQL architecture, it is possible that a client connects to an FQDN different from that of the server they are actually connecting to.
+Since TCP proxies (such as [stolon-proxy](../../tools/stolon.md) and [HAProxy](../../tools/haproxy.md)) are also used in the PostgreSQL architecture, it is possible that a client connects to an FQDN different from that of the server they are actually connecting to.
 
 For example, he connects to the VIP (acme-dvppg1 **pr-v** 01p.acme.corp.com) and accesses the primary database server, such as acme-dvppg1 **pr-v** 02p.acme.corp.com, via HAProxy and stolon-proxy.
 
@@ -240,7 +240,7 @@ openssl pkcs8 -topk8 -inform PEM -outform DER -in cims_rw.key -out cims_rw.pk8
 openssl pkcs12 -export -nokeys -in cims_rw.pem -out cims_rw.p12
 ```
 
-[Chainsmith](../tools/chainsmith.md) generates automatically the standard PEM and PKCS8 format keys.
+[Chainsmith](../../tools/chainsmith.md) generates automatically the standard PEM and PKCS8 format keys.
 
 These can be found in the temporary folder (or the GPG archive).
 
