@@ -1,6 +1,0 @@
----
-- name: Deploy walg role
-  hosts: localhost
-  remote_user: root
-  roles:
-    - walg

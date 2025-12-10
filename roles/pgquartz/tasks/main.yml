@@ -1,5 +1,0 @@
----
-- name: Install
-  ansible.builtin.include_tasks: "install.yml"
-- name: Schedule
-  ansible.builtin.include_tasks: "jobs_{{ pgquartz_scheduler }}.yml"

@@ -1,4 +1,0 @@
-# {{ item.key }}
-{% for key, value in item.value.items() %}
-{{ key | upper() | replace('-','_') }}={{ value }}
-{% endfor %}
