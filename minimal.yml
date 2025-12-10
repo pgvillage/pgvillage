@@ -17,34 +17,34 @@
   become: true
   gather_facts: true
   roles:
-    - role: linux
+    - role: pgvillage.linux
       tags:
         - linux
         - packages
-    - role: chainsmith
+    - role: pgvillage.chainsmith
       tags:
         - chainsmith
         - certificates
         - certs
-    - role: firewall
+    - role: pgvillage.firewall
       tags:
         - firewall
         - firewalld
-    - role: etcd
+    - role: pgvillage.etcd
       tags:
         - etcd
-    - role: walg
+    - role: pgvillage.walg
       tags:
         - walg
-    - role: stolon
+    - role: pgvillage.stolon
       tags:
         - stolon
         - postgres
         - postgresql
         - pg
-    # - role: avchecker
+    # - role: pgvillage.avchecker
     #   tags:
     #     - linux
-    # - role: pgquartz
+    # - role: pgvillage.pgquartz
     #   tags:
     #     - linux
