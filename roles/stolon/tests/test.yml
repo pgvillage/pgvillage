@@ -1,6 +1,0 @@
----
-- name: Test stolon role
-  hosts: localhost
-  remote_user: root
-  roles:
-    - stolon

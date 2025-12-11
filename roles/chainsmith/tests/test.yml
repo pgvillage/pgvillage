@@ -1,6 +1,0 @@
----
-- name: Test chainsmith role
-  hosts: localhost
-  remote_user: root
-  roles:
-    - chainsmith

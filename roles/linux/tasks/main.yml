@@ -1,9 +1,0 @@
----
-- name: Packages
-  ansible.builtin.include_tasks: packages.yml
-  when: ansible_pkg_mgr in ['yum', 'dnf']
-- name: Install sysstat
-  ansible.builtin.include_tasks: sysstat.yml
-  when: ansible_pkg_mgr in ['yum', 'dnf']
-- name: Users
-  ansible.builtin.include_tasks: users.yml

@@ -3,3 +3,19 @@ collections:
   - name: community.postgresql
   - name: community.general
   - name: ansible.posix
+
+roles:
+  - name: pgvillage.avchecker
+  - name: pgvillage.chainsmith
+  - name: pgvillage.etcd
+  - name: pgvillage.firewall
+  - name: pgvillage.haproxy
+  - name: pgvillage.keepalived
+  - name: pgvillage.linux
+  - name: pgvillage.minio
+  - name: pgvillage.nagios
+  - name: pgvillage.pgfga
+  - name: pgvillage.pgquartz
+  - name: pgvillage.pgroute66
+  - name: pgvillage.stolon
+  - name: pgvillage.walg
