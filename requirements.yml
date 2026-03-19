@@ -17,5 +17,6 @@ roles:
   - name: pgvillage.pgfga
   - name: pgvillage.pgquartz
   - name: pgvillage.pgroute66
+  - name: pgvillage.pgbouncer
   - name: pgvillage.stolon
   - name: pgvillage.walg

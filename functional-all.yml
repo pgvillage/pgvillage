@@ -119,6 +119,18 @@
     - keepalived
     - pgroute66
 
+- name: Setup pgbouncer
+  hosts:
+    - hacluster
+  become: true
+  gather_facts: false
+  roles:
+    - pgvillage.pgbouncer
+  tags:
+    - pgbouncer
+    - bouncer
+    - pooler
+
 - name: Setup Nagios NRPE checks
   hosts:
     - haproxy
