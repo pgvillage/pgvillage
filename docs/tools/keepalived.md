@@ -41,8 +41,8 @@ Which VIP has been connected can be checked using the following command:
 ### Node 1
 
 ```bash
-me@gurus-dbabh-server1 ~/g/ansible-postgres (tmp)> ssh acme-dvppg1pr-server1.acme.corp.com
-[me@acme-dvppg1pr-server1 ~]$ ip a
+me@gurus-ansible-server1 ~/g/ansible-postgres (tmp)> ssh gurus-pgsdb-server1.acme.corp.com
+[me@gurus-pgsdb-server1 ~]$ ip a
 
 1: lo: <LOOPBACK, UP, LOWER_UP> MTU 65536 qdisc noqueue state UNKNOWN group default qlen 1000
   link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -56,15 +56,15 @@ me@gurus-dbabh-server1 ~/g/ansible-postgres (tmp)> ssh acme-dvppg1pr-server1.acm
     valid_lft forever
     preferred_lft forever
 
-[me@acme-dvppg1pr-server1 ~]$ logout
-Connection to acme-dvppg1pr-server1.acme.corp.com closed.
+[me@gurus-pgspr-server1 ~]$ logout
+Connection to gurus-pgspr-server1.acme.corp.com closed.
 ```
 
 ### Node 2
 
 ```bash
-me@gurus-dbabh-server1 ~/g/ansible-postgres (tmp) > ssh acme-dvppg1pr-server2.acme.corp.com
-[me@acme-dvppg1pr-server2 ~\]$ ip a
+me@gurus-ansible-server1 ~/g/ansible-postgres (tmp) > ssh gurus-pgsdb-server2.acme.corp.com
+[me@gurus-pgsdb-server2 ~\]$ ip a
 
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00

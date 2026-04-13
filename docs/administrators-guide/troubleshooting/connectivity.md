@@ -26,7 +26,7 @@ Examples:
 [myapp]
 user=usr
 password=pwd
-host=acme-dvppg1pr-v01p.acme.corp.com
+host=gurus-pgspr-vip.acme.corp.com
 port=5432
 sslmode=verify-full
 dbname=myappdb
@@ -34,10 +34,10 @@ dbname=myappdb
 # Then a connection with service=myapp
 
 # libpq connection string:
-'user=usr password=pwd host=acme-dvppg1pr-v01p.acme.corp.com port=5432 sslmode=verify-full dbname=myappdb'
+'user=usr password=pwd host=gurus-pgspr-vip.acme.corp.com port=5432 sslmode=verify-full dbname=myappdb'
 
 # JDBC connection URL as:
-postgresql://usr:pwd@acme-dvppg1pr-v01p.acme.corp.com:5432/myappdb
+postgresql://usr:pwd@gurus-pgspr-vip.acme.corp.com:5432/myappdb
 ```
 
 RW router connections can be recognized by:
@@ -66,9 +66,9 @@ The connections follow these paths:
    - Is HAProxy running?
    - What does the haproxy stat command say?
      - Is there an active PostgresReadWrite-backend? There should be one...
-     - Does it match expectations? See [HAProxy](../tools/haproxy.md) documentation...
+     - Does it match expectations? See [HAProxy](../../tools/haproxy.md) documentation...
    - Is PgRoute66 running?
-   - Does the logging match expectations? Run with debugging if necessary. See [PgRoute66](../tools/pgroute66.md) documentation...
+   - Does the logging match expectations? Run with debugging if necessary. See [PgRoute66](../../tools/pgroute66.md) documentation...
    - Are the PgRoute66 certificates OK? `sudo openssl x509 -text -noout -in ~pgroute66/.postgresql/postgresql.crt`
      - Check that `validity - Not After` has not expired
      - Check that `X509v3 Key Usage: Digital Signature, Key Encipherment, Data Encipherment` is set
@@ -111,7 +111,7 @@ Examples:
 [myapp]
 user=usr
 password=pwd
-host=acme-dvppg1pr-v01p.acme.corp.com
+host=gurus-pgspr-vip.acme.corp.com
 port=5433
 sslmode=verify-full
 dbname=myappdb
@@ -119,10 +119,10 @@ dbname=myappdb
 # Then a connection with service=myapp
 
 # libpq connection string:
-'user=usr password=pwd host=acme-dvppg1pr-v01p.acme.corp.com port=5433 sslmode=verify-full dbname=myappdb'
+'user=usr password=pwd host=gurus-pgspr-vip.acme.corp.com port=5433 sslmode=verify-full dbname=myappdb'
 
 # JDBC connection URL:
-postgres://usr:pwd@acme-dvppg1pr-v01p.acme.corp.com:5433/myappdb
+postgres://usr:pwd@gurus-pgspr-vip.acme.corp.com:5433/myappdb
 ```
 
 RO connections can be recognized by:
@@ -185,7 +185,7 @@ Examples:
 [myapp]
 user=usr
 password=pwd
-host=acme-dvppg1db-server1.acme.corp.com, acme-dvppg1db-server2.acme.corp.com, acme-dvppg1db-server3.acme.corp.com
+host=gurus-pgsdb-server1.acme.corp.com, gurus-pgsdb-server2.acme.corp.com, gurus-pgsdb-server3.acme.corp.com
 port=25432
 sslmode=verify-full
 dbname=myappdb
@@ -193,10 +193,10 @@ dbname=myappdb
 # and then a connection with service=myapp
 
 # libpq connection string:
-'user=usr password=pwd host=acme-dvppg1db-server1.acme.corp.com,acme-dvppg1db-server2.acme.corp.com,acme-dvppg1db-server3.acme.corp.com port=25432 sslmode=verify-full dbname=myappdb'
+'user=usr password=pwd host=gurus-pgsdb-server1.acme.corp.com,gurus-pgsdb-server2.acme.corp.com,gurus-pgsdb-server3.acme.corp.com port=25432 sslmode=verify-full dbname=myappdb'
 
 # JDBC connection URL:
-postgres://usr:pwd@acme-dvppg1db-server1.acme.corp.com,acme-dvppg1db-server2.acme.corp.com,acme-dvppg1db-server3.acme.corp.com:25432/myappdb
+postgres://usr:pwd@gurus-pgsdb-server1.acme.corp.com,gurus-pgsdb-server2.acme.corp.com,gurus-pgsdb-server3.acme.corp.com:25432/myappdb
 ```
 
 RW router connections can be recognized by:
@@ -244,7 +244,7 @@ Examples:
 [myapp]
 user=usr
 password=pwd
-host=acme-dvppg1db-server1.acme.corp.com, acme-dvppg1db-server2.acme.corp.com, acme-dvppg1db-server3.acme.corp.com
+host=gurus-pgsdb-server1.acme.corp.com, gurus-pgsdb-server2.acme.corp.com, gurus-pgsdb-server3.acme.corp.com
 port=5432
 sslmode=verify-full
 dbname=myappdb
@@ -253,10 +253,10 @@ target_session_attrs=read-write
 # Then a connection with service=myapp
 
 # A libpq connection string like:
-'user=usr password=pwd host=acme-dvppg1db-server1.acme.corp.com,acme-dvppg1db-server2.acme.corp.com,acme-dvppg1db-server3.acme.corp.com port=5432 sslmode=verify-full dbname=myappdb target_session_attrs=read-write'
+'user=usr password=pwd host=gurus-pgsdb-server1.acme.corp.com,gurus-pgsdb-server2.acme.corp.com,gurus-pgsdb-server3.acme.corp.com port=5432 sslmode=verify-full dbname=myappdb target_session_attrs=read-write'
 
 # JDBC connection URL:
-postgres://usr:pwd@acme-dvppg1db-server1.acme.corp.com,acme-dvppg1db-server2.acme.corp.com,acme-dvppg1db-server3.acme.corp.com:5432/myappdb?targetServerType=master
+postgres://usr:pwd@gurus-pgsdb-server1.acme.corp.com,gurus-pgsdb-server2.acme.corp.com,gurus-pgsdb-server3.acme.corp.com:5432/myappdb?targetServerType=master
 ```
 
 Direct RW connections are recognizable by:
@@ -305,7 +305,7 @@ Examples:
 [myapp]
 user=usr
 password=pwd
-host=acme-dvppg1db-server1.acme.corp.com, acme-dvppg1db-server2.acme.corp.com, acme-dvppg1db-server3.acme.corp.com, acme-dvppg1db-server4.acme.corp.com
+host=gurus-pgsdb-server1.acme.corp.com, gurus-pgsdb-server2.acme.corp.com, gurus-pgsdb-server3.acme.corp.com, gurus-pgsdb-server4.acme.corp.com
 port=5432
 sslmode=verify-full
 dbname=myappdb
@@ -316,10 +316,10 @@ target_session_attrs=read-only # or standby or prefer-standby
 # Then a connection with service=myapp
 
 # libpq connection string:
-'user=usr password=pwd host=acme-dvppg1db-server1.acme.corp.com,acme-dvppg1db-server2.acme.corp.com,acme-dvppg1db-server3.acme.corp.com,acme-dvppg1db-server4.acme.corp.com port=5432 sslmode=verify-full dbname=myappdb target_session_attrs=read-only'
+'user=usr password=pwd host=gurus-pgsdb-server1.acme.corp.com,gurus-pgsdb-server2.acme.corp.com,gurus-pgsdb-server3.acme.corp.com,gurus-pgsdb-server4.acme.corp.com port=5432 sslmode=verify-full dbname=myappdb target_session_attrs=read-only'
 
 # JDBC connection URL as:
-postgres://usr:pwd@acme-dvppg1db-server1.acme.corp.com,acme-dvppg1db-server2.acme.corp.com,acme-dvppg1db-server3.acme.corp.com,acme-dvppg1db-server4.acme.corp.com:5432/myappdb?targetServerType=secondary
+postgres://usr:pwd@gurus-pgsdb-server1.acme.corp.com,gurus-pgsdb-server2.acme.corp.com,gurus-pgsdb-server3.acme.corp.com,gurus-pgsdb-server4.acme.corp.com:5432/myappdb?targetServerType=secondary
 ```
 
 RO connections can be recognized by:

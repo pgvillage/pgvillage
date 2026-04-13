@@ -94,7 +94,7 @@ A few examples:
 **Checking which backups are available**
 
 ```bash
-[postgres@acme-dvppg1db-server2 ~] $ /usr/local/bin/wal-g-pg backup-list
+[postgres@gurus-pgsdb-server2 ~] $ /usr/local/bin/wal-g-pg backup-list
 ...
 name                                                       modified             wal_segment_backup_start
 base_000000010000000C0000000E                              2022-10-11T14:54:12Z 000000010000000C0000000E
@@ -132,7 +132,7 @@ Delete all backups up to base_000000010000000E0000006B (report and actually remo
 You can view available commands using:
 
 ```bash
-[postgres@acme-dvppg1db-server2 ~]$ /usr/local/bin/wal-g-pg
+[postgres@gurus-pgsdb-server2 ~]$ /usr/local/bin/wal-g-pg
 PostgreSQL backup tool
 
 Usage:
@@ -185,7 +185,7 @@ Use `wal-g [command] --help` for more information about a command.
 
 ### Help for the `delete` Command
 
-[postgres@acme-dvppg1db-server2 ~]$ /usr/local/bin/wal-g-pg delete --help
+[postgres@gurus-pgsdb-server2 ~]$ /usr/local/bin/wal-g-pg delete --help
 Clears old backups and WALs
 
 Usage:

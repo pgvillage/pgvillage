@@ -11,11 +11,11 @@ date: 2025-11-11
 
 In the SBB PostgreSQL, an [mTLS](../../architecture/mtls.md) chain is used with [server-](byo-server-certs.md) and [client-](byo-client-certs.md) certificates.
 
-The chain is generated using [Chainsmith](chainsmith.md) and (re)generated using this procedure.
+The chain is generated using [Chainsmith](../../tools/chainsmith.md) and (re)generated using this procedure.
 
 ## Dependencies
 
-- [chainsmith](../tools/chainsmith.md)
+- [chainsmith](../../tools/chainsmith.md)
 - [nieuwe uitrol](inventory.md)
 - [ansible](ansible.md)
 
@@ -51,7 +51,7 @@ glab mr create
 
 ### 2. Generate the new certificates
 
-- When using chainsmith: [Rerun Chainsmith](chainsmith.md)
+- When using chainsmith: [Rerun Chainsmith](../../tools/chainsmith.md)
 - When using `bring your own` certificates: [byo server certs](byo-server-certs.md)
 
 Once the certificate rollout is complete, **PostgreSQL and the application will run using the refreshed certificates.**

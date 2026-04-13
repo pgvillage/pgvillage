@@ -192,7 +192,7 @@ Type "help" for help.
 
 postgres=#
 ```
-- Check the status of [avchecker](../tools/avchecker.md)
+- Check the status of [avchecker](../../tools/avchecker.md)
 - Create users as per [Extra database en/of user aanmaken](modify_existing.md)
 
 If everything is okay after the rollout, mark the Merge Request as Ready and ensure that the Merge Request gets merged.

@@ -141,7 +141,7 @@ There is a small difference between the `routerro` service and the other service
 Status control works best via `journalctl` commands.
 
 ```bash
-[root@acme-dvppg1db-server2 ~]# journalctl -efu avchecker@routerro | head
+[root@gurus-pgsdb-server2 ~]# journalctl -efu avchecker@routerro | head
 ```
 
 Example logs:
@@ -149,23 +149,23 @@ Example logs:
 ```text
 -- Logs begin at Sun 2022-10-16 02:26:36 CEST. --
 
-Oct 16 00:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+Oct 16 00:38:06 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 
-Oct 16 03:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+Oct 16 03:38:06 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 
-Oct 16 03:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+Oct 16 03:38:06 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 
-Oct 16 03:06:38 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+Oct 16 03:06:38 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 
-Oct 16 02:38:06 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+Oct 16 02:38:06 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 
-Oct 16 02:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+Oct 16 02:52:16 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 
-Oct 1602:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+Oct 1602:52:16 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 
-Oct 16 05:02:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+Oct 16 05:02:16 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 
-Oct 1602:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
+Oct 1602:52:16 gurus-pgsdb-server2 avchecker.py[629825]: cannot execute UPDATE in a read-only transaction
 ```
 
 ---
@@ -173,17 +173,17 @@ Oct 1602:52:16 acme-dvppg1db-server2 avchecker.py[629825]: cannot execute UPDATE
 ### Proxy Service Example
 
 ```bash
-[root@acme-dvppg1db-server2 ~]# journalctl -efu avchecker@proxy
+[root@gurus-pgsdb-server2 ~]# journalctl -efu avchecker@proxy
 
 #Logs begin at Sun 2022-10-16 02:26:36 CEST.
 
-Oct 16 20:25:28 acme-dvppg1db-server2 avchecker.py[629455]: 0:00:08.314879
+Oct 16 20:25:28 gurus-pgsdb-server2 avchecker.py[629455]: 0:00:08.314879
 
-[root@acme-dvppg1db-server2 ~]# journalctl -efu avchecker@stolon
+[root@gurus-pgsdb-server2 ~]# journalctl -efu avchecker@stolon
 
 -- Logs begin at Sun 2022-10-16 02:26:36 CEST.
 
-[root@acme-dvppg1db-server2 ~]# journalctl -efu avchecker@routerrw
+[root@gurus-pgsdb-server2 ~]# journalctl -efu avchecker@routerrw
 
 -- Logs begin at Sun 2022-10-16 02:26:36 CEST.
 ```
@@ -205,7 +205,7 @@ This feature is (for now) not implemented.
 For the proxy service, you see a notification:
 
 ```
-Oct 16 20:25:28 acme-dvppg1db-server2 avchecker.py[629455]: 0:00:08.314879
+Oct 16 20:25:28 gurus-pgsdb-server2 avchecker.py[629455]: 0:00:08.314879
 ```
 
 This indicates that **stolon-proxy** took **8.31 seconds** to reconnect and rewrite data.  
@@ -269,7 +269,7 @@ If you encounter issues with `avchecker@stolon`, investigate and resolve them be
 Check whether there is a master available, if it can be reached from the current server, and ensure that the client certificates are functioning correctly (for example, they have not expired):
 
 ```bash
-[postgres@acme-dvppg1db-server1 ~]$ psql service=master
+[postgres@gurus-pgsdb-server1 ~]$ psql service=master
 ```
 
 ## PostgreSQL (12.11)
@@ -281,7 +281,7 @@ Type "help" for help.
 
 postgres=# \q
 
-[postgres@acme-dvppg1db-server1 ~]$
+[postgres@gurus-pgsdb-server1 ~]$
 ```
 
 Connecting with `service=master` does the following:
@@ -323,7 +323,7 @@ Other issues may be related to firewalling (but the AvChecker also connects loca
 Eventueel kan stolon-proxy ook gecontroleerd worden met psql:
 
 ```bash
-[postgres@acme-dvppg1db-server1 ~]$ psql service=proxy
+[postgres@gurus-pgsdb-server1 ~]$ psql service=proxy
 ```
 
 PostgreSQL (12.11)
@@ -337,7 +337,7 @@ SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, co
 ```bash
 postgres=# \q
 
-[postgres@acme-dvppg1db-server1 ~]$
+[postgres@gurus-pgsdb-server1 ~]$
 ```
 
 Connecting with `service=proxy` does the following:
