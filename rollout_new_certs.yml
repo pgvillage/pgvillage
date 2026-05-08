@@ -11,7 +11,7 @@
   become: true
   gather_facts: false
   roles:
-    - minio
+    - pgvillage.minio
   tags:
     - minio
 
@@ -21,7 +21,7 @@
   become: true
   gather_facts: false
   roles:
-    - walg
+    - pgvillage.walg
   tags:
     - walg
 
@@ -31,7 +31,7 @@
   become: true
   gather_facts: false
   roles:
-    - stolon
+    - pgvillage.stolon
   tags:
     - stolon
     - postgres
@@ -44,7 +44,7 @@
   become: true
   gather_facts: false
   roles:
-    - avchecker
+    - pgvillage.avchecker
   tags:
     - avchecker
     - availability_checker
@@ -55,9 +55,9 @@
   become: true
   gather_facts: false
   roles:
-    - haproxy
-    - keepalived
-    - pgroute66
+    - pgvillage.haproxy
+    - pgvillage.keepalived
+    - pgvillage.pgroute66
   tags:
     - haproxy
     - router
@@ -70,6 +70,6 @@
   become: true
   gather_facts: false
   roles:
-    - pgquartz
+    - pgvillage.pgquartz
   tags:
     - pgquartz

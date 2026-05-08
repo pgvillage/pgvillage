@@ -35,3 +35,8 @@ ansible-galaxy collection install --requirements-file ./requirements.yml
     - Please supply [an Issue](https://github.com/pgvillage/pgvillage/issues) if you want to have it
 - For other VM runtimes: It will work, and we can help you succeed.
 - For Kubernetes deployments: Scheduled for 2026.
+
+**Note** that for Suse there is less builds on download.postgresql.org available
+(at the time of this writing, this is only for leap-16 on x86_64 for openSuse, and
+sles15/16 on x86_64 for Suse). We only build rpm's for leap/16 on x86_64. If you need
+other architectures, or specific Suse builds please reach out to us.
