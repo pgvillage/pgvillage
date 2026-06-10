@@ -18,7 +18,7 @@ roles:
   - name: pgvillage.keepalived
     version: "v0.2.0"
   - name: pgvillage.linux
-    version: "v0.3.0"
+    version: "v0.3.1"
   - name: pgvillage.minio
     version: "v0.2.1"
   - name: pgvillage.nagios
@@ -32,6 +32,6 @@ roles:
   - name: pgvillage.pgbouncer
     version: "v0.2.0"
   - name: pgvillage.stolon
-    version: "v0.2.1"
+    version: "v0.2.2"
   - name: pgvillage.walg
     version: "v0.2.0"
