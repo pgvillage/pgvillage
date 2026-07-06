@@ -32,8 +32,21 @@ This is done using Ansible. This description can be used to load the inventory w
 
 #### iptables
 - **Database servers:** Ports `5432`, `25432`, `2379`, and `2380` must be open.
-- **Backup server:** Port `9091` must be open.
+- **Backup server:** Port `9091` must be open (or any other port as configured in `minio_server_addr`).
 - **Router servers (if applicable):** Ports `5432` and `5433` must be open.
+- **Management server (where you run Ansible)**: Should be able to connect to all other servers using ssh (port 22)
+
+---
+
+#### DOwnloading sources
+the following sources should be available either directly, or through a proxy (e.a. Satellite)
+- [pgvillage](https://github.com/pgvillage/pgvillage) (either https, or ssh, or zip if no other option is available)
+- [ansible galaxy for all ansible roles](https://galaxy.ansible.com/)
+- [Our rpm repos](https://repo.mannemsolutions.nl/)
+- [PostgreSQL repos](https://download.postgresql.org/)
+- os specific repos (e.a. centos, epel, CRB, or ubuntu repos, or Susue repos)
+
+For more info, check [our linux role](https://raw.githubusercontent.com/pgvillage/ansible-role-linux/refs/heads/main/defaults/main.yml) (see `_linux_public_repos`).
 
 ---
 
