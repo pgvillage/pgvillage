@@ -1,12 +1,4 @@
 ---
-- name: "Gather facts on all servers"
-  hosts:
-    - hacluster
-    - backup
-    - router
-    - localhost
-  become: true
-  gather_facts: true
 
 - name: Process all linux requirements
   hosts:
@@ -15,140 +7,56 @@
     - router
     - localhost
   become: true
-  gather_facts: false
-  roles:
-    - pgvillage.linux
-  tags:
-    - packages
-    - linux
+  gather_facts: true
+  tasks:
 
-- name: Install and run chainsmith to generate certificate chains
-  hosts:
-    - hacluster
-    - backup
-    - router
-    - localhost
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.chainsmith
-  tags:
-    - chainsmith
-    - certificates
-    - certs
+    - name: Roles as defined in the invenntory
+      include_role:
+        name: "pgvillage.{{ item.name }}"
+        apply:
+          tags: "{{ item.tags | default([]) | combine([item.name]) }}"
+      loop: "{{ pgvillage_roles | default(_pgvillage_roles) }}"
+      tags: always
+      when: 
+        - inventory_hostname in {{ item.groups | map('extract', groups) | flatten | unique }}"
 
-- name: Configure firewall as required
-  hosts:
-    - hacluster
-    - backup
-    - router
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.firewall
-  tags:
-    - firewall
-    - firewalld
-
-- name: Setup etcd
-  hosts:
-    - etcd_master
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.etcd
-  tags:
-    - etcd
-
-- name: Setup minio
-  hosts:
-    - backup
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.minio
-  tags:
-    - minio
-
-- name: Setup wal-g
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.walg
-  tags:
-    - walg
-
-- name: Setup Postgres with Stolon
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.stolon
-  tags:
-    - stolon
-    - postgres
-    - postgresql
-    - pg
-
-- name: Setup AVChecker to monitor availability of PostgreSQL
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.avchecker
-  tags:
-    - avchecker
-    - availability_checker
-
-- name: Setup a proxy with HAProxy, KeepAlived and PGRoute66
-  hosts:
-    - router
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.haproxy
-    - pgvillage.keepalived
-    - pgvillage.pgroute66
-  tags:
-    - haproxy
-    - router
-    - keepalived
-    - pgroute66
-
-- name: Setup pgbouncer
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.pgbouncer
-  tags:
-    - pgbouncer
-    - bouncer
-    - pooler
-
-- name: Setup Nagios NRPE checks
-  hosts:
-    - haproxy
-    - backup
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.nagios
-  tags:
-    - nagios
-
-- name: Setup PGQuartz for scheduling of PostgreSQL jobs
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.pgquartz
-  tags:
-    - pgquartz
+  vars:
+    _pgvillage_roles:
+      - role: linux
+        groups: [ hacluster, backup, router, localhost ]
+        tags: [ packages ]
+      - role: chainsmith
+        groups: [ hacluster, backup, router, localhost ]
+        tags: [ certificates, certs ]
+      - role: firewall
+        groups: [ hacluster, backup, router ]
+        tags: [ firewalld ]
+      - role: etcd
+        groups: [ etcd_master ]
+        tags: [ firewalld ]
+      - role: minio
+        groups: [ backup ]
+      - role: walg
+        groups: [ backup ]
+      - role: stolon
+        groups: [ hacluster ]
+        tags: [ postgres, postgresql, pg ]
+      - role: avchecker
+        groups: [ hacluster ]
+      #- role: haproxy
+      #  groups: [ router ]
+      #  tags: [ haproxy, router, keepalived, pgroute66 ]
+      #- role: keepalived
+      #  groups: [ router ]
+      #  tags: [ haproxy, router, keepalived, pgroute66 ]
+      #- role: pgroute66
+      #  groups: [ router ]
+      #  tags: [ haproxy, router, keepalived, pgroute66 ]
+      - role: pgbouncer
+        groups: [ hacluster ]
+        tags: [ bouncer, pooler ]
+      - role: nagios
+        groups: [ hacluster, backup, router ]
+        tags: [ bouncer, pooler ]
+      - role: pgquartz
+        groups: [ hacluster ]
