@@ -14,7 +14,7 @@ roles:
   - name: pgvillage.firewall
     version: "v0.1.0"
   - name: pgvillage.haproxy
-    version: "v0.2.0"
+    version: "v0.3.0"
   - name: pgvillage.keepalived
     version: "v0.2.0"
   - name: pgvillage.linux
