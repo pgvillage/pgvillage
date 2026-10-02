@@ -79,6 +79,21 @@ Examples:
 
 Let's move on to the following:
 
+#### Multihomed
+
+When running multi-homed, you should set the correct interface to bind all processes to.
+Set the folling parameters as to your likings:
+
+- `environments/[ENV]/group_vars/all/stolon.yml`, look for:
+  - stolon_pg_listen_address and set it to something like: "{{ ansible_facts_eth1.ipv4.address }}"
+- `environments/[ENV]/group_vars/all/etcd.yml`, look for:
+  - etcd_iface_cluster and set it to your interface name (e.a. eth1)
+
+!!! note
+    This might also be set if you are using another interface name, such as enp0s9
+
+---
+
 #### PostgreSQL Version
   - `environments/[ENV]/group_vars/all/generic.yml`: postgresql_version
   - `environments/[ENV]/group_vars/all/packages.yml`: linux_rhsm_poolids
