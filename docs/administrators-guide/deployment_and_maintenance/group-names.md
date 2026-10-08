@@ -1,37 +1,40 @@
 ---
 title: Custom group names
-summary: Running with custom group names
+summary: Running PgVillage with custom inventory group names
 authors:
   - Sebas Mannem
 date: 2026-10-08
 ---
 
-# Group names
+# Custom group names
 
-The default group names chosen for PgVillage are:
+The default inventory group names chosen for PgVillage are:
 
-- hacluster: This group should hold all PostgreSQL database nodes and will receive postgres, stolon, wal-g and other database server tooling.
-- backup: This group can have one backup server. PgVillage will deploy Minio to be used as an S3 endpoint.
-- router: All servers in this group will have HaProxy, KeepAliveD and PgRoute66. **note** this can be the same servers as hacluster.
+- `hacluster`: This group should hold all PostgreSQL database nodes and will receive PostgreSQL, Stolon, WAL-G and other database server tooling.
+- `backup`: This group can have one backup server. PgVillage will deploy MinIO on it, to be used as an S3 endpoint.
+- `router`: All servers in this group will receive HAProxy, Keepalived and PgRoute66.
 
-Should you however want to use custom group names, you can do this with a few simple inventory changes.
+!!! note
+    The servers in the `router` group can be the same servers as in the `hacluster` group.
+
+Should you want to use custom group names, you can do so with a few inventory and playbook changes.
 
 ## Running with custom group names
 
 In this example, we change to the following group names:
 
-- hacluster > postgres
-- backup > minio
-- router > pgroute66
+- `hacluster` > `pgnodes`
+- `backup` > `minio`
+- `router` > `pgroute66`
 
 ### Step 1: Override role group names
 
-Some roles have a special parameter to ste the group name for postgres nodes (defaulting to hacluster).
+Some roles have a parameter to set the inventory group of the database nodes.
+The reference inventories set these to `hacluster`.
 Set them in your inventory to the new group name instead:
 
 !!! example
     ```yaml
-    chainsmith_node_group: pgnodes
     etcd_master_group_name: pgnodes
     pgroute66_pgnodes_group: pgnodes
     stolon_host_group: pgnodes
@@ -39,69 +42,82 @@ Set them in your inventory to the new group name instead:
 
 ### Step 2: Override role defaults using direct group names
 
-Some values in the PgVillage roles default to jinja based on the default group names.
-These values should be overwritten with new group names.
-Best approach is to copy the defaults from the roles to the inventory and override group names.
-These are the values to override in your inventory:
-
+Some values in the PgVillage roles have Jinja defaults that refer to the default group names directly.
+These values should be overridden with the new group names.
+The best approach is to copy the defaults from the roles to the inventory and replace the group names.
+Currently, this applies to the following values:
+- avchecker_cluster_members
+- chainsmith_nodes
+- chainsmith_ips
+- chainsmith_servers
 
 !!! example
     ```yaml
     avchecker_cluster_members: "{% set nodes = [] %}{% for node in groups.pgnodes %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes | list | join(',') }}"
-
     chainsmith_nodes: "{% set nodes = [] %}{% for node in (groups.pgnodes + groups.minio) %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes }}"
     chainsmith_ips: "{% set nodes = [] %}{% for node in (groups.pgnodes + groups.minio) %}{% do nodes.append(hostvars[node].ansible_host) %}{% endfor %}{{ nodes }}"
     chainsmith_servers: "{% set nodes = {} %}{% for node in (groups.pgnodes + groups.minio) %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_nodes+chainsmith_ips}) %}{% endfor %}{{ nodes }}"
     ```
 
 !!! note
-    ```yaml
-    Above is only an example. Make sure you copy the exact contents from the `defaults/main.yml` files for the specified roles
-    ```
+    The above is only an example. Make sure you copy the exact contents from the `defaults/main.yml` files of the role versions you are using.
 
-### Step 3: Update defaults with group names as keys
+### Step 3: Update values with group names as keys
 
-Some inventory values use group names as keys. One example is linux_packages, which sets the specific packages to be installed on hacluster nodes, minio nodes, etc.
-If you have alredy overriden them, you should update them. If not, copy them from the roles, and update them as you have also done for `Step 2`.
+Some values are dictionaries with group names as keys.
+One example is `linux_packages`, which sets the specific packages to be installed on `hacluster` nodes, `backup` nodes, etc.
+If you have already overridden them in your inventory, update the keys.
+If not, copy them from the roles and update them as in Step 2.
 
-List of values containing group names:
-- chainsmith_users
-- linux_users
-- linux_packages
-- linux_groups
+List of values containing group names as keys:
+
+- `chainsmith_users`
+- `linux_groups`
+- `linux_packages`
+- `linux_rhsm_poolids` (only when using RHSM)
+- `linux_users`
+
+!!! warning
+    `linux_packages` is derived from internal variables (`_linux_packages`) in the linux role.
+    When overriding it, make sure the resulting dictionary contains all packages (including the PostgreSQL packages) under the new group names.
 
 ### Step 4: Move group specific inventory config
 
-In our inventory examples, we also set some config specific for servers in certain groups.
-As the group names have changed, the folders need to be renamed as well.
+The reference inventories also contain config specific for servers in certain groups.
+As the group names have changed, these folders need to be renamed as well.
 
 !!! example
     ```bash
-    mv environments/cluster1/group_vars/{hacluster,pgnodes}
-    mv environments/cluster1/group_vars/{backup,minio}
-    mv environments/cluster1/group_vars/{router,pgroute66}
+    mv environments/{ENV}/group_vars/{hacluster,pgnodes}
+    mv environments/{ENV}/group_vars/{backup,minio}
+    mv environments/{ENV}/group_vars/{router,pgroute66}
     ```
 
 ### Step 5: Update the hosts file
 
-The new groups should be known to Ansible. Update the hosts file as required.
-
-- environments/cluster1/hosts
+The new groups should be known to Ansible.
+Update the hosts file (`environments/{ENV}/hosts`) as required.
 
 ### Step 6: Update the playbooks
 
 The new groups should be properly referred to in the playbooks.
-Update them as required:
+Update the following as required:
 
+- `functional-all.yml`: the `hosts:` lists of all plays
+- `rollout_new_certs.yml`: the `hosts:` lists of all plays
+- `uninstall.yml`: the `when:` condition referring to `groups['hacluster']` and `groups['router']`
 
 !!! example
     ```bash
     for PB in functional-all.yml rollout_new_certs.yml uninstall.yml; do
-      sed -i 's/hacluster/pgnodes/' "${PB}"
-      sed -i 's/backup/minio/' "${PB}"
-      sed -i 's/router/pgroute66/' "${PB}"
+      sed -i.bak \
+        -e 's/hacluster/pgnodes/g' \
+        -e 's/backup/minio/g' \
+        -e 's/router/pgroute66/g' \
+        "${PB}"
+    done
     ```
 
-!!! note
-
-    The above example is a crude instrument, and also updates some tags. Best is to update manually.
+!!! warning
+    The above example is a crude instrument, and also changes tags and task names (e.g. `backup`).
+    It is better to update the playbooks manually, and review the changes (e.g. with `git diff`) either way.
