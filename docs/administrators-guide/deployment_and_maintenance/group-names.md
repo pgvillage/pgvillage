@@ -38,36 +38,15 @@ Set them in your inventory to the new group name instead:
     etcd_master_group_name: pgnodes
     pgroute66_pgnodes_group: pgnodes
     stolon_host_group: pgnodes
+    chainsmith_nodes: "{{ groups.pgnodes + groups.minio }}"
     ```
 
-### Step 2: Override role defaults using direct group names
-
-Some values in the PgVillage roles have Jinja defaults that refer to the default group names directly.
-These values should be overridden with the new group names.
-The best approach is to copy the defaults from the roles to the inventory and replace the group names.
-Currently, this applies to the following values:
-- avchecker_cluster_members
-- chainsmith_nodes
-- chainsmith_ips
-- chainsmith_servers
-
-!!! example
-    ```yaml
-    avchecker_cluster_members: "{% set nodes = [] %}{% for node in groups.pgnodes %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes | list | join(',') }}"
-    chainsmith_nodes: "{% set nodes = [] %}{% for node in (groups.pgnodes + groups.minio) %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes }}"
-    chainsmith_ips: "{% set nodes = [] %}{% for node in (groups.pgnodes + groups.minio) %}{% do nodes.append(hostvars[node].ansible_host) %}{% endfor %}{{ nodes }}"
-    chainsmith_servers: "{% set nodes = {} %}{% for node in (groups.pgnodes + groups.minio) %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_nodes+chainsmith_ips}) %}{% endfor %}{{ nodes }}"
-    ```
-
-!!! note
-    The above is only an example. Make sure you copy the exact contents from the `defaults/main.yml` files of the role versions you are using.
-
-### Step 3: Update values with group names as keys
+### Step 2: Update values with group names as keys
 
 Some values are dictionaries with group names as keys.
 One example is `linux_packages`, which sets the specific packages to be installed on `hacluster` nodes, `backup` nodes, etc.
 If you have already overridden them in your inventory, update the keys.
-If not, copy them from the roles and update them as in Step 2.
+If not, copy them from the roles, update them and add them to your inventory.
 
 List of values containing group names as keys:
 
@@ -81,7 +60,7 @@ List of values containing group names as keys:
     `linux_packages` is derived from internal variables (`_linux_packages`) in the linux role.
     When overriding it, make sure the resulting dictionary contains all packages (including the PostgreSQL packages) under the new group names.
 
-### Step 4: Move group specific inventory config
+### Step 3: Move group specific inventory config
 
 The reference inventories also contain config specific for servers in certain groups.
 As the group names have changed, these folders need to be renamed as well.
@@ -93,12 +72,12 @@ As the group names have changed, these folders need to be renamed as well.
     mv environments/{ENV}/group_vars/{router,pgroute66}
     ```
 
-### Step 5: Update the hosts file
+### Step 4: Update the hosts file
 
 The new groups should be known to Ansible.
 Update the hosts file (`environments/{ENV}/hosts`) as required.
 
-### Step 6: Update the playbooks
+### Step 5: Update the playbooks
 
 The new groups should be properly referred to in the playbooks.
 Update the following as required:
