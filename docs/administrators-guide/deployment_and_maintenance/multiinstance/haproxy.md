@@ -17,7 +17,7 @@ Best is to define a global config first and define front-ends and backends from 
 | Variable                 | Description                                                        |
 |--------------------------|--------------------------------------------------------------------|
 | `haproxy_timeout_client` | Client timeout of the frontends and server timeout of the backends (`10800s`). |
-| `haproxy_checkport`      | Port used for health checks of the backend servers (`9201`).        |
+| `haproxy_checkport`      | Check port set on the backend servers (`9201`). With `external-check` it is not used to decide health (see note below). |
 
 ## `haproxy_config`
 
@@ -32,10 +32,10 @@ Helper dictionary that maps each route type to a backend port (on the database h
           frontend_port: 35433
         proxy:
           backend_port: "{{ stolon_clusters.cluster1.sysconfig.stproxy.port }}"
-          frontend_port: 35434
+          frontend_port: 55433
         ro:
           backend_port: "{{ stolon_clusters.cluster1.sysconfig.stkeeper.pg_port }}"
-          frontend_port: 35435
+          frontend_port: 45433
     ```
 
 | Route       | Backend                      | Health check                           |
@@ -107,6 +107,15 @@ everything after the first dash to get the cluster name they query pgroute66 for
             checkport: "{{ haproxy_checkport }}"
           # db-2.local, db-3.local ...
     ```
+
+!!! note
+    With `external-check`, HAProxy does not run a TCP check against `checkport`. Health is decided by the check script,
+    which asks pgroute66 whether the server (by `name`) is the primary or a standby of the cluster (by backend name).
+    Therefore `checkport` does not need to be opened in the [firewall](firewall.md) of the database hosts.
+
+    Do not replace the external check with a plain TCP check on the Postgres port (e.g. `5432`): a TCP check only
+    proves Postgres accepts connections, so standbys would pass too and read-write traffic could be sent to a standby.
+    In a multiinstance setup, nothing listens on `5432` anyway (instances use e.g. `5433` and `5434`).
 
 ## Adding an instance
 
