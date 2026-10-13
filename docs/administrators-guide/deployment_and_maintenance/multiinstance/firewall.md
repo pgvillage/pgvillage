@@ -15,7 +15,7 @@ To do so, you can edit the firewall config (e.g. `environments/cluster1/group_va
 
 ### Combined
 
-When combining router and postgres, you can configure firewalld to open `postgres`, `pgbouncer`, `stolon-proxy`, `haproxy-rw` and `haproxy-ro` for multiple cluster instances as follows:
+When combining router and postgres, you can configure firewalld to open `postgres`, `pgbouncer`, `stolon-proxy`, `haproxy-rw`, `haproxy-ro`, and `haproxy-sp` for multiple cluster instances as follows:
 In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/hacluster/firewall.yml`) you can define all ports:
 
 !!! example
@@ -28,12 +28,14 @@ In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/ha
       cluster1_stolonproxy: 25433
       cluster1_haproxyrw:   35433
       cluster1_haproxyro:   45433
+      cluster1_haproxysp:   55433
 
       cluster2_postgres:     5434
       cluster2_pgbouncer:    6434
       cluster2_stolonproxy: 25434
       cluster2_haproxyrw:   35434
       cluster2_haproxyro:   45434
+      cluster2_haproxysp:   55434
 
       etcd_client: 2379
       etcd_server: 2380
@@ -63,7 +65,7 @@ In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/ha
 
 ### Router
 
-When separating router and postgres, you can configure firewalld to open `haproxy-rw` and `haproxy-ro` on router nodes for multiple cluster instances as follows:
+When separating router and postgres, you can configure firewalld to open `haproxy-rw`, `haproxy-ro`, nd `haproxy-sp` on router nodes for multiple cluster instances as follows:
 In the inventory config for router (e.g. `environments/cluster1/group_vars/router/firewall.yml`) you can define the following ports:
 
 !!! example
@@ -73,9 +75,11 @@ In the inventory config for router (e.g. `environments/cluster1/group_vars/route
 
       cluster1_haproxyrw:   35433
       cluster1_haproxyro:   45433
+      cluster1_haproxysp:   55433
 
       cluster2_haproxyrw:   35434
       cluster2_haproxyro:   45434
+      cluster2_haproxysp:   55434
     ```
 
 ## Description
@@ -87,8 +91,9 @@ The key names are only labels; the values are the ports that are opened.
 | `<name>_postgres`    | Postgres port of instance `<name>`, equal to `stolon_clusters.<name>.sysconfig.stkeeper.pg_port`. |
 | `<name>_pgbouncer`   | PgBouncer port of instance `<name>`, equal to `pgbouncer_instances.<name>.port`. |
 | `<name>_stolonproxy` | Stolon proxy port of instance `<name>`, equal to `stolon_clusters.<name>.sysconfig.stproxy.port`. |
-| `<name>_haproxyrw`   | HAProxy read-write frontend port of instance `<name>` (see `haproxy_config`). |
-| `<name>_haproxyro`   | HAProxy read-only frontend port of instance `<name>` (see `haproxy_config`). |
+| `<name>_haproxyrw`   | HAProxy read-write frontend port of instance `<name>` forwarding to primary postgres instances (see `haproxy_config`). |
+| `<name>_haproxyro`   | HAProxy read-only frontend port of instance `<name>` forwarding to readonly postgres instances (see `haproxy_config`). |
+| `<name>_haproxysp`   | HAProxy read-write frontend port of instance `<name>` forwarding to stolon-proxy (see `haproxy_config`). |
 | `etcd_client`    | etcd client port (shared by all instances).                                         |
 | `etcd_server`    | etcd peer port (shared by all instances).                                           |
 
