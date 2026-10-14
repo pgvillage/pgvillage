@@ -117,6 +117,7 @@ You can set specific settings in `stolon_clusters[clustername].cgroups`.
 
 !!! example
     ```yaml
+    stolon_multicluster: true
     stolon_clusters:
       cluster1:
         cgroups:

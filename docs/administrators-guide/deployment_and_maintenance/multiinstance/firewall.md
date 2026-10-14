@@ -65,7 +65,7 @@ In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/ha
 
 ### Router
 
-When separating router and postgres, you can configure firewalld to open `haproxy-rw`, `haproxy-ro`, nd `haproxy-sp` on router nodes for multiple cluster instances as follows:
+When separating router and postgres, you can configure firewalld to open `haproxy-rw`, `haproxy-ro`, and `haproxy-sp` on router nodes for multiple cluster instances as follows:
 In the inventory config for router (e.g. `environments/cluster1/group_vars/router/firewall.yml`) you can define the following ports:
 
 !!! example
