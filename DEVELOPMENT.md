@@ -10,9 +10,16 @@ If you want to change ansible roles, best way is to
   yq -r < requirements.yml '.roles[].name' | while read ROLE; do
     REPO=https://github.com/pgvillage/$(echo $ROLE | sed 's/pgvillage./ansible-role-/')
     D=~/.ansible/roles/"$ROLE"
-    [ -d "$D/.git" ] && echo "$D already git" || { 
-      rm -rf "$D"
-      git clone "$REPO" "$D"
+    [ -d "$D/.git" ] && echo "$D already git" || {
+      rm -rf "$D.bak"
+      [ -d "$D" ] && mv "$D" "$D.bak"
+      if git clone "$REPO" "$D"; then
+        rm -rf "$D.bak"
+      else
+        echo "clone of $REPO failed, restoring $D"
+        rm -rf "$D"
+        [ -d "$D.bak" ] && mv "$D.bak" "$D"
+      fi
     }
   done
   ```
