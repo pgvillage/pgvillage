@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../about/branding/logo.png">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1411,67 +1411,67 @@ gurus-pgsdb-server2 (master)
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="o">{</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="s2">&quot;initMode&quot;</span>:<span class="w"> </span><span class="s2">&quot;new&quot;</span>,
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="s2">&quot;defaultSUReplAccessMode&quot;</span>:<span class="w"> </span><span class="s2">&quot;strict&quot;</span>,
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="s2">&quot;pgParameters&quot;</span>:<span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="s2">&quot;archive_command&quot;</span>:<span class="w"> </span><span class="s2">&quot;/opt/wal-g/scripts/archive.sh %p&quot;</span>,
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="s2">&quot;archive_mode&quot;</span>:<span class="w"> </span><span class="s2">&quot;on&quot;</span>,
-<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="s2">&quot;datestyle&quot;</span>:<span class="w"> </span><span class="s2">&quot;ISO, MDY&quot;</span>,
-<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="s2">&quot;default_text_search_config&quot;</span>:<span class="w"> </span><span class="s2">&quot;pg_catalog.english&quot;</span>,
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="s2">&quot;dynamic_shared_memory_type&quot;</span>:<span class="w"> </span><span class="s2">&quot;posix&quot;</span>,
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="s2">&quot;effective_cache_size&quot;</span>:<span class="w"> </span><span class="s2">&quot;5822MB&quot;</span>,
-<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="s2">&quot;idle_in_transaction_session_timeout&quot;</span>:<span class="w"> </span><span class="s2">&quot;60 minutes&quot;</span>,
-<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="s2">&quot;lc\_messages&quot;</span>:<span class="w"> </span><span class="s2">&quot;en\_US.UTF-8&quot;</span>,
-<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="s2">&quot;LC_MONETARY&quot;</span>:<span class="w"> </span><span class="s2">&quot;en_US.UTF-8&quot;</span>
-<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="s2">&quot;lc_numeric&quot;</span>:<span class="w"> </span><span class="s2">&quot;C.UTF-8&quot;</span>,
-<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="s2">&quot;lc_time&quot;</span>:<span class="w"> </span><span class="s2">&quot;en_US.UTF-8&quot;</span>,
-<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="s2">&quot;listen_addresses&quot;</span>:<span class="w"> </span><span class="s2">&quot;[&#39;*&#39;]&quot;</span>,
-<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="s2">&quot;log_connections&quot;</span>:<span class="w"> </span><span class="s2">&quot;on&quot;</span>,
-<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="s2">&quot;log_destination&quot;</span>:<span class="w"> </span><span class="s2">&quot;csvlog&quot;</span>,
-<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="s2">&quot;log_directory&quot;</span>:<span class="w"> </span><span class="s2">&quot;/var/log/postgresql&quot;</span>,
-<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="s2">&quot;log_disconnections&quot;</span>:<span class="w"> </span><span class="s2">&quot;on&quot;</span>,
-<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="s2">&quot;log_error_verbosity&quot;</span>:<span class="w"> </span><span class="s2">&quot;verbose&quot;</span>,
-<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="s2">&quot;log_file_mode&quot;</span>:<span class="w"> </span><span class="s2">&quot;0600&quot;</span>,
-<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="s2">&quot;log_filename&quot;</span>:<span class="w"> </span><span class="s2">&quot;postgresql-%Y%m%d.log&quot;</span>,
-<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="s2">&quot;log_line_prefix&quot;</span>:<span class="w"> </span><span class="s2">&quot;%m [%p%: [%l-1] db=%d,user=%u,app=%a,client=%h &quot;</span>,
-<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="s2">&quot;log_min_duration_statement&quot;</span>:<span class="w"> </span><span class="s2">&quot;5000&quot;</span>,
-<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="s2">&quot;log_min_error_statement&quot;</span>:<span class="w"> </span><span class="s2">&quot;error&quot;</span>,
-<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="s2">&quot;log_min_messages&quot;</span>:<span class="w"> </span><span class="s2">&quot;warning&quot;</span>,
-<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="s2">&quot;log_rotation_age&quot;</span>:<span class="w"> </span><span class="s2">&quot;1d&quot;</span>,
-<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="s2">&quot;log_rotation_size&quot;</span>:<span class="w"> </span><span class="s2">&quot;1GB&quot;</span>,
-<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a><span class="s2">&quot;log_statement&quot;</span>:<span class="w"> </span><span class="s2">&quot;ddl&quot;</span>,
-<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a><span class="s2">&quot;log_timezone&quot;</span>:<span class="w"> </span><span class="s2">&quot;Europe/Amsterdam&quot;</span>,
-<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a><span class="s2">&quot;log_truncate_on_rotation&quot;</span>:<span class="w"> </span><span class="s2">&quot;on&quot;</span>,
-<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="s2">&quot;logging_collector&quot;</span>:<span class="w"> </span><span class="s2">&quot;on&quot;</span>,
-<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="s2">&quot;max_connections&quot;</span>:<span class="w"> </span><span class="s2">&quot;100&quot;</span>,
-<a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a><span class="s2">&quot;max_parallel_workers&quot;</span>:<span class="w"> </span><span class="s2">&quot;8&quot;</span>,
-<a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a><span class="s2">&quot;max_parallel_workers_per_gather&quot;</span>:<span class="w"> </span><span class="s2">&quot;2&quot;</span>,
-<a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a><span class="s2">&quot;max_wal_senders&quot;</span>:<span class="w"> </span><span class="s2">&quot;3&quot;</span>,
-<a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a><span class="s2">&quot;max_wal_size&quot;</span>:<span class="w"> </span><span class="s2">&quot;76762MB&quot;</span>,
-<a id="__codelineno-2-52" name="__codelineno-2-52" href="#__codelineno-2-52"></a><span class="s2">&quot;max_worker_processes&quot;</span>:<span class="w"> </span><span class="s2">&quot;8&quot;</span>,
-<a id="__codelineno-2-53" name="__codelineno-2-53" href="#__codelineno-2-53"></a><span class="s2">&quot;min_wal_size&quot;</span>:<span class="w"> </span><span class="s2">&quot;25587MB&quot;</span>,
-<a id="__codelineno-2-54" name="__codelineno-2-54" href="#__codelineno-2-54"></a><span class="s2">&quot;restore_command&quot;</span>:<span class="w"> </span><span class="s2">&quot;/opt/wal-g/scripts/archive_restore.sh %f %p&quot;</span>,
-<a id="__codelineno-2-55" name="__codelineno-2-55" href="#__codelineno-2-55"></a><span class="s2">&quot;shared_buffers&quot;</span>:<span class="w"> </span><span class="s2">&quot;1940MB&quot;</span>,
-<a id="__codelineno-2-56" name="__codelineno-2-56" href="#__codelineno-2-56"></a><span class="s2">&quot;ssl&quot;</span>:<span class="w"> </span><span class="s2">&quot;true&quot;</span>,
-<a id="__codelineno-2-57" name="__codelineno-2-57" href="#__codelineno-2-57"></a><span class="s2">&quot;ssl_ca_file&quot;</span>:<span class="w"> </span><span class="s2">&quot;/data/postgres/data/certs/root.crt&quot;</span>,
-<a id="__codelineno-2-58" name="__codelineno-2-58" href="#__codelineno-2-58"></a><span class="s2">&quot;ssl_cert_file&quot;</span>:<span class="w"> </span><span class="s2">&quot;/data/postgres/data/certs/server.crt&quot;</span>,
-<a id="__codelineno-2-59" name="__codelineno-2-59" href="#__codelineno-2-59"></a><span class="s2">&quot;ssl_key_file&quot;</span>:<span class="w"> </span><span class="s2">&quot;/data/postgres/data/certs/server.key&quot;</span>,
-<a id="__codelineno-2-60" name="__codelineno-2-60" href="#__codelineno-2-60"></a><span class="s2">&quot;statement_timeout&quot;</span>:<span class="w"> </span><span class="s2">&quot;60min&quot;</span>,
-<a id="__codelineno-2-61" name="__codelineno-2-61" href="#__codelineno-2-61"></a><span class="s2">&quot;timezone&quot;</span>:<span class="w"> </span><span class="s2">&quot;Europe/Amsterdam&quot;</span>,
-<a id="__codelineno-2-62" name="__codelineno-2-62" href="#__codelineno-2-62"></a><span class="s2">&quot;wal_level&quot;</span>:<span class="w"> </span><span class="s2">&quot;archive&quot;</span>,
-<a id="__codelineno-2-63" name="__codelineno-2-63" href="#__codelineno-2-63"></a><span class="s2">&quot;work_mem&quot;</span>:<span class="w"> </span><span class="s2">&quot;29813kB&quot;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="s2">"initMode"</span>:<span class="w"> </span><span class="s2">"new"</span>,
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="s2">"defaultSUReplAccessMode"</span>:<span class="w"> </span><span class="s2">"strict"</span>,
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="s2">"pgParameters"</span>:<span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="s2">"archive_command"</span>:<span class="w"> </span><span class="s2">"/opt/wal-g/scripts/archive.sh %p"</span>,
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="s2">"archive_mode"</span>:<span class="w"> </span><span class="s2">"on"</span>,
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="s2">"datestyle"</span>:<span class="w"> </span><span class="s2">"ISO, MDY"</span>,
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="s2">"default_text_search_config"</span>:<span class="w"> </span><span class="s2">"pg_catalog.english"</span>,
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="s2">"dynamic_shared_memory_type"</span>:<span class="w"> </span><span class="s2">"posix"</span>,
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="s2">"effective_cache_size"</span>:<span class="w"> </span><span class="s2">"5822MB"</span>,
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="s2">"idle_in_transaction_session_timeout"</span>:<span class="w"> </span><span class="s2">"60 minutes"</span>,
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="s2">"lc\_messages"</span>:<span class="w"> </span><span class="s2">"en\_US.UTF-8"</span>,
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="s2">"LC_MONETARY"</span>:<span class="w"> </span><span class="s2">"en_US.UTF-8"</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="s2">"lc_numeric"</span>:<span class="w"> </span><span class="s2">"C.UTF-8"</span>,
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="s2">"lc_time"</span>:<span class="w"> </span><span class="s2">"en_US.UTF-8"</span>,
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="s2">"listen_addresses"</span>:<span class="w"> </span><span class="s2">"['*']"</span>,
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="s2">"log_connections"</span>:<span class="w"> </span><span class="s2">"on"</span>,
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="s2">"log_destination"</span>:<span class="w"> </span><span class="s2">"csvlog"</span>,
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="s2">"log_directory"</span>:<span class="w"> </span><span class="s2">"/var/log/postgresql"</span>,
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="s2">"log_disconnections"</span>:<span class="w"> </span><span class="s2">"on"</span>,
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="s2">"log_error_verbosity"</span>:<span class="w"> </span><span class="s2">"verbose"</span>,
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="s2">"log_file_mode"</span>:<span class="w"> </span><span class="s2">"0600"</span>,
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="s2">"log_filename"</span>:<span class="w"> </span><span class="s2">"postgresql-%Y%m%d.log"</span>,
+<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="s2">"log_line_prefix"</span>:<span class="w"> </span><span class="s2">"%m [%p%: [%l-1] db=%d,user=%u,app=%a,client=%h "</span>,
+<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="s2">"log_min_duration_statement"</span>:<span class="w"> </span><span class="s2">"5000"</span>,
+<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="s2">"log_min_error_statement"</span>:<span class="w"> </span><span class="s2">"error"</span>,
+<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="s2">"log_min_messages"</span>:<span class="w"> </span><span class="s2">"warning"</span>,
+<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="s2">"log_rotation_age"</span>:<span class="w"> </span><span class="s2">"1d"</span>,
+<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="s2">"log_rotation_size"</span>:<span class="w"> </span><span class="s2">"1GB"</span>,
+<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a><span class="s2">"log_statement"</span>:<span class="w"> </span><span class="s2">"ddl"</span>,
+<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a><span class="s2">"log_timezone"</span>:<span class="w"> </span><span class="s2">"Europe/Amsterdam"</span>,
+<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a><span class="s2">"log_truncate_on_rotation"</span>:<span class="w"> </span><span class="s2">"on"</span>,
+<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="s2">"logging_collector"</span>:<span class="w"> </span><span class="s2">"on"</span>,
+<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="s2">"max_connections"</span>:<span class="w"> </span><span class="s2">"100"</span>,
+<a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a><span class="s2">"max_parallel_workers"</span>:<span class="w"> </span><span class="s2">"8"</span>,
+<a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a><span class="s2">"max_parallel_workers_per_gather"</span>:<span class="w"> </span><span class="s2">"2"</span>,
+<a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a><span class="s2">"max_wal_senders"</span>:<span class="w"> </span><span class="s2">"3"</span>,
+<a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a><span class="s2">"max_wal_size"</span>:<span class="w"> </span><span class="s2">"76762MB"</span>,
+<a id="__codelineno-2-52" name="__codelineno-2-52" href="#__codelineno-2-52"></a><span class="s2">"max_worker_processes"</span>:<span class="w"> </span><span class="s2">"8"</span>,
+<a id="__codelineno-2-53" name="__codelineno-2-53" href="#__codelineno-2-53"></a><span class="s2">"min_wal_size"</span>:<span class="w"> </span><span class="s2">"25587MB"</span>,
+<a id="__codelineno-2-54" name="__codelineno-2-54" href="#__codelineno-2-54"></a><span class="s2">"restore_command"</span>:<span class="w"> </span><span class="s2">"/opt/wal-g/scripts/archive_restore.sh %f %p"</span>,
+<a id="__codelineno-2-55" name="__codelineno-2-55" href="#__codelineno-2-55"></a><span class="s2">"shared_buffers"</span>:<span class="w"> </span><span class="s2">"1940MB"</span>,
+<a id="__codelineno-2-56" name="__codelineno-2-56" href="#__codelineno-2-56"></a><span class="s2">"ssl"</span>:<span class="w"> </span><span class="s2">"true"</span>,
+<a id="__codelineno-2-57" name="__codelineno-2-57" href="#__codelineno-2-57"></a><span class="s2">"ssl_ca_file"</span>:<span class="w"> </span><span class="s2">"/data/postgres/data/certs/root.crt"</span>,
+<a id="__codelineno-2-58" name="__codelineno-2-58" href="#__codelineno-2-58"></a><span class="s2">"ssl_cert_file"</span>:<span class="w"> </span><span class="s2">"/data/postgres/data/certs/server.crt"</span>,
+<a id="__codelineno-2-59" name="__codelineno-2-59" href="#__codelineno-2-59"></a><span class="s2">"ssl_key_file"</span>:<span class="w"> </span><span class="s2">"/data/postgres/data/certs/server.key"</span>,
+<a id="__codelineno-2-60" name="__codelineno-2-60" href="#__codelineno-2-60"></a><span class="s2">"statement_timeout"</span>:<span class="w"> </span><span class="s2">"60min"</span>,
+<a id="__codelineno-2-61" name="__codelineno-2-61" href="#__codelineno-2-61"></a><span class="s2">"timezone"</span>:<span class="w"> </span><span class="s2">"Europe/Amsterdam"</span>,
+<a id="__codelineno-2-62" name="__codelineno-2-62" href="#__codelineno-2-62"></a><span class="s2">"wal_level"</span>:<span class="w"> </span><span class="s2">"archive"</span>,
+<a id="__codelineno-2-63" name="__codelineno-2-63" href="#__codelineno-2-63"></a><span class="s2">"work_mem"</span>:<span class="w"> </span><span class="s2">"29813kB"</span>
 <a id="__codelineno-2-64" name="__codelineno-2-64" href="#__codelineno-2-64"></a>
 <a id="__codelineno-2-65" name="__codelineno-2-65" href="#__codelineno-2-65"></a><span class="o">}</span>,
 <a id="__codelineno-2-66" name="__codelineno-2-66" href="#__codelineno-2-66"></a>
-<a id="__codelineno-2-67" name="__codelineno-2-67" href="#__codelineno-2-67"></a><span class="s2">&quot;pgHBA&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<a id="__codelineno-2-67" name="__codelineno-2-67" href="#__codelineno-2-67"></a><span class="s2">"pgHBA"</span>:<span class="w"> </span><span class="o">[</span>
 <a id="__codelineno-2-68" name="__codelineno-2-68" href="#__codelineno-2-68"></a>
 <a id="__codelineno-2-69" name="__codelineno-2-69" href="#__codelineno-2-69"></a><span class="o">[</span>local<span class="o">]</span><span class="w"> </span>all<span class="w"> </span>all<span class="w"> </span>ident
 <a id="__codelineno-2-70" name="__codelineno-2-70" href="#__codelineno-2-70"></a>
-<a id="__codelineno-2-71" name="__codelineno-2-71" href="#__codelineno-2-71"></a><span class="s2">&quot;hostssl postgres avchecker samenet cert&quot;</span>,
+<a id="__codelineno-2-71" name="__codelineno-2-71" href="#__codelineno-2-71"></a><span class="s2">"hostssl postgres avchecker samenet cert"</span>,
 <a id="__codelineno-2-72" name="__codelineno-2-72" href="#__codelineno-2-72"></a>
 <a id="__codelineno-2-73" name="__codelineno-2-73" href="#__codelineno-2-73"></a>hostssl<span class="w"> </span>vcbe_db<span class="w"> </span>cims_rw<span class="w"> </span>sanet<span class="w"> </span>scram-sha-256,
 <a id="__codelineno-2-74" name="__codelineno-2-74" href="#__codelineno-2-74"></a>
-<a id="__codelineno-2-75" name="__codelineno-2-75" href="#__codelineno-2-75"></a><span class="s2">&quot;hostssl all all samenet cert&quot;</span>
+<a id="__codelineno-2-75" name="__codelineno-2-75" href="#__codelineno-2-75"></a><span class="s2">"hostssl all all samenet cert"</span>
 <a id="__codelineno-2-76" name="__codelineno-2-76" href="#__codelineno-2-76"></a>
 <a id="__codelineno-2-77" name="__codelineno-2-77" href="#__codelineno-2-77"></a><span class="se">\]</span>
 </code></pre></div>
@@ -1490,7 +1490,7 @@ gurus-pgsdb-server2 (master)
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Patch</span>
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>Incidentally,<span class="w"> </span>the<span class="w"> </span>patch<span class="w"> </span>offers<span class="w"> </span>options<span class="w"> </span>to<span class="w"> </span>adjust<span class="w"> </span>configurations,<span class="w"> </span>but<span class="w"> </span>this<span class="w"> </span>configuration<span class="w"> </span><span class="s2">&quot;comes alongside.&quot;</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>Incidentally,<span class="w"> </span>the<span class="w"> </span>patch<span class="w"> </span>offers<span class="w"> </span>options<span class="w"> </span>to<span class="w"> </span>adjust<span class="w"> </span>configurations,<span class="w"> </span>but<span class="w"> </span>this<span class="w"> </span>configuration<span class="w"> </span><span class="s2">"comes alongside."</span>
 <a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
 <a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>Settings<span class="w"> </span>that<span class="w"> </span><span class="k">do</span><span class="w"> </span>not<span class="w"> </span>receive<span class="w"> </span>a<span class="w"> </span>value<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>custom_config<span class="w"> </span>file<span class="w"> </span>retain<span class="w"> </span>their<span class="w"> </span>current<span class="w"> </span>configuration.
 <a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
@@ -1510,7 +1510,7 @@ gurus-pgsdb-server2 (master)
 <a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>edit<span class="w"> </span>/tmp/stolon_custom_config.yml
 <a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>
 <a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>
-<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="c1"># Check if it&#39;s still JSON.</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="c1"># Check if it's still JSON.</span>
 <a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>cat<span class="w"> </span>/tmp/stolon<span class="se">\_</span>custom<span class="se">\_</span>config.yml<span class="w"> </span><span class="se">\|</span><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>json.tool
 <a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>
 <a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="c1">#read cluster specification</span>
@@ -1556,11 +1556,11 @@ Manage current cluster data</p>
 <a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>--kube-namespace<span class="w"> </span>string<span class="w">           </span>name<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Kubernetes<span class="w"> </span>namespace<span class="w"> </span>to<span class="w"> </span>use
 <a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
 <a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>--kube-resource-kind<span class="w"> </span>string<span class="w">       </span>the<span class="w"> </span>Kubernetes<span class="w"> </span>resource<span class="w"> </span>kind<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>store<span class="w"> </span>Stolon<span class="w"> </span>cluster<span class="w"> </span>data
-<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">                                  </span>and<span class="w"> </span>perform<span class="w"> </span>sentinel<span class="w"> </span>leader<span class="w"> </span>election<span class="w"> </span><span class="o">(</span>currently,<span class="w"> </span>only<span class="w"> </span><span class="s2">&quot;configmap&quot;</span><span class="w"> </span>is<span class="w"> </span>supported<span class="o">)</span>.
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">                                  </span>and<span class="w"> </span>perform<span class="w"> </span>sentinel<span class="w"> </span>leader<span class="w"> </span>election<span class="w"> </span><span class="o">(</span>currently,<span class="w"> </span>only<span class="w"> </span><span class="s2">"configmap"</span><span class="w"> </span>is<span class="w"> </span>supported<span class="o">)</span>.
 <a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>
 <a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>--kubeconfig<span class="w"> </span>string<span class="w">               </span>path<span class="w"> </span>to<span class="w"> </span>kubeconfig<span class="w"> </span>file.<span class="w"> </span>Overrides<span class="w"> </span><span class="nv">$KUBECONFIG</span>
-<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>--log-level<span class="w"> </span>string<span class="w">                </span>debug,<span class="w"> </span>info<span class="w"> </span><span class="o">(</span>default<span class="o">)</span>,<span class="w"> </span>warn<span class="w"> </span>or<span class="w"> </span>error<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;info&quot;</span><span class="o">)</span>
-<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>--metrics-listen-address<span class="w"> </span>string<span class="w">   </span>metrics<span class="w"> </span>listen<span class="w"> </span>address,<span class="w"> </span>e.g.,<span class="w"> </span><span class="s2">&quot;0.0.0.0:8080&quot;</span><span class="w"> </span><span class="o">(</span>disabled<span class="w"> </span>by<span class="w"> </span>default<span class="o">)</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>--log-level<span class="w"> </span>string<span class="w">                </span>debug,<span class="w"> </span>info<span class="w"> </span><span class="o">(</span>default<span class="o">)</span>,<span class="w"> </span>warn<span class="w"> </span>or<span class="w"> </span>error<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">"info"</span><span class="o">)</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>--metrics-listen-address<span class="w"> </span>string<span class="w">   </span>metrics<span class="w"> </span>listen<span class="w"> </span>address,<span class="w"> </span>e.g.,<span class="w"> </span><span class="s2">"0.0.0.0:8080"</span><span class="w"> </span><span class="o">(</span>disabled<span class="w"> </span>by<span class="w"> </span>default<span class="o">)</span>
 <a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>--store-backend<span class="w"> </span>string<span class="w">            </span>store<span class="w"> </span>backend<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="o">(</span>etcdv2/etcd,<span class="w"> </span>etcdv3,<span class="w"> </span>consul,<span class="w"> </span>or<span class="w"> </span>kubernetes<span class="o">)</span>
 <a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>--store-ca-file<span class="w"> </span>string<span class="w">            </span>verify<span class="w"> </span>certificates<span class="w"> </span>of<span class="w"> </span>HTTPS-enabled<span class="w"> </span>store<span class="w"> </span>servers<span class="w"> </span>using<span class="w"> </span>this<span class="w"> </span>CA<span class="w"> </span>bundle
 <a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>--store-cert-file<span class="w"> </span>string<span class="w">          </span>certificate<span class="w"> </span>file<span class="w"> </span><span class="k">for</span><span class="w"> </span>client<span class="w"> </span>identification<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>store
@@ -1568,7 +1568,7 @@ Manage current cluster data</p>
 <a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">                                  </span><span class="o">(</span>use<span class="w"> </span>https<span class="w"> </span>scheme<span class="w"> </span><span class="k">for</span><span class="w"> </span>TLS<span class="w"> </span>communication<span class="o">)</span>
 <a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">                                  </span><span class="o">(</span>defaults:<span class="w"> </span>http://127.0.0.1:2379<span class="w"> </span><span class="k">for</span><span class="w"> </span>etcd,<span class="w"> </span>http://127.0.0.1:8500<span class="w"> </span><span class="k">for</span><span class="w"> </span>consul<span class="o">)</span>
 <a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>--store-key<span class="w"> </span>string<span class="w">                </span>private<span class="w"> </span>key<span class="w"> </span>file<span class="w"> </span><span class="k">for</span><span class="w"> </span>client<span class="w"> </span>identification<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>store
-<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>--store-prefix<span class="w"> </span>string<span class="w">             </span>the<span class="w"> </span>store<span class="w"> </span>base<span class="w"> </span>prefix<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;stolon/cluster&quot;</span><span class="o">)</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>--store-prefix<span class="w"> </span>string<span class="w">             </span>the<span class="w"> </span>store<span class="w"> </span>base<span class="w"> </span>prefix<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">"stolon/cluster"</span><span class="o">)</span>
 <a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>--store-skip-tls-verify<span class="w">           </span>skip<span class="w"> </span>store<span class="w"> </span>certificate<span class="w"> </span>verification<span class="w"> </span><span class="o">(</span>insecure!!!<span class="o">)</span>
 <a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>--store-timeout<span class="w"> </span>duration<span class="w">          </span>store<span class="w"> </span>request<span class="w"> </span>timeout<span class="w"> </span><span class="o">(</span>default<span class="w"> </span>5s<span class="o">)</span>
 <a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>--version<span class="w">                         </span>version<span class="w"> </span><span class="k">for</span><span class="w"> </span>stolonctl
@@ -1669,7 +1669,7 @@ Manage current cluster data</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

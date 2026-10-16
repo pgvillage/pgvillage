@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../about/branding/logo.png">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1216,7 +1216,7 @@
 <li>This must match the Postgres user.  </li>
 <li>This must match the Common Name of the client certificate:  </li>
 </ul>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;/Subject:/{s/.\*= //;p}&#39;</span>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>/home/<span class="o">{</span>user<span class="o">}</span>/.postgresql/<span class="o">{</span>user<span class="o">}</span>.crt<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">'/Subject:/{s/.\*= //;p}'</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>-<span class="w"> </span><span class="o">{</span>vip<span class="w"> </span>fqdn<span class="o">}</span><span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>VIP
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>-<span class="w"> </span><span class="o">{</span>database<span class="w"> </span>name<span class="o">}</span><span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>name<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Postgres<span class="w"> </span>database
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>-<span class="w"> </span><span class="o">{</span>list<span class="w"> </span>of<span class="w"> </span>all<span class="w"> </span>hosts,<span class="w"> </span>separated<span class="w"> </span>by<span class="w"> </span>,<span class="o">}</span><span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>servers,<span class="w"> </span>etc.
@@ -1287,7 +1287,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

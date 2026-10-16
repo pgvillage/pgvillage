@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../about/branding/logo.png">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1208,7 +1208,7 @@ The following instructions are retained for historical reference and can be used
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>CGroup:<span class="w"> </span>/system.slice/etcd.service
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>└─2142547<span class="w"> </span>/usr/local/bin/etcd
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Oct<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">10</span>:07:16<span class="w"> </span>gurus-pgsdb-server1<span class="w"> </span>bash<span class="o">[</span><span class="m">2142547</span><span class="o">]</span>:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;level&quot;</span>:<span class="s2">&quot;warn&quot;</span>,<span class="s2">&quot;ts&quot;</span>:<span class="s2">&quot;2022-07-26T11:07:49.311+0200&quot;</span>,<span class="s2">&quot;caller&quot;</span>:<span class="s2">&quot;clientv3/retry_interceptor.go:62&quot;</span>,<span class="s2">&quot;msg&quot;</span>:<span class="s2">&quot;retrying of unary invoker failed&quot;</span>,<span class="s2">&quot;target&quot;</span>:<span class="s2">&quot;endpoint://client-02e576d1-d16f-4610-8fee-0586f7dbe4c1/127.0.0.1:2379&quot;</span>,<span class="s2">&quot;attempt&quot;</span>:0,<span class="s2">&quot;error&quot;</span>:<span class="s2">&quot;rpc error: code = ResourceExhausted desc = etcdserver: mvcc: database space exceeded&quot;</span><span class="o">}</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Oct<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">10</span>:07:16<span class="w"> </span>gurus-pgsdb-server1<span class="w"> </span>bash<span class="o">[</span><span class="m">2142547</span><span class="o">]</span>:<span class="w"> </span><span class="o">{</span><span class="s2">"level"</span>:<span class="s2">"warn"</span>,<span class="s2">"ts"</span>:<span class="s2">"2022-07-26T11:07:49.311+0200"</span>,<span class="s2">"caller"</span>:<span class="s2">"clientv3/retry_interceptor.go:62"</span>,<span class="s2">"msg"</span>:<span class="s2">"retrying of unary invoker failed"</span>,<span class="s2">"target"</span>:<span class="s2">"endpoint://client-02e576d1-d16f-4610-8fee-0586f7dbe4c1/127.0.0.1:2379"</span>,<span class="s2">"attempt"</span>:0,<span class="s2">"error"</span>:<span class="s2">"rpc error: code = ResourceExhausted desc = etcdserver: mvcc: database space exceeded"</span><span class="o">}</span>
 </code></pre></div>
 </div>
 <ol>
@@ -1236,7 +1236,7 @@ The following instructions are retained for historical reference and can be used
 <p class="admonition-title">Example</p>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 1) Request an audit</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>etcdctl<span class="w"> </span>get<span class="w"> </span>mykey<span class="w"> </span>-w<span class="o">=</span>json
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="o">{</span><span class="s2">&quot;header&quot;</span>:<span class="o">{</span><span class="s2">&quot;cluster_id&quot;</span>:4788661511241613818,<span class="s2">&quot;member_id&quot;</span>:336793577597500103,<span class="s2">&quot;revision&quot;</span>:700518,<span class="s2">&quot;raft_term&quot;</span>:26<span class="o">}}</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="o">{</span><span class="s2">"header"</span>:<span class="o">{</span><span class="s2">"cluster_id"</span>:4788661511241613818,<span class="s2">"member_id"</span>:336793577597500103,<span class="s2">"revision"</span>:700518,<span class="s2">"raft_term"</span>:26<span class="o">}}</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># 2) Compact Revision</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="o">[</span>etcd@gurus-pgsdb-server1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>etcdctl<span class="w"> </span>compact<span class="w"> </span><span class="m">700518</span>
@@ -1315,7 +1315,7 @@ The following instructions are retained for historical reference and can be used
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

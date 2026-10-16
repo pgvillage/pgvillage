@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../about/branding/logo.png">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1309,19 +1309,19 @@
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>```shell
 <a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>ssh-keygen -t rsa -b &lt;size&gt; -f ~/Virtualmachines/id_rsa
 </code></pre></div></p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>maak Vagrantfile aan met onderstaande vulling  ( deze maakt 7 VM&#39;s aan, pas eventueel aan naar behoefte ):
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>maak Vagrantfile aan met onderstaande vulling  ( deze maakt 7 VM's aan, pas eventueel aan naar behoefte ):
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>```ruby
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Vagrant.configure(&quot;2&quot;) do |config|
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Vagrant.configure("2") do |config|
 </code></pre></div>
 <h1 id="base-vm-os-configuration">Base VM OS configuration.<a class="headerlink" href="#base-vm-os-configuration" title="Permanent link">&para;</a></h1>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gh"># config.vm.box = &quot;generic/rhel8&quot;</span>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gh"># config.vm.box = "generic/rhel8"</span>
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gh"># config.vm.box = &quot;bento/rockylinux-8&quot;</span>
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gh"># config.vm.box = "bento/rockylinux-8"</span>
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>config.vm.box = &quot;bento/ubuntu-20.04&quot;
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>config.vm.box = "bento/ubuntu-20.04"
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>config.vm.synced_folder &#39;.&#39;, &#39;/vagrant&#39;, disabled: true
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>config.vm.synced_folder '.', '/vagrant', disabled: true
 </code></pre></div>
 <div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>config.ssh.insert_key = false
 </code></pre></div>
@@ -1336,22 +1336,22 @@
 <p>boxes = [</p>
 <p>{ :name =&gt; "server1.example.com", :ip =&gt; "192.168.56.11" },</p>
 <p>{ :name =&gt; "server2.example.com", :ip =&gt; "192.168.56.12" },</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>{ name: &quot;server3.example.com&quot;, ip: &quot;192.168.56.13&quot; },
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>{ name: "server3.example.com", ip: "192.168.56.13" },
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>{ name: &quot;server4.example.com&quot;, ip: &quot;192.168.56.14&quot; },
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>{ name: "server4.example.com", ip: "192.168.56.14" },
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>{ &quot;name&quot;: &quot;server5.example.com&quot;, &quot;ip&quot;: &quot;192.168.56.15&quot; },
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>{ "name": "server5.example.com", "ip": "192.168.56.15" },
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>{:name =&gt; &quot;server6.example.com&quot;, :ip =&gt; &quot;192.168.56.16&quot;},
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>{:name =&gt; "server6.example.com", :ip =&gt; "192.168.56.16"},
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>{ name: &quot;server7.example.com&quot;, ip: &quot;192.168.56.17&quot; }
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>{ name: "server7.example.com", ip: "192.168.56.17" }
 </code></pre></div>
 <p>]</p>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>if Vagrant.has_plugin?(&#39;vagrant-registration&#39;)
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>if Vagrant.has_plugin?('vagrant-registration')
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>config.registration.username = &#39;mailaddress@hcs-company.com&#39;
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>config.registration.username = 'mailaddress@hcs-company.com'
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>config.registration.password = &#39;password_redhat.com&#39;
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>config.registration.password = 'password_redhat.com'
 </code></pre></div>
 <p>end</p>
 <h1 id="allocate-resources-for-each-of-the-virtual-machines">Allocate resources for each of the virtual machines.<a class="headerlink" href="#allocate-resources-for-each-of-the-virtual-machines" title="Permanent link">&para;</a></h1>
@@ -1363,26 +1363,26 @@
 </code></pre></div>
 <div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>config.vm.network :private_network, ip: opts[:ip]
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>config.vm.provision &quot;file&quot;, source: &quot;id_rsa&quot;, destination: &quot;/home/vagrant/.ssh/id_rsa&quot;
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>config.vm.provision "file", source: "id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
 </code></pre></div>
-<div class="language-ruby highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">public_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;id_rsa.pub&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">public_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">"id_rsa.pub"</span><span class="p">)</span>
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>config.vm.provision :shell, inline: &quot;
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>config.vm.provision :shell, inline: "
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>echo &#39;Copying Ansible VM public SSH keys to the VM&#39;
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>echo 'Copying Ansible VM public SSH keys to the VM'
 </code></pre></div>
 <div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>mkdir -p /home/vagrant/.ssh
 </code></pre></div>
 <p>chmod 700 /home/vagrant/.ssh</p>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;#{public_key}&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/home/vagrant/.ssh/authorized_keys
+<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">'#{public_key}'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/home/vagrant/.ssh/authorized_keys
 </code></pre></div>
 <div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>chmod -R 600 /home/vagrant/.ssh/authorized_keys
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>echo &#39;Host 192.168.*.*&#39; &gt;&gt; /home/vagrant/.ssh/config
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>echo 'Host 192.168.*.*' &gt;&gt; /home/vagrant/.ssh/config
 </code></pre></div>
-<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>echo &#39;StrictHostKeyChecking no&#39; &gt;&gt; /home/vagrant/.ssh/config
+<div class="language-markdown highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>echo 'StrictHostKeyChecking no' &gt;&gt; /home/vagrant/.ssh/config
 </code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>echo &#39;UserKnownHostsFile /dev/null&#39; &gt;&gt; /home/vagrant/.ssh/config
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>echo 'UserKnownHostsFile /dev/null' &gt;&gt; /home/vagrant/.ssh/config
 </code></pre></div>
 <p>chmod -R 600 /home/vagrant/.ssh/config</p>
 <p><code>, privileged: false</code></p>
@@ -1455,7 +1455,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
