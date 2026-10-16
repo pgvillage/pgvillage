@@ -1,62 +1,38 @@
 ---
-
-- name: Process all linux requirements
-  hosts:
-    - hacluster
-    - backup
-    - router
-    - localhost
+- name: Gather facts and apply pgvillage roles
+  hosts: all
   become: true
   gather_facts: true
-  tasks:
-
-    - name: Roles as defined in the invenntory
-      include_role:
-        name: "pgvillage.{{ item.name }}"
-        apply:
-          tags: "{{ item.tags | default([]) | combine([item.name]) }}"
-      loop: "{{ pgvillage_roles | default(_pgvillage_roles) }}"
-      tags: always
-      when: 
-        - inventory_hostname in {{ item.groups | map('extract', groups) | flatten | unique }}"
-
   vars:
+    # Defaults; override (per role) with `pgvillage_roles` in the inventory.
+    # Example:
+    #   pgvillage_roles:
+    #     minio: { enabled: false }
+    #     nagios: { groups: [hacluster] }
+    #     mycompany.hardening: { groups: [hacluster, backup] }
     _pgvillage_roles:
-      - role: linux
-        groups: [ hacluster, backup, router, localhost ]
-        tags: [ packages ]
-      - role: chainsmith
-        groups: [ hacluster, backup, router, localhost ]
-        tags: [ certificates, certs ]
-      - role: firewall
-        groups: [ hacluster, backup, router ]
-        tags: [ firewalld ]
-      - role: etcd
-        groups: [ etcd_master ]
-        tags: [ firewalld ]
-      - role: minio
-        groups: [ backup ]
-      - role: walg
-        groups: [ backup ]
-      - role: stolon
-        groups: [ hacluster ]
-        tags: [ postgres, postgresql, pg ]
-      - role: avchecker
-        groups: [ hacluster ]
-      #- role: haproxy
-      #  groups: [ router ]
-      #  tags: [ haproxy, router, keepalived, pgroute66 ]
-      #- role: keepalived
-      #  groups: [ router ]
-      #  tags: [ haproxy, router, keepalived, pgroute66 ]
-      #- role: pgroute66
-      #  groups: [ router ]
-      #  tags: [ haproxy, router, keepalived, pgroute66 ]
-      - role: pgbouncer
-        groups: [ hacluster ]
-        tags: [ bouncer, pooler ]
-      - role: nagios
-        groups: [ hacluster, backup, router ]
-        tags: [ bouncer, pooler ]
-      - role: pgquartz
-        groups: [ hacluster ]
+      linux:      { groups: [hacluster, backup, router, localhost], tags: [packages] }
+      chainsmith: { groups: [hacluster, backup, router, localhost], tags: [certificates, certs] }
+      firewall:   { groups: [hacluster, backup, router], tags: [firewalld] }
+      etcd:       { groups: [etcd_master] }
+      minio:      { groups: [backup] }
+      walg:       { groups: [hacluster] }
+      stolon:     { groups: [hacluster], tags: [postgres, postgresql, pg] }
+      avchecker:  { groups: [hacluster], tags: [availability_checker] }
+      haproxy:    { groups: [router], tags: [router] }
+      keepalived: { groups: [router], tags: [router] }
+      pgroute66:  { groups: [router], tags: [router] }
+      pgbouncer:  { groups: [hacluster], tags: [bouncer, pooler] }
+      nagios:     { groups: [hacluster, backup, router] }
+      pgquartz:   { groups: [hacluster] }
+  tasks:
+    - name: Apply roles as defined in the inventory
+      ansible.builtin.include_tasks: tasks/pgvillage_role.yml
+      loop: "{{ _pgvillage_roles | combine(pgvillage_roles | default({}), recursive=True) | dict2items }}"
+      loop_control:
+        loop_var: _role
+        label: "{{ _role.key }}"
+      when:
+        - _role.value.enabled | default(true) | bool
+        - _role.value.groups | default([]) | intersect(group_names + [inventory_hostname]) | length > 0
+      tags: always
