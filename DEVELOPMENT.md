@@ -20,7 +20,7 @@ If you want to change ansible roles, best way is to
   Example:
   ```bash
   for D in ~/.ansible/roles/pgvillage.*; do
-    cd $D
+    cd $D || continue
     git checkout feat/ubuntu || echo keeping main
   done
   ```
