@@ -6,32 +6,32 @@ collections:
 
 roles:
   - name: pgvillage.avchecker
-    version: "v0.2.1"
+    version: "v0.2.2"
   - name: pgvillage.chainsmith
-    version: "v0.2.0"
-  - name: pgvillage.etcd
-    version: "v0.1.1"
-  - name: pgvillage.firewall
-    version: "v0.1.0"
-  - name: pgvillage.haproxy
-    version: "v0.3.0"
-  - name: pgvillage.keepalived
-    version: "v0.3.0"
-  - name: pgvillage.linux
-    version: "v0.3.4"
-  - name: pgvillage.minio
     version: "v0.2.1"
-  - name: pgvillage.nagios
+  - name: pgvillage.etcd
     version: "v0.2.0"
-  - name: pgvillage.pgfga
+  - name: pgvillage.firewall
     version: "v0.2.0"
-  - name: pgvillage.pgquartz
-    version: "v0.2.0"
-  - name: pgvillage.pgroute66
+  - name: pgvillage.haproxy
     version: "v0.3.1"
+  - name: pgvillage.keepalived
+    version: "v0.3.1"
+  - name: pgvillage.linux
+    version: "v0.3.5"
+  - name: pgvillage.minio
+    version: "v0.3.0"
+  - name: pgvillage.nagios
+    version: "v0.3.0"
+  - name: pgvillage.pgfga
+    version: "v0.3.0"
+  - name: pgvillage.pgquartz
+    version: "v0.3.0"
+  - name: pgvillage.pgroute66
+    version: "v0.3.2"
   - name: pgvillage.pgbouncer
     version: "v0.3.0"
   - name: pgvillage.stolon
-    version: "v0.3.3"
+    version: "v0.4.0"
   - name: pgvillage.walg
-    version: "v0.3.0"
+    version: "v0.3.1"
