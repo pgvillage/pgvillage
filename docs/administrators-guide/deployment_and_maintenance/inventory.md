@@ -85,7 +85,7 @@ When running multi-homed, you should set the correct interface to bind all proce
 Set the folling parameters as to your likings:
 
 - `environments/[ENV]/group_vars/all/stolon.yml`, look for:
-  - stolon_pg_listen_address and set it to something like: "{{ ansible_facts_eth1.ipv4.address }}"
+  - stolon_pg_listen_address and set it to something like: "{{ ansible_facts['eth1']['ipv4']['address'] }}"
 - `environments/[ENV]/group_vars/all/etcd.yml`, look for:
   - etcd_iface_cluster and set it to your interface name (e.a. eth1)
 
