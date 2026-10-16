@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/inventory/">
       
       
-        <link rel="prev" href="../byo-server-certs/">
+        <link rel="prev" href="../group-names/">
       
       
         <link rel="next" href="../modify_existing/">
@@ -676,6 +676,8 @@
       
         
       
+        
+      
     
     
     
@@ -792,6 +794,34 @@
     
   
     Bring Your Own - Server Certificates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group-names/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom group names
   
 
     
@@ -1791,6 +1821,20 @@
 <li><code>environments/vbe_a</code> pertains to a solution with PostgreSQL 12, router, foreign data wrapper, and pgQuartz jobs.</li>
 </ul>
 <p>Let's move on to the following:</p>
+<h4 id="multihomed">Multihomed<a class="headerlink" href="#multihomed" title="Permanent link">&para;</a></h4>
+<p>When running multi-homed, you should set the correct interface to bind all processes to.
+Set the folling parameters as to your likings:</p>
+<ul>
+<li><code>environments/[ENV]/group_vars/all/stolon.yml</code>, look for:</li>
+<li>stolon_pg_listen_address and set it to something like: "{{ ansible_facts['eth1']['ipv4']['address'] }}"</li>
+<li><code>environments/[ENV]/group_vars/all/etcd.yml</code>, look for:</li>
+<li>etcd_iface_cluster and set it to your interface name (e.a. eth1)</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This might also be set if you are using another interface name, such as enp0s9</p>
+</div>
+<hr />
 <h4 id="postgresql-version">PostgreSQL Version<a class="headerlink" href="#postgresql-version" title="Permanent link">&para;</a></h4>
 <ul>
 <li><code>environments/[ENV]/group_vars/all/generic.yml</code>: postgresql_version</li>
