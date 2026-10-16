@@ -1,0 +1,11 @@
+---
+- name: "Apply role {{ _role.key }}"
+  ansible.builtin.include_role:
+    name: "{{ _role.key if '.' in _role.key else 'pgvillage.' ~ _role.key }}"
+    apply:
+      tags: "{{ (_role.value.tags | default([])) + [_role.key] }}"
+  tags: always
+
+- name: "Flush handlers after {{ _role.key }}"
+  ansible.builtin.meta: flush_handlers
+  tags: always
