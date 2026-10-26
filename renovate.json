@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "enabledManagers": ["ansible-galaxy"],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "description": "One PR per pgvillage role, titled after the role",
+      "matchManagers": ["ansible-galaxy"],
+      "matchPackageNames": ["pgvillage.*"],
+      "commitMessageTopic": "role {{depName}}"
+    }
+  ]
+}
