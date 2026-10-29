@@ -8,11 +8,11 @@ date: 2026-10-29
 
 # Azure - AMD vs ARM
 
-`inventories/azure` deploys on AMD64 (x86_64). To deploy on ARM64, change the VM sizes and the image.
+The azure inventory deploys on AMD64 (x86_64). To deploy on ARM64, change the VM sizes and the image.
 
 ## VM sizes
 
-ARM64 needs ARM VM sizes (the `p` in `D2pls_v5`). Add them to `group_vars/all/azure.yml`:
+ARM64 needs ARM VM sizes (the `p` in `D2pls_v5`). Add them to `inventories/azure/group_vars/all/azure.yml`:
 
 ```yaml
 # For arm64 we need other vm sizes and images
@@ -22,7 +22,7 @@ azure_vmss_vm_size: Standard_D2pls_v5
 
 ## Image
 
-Add an arm64 image to `group_vars/all/azure.yml`. This example uses RHEL 8.6 for arm64, which needs no plan:
+Add an arm64 image to `inventories/azure/group_vars/all/azure.yml`. This example uses RHEL 8.6 for arm64, which needs no plan:
 
 ```yaml
 #Arm64           rhel-arm64                              RedHat                                    8_6-arm64                                        RedHat:rhel-arm64:8_6-arm64:8.6.2022060901                                                                  8.6.2022060901
@@ -45,4 +45,4 @@ azure_vmss_plan: null
 
 | File                           | AMD64 (default)          | ARM64                                                |
 |--------------------------------|--------------------------|------------------------------------------------------|
-| `group_vars/all/azure.yml`     | role default VM size and image | `Standard_D2pls_v5` for bastion and VMSS, arm64 image, no plan |
+| `azure/group_vars/all/azure.yml` | role default VM size and image | `Standard_D2pls_v5` for bastion and VMSS, arm64 image, no plan |

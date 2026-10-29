@@ -8,7 +8,10 @@ date: 2026-10-29
 
 # Azure - EL vs SUSE
 
-`inventories/azure` deploys Rocky Linux EL-9. To deploy on openSUSE Leap (x86_64), change the image and the packages.
+The azure inventory deploys Rocky Linux EL-9. To deploy on openSUSE Leap (x86_64), change the image and the packages.
+
+The packages and paths are standard config, in `inventories/standard`. Don't change them there (other platforms
+use them too): override them with a file of the same name in `inventories/azure/group_vars/all/`.
 
 !!! note
     There are fewer SUSE builds on download.postgresql.org (at the time of writing only leap-16 on x86_64 for
@@ -17,7 +20,7 @@ date: 2026-10-29
 
 ## Image
 
-Add the openSUSE image to `group_vars/all/azure.yml`. The image is a marketplace image, so it needs a plan, and the
+Add the openSUSE image to `inventories/azure/group_vars/all/azure.yml`. The image is a marketplace image, so it needs a plan, and the
 bastion uses the same image and plan as the VMSS:
 
 ```yaml
@@ -45,8 +48,8 @@ az vm image terms accept --urn susellc:opensuse-leap-x86-64:gen2:2026.04.01
 
 ## Packages
 
-openSUSE has no `langpacks-en`, `glibc-all-langpacks` or `postgresqlNN-plpython3` packages. Remove them from
-`group_vars/all/packages.yml`:
+openSUSE has no `langpacks-en`, `glibc-all-langpacks` or `postgresqlNN-plpython3` packages. Override
+`linux_packages` without them in `inventories/azure/group_vars/all/packages.yml`:
 
 ```yaml
 linux_packages:
@@ -62,19 +65,21 @@ linux_packages:
     - chainsmith
 ```
 
-Also remove `postgresqlNN-plpython3` from `uninstall_linux_packages` in `group_vars/all/uninstall.yml`.
+Also override `uninstall_linux_packages` without `postgresqlNN-plpython3` in
+`inventories/azure/group_vars/all/uninstall.yml`.
 
 ## Paths
 
-`postgresql_bindir` in `group_vars/all/postgres.yml` is `/usr/pgsql-NN/bin/`, the path used by the PGDG rpm's (both
-EL and SUSE). If you use the openSUSE packages instead, change it to `/usr/lib/postgresqlNN/bin`, and change the
-`/usr/pgsql-NN` and `/var/lib/pgsql-NN` entries in `uninstall_file_list` accordingly.
+`postgresql_bindir` in `inventories/standard/group_vars/all/postgres.yml` is `/usr/pgsql-NN/bin/`, the path used by the PGDG rpm's (both
+EL and SUSE). If you use the openSUSE packages instead, override it with `/usr/lib/postgresqlNN/bin` in
+`inventories/azure/group_vars/all/postgres.yml`, and override `uninstall_file_list` with the `/usr/pgsql-NN` and
+`/var/lib/pgsql-NN` entries changed accordingly.
 
 ## Summary
 
-| File                           | EL (default)                          | openSUSE Leap                                   |
+| File (in `inventories/azure/group_vars/all/`) | EL (default)           | openSUSE Leap                                   |
 |--------------------------------|---------------------------------------|-------------------------------------------------|
-| `group_vars/all/azure.yml`     | role default image (Rocky EL-9)       | `susellc:opensuse-leap-x86-64:gen2`, with plan; bastion uses the same |
-| `group_vars/all/packages.yml`  | incl. langpacks and plpython3         | without langpacks and plpython3                 |
-| `group_vars/all/uninstall.yml` | incl. plpython3                       | without plpython3                               |
-| `group_vars/all/postgres.yml`  | `/usr/pgsql-NN/bin/`                  | same for PGDG rpm's; `/usr/lib/postgresqlNN/bin` for openSUSE packages |
+| `azure.yml`                    | role default image (Rocky EL-9)       | `susellc:opensuse-leap-x86-64:gen2`, with plan; bastion uses the same |
+| `packages.yml`                 | standard: incl. langpacks and plpython3 | without langpacks and plpython3                 |
+| `uninstall.yml`                | standard: incl. plpython3             | without plpython3                               |
+| `postgres.yml`                 | standard: `/usr/pgsql-NN/bin/`        | same for PGDG rpm's; `/usr/lib/postgresqlNN/bin` for openSUSE packages |

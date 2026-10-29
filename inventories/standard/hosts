@@ -1,0 +1,10 @@
+---
+# Groups used by PgVillage. Hosts are added by the platform inventory
+# (e.g. inventories/azure); use both: -i inventories/standard -i inventories/<platform>
+all:
+  children:
+    localhosts:
+    backup:
+    stolon:
+    etcd_master:
+    hacluster:

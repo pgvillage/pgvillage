@@ -13,9 +13,16 @@ On Azure, PgVillage is deployed in two steps:
 1. The [pgv_azure](https://github.com/pgvillage/pgv_azure) playbooks create the Azure resources.
 2. The normal PgVillage playbook deploys PostgreSQL, stolon and all other components on the created VMs.
 
-The inventory for both steps is `inventories/azure`. It deploys Rocky Linux EL-9 on AMD64. For other operating
-systems and architectures, see:
+The inventory is split in two: `inventories/standard` has the standard PgVillage config, and `inventories/azure`
+has everything specific to Azure. Use both, standard first, so the Azure values win:
 
+```bash
+ansible-playbook -i inventories/standard -i inventories/azure functional-all.yml
+```
+
+It deploys Rocky Linux EL-9 on AMD64. See also:
+
+- [Azure integration](azure.md): all `azure_` parameters, the resources, and how the inventory uses them
 - [EL vs SUSE](el-vs-suse.md)
 - [AMD vs ARM](amd-vs-arm.md)
 
@@ -89,6 +96,8 @@ After deployment, both the Ansible control node and the bastion host can be stop
 
 ## The inventory
 
+`inventories/azure`:
+
 | File                                  | Purpose                                                                                       |
 |---------------------------------------|-----------------------------------------------------------------------------------------------|
 | `azure_rm.yml`                        | Dynamic inventory: finds the VMs in `pgVillage` and `rg_<cluster name>`, and groups them by the `applicationRole` tag (`_postgres`). |
@@ -96,16 +105,20 @@ After deployment, both the Ansible control node and the bastion host can be stop
 | `host_vars/localhost/`                | The control node runs Ansible locally and needs no chainsmith cert files.                     |
 | `group_vars/_postgres/.README`        | Placeholder, Ansible writes files to this folder.                                             |
 | `group_vars/all/azure.yml`            | Azure resources: control node IP, resource group, storage container, and VM size/image/plan.  |
-| `group_vars/all/generic.yml`          | PgVillage settings: Postgres version, mountpoints, ports, VIP, `pg_hba`.                      |
-| `group_vars/all/packages.yml`         | OS packages; differs per OS (see [EL vs SUSE](el-vs-suse.md)).                                |
+| `group_vars/all/generic.yml`          | VIP and `pg_hba` for the Azure Load Balancer.                                                 |
+| `group_vars/all/chainsmith.yml`       | Adds the VIP to the server certificates.                                                      |
 | `group_vars/all/wal-g.yml`            | Backups to the storage container (`WALG_AZ_PREFIX`, `AZURE_STORAGE_*`).                       |
+
+`inventories/standard` has the rest: Postgres version, mountpoints, ports, packages, and the config of stolon,
+wal-g, avchecker, nagios, etc. A file in `inventories/azure/group_vars/all/` with the same name as one in
+`inventories/standard/group_vars/all/` overrides its values. See [Azure integration](azure.md) for details.
 
 ### Cluster name
 
 The cluster name is the name of the inventory folder (`cluster_name: "{{ inventory_dir | basename }}"`), so
 `inventories/azure` deploys a cluster named `azure` in resource group `rg_azure`.
 
-To deploy another cluster, copy the folder and change the resource group names in `azure_rm.yml`:
+To deploy another cluster, copy `inventories/azure` and change the resource group names in `azure_rm.yml`:
 
 ```yaml
 include_vm_resource_groups:
@@ -119,9 +132,9 @@ include_vmss_resource_groups:
 
 The inventory used to have three clusters. They are now one inventory plus the changes on these pages:
 
-| Former cluster | OS / architecture        | Changes from `inventories/azure`             |
+| Former cluster | OS / architecture        | Changes                                      |
 |----------------|--------------------------|----------------------------------------------|
-| cluster1       | Rocky Linux EL-9, AMD64  | none (this is `inventories/azure`)           |
+| cluster1       | Rocky Linux EL-9, AMD64  | none (this is the default)                   |
 | cluster2       | EL, ARM64                | [AMD vs ARM](amd-vs-arm.md)                  |
 | cluster3       | openSUSE Leap, AMD64     | [EL vs SUSE](el-vs-suse.md)                  |
 
@@ -129,7 +142,7 @@ Apart from these changes, the clusters differed only in their name (and thus the
 
 ### Control node IP
 
-Set `azure_control_ip` in `group_vars/all/azure.yml` to the public IP of your control node:
+Set `azure_control_ip` in `inventories/azure/group_vars/all/azure.yml` to the public IP of your control node:
 
 ```yaml
 azure_control_ip: 203.0.113.10
@@ -150,7 +163,7 @@ azure_control_ip: 203.0.113.10
    az vm image terms accept --publisher resf --offer rockylinux-x86_64 --plan 9-lvm
    ```
 
-3. Change `group_vars/all/azure.yml` to use this image for the bastion and/or the VMSS (replace the fields in `[]`
+3. Change `inventories/azure/group_vars/all/azure.yml` to use this image for the bastion and/or the VMSS (replace the fields in `[]`
    with the corresponding columns of the command). See [EL vs SUSE](el-vs-suse.md) and [AMD vs ARM](amd-vs-arm.md)
    for examples.
    ```yaml
