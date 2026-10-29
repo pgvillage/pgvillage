@@ -1,0 +1,15 @@
+---
+# This is a workaround.
+# Since Azure does a allow to add disks, but does not mount, we need to do that ourselves.
+# Probably our customers have other options in their env, but this works with Azure
+- name: "Partition and mount"
+  hosts:
+    - hacluster
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Run bash script to partition and mount
+      script: mount_part.sh
+      environment:
+        PGDATAMOUNTPOINT: "{{ postgresql_data_mountpoint }}"
+        PGWALMOUNTPOINT: "{{ postgresql_wal_mountpoint }}"

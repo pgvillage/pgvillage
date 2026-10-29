@@ -1,0 +1,15 @@
+- hosts: localhost
+  collections:
+    - azure.azcollection
+  tasks:
+    - name: Clean a resource group
+      local_action:
+        module: azure_rm_resourcegroup
+        name: "{{ azure_resource_group }}"
+        state: absent
+        force_delete_nonempty: "{{ azure_allow_clean }}"
+    - name: clean certs from inventory
+      file:
+        dest: "{{ inventory_dir }}/group_vars/all/certs.yml"
+        state: absent
+      when: azure_allow_clean

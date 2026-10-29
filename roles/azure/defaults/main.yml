@@ -1,0 +1,41 @@
+---
+# defaults file for azure
+azure_cluster_name: cluster1
+azure_cluster_unique_name: "{{ azure_cluster_name }}{{ ansible_machine_id | truncate(10, true, '') }}"
+azure_resource_group: 'rg_{{ azure_cluster_name }}'
+azure_bastion_name: 'bastion{{ azure_cluster_name }}'
+azure_bastion_vm_size: Standard_B1ls
+azure_bastion_image: '{{ azure_vmss_image }}'
+azure_bastion_plan: '{{ azure_vmss_plan }}'
+azure_vmss_name: 'vmss{{ cluster_name }}'
+azure_vmss_vm_size: Standard_DS1_v2
+azure_vmss_vm_count: '3'
+azure_vmss_image:
+  offer: rockylinux-x86_64
+  publisher: resf
+  sku: 9-base
+  version: 9.6.20250531
+azure_vmss_plan:
+  name: 9-base
+  publisher: resf
+  product: rockylinux-x86_64
+azure_lb_name: 'lb_{{ azure_cluster_name }}'
+azure_lbfe_name: 'lbfe_{{ azure_cluster_name }}'
+azure_lbbe_name: 'lbbe_{{ azure_cluster_name }}'
+azure_nw_name: 'nw_{{ azure_cluster_name }}'
+azure_subnet_name: 'sn_{{ azure_cluster_name }}'
+azure_vip_name: 'vip_{{ azure_cluster_name }}'
+azure_vip_dns_name: '{{ azure_cluster_unique_name }}'
+azure_vip_dns_fqdn: '{{ azure_vip_dns_name }}.{{ azure_location }}.cloudapp.azure.com'
+azure_sg_name: 'sg_{{ azure_cluster_name }}'
+azure_location: westeurope
+azure_data_gb: 100
+azure_wal_gb: 10
+azure_vm_disk_type: Standard_LRS
+azure_data_disk_type: '{{ azure_vm_disk_type }}'
+azure_wal_disk_type: '{{ azure_data_disk_type }}'
+# azure_storage_account_name must be unique across all of azure, therefore using a truncated version of machine_id
+# of the ansible controlnode, which is a terrible idea for production, but at least is pseudorandom for demo purpose
+azure_storage_account_name: 'sa{{ azure_cluster_unique_name }}'
+azure_storage_account_type: Standard_RAGRS
+azure_storage_container: 'backup{{ azure_cluster_name }}'

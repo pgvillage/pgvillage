@@ -1,0 +1,70 @@
+---
+- name: Read shs public key
+  shell: "cat ~/.ssh/id_rsa.pub"
+  register: public_ssh
+
+- name: Create VM bastion
+  azure_rm_virtualmachine:
+    accept_terms: "{{ azure_bastion_plan|length > 0 }}"
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ azure_bastion_name }}"
+    admin_username: "{{ ansible_user_id }}"
+    tags:
+      applicationRole: bastion
+    plan: "{{ azure_bastion_plan }}"
+    vm_size: "{{ azure_bastion_vm_size }}"
+    virtual_network_name: "{{ azure_nw_name }}"
+    subnet_name: "{{ azure_subnet_name }}"
+    ssh_password_enabled: false
+    ssh_public_keys:
+      - path: /home/azureuser/.ssh/authorized_keys
+        key_data: "{{ public_ssh.stdout }}"
+    managed_disk_type: "{{ azure_vm_disk_type }}"
+    os_disk_caching: ReadWrite
+    image: "{{ azure_bastion_image }}"
+  register: bastion
+
+- name: get ip info
+  azure.azcollection.azure_rm_publicipaddress_info:
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ bastion.ansible_facts.azure_vm.network_profile.network_interfaces[0].properties.ip_configurations[0].public_ip_address.name }}"
+  register: bastion_ip
+
+- name: Create VM scaleset
+  azure_rm_virtualmachinescaleset:
+    upgrade_policy: "Automatic"
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ azure_vmss_name }}"
+    admin_username: "{{ ansible_user_id }}"
+    single_placement_group: false
+    tags:
+      applicationRole: postgres
+    vm_size: "{{azure_vmss_vm_size}}"
+    capacity: "{{ azure_vmss_vm_count }}"
+    virtual_network_name: "{{ azure_nw_name }}"
+    subnet_name: "{{ azure_subnet_name }}"
+    ssh_password_enabled: false
+    ssh_public_keys:
+      - path: /home/azureuser/.ssh/authorized_keys
+        key_data: "{{ public_ssh.stdout }}"
+    tier: Standard
+    managed_disk_type: "{{ azure_vm_disk_type }}"
+    os_disk_caching: ReadWrite
+    plan: "{{ azure_vmss_plan }}"
+    image: "{{ azure_vmss_image }}"
+    load_balancer: "{{ azure_lb_name }}"
+    data_disks:
+      - lun: 0
+        disk_size_gb: "{{ azure_data_gb }}"
+        managed_disk_type: "{{ azure_data_disk_type }}"
+      - lun: 1
+        disk_size_gb: "{{ azure_wal_gb }}"
+        managed_disk_type: "{{ azure_wal_disk_type }}"
+
+- name: Set bastion as proxy for _postgres
+  copy:
+    content: "{{ body | to_nice_yaml(indent=8, width=1337) }}"
+    dest: "{{ inventory_dir }}/group_vars/_postgres/proxy.yml"
+  vars:
+    body:
+      ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ProxyCommand="ssh {{ bastion_ip.publicipaddresses[0].ip_address }} -W %h:%p -o StrictHostKeyChecking=no"'
