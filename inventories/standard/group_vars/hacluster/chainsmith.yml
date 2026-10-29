@@ -1,0 +1,3 @@
+---
+# Server certs of the database hosts on the data mountpoint (role default: /etc/pki/postgres)
+chainsmith_server_cert_path: "{{ postgresql_data_mountpoint }}/certs"

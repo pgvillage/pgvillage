@@ -3,5 +3,5 @@
 # Listen on the private network of the vagrant boxes
 stolon_pg_listen_address: "{{ ansible_facts.enp0s9.ipv4.address }}"
 stolon_proxy_listen_address: "{{ ansible_facts.enp0s9.ipv4.address }}"
-# Certificates in /etc/pki/postgres (see chainsmith.yml)
-stolon_pg_certdir: "{{ server_cert_path }}"
+# Server certs in /etc/pki/postgres (see group_vars/hacluster/chainsmith.yml)
+stolon_pg_certdir: /etc/pki/postgres

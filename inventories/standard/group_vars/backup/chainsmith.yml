@@ -1,4 +1,5 @@
 ---
+# minio: server cert owned by minio (in /etc/pki/minio, the role default), client certs where mcli looks for them
 chainsmith_client_cert_sub_folder: '.mcli/certs'
 chainsmith_client_cert_filename: 'public.crt'
 chainsmith_client_pkey_filename: 'private.key'

@@ -28,18 +28,21 @@ ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/va
 
 | File                                 | Variable                   | Ubuntu                                   | EL (`inventories/el`) |
 |--------------------------------------|----------------------------|------------------------------------------|---------------|
-| `group_vars/all/packages.yml`        | `linux_packages`           | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd`, `acl` on `hacluster`; `acl`, `minio` on `backup`; `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts` | role default for dnf: `postgresql17`, `-server`, `-contrib`, `-devel`, `-plpython3`, langpacks, ... |
-| `group_vars/all/packages.yml`        | `linux_public_repos`       | apt repositories: PgVillage (`repo.mannemsolutions.nl/apt`) and pgdg | role default |
-| `group_vars/all/packages.yml`        | `linux_users`, `linux_groups` | system users and groups per host group (`postgres`, `pgbouncer`, `avchecker`, `pgquartz`, `pgfga`, `pgroute66`, `minio`, `haproxy`, `keepalived`) | role default |
+| `group_vars/all/packages.yml`        | `linux_public_repos`       | apt repositories: PgVillage pinned to `repo.mannemsolutions.nl/apt/v0.3.2` (role default: `latest`), and pgdg | role default for dnf |
 | `group_vars/all/postgres.yml`        | `postgresql_bindir`        | `/usr/lib/postgresql/<version>/bin`       | `/usr/pgsql-<version>/bin/` |
 | `group_vars/all/uninstall.yml`       | `uninstall_linux_packages` | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd` | EL package names |
 | `group_vars/all/uninstall.yml`       | `uninstall_os_file_list`   | `/etc/postgresql/<version>`, `/var/lib/postgresql/<version>` (the default cluster of the deb package) | `/usr/pgsql-<version>`, `/var/lib/pgsql-<version>`, ... |
 | `group_vars/hacluster/pgbouncer.yml` | `pgbouncer_install_dir`    | `/usr/sbin`                               | role default |
 
-!!! note
-    `linux_packages` is one dictionary, and a later inventory replaces it as a whole. That is why the Ubuntu version
-    has all groups, including the `backup` (minio) and `router` packages. A platform inventory that changes the packages
-    must also list all groups.
+Packages, users and groups are not set in the inventory: the `pgvillage.linux` role picks them for apt:
+
+- **Packages**: `stolon`, `wal-g-pg`, `etcd`, `acl` and `postgresql-17` on `hacluster`; `minio` and `acl` on `backup`;
+  `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts`.
+- **Users and groups**: `postgres`, `pgbouncer`, `avchecker`, `pgquartz`, `pgfga`, `pgroute66` on `hacluster`;
+  `minio` on `backup`; `haproxy`, `keepalived`, `pgroute66` on `router`.
+
+To change them, set `linux_packages`, `linux_users` or `linux_groups`. They are dictionaries per host group, and a
+later inventory replaces them as a whole, so list all groups.
 
 ## Nagios
 

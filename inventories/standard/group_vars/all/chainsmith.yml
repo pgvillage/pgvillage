@@ -1,6 +1,6 @@
 ---
-chainsmith_nodes: "{% set nodes = [] %}{% for node in groups['hacluster'] %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes }}"
-chainsmith_ips: "{% set nodes = [] %}{% for node in groups['hacluster'] %}{% do nodes.append(hostvars[node].ansible_host) %}{% endfor %}{{ nodes }}"
-chainsmith_servers: "{% set nodes = {} %}{% for node in groups['hacluster'] %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_nodes+chainsmith_ips}) %}{% endfor %}{{ nodes }}"
-chainsmith_server_cert_path: "{{ postgresql_data_mountpoint }}/certs"
+# The pgvillage.chainsmith role defaults generate server certs for all hosts in hacluster and backup
+# (chainsmith_nodes), valid for all their fqdn's and ips, and client certs for chainsmith_users.
+# Use the inventory ip (ansible_host) instead of the role default (first ip of the host, which can be a NAT address).
+chainsmith_ips: "{% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_host) %}{% endfor %}{{ nodes }}"
 chainsmith_package_names: []

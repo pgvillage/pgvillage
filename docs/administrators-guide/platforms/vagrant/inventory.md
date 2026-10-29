@@ -55,19 +55,14 @@ The boxes run Ubuntu: the package names, apt repositories, users and paths come 
 
 ## Certificates
 
-Chainsmith creates certificates for the database hosts and the minio host, and stores them in
-`/etc/pki/<owner>` instead of the data mountpoint:
+Chainsmith creates certificates for the database hosts and the minio host (see standard). The only difference on
+vagrant: the server certificates of the database hosts are in `/etc/pki/postgres` (the chainsmith role default)
+instead of on the data mountpoint:
 
-| File                                  | Variable                                    | Value |
-|---------------------------------------|---------------------------------------------|-------|
-| `group_vars/all/chainsmith.yml`       | `server_cert_path`                          | `/etc/pki/{{ server_cert_owner }}` |
-| `group_vars/all/chainsmith.yml`       | `chainsmith_nodes`, `chainsmith_ips`, `chainsmith_servers` | `hacluster` and `backup` hosts |
-| `group_vars/all/chainsmith.yml`       | `chainsmith_server_cert_path`               | `{{ server_cert_path }}` |
-| `group_vars/all/chainsmith.yml`       | `chainsmith_node_group`, `chainsmith_users` | client certificates for the users on `hacluster`, `router` and `backup` |
-| `group_vars/all/stolon.yml`           | `stolon_pg_certdir`                         | `{{ server_cert_path }}` |
-| `group_vars/hacluster/chainsmith.yml` | `server_cert_owner`                         | `postgres` |
-| `group_vars/backup/minio.yml`         | `server_cert_owner`                         | `minio` |
-| `group_vars/backup/chainsmith.yml`    | `chainsmith_client_*`, `chainsmith_server_cert_owner` | certificate files for minio (`~/.mcli/certs`) |
+| File                                  | Variable                      | Value |
+|---------------------------------------|-------------------------------|-------|
+| `group_vars/hacluster/chainsmith.yml` | `chainsmith_server_cert_path` | `/etc/pki/postgres` |
+| `group_vars/all/stolon.yml`           | `stolon_pg_certdir`           | `/etc/pki/postgres` |
 
 ## Router
 

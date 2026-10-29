@@ -88,7 +88,7 @@ See [Deploy](deploy.md) for the details.
 | `group_vars/_postgres/.README`        | Placeholder, Ansible writes files to this folder.                                             |
 | `group_vars/all/azure.yml`            | Azure resources: control node IP, resource group, storage container, and VM size/image/plan.  |
 | `group_vars/all/generic.yml`          | VIP and `pg_hba` for the Azure Load Balancer.                                                 |
-| `group_vars/all/chainsmith.yml`       | Adds the VIP to the server certificates.                                                      |
+| `group_vars/all/chainsmith.yml`       | Adds the VIP name and IP to the server certificates.                                          |
 | `group_vars/all/wal-g.yml`            | Backups to the storage container (`WALG_AZ_PREFIX`, `AZURE_STORAGE_*`).                       |
 
 `inventories/standard` has the rest: Postgres version, mountpoints, ports, packages, and the config of stolon,
