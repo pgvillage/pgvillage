@@ -14,10 +14,11 @@ The ports are set in `stolon.yml`, `wal-g.yml`, `pgbouncer.yml`, `avchecker.yml`
 keep them in line when adding or changing a cluster. See
 [multi-instance](../../docs/administrators-guide/deployment_and_maintenance/multiinstance/stolon.md).
 
-It has no hosts. Use it together with a platform inventory, standard first, so the platform values win:
+It has no OS specifics and no hosts. Use it with an OS layer (`inventories/el`, `inventories/ubuntu`) and a platform
+inventory, in this order, so later values win:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/azure functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/el -i inventories/azure functional-all.yml
 ```
 
-To change a value for one platform, add a file with the same name to `inventories/<platform>/group_vars/all/`.
+To change a value for one OS or platform, add a file with the same name to `inventories/<os or platform>/group_vars/all/`.

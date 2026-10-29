@@ -5,7 +5,7 @@ and overrides of the standard config for the Load Balancer VIP (`generic.yml`, `
 Storage (`wal-g.yml`). Use it on top of `inventories/standard`:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/azure functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/el -i inventories/azure functional-all.yml
 ```
 
 It deploys Rocky Linux EL-9 on AMD64, with a VMSS of 3 database hosts, a bastion host, a Load Balancer VIP and backups

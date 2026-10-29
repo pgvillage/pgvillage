@@ -12,7 +12,10 @@ uninstall_services:
   - avchecker@cluster2-stolon.service
   - avchecker@cluster2-proxy.service
 
-uninstall_file_list:
+# Plus the OS specific files (uninstall_os_file_list) of the OS layer (inventories/el, ubuntu, suse)
+uninstall_file_list: "{{ uninstall_common_file_list + (uninstall_os_file_list | default([])) }}"
+
+uninstall_common_file_list:
   - /var/lib/etcd
   - /var/log/pgquartz
   - /var/log/postgresql
@@ -39,8 +42,6 @@ uninstall_file_list:
   - /etc/default/wal-g-cluster1
   - /etc/default/wal-g-cluster2
   - /etc/sysctl.d/postgresql.conf
-  - "/usr/pgsql-{{ postgresql_version }}"
-  - "/var/lib/pgsql-{{ postgresql_version }}"
   - /etc/cron.d/postgresql
   - /etc/cron.d/wal-g
   - /etc/cron.d/pgquartz
@@ -51,7 +52,6 @@ uninstall_file_list:
   - /etc/systemd/system/multi-user.target.wants/avchecker@cluster1-proxy.service
   - /etc/systemd/system/multi-user.target.wants/avchecker@cluster2-stolon.service
   - /etc/systemd/system/multi-user.target.wants/avchecker@cluster2-proxy.service
-  - "/etc/systemd/system/postgresql-{{ postgresql_version }}.service"
   - /etc/default/avchecker_cluster1-stolon
   - /etc/default/avchecker_cluster1-proxy
   - /etc/default/avchecker_cluster2-stolon
@@ -66,12 +66,4 @@ uninstall_user_list:
   - avchecker
   - pgquartz
 
-uninstall_linux_packages:
-  - "postgresql{{ linux_pg_version|replace('.','') }}"
-  - "postgresql{{ linux_pg_version|replace('.','') }}-server"
-  - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
-  - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
-  - "postgresql{{ linux_pg_version|replace('.','') }}-libs"
-  - "stolon"
-  - "wal-g-pg"
-  - "etcd"
+# uninstall_linux_packages is OS specific, see inventories/el, ubuntu, suse

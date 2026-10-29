@@ -1,17 +1,5 @@
 ---
 linux_pg_version: '{{ postgresql_version }}'
 
-linux_packages:
-  hacluster:
-    - 'langpacks-en'
-    - 'glibc-all-langpacks'
-    - "postgresql{{ linux_pg_version|replace('.','') }}"
-    - "postgresql{{ linux_pg_version|replace('.','') }}-server"
-    - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
-    - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
-    - 'stolon'
-    - 'wal-g-pg'
-    - 'etcd'
-    - python3-psycopg2
-  localhosts:
-    - chainsmith
+# linux_packages, linux_users, linux_groups and linux_public_repos are not set here: the pgvillage.linux role derives
+# them per package manager (apt, dnf, zypper). OS layers (inventories/el, ubuntu, suse) override them where needed.

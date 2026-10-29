@@ -1,6 +1,6 @@
 ---
 # Groups used by PgVillage. Hosts are added by the platform inventory
-# (e.g. inventories/azure); use both: -i inventories/standard -i inventories/<platform>
+# (e.g. inventories/azure); use with an OS layer: -i inventories/standard -i inventories/<os> -i inventories/<platform>
 all:
   children:
     localhosts:

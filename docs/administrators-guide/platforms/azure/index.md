@@ -13,11 +13,12 @@ On Azure, PgVillage is deployed in two steps:
 1. The playbooks in `playbooks/azure` create the Azure resources, with the `azure` role (`roles/azure`).
 2. The normal PgVillage playbook deploys PostgreSQL, stolon and all other components on the created VMs.
 
-The inventory is split in two: `inventories/standard` has the standard PgVillage config, and `inventories/azure`
-has everything specific to Azure. Use both, standard first, so the Azure values win:
+The inventory is layered: `inventories/standard` has the standard PgVillage config, `inventories/el` the Enterprise
+Linux specifics (the default image is Rocky Linux), and `inventories/azure` everything specific to Azure. Use them in
+this order, so later values win:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/azure functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/el -i inventories/azure functional-all.yml
 ```
 
 It deploys Rocky Linux EL-9 on AMD64. See also:

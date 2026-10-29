@@ -73,8 +73,8 @@ Apple silicon (M1, M2, M3, etc.) is no issue: the boxes can be built for both am
 
 ## Other operating systems
 
-The boxes run Ubuntu, hence `inventories/ubuntu`. `inventories/standard` itself is for Enterprise Linux (EL), so for
-EL boxes you leave out `inventories/ubuntu`. See [Other operating systems](inventory.md#other-operating-systems).
+The boxes run Ubuntu, hence `inventories/ubuntu`. For
+EL boxes you use `inventories/el` instead of `inventories/ubuntu`. See [Other operating systems](inventory.md#other-operating-systems).
 
 ## DNS
 

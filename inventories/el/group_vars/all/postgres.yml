@@ -1,0 +1,3 @@
+---
+# Overrides inventories/standard/group_vars/all/postgres.yml: PGDG rpm path
+postgresql_bindir: "/usr/pgsql-{{ stolon_pg_version }}/bin/"

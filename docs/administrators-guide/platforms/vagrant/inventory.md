@@ -87,15 +87,11 @@ HAProxy, keepalived and pgroute66 run on the database hosts (`router` = `haclust
 
 ## Other operating systems
 
-For EL boxes (e.g. Rocky Linux), leave out `inventories/ubuntu`:
+For EL boxes (e.g. Rocky Linux), use [`inventories/el`](../el/index.md) instead of `inventories/ubuntu`:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/vagrant functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/el -i inventories/vagrant functional-all.yml
 ```
-
-`linux_packages` of standard only has `hacluster` and `localhosts`, so add a `group_vars/all/packages.yml` to
-`inventories/vagrant` with the EL package names of standard plus the `backup` (`minio`) and `router` (`keepalived`,
-`haproxy`, `pgroute66`) packages.
 
 For openSUSE, see [EL vs SUSE](../azure/el-vs-suse.md) for the package and path changes.
 

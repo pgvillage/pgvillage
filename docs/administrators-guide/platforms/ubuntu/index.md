@@ -8,8 +8,9 @@ date: 2026-10-30
 
 # Ubuntu
 
-`inventories/standard` is for Enterprise Linux (EL, e.g. Rocky Linux). For Ubuntu hosts, add `inventories/ubuntu`
-between standard and the platform inventory, so the Ubuntu values override standard and the platform overrides both:
+`inventories/standard` has no OS specifics. For Ubuntu hosts, add `inventories/ubuntu` between standard and the
+platform inventory, so the Ubuntu values override standard and the platform overrides both (for Enterprise Linux,
+use [`inventories/el`](../el/index.md) instead):
 
 ```bash
 ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/<platform> functional-all.yml
@@ -25,9 +26,9 @@ ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/va
 
 ## What it changes
 
-| File                                 | Variable                   | Ubuntu                                   | Standard (EL) |
+| File                                 | Variable                   | Ubuntu                                   | EL (`inventories/el`) |
 |--------------------------------------|----------------------------|------------------------------------------|---------------|
-| `group_vars/all/packages.yml`        | `linux_packages`           | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd`, `acl` on `hacluster`; `acl`, `minio` on `backup`; `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts` | `postgresql17`, `-server`, `-contrib`, `-plpython3`, langpacks, `python3-psycopg2`, ... on `hacluster`; `chainsmith` on `localhosts` |
+| `group_vars/all/packages.yml`        | `linux_packages`           | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd`, `acl` on `hacluster`; `acl`, `minio` on `backup`; `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts` | role default for dnf: `postgresql17`, `-server`, `-contrib`, `-devel`, `-plpython3`, langpacks, ... |
 | `group_vars/all/packages.yml`        | `linux_public_repos`       | apt repositories: PgVillage (`repo.mannemsolutions.nl/apt`) and pgdg | role default |
 | `group_vars/all/packages.yml`        | `linux_users`, `linux_groups` | system users and groups per host group (`postgres`, `pgbouncer`, `avchecker`, `pgquartz`, `pgfga`, `pgroute66`, `minio`, `haproxy`, `keepalived`) | role default |
 | `group_vars/all/postgres.yml`        | `postgresql_bindir`        | `/usr/lib/postgresql/<version>/bin`       | `/usr/pgsql-<version>/bin/` |
@@ -46,5 +47,4 @@ multi-instance), so there is nothing to change for Ubuntu.
 
 ## Known issues
 
-- `uninstall_file_list` comes from standard and still has EL paths (`/usr/pgsql-<version>`,
-  `/var/lib/pgsql-<version>`, `/etc/sysconfig/...`).
+- `uninstall_os_file_list` is not set for Ubuntu yet, so `uninstall.yml` only removes the files common to all OSes.

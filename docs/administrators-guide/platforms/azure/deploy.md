@@ -25,7 +25,8 @@ Everything runs from an Ansible control node in Azure:
 | `functional-all.yml`                  | The normal PgVillage deployment.                                                 |
 | `playbooks/azure/clean_resources.yml` | Removes the cluster (the whole resource group).                                  |
 
-All playbooks use both inventories, standard first: `-i inventories/standard -i inventories/azure`.
+All playbooks use three inventories, in this order: `-i inventories/standard -i inventories/el -i inventories/azure`
+(standard config, the OS layer, and Azure).
 
 ## Prerequisites
 
@@ -127,7 +128,7 @@ secrets of other control nodes stay valid.
 Check that Ansible can reach Azure; this should list the control node in `_ansible_runner`:
 
 ```bash
-ansible-inventory -i inventories/standard -i inventories/azure --graph
+ansible-inventory -i inventories/standard -i inventories/el -i inventories/azure --graph
 ```
 
 ## 4. Configure the inventory
@@ -156,14 +157,14 @@ Optionally:
 
 ```bash
 cd ~/git/pgvillage
-scripts/create_new_cluster.sh            # inventories/azure
-scripts/create_new_cluster.sh mycluster  # inventories/mycluster
+scripts/create_new_cluster.sh                 # inventories/azure, on EL (inventories/el)
+scripts/create_new_cluster.sh mycluster       # inventories/mycluster, on EL
 ```
 
 The script runs these steps; you can also run them one by one:
 
 ```bash
-INV="-i inventories/standard -i inventories/azure"
+INV="-i inventories/standard -i inventories/el -i inventories/azure"
 ansible-playbook $INV playbooks/azure/create_resources.yml
 sleep 90   # give the VMSS hosts time to boot
 ansible-playbook $INV playbooks/azure/inventory.yml
@@ -185,7 +186,7 @@ ansible-playbook $INV functional-all.yml
 List the hosts:
 
 ```bash
-ansible-inventory -i inventories/standard -i inventories/azure --graph
+ansible-inventory -i inventories/standard -i inventories/el -i inventories/azure --graph
 ```
 
 Log in to a database host and check PostgreSQL:
@@ -216,7 +217,7 @@ client certificate from chainsmith.
 ## Remove the cluster
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/azure playbooks/azure/clean_resources.yml
+ansible-playbook -i inventories/standard -i inventories/el -i inventories/azure playbooks/azure/clean_resources.yml
 ```
 
 This deletes the resource group `rg_azure` with everything in it (only when `azure_allow_clean` is `true`), and
