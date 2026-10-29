@@ -1,0 +1,75 @@
+---
+linux_pg_version: '{{ postgresql_version }}'
+
+linux_users:
+  hacluster:
+    - name: postgres
+      shell: /bin/bash
+      system: true
+    - name: pgbouncer
+      shell: /bin/bash
+      system: true
+    - name: avchecker
+      system: true
+    - name: pgquartz
+      system: true
+    - name: pgfga
+      system: true
+    - name: pgroute66
+      system: true
+  backup:
+    - name: minio
+      system: true
+  router:
+    - name: haproxy
+      system: true
+    - name: keepalived
+      system: true
+    - name: pgroute66
+      system: true
+
+linux_groups:
+  hacluster:
+    - name: postgres
+      system: true
+  backup:
+    - name: minio
+      system: true
+  router:
+    - name: pgroute66
+      system: true
+
+
+linux_packages:
+  hacluster:
+    - "acl"
+    - "postgresql-{{ linux_pg_version | replace('.', '') }}"
+    - "stolon"
+    - "wal-g-pg"
+    - "etcd"
+  backup:
+    - "acl"
+    - "minio"
+  router:
+    - keepalived
+    - haproxy
+    - pgroute66
+  localhosts:
+    - "chainsmith"
+
+
+linux_public_repos:
+  - name: PgVillage
+    description: "PgVillage DEB Library - Ubuntu {{ ansible_facts.distribution_version }} - {{ ansible_facts.architecture }}"
+    repo: >-
+      [signed-by=/etc/apt/keyrings/pgvillage.asc arch={{ linux_architecture }}]
+      https://repo.mannemsolutions.nl/apt/v0.3.2
+      {{ ansible_facts.distribution_release }}
+      main
+    priority: 10
+  - name: "pgdg{{ linux_pg_version }}"
+    description: "PostgreSQL {{ linux_pg_version }} for Ubuntu {{ ansible_facts.distribution_version }} - {{ ansible_facts.architecture }}"
+    repo: |
+      [signed-by=/etc/apt/keyrings/postgresql.asc] https://apt.postgresql.org/pub/repos/apt {{ ansible_facts.distribution_release }}-pgdg main
+    enabled: true
+    priority: 20

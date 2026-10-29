@@ -1,0 +1,62 @@
+---
+uninstall_services:
+  - stolon-proxy
+  - stolon-sentinel
+  - stolon-keeper
+  - etcd
+  - avchecker@proxy.service
+  - avchecker@routerro.service
+  - avchecker@routerrw.service
+  - avchecker@stolon.service
+
+uninstall_file_list:
+  - /var/lib/etcd
+  - /var/log/pgquartz
+  - /var/log/postgresql
+  - /var/log/wal-g
+  - /data/postgres/data/stolon
+  - /data/postgres/data/stolon_custom_config.yml
+  - /data/postgres/data/certs
+  - /data/postgres/wal/stolon
+  - /etc/systemd/system/avchecker@.service
+  - /etc/systemd/system/etcd.service
+  - /etc/systemd/system/stolon-keeper.service
+  - /etc/systemd/system/stolon-proxy.service
+  - /etc/systemd/system/stolon-sentinel.service
+  - /etc/sysctl.d/postgresql.conf
+  - "/usr/pgsql-{{ postgresql_version }}"
+  - "/var/lib/pgsql-{{ postgresql_version }}"
+  - /etc/cron.d/postgresql
+  - /etc/cron.d/wal-g
+  - /etc/cron.d/pgquartz
+  - /etc/pgquartz
+  - /usr/local/bin/pgquartz
+  - /etc/etcd
+  - /etc/systemd/system/multi-user.target.wants/avchecker@proxy.service
+  - /etc/systemd/system/multi-user.target.wants/avchecker@routerrw.service
+  - /etc/systemd/system/multi-user.target.wants/avchecker@routerro.service
+  - /etc/systemd/system/multi-user.target.wants/avchecker@stolon.service
+  - "/etc/systemd/system/postgresql-{{ postgresql_version }}.service"
+  - /etc/default/avchecker_proxy
+  - /etc/default/avchecker_routerrw
+  - /etc/default/avchecker_routerro
+  - /etc/default/avchecker_stolon
+  - /opt/avchecker
+  - /etc/pgquartz
+  - /usr/local/bin/pgquartz
+
+uninstall_user_list:
+  - postgres
+  - etcd
+  - avchecker
+  - pgquartz
+
+uninstall_linux_packages:
+  - "postgresql{{ linux_pg_version|replace('.','') }}"
+  - "postgresql{{ linux_pg_version|replace('.','') }}-server"
+  - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
+  - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
+  - "postgresql{{ linux_pg_version|replace('.','') }}-libs"
+  - "stolon"
+  - "wal-g-pg"
+  - "etcd"

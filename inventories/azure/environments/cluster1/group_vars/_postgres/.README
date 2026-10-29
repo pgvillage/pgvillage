@@ -1,0 +1,1 @@
+Ansible writes files to this folder, so adding the folder with this placeholder file to have git create them.

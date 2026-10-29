@@ -1,0 +1,47 @@
+---
+
+# Set the mail adresses that cron should mail to for wal-g and postgres jobs
+cron_mailto: info@example.com
+
+cluster_name: "{{ inventory_dir | basename }}"
+
+# Set the PostgreSQL version to be installed.
+# Note, the rpm packages should be brought available for this version for RHEL8
+postgresql_version: 17
+
+# How long do we want to retain our backups
+walg_retention_days: 7
+
+# Used by stolon role to automatically set min_wal_size and max_wal_size
+# Used by nagios role to automatically set monitoring defaults
+postgresql_wal_mountpoint: /data/postgres/wal
+postgresql_data_mountpoint: /data/postgres/data
+
+postgresql_ro_port: 5433
+postgresql_rw_port: 5432
+postgresql_proxy_port: 25432
+
+# VIP address
+postgresql_vip_fqdn: "{{ azure_vip_dns_fqdn }}"
+postgresql_vip_ip: "1.2.3.4"
+postgresql_subnet: "24"
+
+# you can tune max_connections. Do note that increased max_connections also means decreased work_mem
+stolon_max_connections: 100
+
+# Used for automatically setting work_mem
+# Set to 1 for transactional, and 4-16 for analytical
+# Consider the average amount of operations (merge, sort, group, etc.) per query
+stolon_query_complexity: 2
+
+   # You can reserve memory (in MB) that the OS should preserver for other processes than Postgres
+   # Like a shared server with web, or heavy tooling installed next to Postgres
+stolon_reserved_memory_mb: 0
+
+   # Specifieke hba regels voor poc
+stolon_pg_hba:
+  # Required for nrpe (and probably others)
+  - local all all ident
+  - hostssl postgres avchecker samenet cert
+  - hostssl all all samenet cert
+  - "hostssl all all {{ azure_vip_ip }}/32 cert"

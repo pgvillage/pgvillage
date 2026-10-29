@@ -1,0 +1,19 @@
+---
+linux_pg_version: '{{ postgresql_version }}'
+
+linux_packages:
+  hacluster:
+    - 'langpacks-en'
+    - 'glibc-all-langpacks'
+    - "postgresql{{ linux_pg_version|replace('.','') }}"
+    - "postgresql{{ linux_pg_version|replace('.','') }}-server"
+    - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
+    - "postgresql{{ linux_pg_version|replace('.','') }}-plpython3"
+    - 'stolon'
+    - 'wal-g-pg'
+    - 'etcd'
+    - python3-psycopg2
+  backup:
+    - minio
+  localhosts:
+    - chainsmith

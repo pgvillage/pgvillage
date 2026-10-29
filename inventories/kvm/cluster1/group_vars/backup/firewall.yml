@@ -1,0 +1,5 @@
+---
+
+firewall_type: firewalld
+firewall_ports:
+  minio: 443

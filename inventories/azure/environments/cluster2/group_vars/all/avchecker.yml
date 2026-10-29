@@ -1,0 +1,31 @@
+---
+avchecker_cluster_members: "{% set nodes = [] %}{% for node in groups['hacluster'] %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes | list | join(',') }}"
+
+avchecker_defaults:
+  stolon:
+    AVCHECKER_SLEEPTIME: 5
+    PGHOST: "{{ avchecker_cluster_members }}"
+    PGPORT: "{{ postgresql_rw_port }}"
+    PGDATABASE: postgres
+    PGSSLMODE: "verify-full"
+    PGTARGETSESSIONATTRS: read-write
+  proxy:
+    AVCHECKER_SLEEPTIME: 5
+    PGHOST: "{{ avchecker_cluster_members }}"
+    PGPORT: "{{  postgresql_proxy_port }}"
+    PGDATABASE: postgres
+    PGSSLMODE: "verify-full"
+  routerrw:
+    AVCHECKER_SLEEPTIME: 5
+    PGHOST: "{{ postgresql_vip_fqdn }}"
+    PGPORT: "{{  postgresql_rw_port }}"
+    PGDATABASE: postgres
+    PGSSLMODE: "verify-full"
+  routerro:
+    AVCHECKER_SLEEPTIME: 5
+    PGHOST: "{{ postgresql_vip_fqdn }}"
+    PGPORT: "{{ postgresql_ro_port }}"
+    PGDATABASE: postgres
+    PGSSLMODE: "verify-full"
+
+avchecker_cert_managed: false

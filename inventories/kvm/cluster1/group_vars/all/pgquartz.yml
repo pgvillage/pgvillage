@@ -1,0 +1,7 @@
+---
+pgquartz_cert_managed: false
+
+pgquartz_scheduler: cron
+
+pgquartz_cron_mailto: "{{ cron_mailto }}"
+pgquartz_jobsdir: "{{ pgquartz_configdir }}/jobs/pgvillage_jobs"

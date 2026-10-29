@@ -1,0 +1,6 @@
+---
+chainsmith_nodes: "{% set nodes = [azure_vip_dns_fqdn] %}{% for node in groups['hacluster'] %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes }}"
+chainsmith_ips: "{% set nodes = [azure_vip_ip] %}{% for node in groups['hacluster'] %}{% do nodes.append(hostvars[node].ansible_host) %}{% endfor %}{{ nodes }}"
+chainsmith_servers: "{% set nodes = {azure_vip_dns_fqdn: chainsmith_nodes+chainsmith_ips} %}{% for node in groups['hacluster'] %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_nodes+chainsmith_ips}) %}{% endfor %}{{ nodes }}"
+chainsmith_server_cert_path: "{{ postgresql_data_mountpoint }}/certs"
+chainsmith_package_names: []

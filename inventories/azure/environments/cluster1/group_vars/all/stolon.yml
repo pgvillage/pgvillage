@@ -1,0 +1,26 @@
+---
+stolon_cluster_name: '{{ cluster_name }}'
+stolon_pg_version: '{{ postgresql_version }}'
+stolon_data_dir: '{{ postgresql_data_mountpoint }}/stolon'
+stolon_pg_certdir: '{{ postgresql_data_mountpoint }}/certs'
+stolon_config_dir: '{{ postgresql_data_mountpoint }}'
+stolon_pg_bin_path: '{{ postgresql_bindir }}'
+stolon_wal_dir: '{{ postgresql_wal_mountpoint }}/stolon'
+stolon_pg_log_directory: '{{ postgresql_log_directory }}'
+# stolon_pg_listen_address: "{{ ansible_default_ipv4.address}"
+stolon_pg_port: '{{ postgresql_rw_port }}'
+stolon_proxy_port: '{{ postgresql_proxy_port }}'
+
+stolon_extra_pg_parameters: '{{ walg_postgresql_parameters | combine(postgresql_log_parameters) | combine(postgresql_timeout_parameters) }}'
+
+stolon_wal_dir_mp: '{{ postgresql_wal_mountpoint }}'
+
+stolon_pg_cron_mailto: '{{ cron_mailto }}'
+
+stolon_cert_managed: false
+#stolon_client_cert: "{{ certs.client.postgres }}"
+#stolon_client_chain: "{{ certs.client.chain }}"
+#stolon_client_key: "{{ private_keys.client.postgres }}"
+#stolon_server_cert: "{{ certs.server[ansible_fqdn] }}"
+#stolon_server_key: "{{ private_keys.server[ansible_fqdn] }}"
+#stolon_server_chain: "{{ certs.server.chain }}"

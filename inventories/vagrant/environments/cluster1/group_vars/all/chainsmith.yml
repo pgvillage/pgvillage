@@ -1,0 +1,16 @@
+---
+chainsmith_nodes: "{% set nodes = [] %}{% for node in (groups.hacluster + groups.backup) %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes }}"
+chainsmith_ips: "{% set nodes = [] %}{% for node in (groups.hacluster + groups.backup) %}{% do nodes.append(hostvars[node].ansible_host) %}{% endfor %}{{ nodes }}"
+chainsmith_servers: "{% set nodes = {} %}{% for node in (groups.hacluster + groups.backup) %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_nodes+chainsmith_ips}) %}{% endfor %}{{ nodes }}"
+chainsmith_server_cert_path: '{{ server_cert_path }}'
+chainsmith_node_group: hacluster
+chainsmith_users:
+  hacluster:
+    - postgres
+    - avchecker
+    - pgquartz
+    - pgfga
+  router:
+    - pgroute66
+  backup:
+    - minio

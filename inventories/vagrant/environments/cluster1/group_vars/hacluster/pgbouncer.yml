@@ -1,0 +1,5 @@
+---
+
+pgbouncer_pgdata: "{{ stolon_data_dir }}/postgres/"
+
+pgbouncer_install_dir: /usr/sbin

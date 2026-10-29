@@ -1,0 +1,34 @@
+---
+all:
+  children:
+    postgres:
+      children:
+        hacluster
+    stolon:
+      children:
+        hacluster
+    etcd_master:
+      children:
+        hacluster
+    hacluster:
+      # Change hostnames and ip adresses to reflect your actual deployment environment
+      hosts:
+        db-1.local:
+          ansible_host: 172.30.1.31
+        db-2.local:
+          ansible_host: 172.30.1.32
+        db-3.local:
+          ansible_host: 172.30.1.33
+    backup:
+      # Change hostnames and ip adresses to reflect your actual deployment environment
+      hosts:
+        tooling.local:
+          ansible_host: 172.30.1.20
+    localhosts:
+      hosts:
+        localhost:
+           ansible_connection: local
+           ansible_python_interpreter: "{{ansible_playbook_python}}"
+  # You can set an ansible_user if the user on the db hosts differs from the account running this locally
+  #vars:
+  #  ansible_user: pgvillage

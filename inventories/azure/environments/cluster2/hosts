@@ -1,0 +1,17 @@
+---
+all:
+  children:
+    localhosts:
+      hosts:
+        # leave this is, because it sets inventory_dir
+        localhost:
+    backup:
+    stolon:
+      children:
+        _postgres
+    etcd_master:
+      children:
+        _postgres
+    hacluster:
+      children:
+        _postgres

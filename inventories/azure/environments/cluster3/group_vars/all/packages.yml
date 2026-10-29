@@ -1,0 +1,14 @@
+---
+linux_pg_version: '{{ postgresql_version }}'
+
+linux_packages:
+  hacluster:
+    - "postgresql{{ linux_pg_version|replace('.','') }}"
+    - "postgresql{{ linux_pg_version|replace('.','') }}-server"
+    - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
+    - 'stolon'
+    - 'wal-g-pg'
+    - 'etcd'
+    - python3-psycopg2
+  localhosts:
+    - chainsmith

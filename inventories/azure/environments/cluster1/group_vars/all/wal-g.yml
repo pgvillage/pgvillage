@@ -1,0 +1,36 @@
+---
+walg_bucket_name: backup
+walg_bucket_ca_file: ~/.wal-g/certs/bucket_ca.crt
+
+# We installeren wal-g middels een rpm
+walg_packages:
+  - "wal-g-pg"
+
+walg_pg_datadir: "{{stolon_data_dir }}/postgres"
+walg_pg_bindir: "{{ postgresql_bindir }}"
+walg_pg_hostname: "{{ postgresql_socketdir }}"
+walg_backup_skip_window: 8
+# Keep  days of backups
+walg_cron_mailto: "{{ cron_mailto }}"
+
+walg_postgresql_parameters:
+  archive_command: "/opt/wal-g/scripts/archive.sh %p"
+  #can be used when we have configured buckets working with wal-g
+  #restore_command: "/opt/wal-g/scripts/archive_restore.sh %f %p"
+  archive_mode: "on"
+  listen_addresses: "'*'"
+  log_filename: "postgresql.log"
+  log_line_prefix: " "
+  max_wal_senders: "3"
+  wal_level: archive
+
+walg_bucket_cert: "{{ certs.server.chain }}"
+
+walg_bucket_defaults:
+  WALG_AZ_PREFIX: "azure://{{ azure_storage_container }}"
+  AZURE_STORAGE_ACCOUNT: "{{ azure_storage_account_name }}"
+  AZURE_STORAGE_ACCESS_KEY: "{{ azure_backup_access_key }}"
+  #AZURE_SDK_GO_LOGGING: all
+
+walg_cert_folders: {}
+walg_cert_files: {}

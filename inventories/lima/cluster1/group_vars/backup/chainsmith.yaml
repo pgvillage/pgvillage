@@ -1,0 +1,6 @@
+---
+chainsmith_client_cert_sub_folder: '.mcli/certs'
+chainsmith_client_cert_filename: 'public.crt'
+chainsmith_client_pkey_filename: 'private.key'
+chainsmith_client_root_filename: 'CAs/root.crt'
+chainsmith_server_cert_owner: minio

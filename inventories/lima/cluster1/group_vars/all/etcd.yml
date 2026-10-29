@@ -1,0 +1,7 @@
+---
+etcd_secure: False
+etcd_data_dir: /var/lib/etcd
+etcd_iface_cluster: eth1
+etcd_additional_envvars:
+  ETCD_AUTO_COMPACTION_RETENTION: 1
+  ETCD_AUTO_COMPACTION_MODE: revision

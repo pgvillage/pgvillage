@@ -1,0 +1,30 @@
+---
+# Public IP of the Ansible control node; set it to your own
+azure_control_ip: 203.0.113.10
+azure_cluster_name: "{{ cluster_name }}"
+# required for clean playbook
+azure_resource_group: "rg_{{ azure_cluster_name }}"
+# to enable cleaning
+azure_allow_clean: true
+# Note 1: azure_storage_account_name must be unique across all of azure, therefore using a truncated version of machine_id 
+# of the ansible controlnode, which is a terrible idea for production, but at least is pseudorandom for demo purpose.
+# set to another value when you mean business
+# Note 2: This must be set here, since defaults of azure role is not available when running pgvillage playbook
+# Note 3: using hostvars, since this requires ansible_machine_id from this controlnode
+azure_storage_container: "backup{{ azure_cluster_name }}"
+
+# x64             opensuse-leap-x86-64      susellc      gen2   susellc:opensuse-leap-x86-64:gen2:2026.04.01   2026.04.01
+#
+azure_bastion_image: "{{ azure_vmss_image }}"
+azure_bastion_plan: "{{ azure_vmss_plan }}"
+
+azure_vmss_image:
+  offer: opensuse-leap-x86-64
+  publisher: susellc
+  sku: gen2
+  version: 2026.04.01
+
+azure_vmss_plan:
+  name: gen2
+  publisher: susellc
+  product: opensuse-leap-x86-64

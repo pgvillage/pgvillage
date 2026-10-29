@@ -1,0 +1,15 @@
+---
+
+pgbouncer_instances:
+  instance1:
+    pgport: 5433
+    port: 6433
+    pgdata: "/mnt/data/cluster1/postgres"
+    pgenv:
+      service: cluster1-master
+  instance2:
+    pgport: 5434
+    port: 6434
+    pgdata: "/mnt/data/cluster2/postgres"
+    pgenv:
+      service: cluster2-master

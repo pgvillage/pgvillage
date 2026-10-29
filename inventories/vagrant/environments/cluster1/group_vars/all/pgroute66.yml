@@ -1,0 +1,27 @@
+---
+pgroute66_pgport: 5433
+pgroute66_pgnodes_group: hacluster
+
+pgroute66_clusters:
+  cluster1:
+    pgport: 5433
+  cluster2:
+    pgport: 5434
+
+pgroute66_config:
+  groups: >-
+    {%- set hostgroups = {} -%}
+    {%- for cluster, clusterconfig in pgroute66_clusters.items() -%}
+      {%- set hosts = {} -%}
+      {%- for host in groups[pgroute66_pgnodes_group] -%}
+        {%- set hv = hostvars[host] -%}
+        {%- set host_values = {"host": host, "port": clusterconfig.pgport, "dbname": pgroute66_dbname} -%}
+        {%- do hosts.update({host: host_values}) -%}
+      {%- endfor -%}
+      {%- do hostgroups.update({cluster: hosts}) -%}
+    {%- endfor -%}
+    {{ hostgroups }}
+  loglevel: "{{ pgroute66_loglevel }}"
+  verbosity: "{{ pgroute66_verbosity }}"
+  bind: "{{ pgroute66_bind }}"
+  port: "{{ pgroute66_port }}"

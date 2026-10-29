@@ -1,0 +1,77 @@
+---
+
+stolon_multicluster: true
+
+stolon_host_group: hacluster
+
+# stolon_pg_listen_address: "{{ ansible_default_ipv4.address}"
+stolon_pg_listen_address: "{{ ansible_facts.enp0s9.ipv4.address }}"
+
+stolon_cluster_name: "{{ cluster_name }}"
+stolon_pg_version: "{{ postgresql_version }}"
+stolon_data_dir: "{{ postgresql_data_mountpoint }}/stolon"
+stolon_config_dir: "{{ postgresql_data_mountpoint }}"
+stolon_pg_certdir: "{{ server_cert_path }}"
+stolon_pg_bin_path: "{{ postgresql_bindir }}"
+stolon_wal_dir: "{{ postgresql_wal_mountpoint }}/stolon"
+stolon_pg_log_directory: "{{ postgresql_log_directory }}"
+stolon_pg_port: "{{ postgresql_rw_port }}"
+stolon_proxy_port: "{{ postgresql_proxy_port }}"
+
+stolon_extra_pg_parameters: "{{ walg_postgresql_parameters | combine(postgresql_log_parameters) | combine(postgresql_timeout_parameters) }}"
+
+stolon_pg_cron_mailto: "{{ cron_mailto }}"
+
+stolon_cert_managed: false
+
+stolon_proxy_listen_address: "{{ ansible_all_ipv4_addresses[1] }}"
+
+
+#stolon_client_cert: "{{ certs.client.postgres }}"
+#stolon_client_chain: "{{ certs.client.chain }}"
+#stolon_client_key: "{{ private_keys.client.postgres }}"
+#stolon_server_cert: "{{ certs.server[ansible_fqdn] }}"
+#stolon_server_key: "{{ private_keys.server[ansible_fqdn] }}"
+#stolon_server_chain: "{{ certs.server.chain }}"
+
+stolon_default_cgroups:
+  CPUQuota: 100%
+  MemoryHigh: 8G
+
+stolon_clusters:
+  cluster1:
+    sysconfig:
+      stsentinel:
+        cluster_name: cluster1
+      stkeeper:
+        cluster_name: cluster1
+        pg_port: 5433
+        data_dir: "/mnt/data/cluster1"
+        pgdata_dir: "/mnt/data/cluster1/postgres"
+        wal_dir: "/mnt/wal/cluster1"
+        pgwal_dir: "/mnt/wal/cluster1"
+      stproxy:
+        cluster_name: cluster1
+        port: 25433
+    custom_config:
+      pgParameters:
+        log_directory: "{{ stolon_pg_log_directory }}/cluster1"
+        archive_command: "/opt/wal-g/scripts/archive.sh cluster1 %p"
+  cluster2:
+    sysconfig:
+      stsentinel:
+        cluster_name: cluster2
+      stkeeper:
+        cluster_name: cluster2
+        pg_port: 5434
+        data_dir: "/mnt/data/cluster2"
+        pgdata_dir: "/mnt/data/cluster2/postgres"
+        wal_dir: "/mnt/wal/cluster2"
+        pgwal_dir: "/mnt/wal/cluster2"
+      stproxy:
+        cluster_name: cluster2
+        port: 25434
+    custom_config:
+      pgParameters:
+        log_directory: "{{ stolon_pg_log_directory }}/cluster2"
+        archive_command: "/opt/wal-g/scripts/archive.sh cluster2 %p"
