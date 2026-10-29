@@ -1,3 +1,0 @@
----
-minio_server_addr: ":443"
-minio_certs_managed: false
