@@ -1,0 +1,3 @@
+---
+# Overrides inventories/standard/group_vars/all/etcd.yml: the shared network of the lima vm's (eth0 is the NAT network)
+etcd_iface_cluster: eth1

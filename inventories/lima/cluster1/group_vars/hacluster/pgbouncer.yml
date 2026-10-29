@@ -1,2 +1,0 @@
----
-pgbouncer_pgdata: "{{ stolon_data_dir }}/postgres/"

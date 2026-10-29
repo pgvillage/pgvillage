@@ -1,0 +1,3 @@
+---
+# Overrides inventories/standard/group_vars/all/etcd.yml: the network interface of the kvm vm's
+etcd_iface_cluster: eth0

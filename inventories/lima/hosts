@@ -1,15 +1,14 @@
 ---
+# Use on top of standard and el: -i inventories/standard -i inventories/el -i inventories/lima
 all:
   children:
-    postgres:
-      children:
-        hacluster
+    # stolon and etcd run on the database hosts
     stolon:
       children:
-        hacluster
+        hacluster:
     etcd_master:
       children:
-        hacluster
+        hacluster:
     hacluster:
       # Change hostnames and ip adresses to reflect your actual deployment environment
       hosts:
@@ -26,6 +25,7 @@ all:
           ansible_host: 172.30.1.20
     localhosts:
       hosts:
+        # Defined here (not in standard), so inventory_dir and cluster_name are those of this inventory
         localhost:
            ansible_connection: local
            ansible_python_interpreter: "{{ansible_playbook_python}}"

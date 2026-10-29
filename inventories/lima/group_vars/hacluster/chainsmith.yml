@@ -1,0 +1,3 @@
+---
+# Overrides inventories/standard/group_vars/hacluster/chainsmith.yml: server certs in /etc/pki/postgres (role default)
+chainsmith_server_cert_path: /etc/pki/postgres
