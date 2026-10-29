@@ -3,12 +3,9 @@ set -e
 
 echo Setup git
 ssh-keyscan -H github.com >>~/.ssh/known_hosts
-sudo zypper install -y --allow-downgrade git pkg-config which
-if [ ! -d ~/git/pgv_azure ]; then
-	mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgv_azure
-fi
+sudo zypper install -y --allow-downgrade git pkg-config which jq
 if [ ! -d ~/git/pgvillage ]; then
-	mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgvillage && cd pgvillage && ln -s ~/git/pgv_azure/environments .
+	mkdir -p ~/git && cd ~/git && git clone -b "${PGVILLAGE_BRANCH:-main}" https://github.com/pgvillage/pgvillage
 fi
 
 #echo Install rust
@@ -38,7 +35,9 @@ pip3 install pip ansible azure-cli cryptography azure-identity packaging netaddr
 ansible-galaxy collection install azure.azcollection
 ansible-galaxy role       install --role-file         ~/git/pgvillage/requirements.yml
 ansible-galaxy collection install --requirements-file ~/git/pgvillage/requirements.yml
-pip3 install -r ~/venv/lib/python3*/site-packages/ansible_collections/azure/azcollection/requirements.txt
+# Install the python requirements of the azure.azcollection that Ansible uses (the first one in the search path)
+AZ_COLLECTIONS="$(ansible-galaxy collection list azure.azcollection --format json | python3 -c 'import json,sys; print(next(iter(json.load(sys.stdin))))')"
+pip3 install -r "${AZ_COLLECTIONS}/azure/azcollection/requirements.txt"
 
 echo Setup ssh localhost
 [ -f ~/.ssh/id_rsa.pub ] || ssh-keygen -q -f ~/.ssh/id_rsa -P ""

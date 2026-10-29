@@ -26,3 +26,6 @@ Thumbs.db
 inventories/*/group_vars/all/azure_vip.yml
 inventories/*/group_vars/_postgres/wal-g.yml
 inventories/*/group_vars/_postgres/proxy.yml
+
+# Azure credentials written by scripts/az_to_env
+azure_creds.env

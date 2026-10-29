@@ -15,11 +15,8 @@ deb-src http://debian-archive.trafficmanager.net/debian bullseye-updates main
 echo Setup git
 ssh-keyscan -H github.com >>~/.ssh/known_hosts
 sudo apt-get update -y && sudo apt-get install -y git apt pkg-config libssl-dev jq
-if [ ! -d ~/git/pgv_azure ]; then
-	mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgv_azure
-fi
 if [ ! -d ~/git/pgvillage ]; then
-	mkdir -p ~/git && cd ~/git && git clone https://github.com/pgvillage/pgvillage && cd pgvillage && ln -s ~/git/pgv_azure/environments .
+	mkdir -p ~/git && cd ~/git && git clone -b "${PGVILLAGE_BRANCH:-main}" https://github.com/pgvillage/pgvillage
 fi
 
 echo Install rust
@@ -35,7 +32,7 @@ cd
 
 echo Install python3
 # For more info, see https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
-sudo apt-get install -y python3-pip libffi-dev
+sudo apt-get install -y python3-pip python3-venv libffi-dev
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 echo Install ansible
@@ -43,7 +40,9 @@ pip3 install --upgrade --user pip ansible azure-cli-core --upgrade cryptography 
 ~/.local/bin/ansible-galaxy collection install azure.azcollection
 ~/.local/bin/ansible-galaxy role       install --role-file         ~/git/pgvillage/requirements.yml
 ~/.local/bin/ansible-galaxy collection install --requirements-file ~/git/pgvillage/requirements.yml
-pip3 install --user -r ~/.local/lib/python3.9/site-packages/ansible_collections/azure/azcollection/requirements-azure.txt
+# Install the python requirements of the azure.azcollection that Ansible uses (the first one in the search path)
+AZ_COLLECTIONS="$(~/.local/bin/ansible-galaxy collection list azure.azcollection --format json | python3 -c 'import json,sys; print(next(iter(json.load(sys.stdin))))')"
+pip3 install --user -r "${AZ_COLLECTIONS}/azure/azcollection/requirements.txt"
 
 echo Install chainsmith
 cd "$(mktemp -d)"

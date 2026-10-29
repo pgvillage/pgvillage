@@ -1,0 +1,49 @@
+#!/bin/bash
+set -e
+
+# azure-cli conflicts with the python modules of the azure_rm Ansible modules, so it runs from its own venv.
+deactivate 2>/dev/null || true
+
+if ! [ -e ~/venv_az ]; then
+	python3 -m venv ~/venv_az
+	. ~/venv_az/bin/activate
+	pip install azure-cli
+else
+	. ~/venv_az/bin/activate
+fi
+
+ENV_FILE="azure_creds.env"
+
+echo "Check Azure CLI state..."
+if ! az account show > /dev/null 2>&1; then
+    az login
+fi
+
+# Get the subscription and tenant
+SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+TENANT_ID=$(az account show --query tenantId -o tsv)
+SP_NAME="Ansible-Power-User"
+
+echo "Creating Service Principal for Subscription: $SUBSCRIPTION_ID"
+
+if ! SP_JSON=$(az ad sp create-for-rbac --name "$SP_NAME" --role Contributor --scopes "/subscriptions/$SUBSCRIPTION_ID" --output json); then
+    echo "Error while creating Service Principal."
+    exit 1
+fi
+
+CLIENT_ID=$(echo "$SP_JSON" | jq -r '.appId')
+CLIENT_SECRET=$(echo "$SP_JSON" | jq -r '.password')
+
+cat << EOF > $ENV_FILE
+export AZURE_SUBSCRIPTION_ID='$SUBSCRIPTION_ID'
+export AZURE_CLIENT_ID='$CLIENT_ID'
+export AZURE_SECRET='$CLIENT_SECRET'
+export AZURE_TENANT='$TENANT_ID'
+EOF
+
+chmod 600 $ENV_FILE
+
+echo "----------------------------------------"
+echo "Ready. Credentials are in: $ENV_FILE"
+echo "Use 'source $ENV_FILE' to load them."
+echo "----------------------------------------"

@@ -15,8 +15,9 @@ The Azure integration has three parts:
    `localhost`.
 2. **The inventory** (`inventories/azure`, on top of `inventories/standard`) finds the created VMs with the
    `azure_rm` dynamic inventory plugin, and passes the Azure details (VIP, storage account) to the PgVillage roles.
-3. **pgv_azure** ([repo](https://github.com/pgvillage/pgv_azure)) bootstraps the control node, configures the data and
-   wal disks, and has the scripts to create (`create_new_cluster.sh`) and clean clusters. See [Azure](index.md).
+3. **Scripts and playbooks**: `scripts/` bootstraps the control node and creates credentials and clusters
+   (`create_new_cluster.sh`); `playbooks/azure/` creates the resources, configures ssh and the data and wal disks, and
+   cleans clusters. See [Deploy](deploy.md).
 
 ## Resources
 
@@ -50,7 +51,7 @@ All resources are created in `azure_resource_group`, in `azure_location`.
 | `azure_resource_group`      | `rg_{{ azure_cluster_name }}` (also set in the inventory)            | Resource group for all resources. Must match `azure_rm.yml`. |
 | `azure_location`            | `westeurope`                                                         | Azure region. Also part of `azure_vip_dns_fqdn`. |
 | `azure_control_ip`          | none (inventory: placeholder)                                        | Public IP of the control node. The only source allowed to ssh, see [Security group](#security-group). |
-| `azure_allow_clean`         | none (inventory: `true`)                                             | Allows the pgv_azure clean playbook to remove the cluster. |
+| `azure_allow_clean`         | none (inventory: `true`)                                             | Allows `playbooks/azure/clean_resources.yml` to remove the cluster. |
 
 !!! warning
     `azure_cluster_unique_name` depends on the machine id of the control node. It changes when you use another
@@ -92,7 +93,7 @@ All resources are created in `azure_resource_group`, in `azure_location`.
 
 ### Disks
 
-Each database host gets an OS disk and two data disks. pgv_azure mounts them on `postgresql_data_mountpoint` and
+Each database host gets an OS disk and two data disks. `playbooks/azure/mount.yml` mounts them on `postgresql_data_mountpoint` and
 `postgresql_wal_mountpoint`.
 
 | Parameter              | Default                     | Description |

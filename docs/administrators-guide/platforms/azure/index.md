@@ -1,6 +1,6 @@
 ---
 title: Azure
-summary: Deploying PgVillage on Azure with the pgv_azure playbooks and the azure inventory
+summary: Deploying PgVillage on Azure with the azure playbooks and inventory
 authors:
   - Sebas Mannem
 date: 2026-10-29
@@ -10,7 +10,7 @@ date: 2026-10-29
 
 On Azure, PgVillage is deployed in two steps:
 
-1. The [pgv_azure](https://github.com/pgvillage/pgv_azure) playbooks create the Azure resources.
+1. The playbooks in `playbooks/azure` create the Azure resources, with the `azure` role (`roles/azure`).
 2. The normal PgVillage playbook deploys PostgreSQL, stolon and all other components on the created VMs.
 
 The inventory is split in two: `inventories/standard` has the standard PgVillage config, and `inventories/azure`
@@ -22,6 +22,7 @@ ansible-playbook -i inventories/standard -i inventories/azure functional-all.yml
 
 It deploys Rocky Linux EL-9 on AMD64. See also:
 
+- [Deploy](deploy.md): step by step deployment
 - [Azure integration](azure.md): all `azure_` parameters, the resources, and how the inventory uses them
 - [EL vs SUSE](el-vs-suse.md)
 - [AMD vs ARM](amd-vs-arm.md)
@@ -45,47 +46,27 @@ After deployment, both the Ansible control node and the bastion host can be stop
 
 ## TL;DR
 
-- Create an Azure VM. This is the control node that runs Ansible to create the environments:
-  ```bash
-  az group create --name pgVillage --location westeurope
-  az vm create \
-    --resource-group pgVillage \
-    --name pgVControl \
-    --image Debian11 \
-    --admin-username azureuser \
-    --generate-ssh-keys \
-    --tags applicationRole=ansible_runner
-  ```
+From your workstation:
 
-    !!! note
-        - VM size B1ls seems too small. B1s works properly.
-        - You can also use this image: `--image susellc:opensuse-leap-x86-64:gen2:2026.04.01`
+```bash
+az group create --name pgVillage --location westeurope
+az vm create --resource-group pgVillage --name pgVControl --image Debian11 --size Standard_B1s \
+  --admin-username azureuser --generate-ssh-keys --tags applicationRole=ansible_runner
+ssh azureuser@$(az vm show -d -g pgVillage -n pgVControl --query publicIps -o tsv)
+```
 
-- Log into it:
-  ```bash
-  ssh azureuser@$(az vm show -d -g pgVillage -n pgVControl --query publicIps -o tsv)
-  ```
+On the control node:
 
-- Bootstrap it into a PgVillage Ansible control node:
-  ```bash
-  curl https://raw.githubusercontent.com/pgvillage/pgv_azure/main/bootstrap_debian.sh | bash
-  ```
-  or for SUSE:
-  ```bash
-  curl https://raw.githubusercontent.com/pgvillage/pgv_azure/main/bootstrap_suse.sh | bash
-  ```
+```bash
+curl https://raw.githubusercontent.com/pgvillage/pgvillage/main/scripts/bootstrap_debian.sh | bash
+source ~/.profile
+cd ~/git/pgvillage
+scripts/az_to_env && source azure_creds.env
+# set azure_control_ip in inventories/azure/group_vars/all/azure.yml to: curl -s https://ifconfig.me
+scripts/create_new_cluster.sh
+```
 
-- The control node uses the Azure API to create the database VMs, so log in to Azure on it too: `az login`.
-
-    !!! note
-        At the time of writing, azure-cli was not compatible with the azure_rm modules.
-        Therefore we created `az_to_env`, which creates another virtual env for `az`, downloads it, logs in and then
-        generates `azure_creds.env`. After that, run `. azure_creds.env` and then run Ansible with Azure authentication.
-
-- Deploy a cluster:
-  ```bash
-  ~/git/pgv_azure/create_new_cluster.sh
-  ```
+See [Deploy](deploy.md) for the details.
 
 ### Alternative
 
@@ -183,9 +164,9 @@ azure_control_ip: 203.0.113.10
 - VM size B1ls seems too small for pgVControl. B1s works fine.
 - Every now and then, upgrade the Ansible code, bootstrap script and Python modules:
   ```bash
-  cd ~/git/pgv_azure/
+  cd ~/git/pgvillage/
   git pull
-  ./bootstrap_debian.sh
+  scripts/bootstrap_debian.sh
   ```
 - `roles/azure/defaults/main.yml` derives `azure_storage_account_name` from the cluster name and the machine_id of the
   control node. That makes it pretty much unique across Azure (which is the idea), but it might change after a reboot,

@@ -8,8 +8,13 @@
         name: "{{ azure_resource_group }}"
         state: absent
         force_delete_nonempty: "{{ azure_allow_clean }}"
-    - name: clean certs from inventory
+    - name: Clean generated files from inventory
       file:
-        dest: "{{ inventory_dir }}/group_vars/all/certs.yml"
+        dest: "{{ inventory_dir }}/{{ item }}"
         state: absent
+      loop:
+        - group_vars/all/certs.yml
+        - group_vars/all/azure_vip.yml
+        - group_vars/_postgres/wal-g.yml
+        - group_vars/_postgres/proxy.yml
       when: azure_allow_clean
