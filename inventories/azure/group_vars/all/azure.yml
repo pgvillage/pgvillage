@@ -6,9 +6,10 @@ azure_cluster_name: "{{ cluster_name }}"
 azure_resource_group: "rg_{{ azure_cluster_name }}"
 # to enable cleaning
 azure_allow_clean: true
-# Note 1: azure_storage_account_name must be unique across all of azure, therefore using a truncated version of machine_id 
-# of the ansible controlnode, which is a terrible idea for production, but at least is pseudorandom for demo purpose.
-# set to another value when you mean business
-# Note 2: This must be set here, since defaults of azure role is not available when running pgvillage playbook
-# Note 3: using hostvars, since this requires ansible_machine_id from this controlnode
+# Must be set here, since the defaults of the azure role are not available when running the pgvillage playbook
+# (wal-g uses it)
 azure_storage_container: "backup{{ azure_cluster_name }}"
+# azure_storage_account_name must be unique across all of azure. The role default uses a truncated machine_id of the
+# ansible control node, which is a terrible idea for production, but at least pseudorandom for demo purposes.
+# Set it to a fixed value when you mean business:
+#azure_storage_account_name: sapgvillageprod

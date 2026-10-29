@@ -150,7 +150,8 @@ The role writes these files into the inventory, so the PgVillage playbook can us
 | `group_vars/_postgres/proxy.yml`  | `vmss.yml`   | `ansible_ssh_common_args` with a `ProxyCommand` through the bastion's public IP |
 
 !!! danger
-    `group_vars/_postgres/wal-g.yml` contains the storage account access key. Never commit these files.
+    `group_vars/_postgres/wal-g.yml` contains the storage account access key. Never commit these files; they are
+    in `.gitignore`.
 
 ## Inventory
 
@@ -167,11 +168,23 @@ control node) and the cluster resource group, including the VMSS instances. `key
 | `postgres`            | VMSS            | `_postgres`        |
 | `backup`              | storage account | (not a VM, no group) |
 
-`hosts` maps `_postgres` to the PgVillage groups `hacluster`, `stolon` and `etcd_master`. The `backup` group is
-empty: there is no minio, wal-g writes to the storage account.
+`auth_source: auto` takes the Azure credentials from the environment (e.g. `. azure_creds.env`, see
+[Azure](index.md)), `~/.azure/credentials` or `az login`. Without credentials the plugin fails to parse and the
+inventory has no database hosts.
 
-`host_vars/localhost` sets a local connection for the control node, and no chainsmith cert files
-(`chainsmith_cert_files: []`).
+`hosts`:
+
+- Maps `_postgres` to the PgVillage groups `hacluster`, `stolon` and `etcd_master`.
+- Defines `localhost` in `localhosts`. It must be defined here and not in `inventories/standard`: `inventory_dir`
+  of `localhost` is the inventory that defines it, and that sets `cluster_name` (and so all resource names) and
+  the folder the role writes its [generated files](#generated-files) to.
+- The `backup` group is empty: there is no minio, wal-g writes to the storage account.
+
+`host_vars/localhost` makes Ansible run locally on the control node (`ansible_connection: local`, with the Python
+of `ansible-playbook`), and sets no chainsmith cert files (`chainsmith_cert_files: []`).
+
+`group_vars/_postgres/.README` is a placeholder, so git creates the folder the role writes `wal-g.yml` and
+`proxy.yml` to.
 
 ### How PgVillage uses the Azure values
 
