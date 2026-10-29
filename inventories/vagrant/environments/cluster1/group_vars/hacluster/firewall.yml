@@ -1,9 +1,0 @@
----
-firewall_type: firewalld
-firewall_ports:
-  cluster1: 5433
-  cluster1_proxy: 25433
-  cluster2: 5434
-  cluster2_proxy: 25434
-  etcd_client: 2379
-  etcd_server: 2380

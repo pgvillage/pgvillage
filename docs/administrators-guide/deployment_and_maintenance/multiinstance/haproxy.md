@@ -9,7 +9,7 @@ date: 2026-10-11
 # HAProxy - multi-instance
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), HAProxy needs to forward traffic for all options for all instances.
-You can configure them by editing the haproxy config (e.g. `environments/cluster1/group_vars/all/haproxy.yml`) and define all front-ends and back-ends.
+You can configure them by editing the haproxy config (e.g. `inventories/vagrant/group_vars/all/haproxy.yml`) and define all front-ends and back-ends.
 Best is to define a global config first and define front-ends and backends from that.
 
 ## Generic settings

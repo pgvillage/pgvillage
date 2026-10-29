@@ -1,6 +1,6 @@
 ---
 minio_server_addr: ":443"
-minio_certs_managed: false
+minio_cert_managed: false
 # Placeholders; change them (e.g. with ansible-vault)
 minio_access_key: "AWSKEY"
 minio_secret_key: "AWSSECRET"

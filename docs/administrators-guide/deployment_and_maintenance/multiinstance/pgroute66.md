@@ -9,7 +9,7 @@ date: 2026-10-11
 # pgroute66 - multi-instance
 
 Pgroute66 allows for defining clusters of instances, and as of release v0.8.28, we have an option to have one instance of pgroute66 manage multiple clusters.
-To define multiple clusters in pgroute66, you can configure `pgroute66_clusters` in your inventory (e.g. `environments/cluster1/group_vars/all/pgroute66.yml`).
+To define multiple clusters in pgroute66, you can configure `pgroute66_clusters` in your inventory (e.g. `inventories/vagrant/group_vars/all/pgroute66.yml`).
 
 When properly defined, pgroute66 can be queried by haproxy with the scripts
 - `checkpgprimary.sh` (to find the primary)

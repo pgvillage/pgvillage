@@ -1,0 +1,3 @@
+---
+# Overrides inventories/standard/group_vars/all/etcd.yml: the private network of the vagrant boxes
+etcd_iface_cluster: enp0s9

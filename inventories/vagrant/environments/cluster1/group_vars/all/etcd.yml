@@ -1,8 +1,0 @@
----
-etcd_secure: False
-etcd_data_dir: /var/lib/etcd
-etcd_iface_cluster: enp0s9
-etcd_master_group_name: hacluster
-etcd_additional_envvars:
-  ETCD_AUTO_COMPACTION_RETENTION: 1
-  ETCD_AUTO_COMPACTION_MODE: revision

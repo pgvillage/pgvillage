@@ -1,0 +1,3 @@
+---
+# Used by server_cert_path (see all/chainsmith.yml)
+server_cert_owner: minio

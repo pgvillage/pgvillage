@@ -1,4 +1,10 @@
 ---
+# Overrides inventories/standard/group_vars/all/chainsmith.yml:
+# - certificates for the database hosts and the minio host (backup)
+# - certificates in /etc/pki/<owner> (server_cert_owner is set per group: postgres or minio)
+# - client certificates for the users of the router (pgroute66) and backup (minio) too
+server_cert_path: /etc/pki/{{ server_cert_owner }}
+
 chainsmith_nodes: "{% set nodes = [] %}{% for node in (groups.hacluster + groups.backup) %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes }}"
 chainsmith_ips: "{% set nodes = [] %}{% for node in (groups.hacluster + groups.backup) %}{% do nodes.append(hostvars[node].ansible_host) %}{% endfor %}{{ nodes }}"
 chainsmith_servers: "{% set nodes = {} %}{% for node in (groups.hacluster + groups.backup) %}{% do nodes.update({hostvars[node].ansible_facts.fqdn: chainsmith_nodes+chainsmith_ips}) %}{% endfor %}{{ nodes }}"
