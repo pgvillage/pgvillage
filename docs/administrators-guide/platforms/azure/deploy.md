@@ -159,6 +159,7 @@ Optionally:
 cd ~/git/pgvillage
 scripts/create_new_cluster.sh                 # inventories/azure, on EL (inventories/el)
 scripts/create_new_cluster.sh mycluster       # inventories/mycluster, on EL
+scripts/create_new_cluster.sh azure suse      # inventories/azure, on openSUSE (inventories/suse)
 ```
 
 The script runs these steps; you can also run them one by one:

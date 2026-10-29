@@ -1,0 +1,22 @@
+---
+# Overrides the pgvillage.linux role default for zypper, which also installs postgresqlNN-plpython3 and -devel:
+# plpython3 is not available for openSUSE. linux_packages is replaced as a whole, so it has all groups.
+linux_packages:
+  hacluster:
+    - stolon
+    - wal-g-pg
+    - etcd
+    - glibc-locale
+    - glibc-locale-base
+    - openssl
+    - "postgresql{{ linux_pg_version|replace('.','') }}"
+    - "postgresql{{ linux_pg_version|replace('.','') }}-server"
+    - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
+  backup:
+    - minio
+  router:
+    - keepalived
+    - haproxy
+    - pgroute66
+  localhosts:
+    - chainsmith

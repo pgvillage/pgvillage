@@ -1,0 +1,4 @@
+---
+# Overrides inventories/standard/group_vars/all/postgres.yml: PGDG rpm path (as on EL).
+# With the openSUSE PostgreSQL packages instead of PGDG, use /usr/lib/postgresqlNN/bin.
+postgresql_bindir: "/usr/pgsql-{{ stolon_pg_version }}/bin/"

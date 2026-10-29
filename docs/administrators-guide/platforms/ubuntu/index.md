@@ -10,7 +10,7 @@ date: 2026-10-30
 
 `inventories/standard` has no OS specifics. For Ubuntu hosts, add `inventories/ubuntu` between standard and the
 platform inventory, so the Ubuntu values override standard and the platform overrides both (for Enterprise Linux,
-use [`inventories/el`](../el/index.md) instead):
+use [`inventories/el`](../el/index.md), for SUSE [`inventories/suse`](../suse/index.md)):
 
 ```bash
 ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/<platform> functional-all.yml
