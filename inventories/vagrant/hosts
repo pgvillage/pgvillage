@@ -1,5 +1,5 @@
 ---
-# Use on top of inventories/standard: -i inventories/standard -i inventories/vagrant
+# Use on top of standard and ubuntu: -i inventories/standard -i inventories/ubuntu -i inventories/vagrant
 all:
   children:
     hacluster:

@@ -10,12 +10,14 @@ date: 2026-10-30
 
 Run a PgVillage demo environment on your laptop with [Vagrant](https://www.vagrantup.com/).
 
-The deployment uses two inventories, standard first, so the vagrant values win:
+The deployment uses three inventories, in this order, so later values win:
 
 - `inventories/standard`: the standard PgVillage config, shared by all platforms. It is multi-instance: two stolon
   clusters (`cluster1` and `cluster2`) run side by side on the same hosts.
-- `inventories/vagrant`: everything specific to the vagrant boxes: the hosts, the network interface, Ubuntu packages
-  and paths, and the router (HAProxy, keepalived and pgroute66).
+- `inventories/ubuntu`: Ubuntu packages, apt repositories, users and paths (the boxes run Ubuntu). See
+  [Ubuntu](../ubuntu/index.md).
+- `inventories/vagrant`: everything specific to the vagrant boxes: the hosts, the network interface, certificates,
+  and the router (HAProxy, keepalived and pgroute66).
 
 See [The vagrant inventory](inventory.md) for what it changes, and why.
 
@@ -50,7 +52,7 @@ HAProxy only has frontends for `cluster1`, see [Router](inventory.md#router).
    ```bash
    vagrant ssh ansible
    cd ~/git/pgvillage/
-   ansible-playbook -i inventories/standard -i inventories/vagrant functional-all.yml
+   ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/vagrant functional-all.yml
    ```
 4. Be amazed.
 
@@ -71,8 +73,8 @@ Apple silicon (M1, M2, M3, etc.) is no issue: the boxes can be built for both am
 
 ## Other operating systems
 
-The vagrant inventory is for Ubuntu boxes. `inventories/standard` itself is for Enterprise Linux (EL), so for EL boxes
-you remove the Ubuntu overrides instead of adding new ones. See [Other operating systems](inventory.md#other-operating-systems).
+The boxes run Ubuntu, hence `inventories/ubuntu`. `inventories/standard` itself is for Enterprise Linux (EL), so for
+EL boxes you leave out `inventories/ubuntu`. See [Other operating systems](inventory.md#other-operating-systems).
 
 ## DNS
 

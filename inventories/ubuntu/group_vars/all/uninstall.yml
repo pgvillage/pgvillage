@@ -1,0 +1,7 @@
+---
+# Overrides uninstall_linux_packages of inventories/standard/group_vars/all/uninstall.yml: Ubuntu package names
+uninstall_linux_packages:
+  - "postgresql-{{ linux_pg_version | replace('.', '') }}"
+  - "stolon"
+  - "wal-g-pg"
+  - "etcd"

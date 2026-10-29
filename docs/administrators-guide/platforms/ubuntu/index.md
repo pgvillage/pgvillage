@@ -1,0 +1,50 @@
+---
+title: Ubuntu
+summary: Deploying PgVillage on Ubuntu with the ubuntu inventory on top of the standard inventory
+authors:
+  - Sebas Mannem
+date: 2026-10-30
+---
+
+# Ubuntu
+
+`inventories/standard` is for Enterprise Linux (EL, e.g. Rocky Linux). For Ubuntu hosts, add `inventories/ubuntu`
+between standard and the platform inventory, so the Ubuntu values override standard and the platform overrides both:
+
+```bash
+ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/<platform> functional-all.yml
+```
+
+For example, the [vagrant](../vagrant/index.md) boxes run Ubuntu:
+
+```bash
+ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/vagrant functional-all.yml
+```
+
+`inventories/ubuntu` has no hosts (its `hosts` file only lists the groups); they come from the platform inventory.
+
+## What it changes
+
+| File                                 | Variable                   | Ubuntu                                   | Standard (EL) |
+|--------------------------------------|----------------------------|------------------------------------------|---------------|
+| `group_vars/all/packages.yml`        | `linux_packages`           | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd`, `acl` on `hacluster`; `acl`, `minio` on `backup`; `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts` | `postgresql17`, `-server`, `-contrib`, `-plpython3`, langpacks, `python3-psycopg2`, ... on `hacluster`; `chainsmith` on `localhosts` |
+| `group_vars/all/packages.yml`        | `linux_public_repos`       | apt repositories: PgVillage (`repo.mannemsolutions.nl/apt`) and pgdg | role default |
+| `group_vars/all/packages.yml`        | `linux_users`, `linux_groups` | system users and groups per host group (`postgres`, `pgbouncer`, `avchecker`, `pgquartz`, `pgfga`, `pgroute66`, `minio`, `haproxy`, `keepalived`) | role default |
+| `group_vars/all/postgres.yml`        | `postgresql_bindir`        | `/usr/lib/postgresql/<version>/bin`       | `/usr/pgsql-<version>/bin/` |
+| `group_vars/all/uninstall.yml`       | `uninstall_linux_packages` | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd` | EL package names |
+| `group_vars/hacluster/pgbouncer.yml` | `pgbouncer_install_dir`    | `/usr/sbin`                               | role default |
+
+!!! note
+    `linux_packages` is one dictionary, and a later inventory replaces it as a whole. That is why the Ubuntu version
+    has all groups, including the `backup` (minio) and `router` packages. A platform inventory that changes the packages
+    must also list all groups.
+
+## Nagios
+
+The nagios role doesn't work on Ubuntu. It is disabled in `inventories/standard` (`nagios_enabled: false`, for
+multi-instance), so there is nothing to change for Ubuntu.
+
+## Known issues
+
+- `uninstall_file_list` comes from standard and still has EL paths (`/usr/pgsql-<version>`,
+  `/var/lib/pgsql-<version>`, `/etc/sysconfig/...`).

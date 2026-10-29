@@ -1,5 +1,6 @@
 ---
-# Overrides inventories/standard/group_vars/all/packages.yml: Ubuntu packages and apt repos, and the router packages
+# Overrides inventories/standard/group_vars/all/packages.yml: Ubuntu packages, apt repos, and system users and groups.
+# linux_packages is replaced as a whole by a later inventory, so it has all groups (incl. backup and router).
 linux_users:
   hacluster:
     - name: postgres

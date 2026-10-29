@@ -1,3 +1,0 @@
----
-# Ubuntu installs pgbouncer in /usr/sbin
-pgbouncer_install_dir: /usr/sbin

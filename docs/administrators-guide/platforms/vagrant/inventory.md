@@ -8,15 +8,16 @@ date: 2026-10-30
 
 # Vagrant - inventory
 
-`inventories/vagrant` only has what differs from `inventories/standard`. Use both, standard first:
+`inventories/vagrant` only has what is specific to the vagrant boxes. The boxes run Ubuntu, so it goes on top of
+`inventories/standard` and [`inventories/ubuntu`](../ubuntu/index.md), in this order:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/vagrant functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/vagrant functional-all.yml
 ```
 
-A file in `inventories/vagrant/group_vars/<group>/` overrides the variables with the same name in
-`inventories/standard/group_vars/<group>/`. Everything not listed here (the clusters and their ports, wal-g, minio
-buckets, PgBouncer, avchecker, firewall, etcd, nagios, etc.) comes from standard.
+A file in `inventories/vagrant/group_vars/<group>/` overrides the variables with the same name in the earlier
+inventories. Everything not listed here comes from standard (the clusters and their ports, wal-g, minio buckets,
+PgBouncer, avchecker, firewall, etcd, nagios, etc.) or from ubuntu (packages, apt repositories, users, paths).
 
 ## Hosts
 
@@ -49,15 +50,8 @@ PgVillage runs on the private network:
 
 ## Ubuntu
 
-The boxes run Ubuntu; standard is for EL.
-
-| File                              | Variable                | Value |
-|-----------------------------------|-------------------------|-------|
-| `group_vars/all/packages.yml`     | `linux_packages`        | Ubuntu package names (`postgresql-17` instead of `postgresql17-server`, etc.), plus `acl`, and the router packages |
-| `group_vars/all/packages.yml`     | `linux_public_repos`    | apt repositories: PgVillage (`repo.mannemsolutions.nl/apt`) and pgdg |
-| `group_vars/all/packages.yml`     | `linux_users`, `linux_groups` | system users and groups per host group, including the router users |
-| `group_vars/all/postgres.yml`     | `postgresql_bindir`     | `/usr/lib/postgresql/<version>/bin` |
-| `group_vars/hacluster/pgbouncer.yml` | `pgbouncer_install_dir` | `/usr/sbin` |
+The boxes run Ubuntu: the package names, apt repositories, users and paths come from `inventories/ubuntu`. See
+[Ubuntu](../ubuntu/index.md).
 
 ## Certificates
 
@@ -93,19 +87,20 @@ HAProxy, keepalived and pgroute66 run on the database hosts (`router` = `haclust
 
 ## Other operating systems
 
-For EL boxes (e.g. Rocky Linux), use the standard values instead of the Ubuntu overrides:
+For EL boxes (e.g. Rocky Linux), leave out `inventories/ubuntu`:
 
-- Remove `group_vars/all/postgres.yml` and `group_vars/hacluster/pgbouncer.yml`.
-- In `group_vars/all/packages.yml`, remove `linux_public_repos`, and use the EL package names of
-  `inventories/standard/group_vars/all/packages.yml` in `linux_packages` (keep the `backup`, `router` and `localhosts`
-  entries).
+```bash
+ansible-playbook -i inventories/standard -i inventories/vagrant functional-all.yml
+```
+
+`linux_packages` of standard only has `hacluster` and `localhosts`, so add a `group_vars/all/packages.yml` to
+`inventories/vagrant` with the EL package names of standard plus the `backup` (`minio`) and `router` (`keepalived`,
+`haproxy`, `pgroute66`) packages.
 
 For openSUSE, see [EL vs SUSE](../azure/el-vs-suse.md) for the package and path changes.
 
 ## Known issues
 
-- `uninstall_linux_packages` comes from standard and has the EL package names, so `uninstall.yml` doesn't remove the
-  Ubuntu packages.
 - The HAProxy ports (35433-35435) are not in `firewall_ports` (standard only opens the PostgreSQL, PgBouncer, stolon
   proxy and etcd ports). `firewall_ports` is set for `hacluster`, so opening them means overriding the whole
   `firewall_ports` in `group_vars/hacluster/firewall.yml`.

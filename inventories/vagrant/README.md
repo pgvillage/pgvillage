@@ -1,11 +1,11 @@
 # vagrant
 
-Everything specific to the vagrant demo environment: the boxes (`hosts`), the private network (`enp0s9`), Ubuntu
-packages and paths, certificates in `/etc/pki`, and the router (HAProxy, keepalived, pgroute66). Use it on top of
-`inventories/standard`:
+Everything specific to the vagrant demo environment: the boxes (`hosts`), the private network (`enp0s9`),
+certificates in `/etc/pki`, and the router (HAProxy, keepalived, pgroute66). The boxes run Ubuntu, so use it on top of
+`inventories/standard` and `inventories/ubuntu`:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/vagrant functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/vagrant functional-all.yml
 ```
 
 See the [Vagrant docs](../../docs/administrators-guide/platforms/vagrant/index.md), and
