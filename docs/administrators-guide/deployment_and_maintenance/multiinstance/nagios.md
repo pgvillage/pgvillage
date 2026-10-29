@@ -8,7 +8,7 @@ date: 2026-10-13
 
 # Nagios - multi-instance
 
-The nagios role can be disabled in the nagios config (e.g. `environments/cluster1/group_vars/all/nagios.yml`).
+The nagios role can be disabled in the nagios config (e.g. `inventories/standard/group_vars/all/nagios.yml`).
 
 ## `nagios_enabled`
 

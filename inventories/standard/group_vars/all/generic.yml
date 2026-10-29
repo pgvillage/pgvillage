@@ -17,10 +17,6 @@ walg_retention_days: 7
 postgresql_wal_mountpoint: /data/postgres/wal
 postgresql_data_mountpoint: /data/postgres/data
 
-postgresql_ro_port: 5433
-postgresql_rw_port: 5432
-postgresql_proxy_port: 25432
-
 # VIP address (set by the platform inventory)
 postgresql_vip_fqdn: vip.example.com
 postgresql_vip_ip: "1.2.3.4"

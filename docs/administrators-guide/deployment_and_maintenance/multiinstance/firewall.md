@@ -9,14 +9,14 @@ date: 2026-10-11
 # firewall - multiinstance
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), firewalld needs to allow traffic to the ports of all components of all clusters.
-To do so, you can edit the firewall config (e.g. `environments/cluster1/group_vars/{role}/firewall.yml`) and define all ports to be allowed.
+To do so, you can edit the firewall config (e.g. `inventories/standard/group_vars/{role}/firewall.yml`) and define all ports to be allowed.
 
 ## Example
 
 ### Combined
 
 When combining router and postgres, you can configure firewalld to open `postgres`, `pgbouncer`, `stolon-proxy`, `haproxy-rw`, `haproxy-ro`, and `haproxy-sp` for multiple cluster instances as follows:
-In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/hacluster/firewall.yml`) you can define all ports:
+In the inventory config for hacluster (e.g. `inventories/standard/group_vars/hacluster/firewall.yml`) you can define all ports:
 
 !!! example
     ```yaml
@@ -44,7 +44,7 @@ In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/ha
 ### Postgres
 
 When separating router and postgres, you can configure firewalld to open `postgres`, `pgbouncer`, and `stolon-proxy` on postgres nodes for multiple cluster instances as follows:
-In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/hacluster/firewall.yml`) you can define the following ports:
+In the inventory config for hacluster (e.g. `inventories/standard/group_vars/hacluster/firewall.yml`) you can define the following ports:
 
 !!! example
     ```yaml
@@ -66,7 +66,7 @@ In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/ha
 ### Router
 
 When separating router and postgres, you can configure firewalld to open `haproxy-rw`, `haproxy-ro`, and `haproxy-sp` on router nodes for multiple cluster instances as follows:
-In the inventory config for router (e.g. `environments/cluster1/group_vars/router/firewall.yml`) you can define the following ports:
+In the inventory config for router (e.g. `inventories/standard/group_vars/router/firewall.yml`) you can define the following ports:
 
 !!! example
     ```yaml

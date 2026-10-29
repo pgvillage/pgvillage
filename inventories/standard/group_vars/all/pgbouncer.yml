@@ -1,2 +1,15 @@
 ---
-pgbouncer_pgdata: "{{ stolon_data_dir }}/postgres/"
+# One pgbouncer per cluster in stolon_clusters, in front of the local Postgres instance
+pgbouncer_instances:
+  cluster1:
+    pgport: 5433
+    port: 6433
+    pgdata: "{{ postgresql_data_mountpoint }}/cluster1/postgres"
+    pgenv:
+      service: cluster1-master
+  cluster2:
+    pgport: 5434
+    port: 6434
+    pgdata: "{{ postgresql_data_mountpoint }}/cluster2/postgres"
+    pgenv:
+      service: cluster2-master

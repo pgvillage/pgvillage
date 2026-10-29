@@ -1,30 +1,32 @@
 ---
 avchecker_cluster_members: "{% set nodes = [] %}{% for node in groups['hacluster'] %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes | list | join(',') }}"
 
+# One stolon (Postgres port, primary) and one proxy check per cluster in stolon_clusters
 avchecker_defaults:
-  stolon:
+  cluster1-stolon:
     AVCHECKER_SLEEPTIME: 5
     PGHOST: "{{ avchecker_cluster_members }}"
-    PGPORT: "{{ postgresql_rw_port }}"
+    PGPORT: "5433"
     PGDATABASE: postgres
     PGSSLMODE: "verify-full"
     PGTARGETSESSIONATTRS: read-write
-  proxy:
+  cluster1-proxy:
     AVCHECKER_SLEEPTIME: 5
     PGHOST: "{{ avchecker_cluster_members }}"
-    PGPORT: "{{  postgresql_proxy_port }}"
+    PGPORT: "25433"
     PGDATABASE: postgres
     PGSSLMODE: "verify-full"
-  routerrw:
+  cluster2-stolon:
     AVCHECKER_SLEEPTIME: 5
-    PGHOST: "{{ postgresql_vip_fqdn }}"
-    PGPORT: "{{  postgresql_rw_port }}"
+    PGHOST: "{{ avchecker_cluster_members }}"
+    PGPORT: "5434"
     PGDATABASE: postgres
     PGSSLMODE: "verify-full"
-  routerro:
+    PGTARGETSESSIONATTRS: read-write
+  cluster2-proxy:
     AVCHECKER_SLEEPTIME: 5
-    PGHOST: "{{ postgresql_vip_fqdn }}"
-    PGPORT: "{{ postgresql_ro_port }}"
+    PGHOST: "{{ avchecker_cluster_members }}"
+    PGPORT: "25434"
     PGDATABASE: postgres
     PGSSLMODE: "verify-full"
 

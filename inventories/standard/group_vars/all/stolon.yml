@@ -1,5 +1,4 @@
 ---
-stolon_cluster_name: '{{ cluster_name }}'
 stolon_pg_version: '{{ postgresql_version }}'
 stolon_data_dir: '{{ postgresql_data_mountpoint }}/stolon'
 stolon_pg_certdir: '{{ postgresql_data_mountpoint }}/certs'
@@ -8,8 +7,6 @@ stolon_pg_bin_path: '{{ postgresql_bindir }}'
 stolon_wal_dir: '{{ postgresql_wal_mountpoint }}/stolon'
 stolon_pg_log_directory: '{{ postgresql_log_directory }}'
 # stolon_pg_listen_address: "{{ ansible_default_ipv4.address}"
-stolon_pg_port: '{{ postgresql_rw_port }}'
-stolon_proxy_port: '{{ postgresql_proxy_port }}'
 
 stolon_extra_pg_parameters: '{{ walg_postgresql_parameters | combine(postgresql_log_parameters) | combine(postgresql_timeout_parameters) }}'
 
@@ -18,6 +15,54 @@ stolon_wal_dir_mp: '{{ postgresql_wal_mountpoint }}'
 stolon_pg_cron_mailto: '{{ cron_mailto }}'
 
 stolon_cert_managed: false
+
+# Multi-instance: every cluster in stolon_clusters gets its own sentinel, keeper and proxy (stolon-<x>@<cluster>),
+# Postgres port, proxy port, data and wal directory. Keep the ports in line with walg_clusters, pgbouncer_instances,
+# avchecker_defaults and firewall_ports. See docs/administrators-guide/deployment_and_maintenance/multiinstance.
+stolon_multicluster: true
+
+# Resources per instance (systemd resource control), so one instance can't starve the others
+stolon_default_cgroups:
+  CPUQuota: 100%
+  MemoryHigh: 8G
+
+stolon_clusters:
+  cluster1:
+    sysconfig:
+      stsentinel:
+        cluster_name: cluster1
+      stkeeper:
+        cluster_name: cluster1
+        pg_port: 5433
+        data_dir: "{{ postgresql_data_mountpoint }}/cluster1"
+        pgdata_dir: "{{ postgresql_data_mountpoint }}/cluster1/postgres"
+        wal_dir: "{{ stolon_wal_dir }}/cluster1"
+        pgwal_dir: "{{ stolon_wal_dir }}/cluster1"
+      stproxy:
+        cluster_name: cluster1
+        port: 25433
+    custom_config:
+      pgParameters:
+        log_directory: "{{ stolon_pg_log_directory }}/cluster1"
+        archive_command: "/opt/wal-g/scripts/archive.sh cluster1 %p"
+  cluster2:
+    sysconfig:
+      stsentinel:
+        cluster_name: cluster2
+      stkeeper:
+        cluster_name: cluster2
+        pg_port: 5434
+        data_dir: "{{ postgresql_data_mountpoint }}/cluster2"
+        pgdata_dir: "{{ postgresql_data_mountpoint }}/cluster2/postgres"
+        wal_dir: "{{ stolon_wal_dir }}/cluster2"
+        pgwal_dir: "{{ stolon_wal_dir }}/cluster2"
+      stproxy:
+        cluster_name: cluster2
+        port: 25434
+    custom_config:
+      pgParameters:
+        log_directory: "{{ stolon_pg_log_directory }}/cluster2"
+        archive_command: "/opt/wal-g/scripts/archive.sh cluster2 %p"
 #stolon_client_cert: "{{ certs.client.postgres }}"
 #stolon_client_chain: "{{ certs.client.chain }}"
 #stolon_client_key: "{{ private_keys.client.postgres }}"

@@ -1,0 +1,14 @@
+---
+firewall_type: firewalld
+# Ports of every cluster in stolon_clusters and pgbouncer_instances, plus etcd
+firewall_ports:
+  cluster1_postgres:     5433
+  cluster1_pgbouncer:    6433
+  cluster1_stolonproxy: 25433
+
+  cluster2_postgres:     5434
+  cluster2_pgbouncer:    6434
+  cluster2_stolonproxy: 25434
+
+  etcd_client: 2379
+  etcd_server: 2380

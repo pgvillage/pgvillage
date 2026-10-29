@@ -124,8 +124,10 @@ The load balancer sends traffic on the VIP to all database hosts. Health probes 
 | 5432          | 25432        | 5432       | read-write, through the stolon proxy on each host (which connects to the primary) |
 | 5433          | 5432         | 25432      | read-only, directly to PostgreSQL on any host (primary or standby) |
 
-These match `postgresql_rw_port: 5432`, `postgresql_ro_port: 5433` and `postgresql_proxy_port: 25432` in
-`inventories/standard/group_vars/all/generic.yml`, but they are hardcoded in the role.
+!!! warning
+    These ports are hardcoded in the role and match the old single-instance setup (Postgres on 5432, stolon proxy on
+    25432). `inventories/standard` is now multi-instance (`cluster1` on 5433/25433, `cluster2` on 5434/25434), so the
+    health probes fail and the VIP doesn't route to the clusters until the role is updated.
 
 ## Security group
 
@@ -199,7 +201,6 @@ with the same name in `inventories/standard/group_vars/all/`.
 | `group_vars/all/generic.yml`    | `azure_vip_dns_fqdn`, `azure_vip_ip`    | `postgresql_vip_fqdn`, `postgresql_vip_ip` |
 | `group_vars/all/generic.yml`    | `azure_vip_ip`                          | `stolon_pg_hba`: the standard rules plus `hostssl all all <vip>/32 cert`, for traffic through the load balancer |
 | `group_vars/all/chainsmith.yml` | `azure_vip_dns_fqdn`, `azure_vip_ip`    | VIP added to the SANs of all server certificates |
-| standard `avchecker.yml`        | `postgresql_vip_fqdn`                   | `routerrw` and `routerro` checks on the VIP (ports 5432 and 5433); no override needed |
 | `group_vars/all/wal-g.yml`      | `azure_storage_container`, `azure_storage_account_name`, `azure_backup_access_key` | `walg_bucket_defaults`: `WALG_AZ_PREFIX`, `AZURE_STORAGE_ACCOUNT`, `AZURE_STORAGE_ACCESS_KEY` |
 
 ### Firewall
@@ -209,8 +210,9 @@ Traffic from outside is filtered by the network security group. The `pgvillage.f
 
 ## Known limitations
 
-- Ports in the load balancer and security group are hardcoded (5432, 5433, 25432); they don't follow
-  `postgresql_*_port`. Multi-instance (more ports per host) needs changes in the role.
+- Ports in the load balancer and security group are hardcoded (5432, 5433, 25432), for a single instance. With the
+  multi-instance standard config the VIP doesn't work: the role needs a frontend, backend and probe per cluster in
+  `stolon_clusters`, and there are no avchecker checks on the VIP anymore.
 - The network ranges (`10.0.0.0/16`, `10.0.1.0/24`) are hardcoded.
 - The ssh public key path is hardcoded to `/home/azureuser/.ssh/authorized_keys`, while the admin user is the user
   running Ansible. Run Ansible as `azureuser`, or the key ends up in the wrong home directory.

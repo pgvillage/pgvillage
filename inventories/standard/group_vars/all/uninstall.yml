@@ -1,28 +1,43 @@
 ---
 uninstall_services:
-  - stolon-proxy
-  - stolon-sentinel
-  - stolon-keeper
+  - stolon-proxy@cluster1
+  - stolon-sentinel@cluster1
+  - stolon-keeper@cluster1
+  - stolon-proxy@cluster2
+  - stolon-sentinel@cluster2
+  - stolon-keeper@cluster2
   - etcd
-  - avchecker@proxy.service
-  - avchecker@routerro.service
-  - avchecker@routerrw.service
-  - avchecker@stolon.service
+  - avchecker@cluster1-stolon.service
+  - avchecker@cluster1-proxy.service
+  - avchecker@cluster2-stolon.service
+  - avchecker@cluster2-proxy.service
 
 uninstall_file_list:
   - /var/lib/etcd
   - /var/log/pgquartz
   - /var/log/postgresql
   - /var/log/wal-g
-  - "{{ postgresql_data_mountpoint }}/stolon"
-  - "{{ postgresql_data_mountpoint }}/stolon_custom_config.yml"
+  - "{{ postgresql_data_mountpoint }}/cluster1"
+  - "{{ postgresql_data_mountpoint }}/cluster2"
+  - "{{ postgresql_data_mountpoint }}/stolon_custom_config-cluster1.yml"
+  - "{{ postgresql_data_mountpoint }}/stolon_custom_config-cluster2.yml"
   - "{{ postgresql_data_mountpoint }}/certs"
   - "{{ postgresql_wal_mountpoint }}/stolon"
   - /etc/systemd/system/avchecker@.service
   - /etc/systemd/system/etcd.service
-  - /etc/systemd/system/stolon-keeper.service
-  - /etc/systemd/system/stolon-proxy.service
-  - /etc/systemd/system/stolon-sentinel.service
+  - /etc/systemd/system/stolon-keeper@.service
+  - /etc/systemd/system/stolon-proxy@.service
+  - /etc/systemd/system/stolon-sentinel@.service
+  - /etc/systemd/system/stolon-keeper@cluster1.service.d
+  - /etc/systemd/system/stolon-keeper@cluster2.service.d
+  - /etc/sysconfig/stolon-stkeeper-cluster1
+  - /etc/sysconfig/stolon-stkeeper-cluster2
+  - /etc/sysconfig/stolon-stproxy-cluster1
+  - /etc/sysconfig/stolon-stproxy-cluster2
+  - /etc/sysconfig/stolon-stsentinel-cluster1
+  - /etc/sysconfig/stolon-stsentinel-cluster2
+  - /etc/default/wal-g-cluster1
+  - /etc/default/wal-g-cluster2
   - /etc/sysctl.d/postgresql.conf
   - "/usr/pgsql-{{ postgresql_version }}"
   - "/var/lib/pgsql-{{ postgresql_version }}"
@@ -32,15 +47,15 @@ uninstall_file_list:
   - /etc/pgquartz
   - /usr/local/bin/pgquartz
   - /etc/etcd
-  - /etc/systemd/system/multi-user.target.wants/avchecker@proxy.service
-  - /etc/systemd/system/multi-user.target.wants/avchecker@routerrw.service
-  - /etc/systemd/system/multi-user.target.wants/avchecker@routerro.service
-  - /etc/systemd/system/multi-user.target.wants/avchecker@stolon.service
+  - /etc/systemd/system/multi-user.target.wants/avchecker@cluster1-stolon.service
+  - /etc/systemd/system/multi-user.target.wants/avchecker@cluster1-proxy.service
+  - /etc/systemd/system/multi-user.target.wants/avchecker@cluster2-stolon.service
+  - /etc/systemd/system/multi-user.target.wants/avchecker@cluster2-proxy.service
   - "/etc/systemd/system/postgresql-{{ postgresql_version }}.service"
-  - /etc/default/avchecker_proxy
-  - /etc/default/avchecker_routerrw
-  - /etc/default/avchecker_routerro
-  - /etc/default/avchecker_stolon
+  - /etc/default/avchecker_cluster1-stolon
+  - /etc/default/avchecker_cluster1-proxy
+  - /etc/default/avchecker_cluster2-stolon
+  - /etc/default/avchecker_cluster2-proxy
   - /opt/avchecker
   - /etc/pgquartz
   - /usr/local/bin/pgquartz

@@ -10,7 +10,7 @@ date: 2026-10-11
 # wal-g - multi-instance
 
 The wal-g role can manage backups for multiple PostgreSQL instances by adding some configuration to the inventory
-(e.g. `environments/cluster1/group_vars/all/wal-g.yml`).
+(e.g. `inventories/standard/group_vars/all/wal-g.yml`).
 
 ## `walg_clusters`
 
