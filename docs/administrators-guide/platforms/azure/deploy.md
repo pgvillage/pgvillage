@@ -29,7 +29,8 @@ All playbooks use both inventories, standard first: `-i inventories/standard -i 
 
 ## Prerequisites
 
-- An Azure subscription, and permission to create a service principal with the Contributor role on it.
+- An Azure subscription, with permission to create resource groups, app registrations (service principals) and role
+  assignments (e.g. Owner, or Contributor plus User Access Administrator).
 - The [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) on your workstation, logged in
   (`az login`).
 
@@ -95,13 +96,33 @@ scripts/az_to_env
 source azure_creds.env
 ```
 
-`az_to_env` creates a venv for the Azure CLI (`~/venv_az`, only used inside the script), logs in, creates (or resets) the service principal
-`Ansible-Power-User` with the Contributor role on the subscription, and writes its credentials to `azure_creds.env`.
-`azure_creds.env` is in `.gitignore`; keep it private.
+For another cluster name, pass it: `scripts/az_to_env mycluster` (for `inventories/mycluster`). Set
+`AZURE_LOCATION` if the cluster is not in `westeurope`; it must match `azure_location`.
 
-!!! warning
-    `az ad sp create-for-rbac` resets the secret when the service principal already exists, so an `azure_creds.env`
-    on another control node stops working when you run `az_to_env` again.
+`az_to_env` runs the Azure CLI from its own venv (`~/venv_az`, only used inside the script), logs in with your own
+account, and then:
+
+1. Creates the resource group of the cluster (`rg_<cluster>`).
+2. Accepts the marketplace terms of the images in the role defaults and `inventories/<cluster>/group_vars/all/`.
+3. Creates the service principal `Ansible-Power-User` if it doesn't exist, and gives it:
+    - **Contributor** on `rg_<cluster>` only
+    - **Reader** on `pgVillage`, so the dynamic inventory sees the control node
+4. Writes its credentials to `azure_creds.env` (in `.gitignore`; keep it private).
+
+Ansible can't do steps 1 and 2 itself: it has no permissions outside the cluster's resource group. So run
+`az_to_env` again:
+
+- for every new cluster,
+- after removing a cluster (that deletes the resource group, and with it the role assignment),
+- after changing the image (see [EL vs SUSE](el-vs-suse.md) and [AMD vs ARM](amd-vs-arm.md)).
+
+Running it again doesn't break other control nodes. When `azure_creds.env` already has a secret of the service
+principal, it is reused. Otherwise a new secret is added for this control node (named after its hostname), and the
+secrets of other control nodes stay valid.
+
+!!! note
+    Earlier versions of `az_to_env` gave the service principal Contributor on the whole subscription. `az_to_env`
+    warns when it still has a role on the subscription, and prints the command to remove it.
 
 Check that Ansible can reach Azure; this should list the control node in `_ansible_runner`:
 
@@ -199,7 +220,8 @@ ansible-playbook -i inventories/standard -i inventories/azure playbooks/azure/cl
 ```
 
 This deletes the resource group `rg_azure` with everything in it (only when `azure_allow_clean` is `true`), and
-removes the generated files from the inventory. Backups in the storage account are deleted too.
+removes the generated files from the inventory. Backups in the storage account are deleted too. The role assignment of
+the service principal on `rg_azure` goes with it: run `scripts/az_to_env` again before redeploying.
 
 Remove the control node with `az group delete --name pgVillage`.
 
@@ -209,7 +231,14 @@ Remove the control node with `az group delete --name pgVillage`.
   (`source azure_creds.env`).
 - **`The orchestration_mode parameter cannot be updated!`** when rerunning `create_resources.yml`: a known issue of the
   VMSS module on reruns.
-- **Image terms not accepted**: if the VMSS uses another image than the bastion, accept its terms first, e.g.
-  `az vm image terms accept --urn resf:rockylinux-x86_64:9-base:9.6.20250531`.
+- **Image terms not accepted** (`MarketplacePurchaseEligibilityFailed`): run `scripts/az_to_env` again after
+  changing the image. It only finds images set literally in `group_vars/all/*.yml`; for others, accept the terms
+  yourself, e.g. `az vm image terms accept --urn resf:rockylinux-x86_64:9-base:9.6.20250531`.
+- **`AuthorizationFailed`** right after `az_to_env`: role assignments can take a few minutes to become active.
+- **`AuthorizationFailed` on a resource outside `rg_<cluster>`**: the service principal only has Contributor on the
+  cluster's resource group. Check that `azure_resource_group` is `rg_<cluster>` and that `az_to_env` ran for this
+  cluster.
+- **`invalid_client` / secret expired**: secrets of a service principal expire (after 1 year by default). Remove
+  `azure_creds.env` and run `scripts/az_to_env` again to add a new secret.
 - **`mount.yml` fails with `more disks then I expected`**: the host has more than two unpartitioned disks.
 - **Hosts unreachable after `create_resources.yml`**: the VMSS hosts were not up yet; rerun `inventory.yml`.

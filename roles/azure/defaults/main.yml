@@ -7,6 +7,8 @@ azure_bastion_name: 'bastion{{ azure_cluster_name }}'
 azure_bastion_vm_size: Standard_B1ls
 azure_bastion_image: '{{ azure_vmss_image }}'
 azure_bastion_plan: '{{ azure_vmss_plan }}'
+# Accepting marketplace image terms needs subscription-wide permissions. scripts/az_to_env accepts them instead.
+azure_accept_terms: false
 azure_vmss_name: 'vmss{{ cluster_name }}'
 azure_vmss_vm_size: Standard_DS1_v2
 azure_vmss_vm_count: '3'

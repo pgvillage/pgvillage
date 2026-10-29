@@ -173,7 +173,7 @@ azure_control_ip: 203.0.113.10
   and it changes between control nodes. **For production, always set it to a unique but hardcoded value.**
 - When rerunning, the vmss module complains with `The orchestration_mode parameter cannot be updated!`. This should
   probably be fixed by the Ansible community.
-- If the VMSS uses a different image than the bastion, you need to accept the image terms, e.g. for Rocky Linux:
+- Image terms are accepted by `scripts/az_to_env` (rerun it after changing the image). To accept them yourself, e.g. for Rocky Linux:
   ```bash
   az vm image terms accept --urn resf:rockylinux-x86_64:9-base:9.6.20250531
   ```

@@ -79,7 +79,8 @@ All resources are created in `azure_resource_group`, in `azure_location`.
 | `azure_bastion_name`    | `bastion{{ azure_cluster_name }}` | Name of the bastion VM. |
 | `azure_bastion_vm_size` | `Standard_B1ls`           | VM size. |
 | `azure_bastion_image`   | `{{ azure_vmss_image }}`  | Image; same as the VMSS by default. |
-| `azure_bastion_plan`    | `{{ azure_vmss_plan }}`   | Marketplace plan. When not empty, the image terms are accepted automatically. Set to `{}` for images without a plan. |
+| `azure_bastion_plan`    | `{{ azure_vmss_plan }}`   | Marketplace plan. Set to `{}` for images without a plan. |
+| `azure_accept_terms`    | `false`                   | Let the role accept the image terms of the bastion image. Needs subscription-wide permissions, which the service principal of `scripts/az_to_env` doesn't have; `az_to_env` accepts the terms instead. |
 
 ### Database hosts (VMSS)
 

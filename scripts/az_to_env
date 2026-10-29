@@ -1,6 +1,30 @@
 #!/bin/bash
 set -e
 
+# Prepares Azure for a cluster, with your own Azure login, and writes credentials for Ansible to azure_creds.env:
+# - creates the resource group of the cluster
+# - accepts the marketplace terms of the images in the inventory
+# - creates a service principal (or reuses it) with Contributor on only that resource group, and Reader on the
+#   resource group of the control node
+#
+# Usage: scripts/az_to_env [cluster]   (default: azure, i.e. inventories/azure)
+# Run it again for every cluster (and after removing a cluster, since that removes the resource group).
+
+CLUSTER=${1:-azure}
+LOCATION=${AZURE_LOCATION:-westeurope}
+CONTROL_RESOURCE_GROUP=pgVillage
+SP_NAME="Ansible-Power-User"
+
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
+INVENTORY="${REPO}/inventories/${CLUSTER}"
+ENV_FILE="${REPO}/azure_creds.env"
+RESOURCE_GROUP="rg_${CLUSTER}"
+
+if [ ! -d "${INVENTORY}" ]; then
+	echo "Missing inventory ${INVENTORY}/"
+	exit 1
+fi
+
 # azure-cli conflicts with the python modules of the azure_rm Ansible modules, so it runs from its own venv.
 deactivate 2>/dev/null || true
 
@@ -12,38 +36,83 @@ else
 	. ~/venv_az/bin/activate
 fi
 
-ENV_FILE="azure_creds.env"
-
 echo "Check Azure CLI state..."
 if ! az account show > /dev/null 2>&1; then
-    az login
+	az login
 fi
 
-# Get the subscription and tenant
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 TENANT_ID=$(az account show --query tenantId -o tsv)
-SP_NAME="Ansible-Power-User"
 
-echo "Creating Service Principal for Subscription: $SUBSCRIPTION_ID"
+echo "Resource group ${RESOURCE_GROUP} (${LOCATION})"
+az group create --name "${RESOURCE_GROUP}" --location "${LOCATION}" --output none
 
-if ! SP_JSON=$(az ad sp create-for-rbac --name "$SP_NAME" --role Contributor --scopes "/subscriptions/$SUBSCRIPTION_ID" --output json); then
-    echo "Error while creating Service Principal."
-    exit 1
+echo "Accepting marketplace terms of the images in the inventory"
+# Images (with a plan) from the role defaults and the inventory; templated values (e.g. "{{ azure_vmss_image }}") are
+# skipped, since they point to one of the others. PyYAML comes with azure-cli.
+python3 - "${REPO}/roles/azure/defaults/main.yml" "${INVENTORY}"/group_vars/all/*.yml <<'EOF' |
+import sys, yaml
+values = {}
+for path in sys.argv[1:]:
+    values.update(yaml.safe_load(open(path)) or {})
+for prefix in ("azure_vmss", "azure_bastion"):
+    image, plan = values.get(prefix + "_image"), values.get(prefix + "_plan")
+    if isinstance(image, dict) and isinstance(plan, dict) and plan:
+        print(":".join([plan["publisher"], plan["product"], plan["name"], str(image["version"])]))
+EOF
+sort -u | while read -r URN; do
+	echo "  ${URN}"
+	az vm image terms accept --urn "${URN}" --output none
+done
+
+echo "Service principal ${SP_NAME}"
+APP_ID=$(az ad sp list --display-name "${SP_NAME}" --query "[0].appId" -o tsv)
+CLIENT_SECRET=""
+if [ -z "${APP_ID}" ]; then
+	# Without --role, no role is assigned; that is done below, per resource group
+	SP_JSON=$(az ad sp create-for-rbac --name "${SP_NAME}" --output json)
+	APP_ID=$(echo "${SP_JSON}" | jq -r '.appId')
+	CLIENT_SECRET=$(echo "${SP_JSON}" | jq -r '.password')
+elif [ -f "${ENV_FILE}" ] && grep -q "AZURE_CLIENT_ID='${APP_ID}'" "${ENV_FILE}"; then
+	echo "  reusing the secret in ${ENV_FILE}"
+	CLIENT_SECRET=$(. "${ENV_FILE}" && echo "${AZURE_SECRET}")
+else
+	# Add a secret for this control node, without removing the secrets of other control nodes
+	echo "  adding a secret for $(hostname)"
+	CLIENT_SECRET=$(az ad app credential reset --id "${APP_ID}" --append --display-name "$(hostname)" \
+		--query password -o tsv)
+fi
+SP_OBJECT_ID=$(az ad sp show --id "${APP_ID}" --query id -o tsv)
+
+function assign_role() {
+	ROLE=${1}
+	SCOPE="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${2}"
+	if [ -z "$(az role assignment list --assignee "${APP_ID}" --role "${ROLE}" --scope "${SCOPE}" --query "[0].id" -o tsv)" ]; then
+		echo "  ${ROLE} on ${2}"
+		az role assignment create --assignee-object-id "${SP_OBJECT_ID}" --assignee-principal-type ServicePrincipal \
+			--role "${ROLE}" --scope "${SCOPE}" --output none
+	fi
+}
+assign_role Contributor "${RESOURCE_GROUP}"
+assign_role Reader "${CONTROL_RESOURCE_GROUP}"
+
+# Older versions of this script gave the service principal Contributor on the whole subscription
+if [ -n "$(az role assignment list --assignee "${APP_ID}" --scope "/subscriptions/${SUBSCRIPTION_ID}" --query "[?scope=='/subscriptions/${SUBSCRIPTION_ID}'].id" -o tsv)" ]; then
+	echo "WARNING: ${SP_NAME} also has a role on the whole subscription. Remove it with:"
+	echo "  az role assignment delete --assignee ${APP_ID} --scope /subscriptions/${SUBSCRIPTION_ID}"
 fi
 
-CLIENT_ID=$(echo "$SP_JSON" | jq -r '.appId')
-CLIENT_SECRET=$(echo "$SP_JSON" | jq -r '.password')
-
-cat << EOF > $ENV_FILE
-export AZURE_SUBSCRIPTION_ID='$SUBSCRIPTION_ID'
-export AZURE_CLIENT_ID='$CLIENT_ID'
-export AZURE_SECRET='$CLIENT_SECRET'
-export AZURE_TENANT='$TENANT_ID'
+cat << EOF > "${ENV_FILE}"
+export AZURE_SUBSCRIPTION_ID='${SUBSCRIPTION_ID}'
+export AZURE_CLIENT_ID='${APP_ID}'
+export AZURE_SECRET='${CLIENT_SECRET}'
+export AZURE_TENANT='${TENANT_ID}'
 EOF
 
-chmod 600 $ENV_FILE
+chmod 600 "${ENV_FILE}"
 
 echo "----------------------------------------"
-echo "Ready. Credentials are in: $ENV_FILE"
-echo "Use 'source $ENV_FILE' to load them."
+echo "Ready. Credentials are in: ${ENV_FILE}"
+echo "Use 'source ${ENV_FILE}' to load them."
+echo "Role assignments can take a few minutes to become active."
 echo "----------------------------------------"
