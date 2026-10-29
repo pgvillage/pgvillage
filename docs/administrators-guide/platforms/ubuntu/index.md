@@ -33,6 +33,7 @@ ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/va
 | `group_vars/all/packages.yml`        | `linux_users`, `linux_groups` | system users and groups per host group (`postgres`, `pgbouncer`, `avchecker`, `pgquartz`, `pgfga`, `pgroute66`, `minio`, `haproxy`, `keepalived`) | role default |
 | `group_vars/all/postgres.yml`        | `postgresql_bindir`        | `/usr/lib/postgresql/<version>/bin`       | `/usr/pgsql-<version>/bin/` |
 | `group_vars/all/uninstall.yml`       | `uninstall_linux_packages` | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd` | EL package names |
+| `group_vars/all/uninstall.yml`       | `uninstall_os_file_list`   | `/etc/postgresql/<version>`, `/var/lib/postgresql/<version>` (the default cluster of the deb package) | `/usr/pgsql-<version>`, `/var/lib/pgsql-<version>`, ... |
 | `group_vars/hacluster/pgbouncer.yml` | `pgbouncer_install_dir`    | `/usr/sbin`                               | role default |
 
 !!! note
@@ -44,7 +45,3 @@ ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/va
 
 The nagios role doesn't work on Ubuntu. It is disabled in `inventories/standard` (`nagios_enabled: false`, for
 multi-instance), so there is nothing to change for Ubuntu.
-
-## Known issues
-
-- `uninstall_os_file_list` is not set for Ubuntu yet, so `uninstall.yml` only removes the files common to all OSes.

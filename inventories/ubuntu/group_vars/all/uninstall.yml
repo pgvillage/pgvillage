@@ -1,7 +1,12 @@
 ---
-# Overrides uninstall_linux_packages of inventories/standard/group_vars/all/uninstall.yml: Ubuntu package names
+# Ubuntu package names and paths for uninstall.yml
 uninstall_linux_packages:
   - "postgresql-{{ linux_pg_version | replace('.', '') }}"
   - "stolon"
   - "wal-g-pg"
   - "etcd"
+
+# Ubuntu (pgdg deb) files; the postgresql package creates a default cluster in these folders
+uninstall_os_file_list:
+  - "/etc/postgresql/{{ postgresql_version }}"
+  - "/var/lib/postgresql/{{ postgresql_version }}"
