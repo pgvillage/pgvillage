@@ -1,0 +1,11 @@
+---
+# The private network of the vagrant boxes (172.30.1.0/24): the interface that has ansible_host as its address.
+# Its name depends on the box (enp0s9 on ubuntu, eth1 or enp0s8 on others), so it is looked up in the facts.
+vagrant_iface: >-
+  {{ ansible_facts.interfaces
+     | map('regex_replace', '-', '_')
+     | map('extract', ansible_facts)
+     | selectattr('ipv4', 'defined')
+     | selectattr('ipv4.address', 'equalto', ansible_host)
+     | map(attribute='device')
+     | first }}

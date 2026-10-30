@@ -1,5 +1,5 @@
 ---
-# Use on top of standard and ubuntu: -i inventories/standard -i inventories/ubuntu -i inventories/vagrant
+# Use on top of standard and the OS of the boxes: -i inventories/standard -i inventories/ubuntu (or el, suse) -i inventories/vagrant
 all:
   children:
     hacluster:

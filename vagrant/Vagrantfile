@@ -1,0 +1,64 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# PgVillage demo environment: an Ansible host, a minio host and three database hosts.
+# See docs/administrators-guide/platforms/vagrant/index.md.
+#
+# PGV_OS selects the box, and matches the OS inventory to deploy with (inventories/<PGV_OS>):
+#   ubuntu (default), el or suse. E.g. `PGV_OS=el vagrant up`.
+PGV_OS = ENV.fetch("PGV_OS", "ubuntu")
+BOXES = {
+  "ubuntu" => "nibble/ubuntu-26.04",
+  "el"     => "nibble/rocky-9",
+  "suse"   => "nibble/suse-16",
+}
+abort "PGV_OS must be one of #{BOXES.keys.join(', ')}, not #{PGV_OS}" unless BOXES.key?(PGV_OS)
+BOX = ENV.fetch("PGV_BOX", BOXES[PGV_OS])
+
+Vagrant.configure("2") do |config|
+  config.vm.box = BOX
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 2
+  end
+
+  config.vm.define "ansible" do |ansible|
+    ansible.vm.hostname = "ansible.local"
+    ansible.vm.network :private_network, type: "dhcp", auto_config: false
+    # The repository itself, so you deploy what you have checked out (no world writable dirs, or Ansible ignores
+    # ansible.cfg)
+    ansible.vm.synced_folder "..", "/home/vagrant/git/pgvillage", mount_options: ["dmode=755", "fmode=644"]
+    ansible.vm.provision "shell", inline: <<-SHELL
+      /vagrant/scripts/init_vm.sh
+      /vagrant/scripts/set_ip.sh 172.30.1.10
+      sudo -u vagrant PGV_OS=#{PGV_OS} /vagrant/scripts/bootstrap.sh
+    SHELL
+  end
+
+  config.vm.define "minio" do |minio|
+    minio.vm.hostname = "minio.local"
+    minio.vm.network :private_network, type: "dhcp", auto_config: false
+    minio.vm.provision "shell", inline: <<-SHELL
+      /vagrant/scripts/init_vm.sh
+      /vagrant/scripts/set_ip.sh 172.30.1.20
+    SHELL
+  end
+
+  (1..3).each do |i|
+    config.vm.define "db-#{i}" do |node|
+      node.vm.hostname = "db-#{i}.local"
+      node.vm.network :private_network, type: "dhcp", auto_config: false
+      # Two stolon clusters, etcd and the router per host
+      node.vm.provider "virtualbox" do |v|
+        v.memory = 2048
+      end
+      # The data and wal mountpoints of inventories/standard (postgresql_data_mountpoint, postgresql_wal_mountpoint)
+      node.vm.provision "shell", inline: <<-SHELL
+        /vagrant/scripts/init_vm.sh
+        /vagrant/scripts/set_ip.sh 172.30.1.3#{i}
+        mkdir -p /data/postgres/data /data/postgres/wal
+      SHELL
+    end
+  end
+end

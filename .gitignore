@@ -29,3 +29,7 @@ inventories/*/group_vars/_postgres/proxy.yml
 
 # Azure credentials written by scripts/az_to_env
 azure_creds.env
+
+# Created by vagrant up (vagrant/Vagrantfile): the shared ssh key of the boxes, and the vagrant state
+vagrant/.ssh/
+vagrant/.vagrant/

@@ -16,7 +16,7 @@ use [`inventories/el`](../el/index.md), for SUSE [`inventories/suse`](../suse/in
 ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/<platform> functional-all.yml
 ```
 
-For example, the [vagrant](../vagrant/index.md) boxes run Ubuntu:
+For example, the [vagrant](../vagrant/index.md) boxes run Ubuntu by default:
 
 ```bash
 ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/vagrant functional-all.yml

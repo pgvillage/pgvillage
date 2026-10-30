@@ -24,7 +24,7 @@ ansible-galaxy collection install --requirements-file ./requirements.yml
 
 ## Using this playbook
 
-- We develop on vagrant. For an example, please refer to [pgVillage/pgv_vagrant](https://github.com/pgvillage/pgv_vagrant).
+- We develop on vagrant: see [`vagrant/`](vagrant/) and the [Vagrant docs](docs/administrators-guide/platforms/vagrant/index.md).
 - For a demo on Azure please refer to [Azure - deploy](docs/administrators-guide/platforms/azure/deploy.md).
 - For running on VMWare:
   - this deployment was originally developed against VMWare Virtual Machines, so it will definitely work
