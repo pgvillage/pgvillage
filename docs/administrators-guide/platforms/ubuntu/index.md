@@ -28,15 +28,24 @@ ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/va
 
 | File                                 | Variable                   | Ubuntu                                   | EL (`inventories/el`) |
 |--------------------------------------|----------------------------|------------------------------------------|---------------|
-| `group_vars/all/packages.yml`        | `linux_public_repos`       | apt repositories: PgVillage pinned to `repo.mannemsolutions.nl/apt/v0.3.2` (role default: `latest`), and pgdg | role default for dnf |
+| `group_vars/all/packages.yml`        | `linux_public_repos`       | apt repositories: PgVillage pinned to `repo.mannemsolutions.nl/apt/v0.0.4` (role default: `latest`), and pgdg | role default for dnf |
+| `group_vars/all/packages.yml`        | `linux_packages`           | role default, but only `acl` on `backup` (no `minio`) | role default |
 | `group_vars/all/postgres.yml`        | `postgresql_bindir`        | `/usr/lib/postgresql/<version>/bin`       | `/usr/pgsql-<version>/bin/` |
 | `group_vars/all/uninstall.yml`       | `uninstall_linux_packages` | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd` | EL package names |
 | `group_vars/all/uninstall.yml`       | `uninstall_os_file_list`   | `/etc/postgresql/<version>`, `/var/lib/postgresql/<version>` (the default cluster of the deb package) | `/usr/pgsql-<version>`, `/var/lib/pgsql-<version>`, ... |
 | `group_vars/hacluster/pgbouncer.yml` | `pgbouncer_install_dir`    | `/usr/sbin`                               | role default |
+| `group_vars/backup/minio.yml`        | `minio_use_rustfs`, `minio_rustfs_client_ca_bundle` | RustFS instead of minio; the RustFS client trusts chainsmith's CA | minio |
 
-Packages, users and groups are not set in the inventory: the `pgvillage.linux` role picks them for apt:
+The PgVillage apt repository is pinned to `v0.0.4`, the first of the new apt repositories (binaries in `/usr/bin`, which
+the roles expect). `latest` and `v0.3.2` still have the older builds, converted from rpm, with the binaries in
+`/usr/local/bin`. `v0.0.4` has RustFS instead of minio, so the backup host runs RustFS (the `pgvillage.minio` role with
+`minio_use_rustfs`).
 
-- **Packages**: `stolon`, `wal-g-pg`, `etcd`, `acl` and `postgresql-17` on `hacluster`; `minio` and `acl` on `backup`;
+Users and groups are not set in the inventory, and packages only for `backup`: the `pgvillage.linux` role picks them for
+apt:
+
+- **Packages**: `stolon`, `wal-g-pg`, `etcd`, `acl` and `postgresql-17` on `hacluster`; `acl` on `backup` (the
+  `pgvillage.minio` role installs `rustfs` and `rustfs-cli`);
   `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts`.
 - **Users and groups**: `postgres`, `pgbouncer`, `avchecker`, `pgquartz`, `pgfga`, `pgroute66` on `hacluster`;
   `minio` on `backup`; `haproxy`, `keepalived`, `pgroute66` on `router`.

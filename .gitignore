@@ -33,3 +33,6 @@ azure_creds.env
 # Created by vagrant up (vagrant/Vagrantfile): the shared ssh key of the boxes, and the vagrant state
 vagrant/.ssh/
 vagrant/.vagrant/
+
+# Roles from requirements.yml, when ansible-galaxy installs them here (roles_path in ansible.cfg)
+roles/pgvillage.*/

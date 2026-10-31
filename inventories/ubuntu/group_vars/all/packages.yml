@@ -1,12 +1,14 @@
 ---
 # Packages, users and groups come from the pgvillage.linux role defaults for apt.
-# Overrides the role default repositories: pin the PgVillage apt repository to v0.3.2 (role default: latest).
+# Overrides the role default repositories: pin the PgVillage apt repository to v0.0.4 (role default: latest).
+# v0.0.4 is the first of the new apt repos (dists/ and pool/, binaries in /usr/bin). latest and v0.3.2 still have the
+# old builds (converted from rpm, binaries in /usr/local/bin), which the current roles don't support.
 linux_public_repos:
   - name: PgVillage
     description: "PgVillage DEB Library - Ubuntu {{ ansible_facts.distribution_version }} - {{ ansible_facts.architecture }}"
     repo: >-
       [signed-by=/etc/apt/keyrings/pgvillage.asc arch={{ linux_architecture }}]
-      https://repo.mannemsolutions.nl/apt/v0.3.2
+      https://repo.mannemsolutions.nl/apt/v0.0.4
       {{ ansible_facts.distribution_release }}
       main
     priority: 10
@@ -16,3 +18,17 @@ linux_public_repos:
       [signed-by=/etc/apt/keyrings/postgresql.asc] https://apt.postgresql.org/pub/repos/apt {{ ansible_facts.distribution_release }}-pgdg main
     enabled: true
     priority: 20
+
+# The role default, but without minio for the backup hosts: the apt repo (v0.0.4) has no minio, and the minio role
+# installs RustFS itself (see group_vars/backup/minio.yml).
+linux_packages: >-
+  {{
+    _linux_packages.default
+    | combine(_linux_packages[ansible_facts.pkg_mgr], recursive=True, list_merge='append')
+    | combine(
+        {'hacluster': _linux_pg_packages[ansible_facts.pkg_mgr]
+                      | default(_linux_pg_packages.default)
+                      | pg_versioned(linux_pg_versions)},
+        recursive=True, list_merge='append')
+    | combine({'backup': ['acl']})
+  }}
