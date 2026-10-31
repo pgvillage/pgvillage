@@ -21,7 +21,7 @@ PgBouncer, avchecker, firewall, etcd, nagios, etc.) or from the OS inventory (pa
 
 ## Hosts
 
-`hosts` defines the vagrant boxes, and puts stolon, etcd and the router on the database hosts:
+`hosts` defines the vagrant boxes, and puts the router on the database hosts (standard puts stolon and etcd there):
 
 | Group         | Hosts                                      |
 |---------------|--------------------------------------------|

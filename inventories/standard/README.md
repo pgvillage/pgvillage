@@ -14,8 +14,10 @@ The ports are set in `stolon.yml`, `wal-g.yml`, `pgbouncer.yml`, `avchecker.yml`
 keep them in line when adding or changing a cluster. See
 [multi-instance](../../docs/administrators-guide/deployment_and_maintenance/multiinstance/stolon.md).
 
-It has no OS specifics and no hosts. Use it with an OS layer (`inventories/el`, `inventories/ubuntu`) and a platform
-inventory, in this order, so later values win:
+It has no OS specifics and no hosts. `hosts` only has the groups, and the standard architecture: stolon and etcd run on
+the database hosts (`stolon` and `etcd_master` are subgroups of `hacluster`); the platform inventory adds the hosts to
+`hacluster`, `backup` and `localhosts`. Use it with an OS layer (`inventories/el`, `inventories/ubuntu`,
+`inventories/suse`) and a platform inventory, in this order, so later values win:
 
 ```bash
 ansible-playbook -i inventories/standard -i inventories/el -i inventories/azure functional-all.yml

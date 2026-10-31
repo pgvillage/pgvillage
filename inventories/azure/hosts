@@ -6,12 +6,7 @@ all:
         # leave this is, because it sets inventory_dir
         localhost:
     backup:
-    stolon:
-      children:
-        _postgres
-    etcd_master:
-      children:
-        _postgres
+    # The VMs of the scale set (azure_rm keyed group); stolon and etcd run on them (see standard)
     hacluster:
       children:
         _postgres

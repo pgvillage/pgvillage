@@ -2,13 +2,6 @@
 # Use on top of standard and el: -i inventories/standard -i inventories/el -i inventories/kvm
 all:
   children:
-    # stolon and etcd run on the database hosts
-    stolon:
-      children:
-        hacluster:
-    etcd_master:
-      children:
-        hacluster:
     hacluster:
       # Change hostnames and ip adresses to reflect your actual deployment environment
       hosts:
@@ -29,6 +22,5 @@ all:
         localhost:
            ansible_connection: local
            ansible_python_interpreter: "{{ansible_playbook_python}}"
-  # You can set an ansible_user if the user on the db hosts differs from the account running this locally
-  #vars:
-  #  ansible_user: pgvillage
+  # If the user on the hosts differs from the one running Ansible, see
+  # docs/administrators-guide/deployment_and_maintenance/ansible_cfg.md

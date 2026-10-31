@@ -1,4 +1,0 @@
----
-# Overrides inventories/standard/group_vars/all/stolon.yml
-# Server certs in /etc/pki/postgres (see group_vars/hacluster/chainsmith.yml)
-stolon_pg_certdir: /etc/pki/postgres

@@ -178,7 +178,7 @@ inventory has no database hosts.
 
 `hosts`:
 
-- Maps `_postgres` to the PgVillage groups `hacluster`, `stolon` and `etcd_master`.
+- Maps `_postgres` to the PgVillage group `hacluster` (standard puts `stolon` and `etcd_master` on `hacluster`).
 - Defines `localhost` in `localhosts`. It must be defined here and not in `inventories/standard`: `inventory_dir`
   of `localhost` is the inventory that defines it, and that sets `cluster_name` (and so all resource names) and
   the folder the role writes its [generated files](#generated-files) to.

@@ -5,6 +5,11 @@ all:
   children:
     localhosts:
     backup:
-    stolon:
-    etcd_master:
     hacluster:
+    # The standard architecture: stolon and etcd run on the database hosts
+    stolon:
+      children:
+        hacluster:
+    etcd_master:
+      children:
+        hacluster:
