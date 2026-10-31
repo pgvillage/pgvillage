@@ -19,27 +19,27 @@ haproxy_frontends:
  - name: "cluster1-ReadWrite-frontend"
    address: "*"
    port: "{{ haproxy_config.ReadWrite.frontend_port }}"
-   mode: "{{ haproxy_default_mode }}"
+   mode: "{{ haproxy_mode }}"
    backend: "cluster1-ReadWrite-backend"
    timeout_client: "{{ haproxy_timeout_client }}"
    # name is used to define the cluster (script strips all after first dash)
  - name: "cluster1-ReadOnly-frontend"
    address: "*"
    port: "{{ haproxy_config.ReadOnly.frontend_port }}"
-   mode: "{{ haproxy_default_mode }}"
+   mode: "{{ haproxy_mode }}"
    backend: "cluster1-ReadOnly-backend"
    timeout_client: "{{ haproxy_timeout_client }}"
    # name is used to define the cluster (script strips all after first dash)
  - name: "cluster1-Proxy-frontend"
    address: "*"
    port: "{{ haproxy_config.Proxy.frontend_port }}"
-   mode: "{{ haproxy_default_mode }}"
+   mode: "{{ haproxy_mode }}"
    backend: "cluster1-Proxy-backend"
    timeout_client: "{{ haproxy_timeout_client }}"
 
 haproxy_backends:
  - name: "cluster1-ReadWrite-backend"
-   mode: "{{ haproxy_default_mode }}"
+   mode: "{{ haproxy_mode }}"
    balance_method: "leastconn"
    options:
      - "external-check"
@@ -60,7 +60,7 @@ haproxy_backends:
        port: "{{ haproxy_config.ReadWrite.backend_port }}"
        checkport: "{{ haproxy_checkport }}"
  - name: "cluster1-ReadOnly-backend"
-   mode: "{{ haproxy_default_mode }}"
+   mode: "{{ haproxy_mode }}"
    balance_method: "leastconn"
    options:
      - "external-check"
@@ -81,7 +81,7 @@ haproxy_backends:
        port: "{{ haproxy_config.ReadOnly.backend_port }}"
        checkport: "{{ haproxy_checkport }}"
  - name: "cluster1-Proxy-backend"
-   mode: "{{ haproxy_default_mode }}"
+   mode: "{{ haproxy_mode }}"
    balance_method: "leastconn"
    options:
      - "external-check"

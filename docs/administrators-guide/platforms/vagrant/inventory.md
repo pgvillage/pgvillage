@@ -99,6 +99,18 @@ HAProxy, keepalived and pgroute66 run on the database hosts (`router` = `haclust
 
 ## Known issues
 
+Found in a test deploy (Ubuntu boxes, 2026-10-31); PostgreSQL, stolon (both clusters), etcd, PgBouncer, minio and WAL archiving with wal-g work.
+
+- The firewall blocks VRRP (the firewall role only opens TCP ports), so keepalived on every database host becomes
+  master and all three hosts have the VIP.
 - The HAProxy ports (35433-35435) are not in `firewall_ports` (standard only opens the PostgreSQL, PgBouncer, stolon
   proxy and etcd ports). `firewall_ports` is set for `hacluster`, so opening them means overriding the whole
   `firewall_ports` in `group_vars/hacluster/firewall.yml`.
+
+To try the router anyway, open both at runtime (until the next firewalld reload) on every database host:
+
+```bash
+sudo firewall-cmd --add-protocol=vrrp
+for p in 35433 35434 35435; do sudo firewall-cmd --add-port=$p/tcp; done
+sudo systemctl restart keepalived
+```

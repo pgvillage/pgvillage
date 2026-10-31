@@ -58,7 +58,7 @@ The database hosts get 2 GB of memory, the others 1 GB, all 2 CPUs: about 9 GB f
    ```bash
    vagrant ssh ansible
    cd ~/git/pgvillage/
-   ansible-playbook -i inventories/standard -i inventories/${PGV_OS} -i inventories/vagrant functional-all.yml
+   ansible-playbook -i inventories/standard -i inventories/${PGV_OS:?} -i inventories/vagrant functional-all.yml
    ```
 5. Be amazed.
 
@@ -70,12 +70,24 @@ what you have checked out, including your local changes. `PGV_OS` is set in `~/.
 
 ```bash
 vagrant ssh db-1
-sudo -iu postgres psql -h /tmp -p 5433 -c 'select pg_is_in_recovery()'   # cluster1
-sudo -iu postgres psql -h /tmp -p 5434 -c 'select pg_is_in_recovery()'   # cluster2
+sudo -u postgres psql -h /tmp -p 5433 -Atc 'select pg_is_in_recovery()'   # cluster1
+sudo -u postgres psql -h /tmp -p 5434 -Atc 'select pg_is_in_recovery()'   # cluster2
 ```
 
 One host returns `f` (the primary of that cluster), the others `t` (standbys). The primaries of `cluster1` and
-`cluster2` don't have to be on the same host.
+`cluster2` don't have to be on the same host. `sudo -iu postgres` (a login shell) also shows the stolon status of both
+clusters.
+
+Through HAProxy on the VIP (read-write goes to the primary, read-only to a standby):
+
+```bash
+sudo -iu postgres psql "host=172.30.1.30 port=35433 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
+sudo -iu postgres psql "host=172.30.1.30 port=35435 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
+```
+
+!!! warning
+    This only works after opening VRRP and the HAProxy ports in the firewall, see
+    [Known issues](inventory.md#known-issues).
 
 ## Other operating systems
 

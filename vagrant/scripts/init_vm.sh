@@ -23,6 +23,12 @@ grep -q ansible.local /etc/hosts || echo '172.30.1.10 ansible.local ansible
 172.30.1.32 db-2.local db-2
 172.30.1.33 db-3.local db-3' >>/etc/hosts
 
+# No automatic apt runs: unattended-upgrades holds the dpkg lock on fresh boxes, and the deploy times out on it
+if [ -d /etc/apt ]; then
+  systemctl disable --now apt-daily.timer apt-daily-upgrade.timer unattended-upgrades.service 2>/dev/null || true
+  systemctl kill --kill-whom=all apt-daily.service apt-daily-upgrade.service 2>/dev/null || true
+fi
+
 # Step the clock after a suspend, instead of slewing (etcd and certificates don't like a clock in the past)
 for CHRONY_CONF in /etc/chrony/chrony.conf /etc/chrony.conf; do
   if [ -f "${CHRONY_CONF}" ]; then

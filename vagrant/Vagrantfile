@@ -17,6 +17,9 @@ BOX = ENV.fetch("PGV_BOX", BOXES[PGV_OS])
 
 Vagrant.configure("2") do |config|
   config.vm.box = BOX
+  # The boxes have the guest additions (see the docs). vagrant-vbguest sees them as "not running" until a share is
+  # mounted, and then rebuilds them and reboots every VM.
+  config.vbguest.auto_update = false if Vagrant.has_plugin?("vagrant-vbguest")
 
   config.vm.provider "virtualbox" do |v|
     v.memory = 1024
