@@ -32,12 +32,12 @@ Run a PgVillage demo environment on your laptop with [Vagrant](https://www.vagra
 
 The ports per cluster:
 
-| Cluster    | PostgreSQL | stolon proxy | PgBouncer | HAProxy (rw / proxy / ro) |
-|------------|------------|--------------|-----------|---------------------------|
-| `cluster1` | 5433       | 25433        | 6433      | 35433 / 35434 / 35435     |
-| `cluster2` | 5434       | 25434        | 6434      | -                         |
+| Cluster    | PostgreSQL | stolon proxy | PgBouncer | HAProxy on the VIP (rw / ro / proxy) |
+|------------|------------|--------------|-----------|--------------------------------------|
+| `cluster1` | 5433       | 25433        | 6433      | 35433 / 45433 / 55433                |
+| `cluster2` | 5434       | 25434        | 6434      | 35434 / 45434 / 55434                |
 
-HAProxy only has frontends for `cluster1`, see [Router](inventory.md#router).
+See [Router](inventory.md#router).
 
 The database hosts get 2 GB of memory, the others 1 GB, all 2 CPUs: about 9 GB for the whole environment.
 
@@ -82,7 +82,7 @@ Through HAProxy on the VIP (read-write goes to the primary, read-only to a stand
 
 ```bash
 sudo -iu postgres psql "host=172.30.1.30 port=35433 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
-sudo -iu postgres psql "host=172.30.1.30 port=35435 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
+sudo -iu postgres psql "host=172.30.1.30 port=45433 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
 ```
 
 ## Other operating systems

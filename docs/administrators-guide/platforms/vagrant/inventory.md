@@ -78,19 +78,15 @@ the database hosts are on the data mountpoint (`/data/postgres/data/certs`).
 ## Router
 
 HAProxy, keepalived and pgroute66 run on the database hosts (`router` = `hacluster`), with keepalived managing the VIP
-`172.30.1.30`. The router hosts are set in `hosts`; pgroute66 (all clusters in `stolon_clusters`) comes from standard. See
+`172.30.1.30`. Only the router hosts (`hosts`) and the VIP are vagrant specific; HAProxy (a read-write, read-only and
+stolon proxy frontend for every cluster), pgroute66 and the firewall ports come from standard. See
 [HAProxy](../../deployment_and_maintenance/multiinstance/haproxy.md) and
 [pgroute66](../../deployment_and_maintenance/multiinstance/pgroute66.md).
 
 | File                              | What |
 |-----------------------------------|------|
-| `group_vars/all/haproxy.yml`      | Frontends and backends for `cluster1`: read-write (35433), stolon proxy (35434) and read-only (35435) |
+| `hosts`                           | `router` and `haproxy` are the database hosts (`hacluster`) |
 | `group_vars/all/keepalived.yml`   | VIP and interface |
-| `group_vars/all/firewall.yml`     | `firewall_ports_router`: the HAProxy frontend ports, taken from `haproxy_frontends` |
-
-!!! note
-    HAProxy only has frontends for `cluster1`. Add frontends and backends for `cluster2` in `haproxy.yml` if you need
-    them; the firewall opens the ports of all frontends.
 
 The firewall: standard opens the ports of the groups a host is in (`firewall_ports_hacluster`,
 `firewall_ports_backup` and `firewall_ports_router`, combined in `firewall_ports`), so the database hosts get both the

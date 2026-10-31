@@ -9,8 +9,31 @@ date: 2026-10-11
 # HAProxy - multi-instance
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), HAProxy needs to forward traffic for all options for all instances.
-You can configure them by editing the haproxy config (e.g. `inventories/vagrant/group_vars/all/haproxy.yml`) and define all front-ends and back-ends.
-Best is to define a global config first and define front-ends and backends from that.
+The standard inventory (`inventories/standard/group_vars/all/haproxy.yml`) generates them: for every cluster in
+[`stolon_clusters`](stolon.md) a read-write, a read-only and a stolon proxy route (`haproxy_routes`), each with a
+frontend on the router and a backend with the database hosts (`hacluster`) as servers. Adding a cluster to
+`stolon_clusters` adds its routes, and the firewall opens their ports (`firewall_ports_router`, see
+[firewall](firewall.md)). The platform inventory only adds the router hosts (the `router` and `haproxy` groups) and the
+keepalived VIP.
+
+The frontend port is `port_prefix * 10000 + <Postgres port>`:
+
+| Cluster    | Postgres | read-write (`rw`) | read-only (`ro`) | stolon proxy (`proxy`) |
+|------------|----------|-------------------|------------------|------------------------|
+| `cluster1` | 5433     | 35433             | 45433            | 55433                  |
+| `cluster2` | 5434     | 35434             | 45434            | 55434                  |
+
+To change the routes, override `haproxy_routes`; to set everything by hand, override `haproxy_config`,
+`haproxy_frontends` and `haproxy_backends` as described below.
+
+## `haproxy_routes`
+
+| Key           | Description |
+|---------------|-------------|
+| `name`        | Route name in the frontend and backend names (`ReadWrite`, `ReadOnly`, `Proxy`). |
+| `port_prefix` | Frontend port: `port_prefix * 10000 + <Postgres port>` (3, 4 and 5). |
+| `backend`     | `pg`: the Postgres port of the keepers, `proxy`: the stolon proxy port. |
+| `check`       | pgroute66 check script that decides which servers get traffic. |
 
 ## Generic settings
 
@@ -21,7 +44,8 @@ Best is to define a global config first and define front-ends and backends from 
 
 ## `haproxy_config`
 
-Helper dictionary that maps each route type to a backend port (on the database hosts) and a frontend port (on the router):
+Generated from `stolon_clusters` and `haproxy_routes`: per cluster and route, the backend port (on the database hosts)
+and the frontend port (on the router), e.g.:
 
 !!! example
     ```yaml
@@ -60,7 +84,7 @@ aligned with the backends.
       - name: "cluster1-ReadWrite-frontend"
         address: "*"
         port: "{{ haproxy_config.cluster1.rw.frontend_port }}"
-        mode: "{{ haproxy_default_mode }}"
+        mode: "{{ haproxy_mode }}"
         backend: "cluster1-ReadWrite-backend"
         timeout_client: "{{ haproxy_timeout_client }}"
     ```
@@ -82,7 +106,7 @@ everything after the first dash to get the cluster name they query pgroute66 for
 | Key              | Description                                                                 |
 |------------------|-----------------------------------------------------------------------------|
 | `name`           | Backend name, referenced by `backend` in the frontend.                      |
-| `mode`           | HAProxy mode (`haproxy_default_mode`).                                      |
+| `mode`           | HAProxy mode (`haproxy_mode`).                                      |
 | `balance_method` | Balance algorithm (`leastconn`).                                            |
 | `options`        | HAProxy options (`external-check`).                                         |
 | `params`         | Extra parameters, e.g. `external-check command /opt/pgroute66/checkpgprimary.sh`. |
@@ -93,7 +117,7 @@ everything after the first dash to get the cluster name they query pgroute66 for
     ```yaml
     haproxy_backends:
       - name: "cluster1-ReadWrite-backend"
-        mode: "{{ haproxy_default_mode }}"
+        mode: "{{ haproxy_mode }}"
         balance_method: "leastconn"
         options:
           - "external-check"
@@ -119,6 +143,5 @@ everything after the first dash to get the cluster name they query pgroute66 for
 
 ## Adding an instance
 
-The current inventory only routes `cluster1`. For another instance, add frontends and backends named after
-that cluster (e.g. `cluster2-ReadWrite-frontend` / `cluster2-ReadWrite-backend`) with unused frontend ports and the
-backend ports of that instance from [`stolon_clusters`](stolon.md).
+Add the cluster to `stolon_clusters`: HAProxy gets its frontends and backends, pgroute66 its group, and the firewall
+the frontend ports. The frontend ports follow from the Postgres port of the new cluster.

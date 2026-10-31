@@ -70,7 +70,7 @@ In `firewall_ports_hacluster` you define the following ports:
 ### Router
 
 When separating router and postgres, you can configure firewalld to open `haproxy-rw`, `haproxy-ro`, and `haproxy-sp` on router nodes for multiple cluster instances as follows:
-In `firewall_ports_router` you define the following ports (the vagrant inventory takes them from `haproxy_frontends`):
+In `firewall_ports_router` you define the following ports (standard takes them from `haproxy_frontends`, see [HAProxy](haproxy.md)):
 
 !!! example
     ```yaml
