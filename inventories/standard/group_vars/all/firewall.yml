@@ -1,0 +1,30 @@
+---
+firewall_type: firewalld
+
+# Ports to open per inventory group. firewall_ports (below) combines those of the groups a host is in: a host can be in
+# several groups (in standard the router runs on the database hosts), and firewall_ports set in group_vars of two groups
+# would replace each other instead of adding up. VRRP (keepalived) is opened by the keepalived role.
+# Ports of every cluster in stolon_clusters and pgbouncer_instances, plus etcd
+firewall_ports_hacluster:
+  cluster1_postgres:     5433
+  cluster1_pgbouncer:    6433
+  cluster1_stolonproxy: 25433
+
+  cluster2_postgres:     5434
+  cluster2_pgbouncer:    6434
+  cluster2_stolonproxy: 25434
+
+  etcd_client: 2379
+  etcd_server: 2380
+
+firewall_ports_backup:
+  minio: 443
+
+# HAProxy frontends, set by the platform inventory that defines the router (e.g. inventories/vagrant)
+firewall_ports_router: {}
+
+firewall_ports: >-
+  {{ {}
+     | combine(firewall_ports_hacluster if 'hacluster' in group_names else {})
+     | combine(firewall_ports_backup if 'backup' in group_names else {})
+     | combine(firewall_ports_router if 'router' in group_names else {}) }}

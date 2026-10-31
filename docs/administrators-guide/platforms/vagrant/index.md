@@ -85,10 +85,6 @@ sudo -iu postgres psql "host=172.30.1.30 port=35433 dbname=postgres sslmode=requ
 sudo -iu postgres psql "host=172.30.1.30 port=35435 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
 ```
 
-!!! warning
-    This only works after opening VRRP and the HAProxy ports in the firewall, see
-    [Known issues](inventory.md#known-issues).
-
 ## Other operating systems
 
 The boxes run Ubuntu by default. `PGV_OS` picks another OS; it selects the box and is the name of the OS inventory

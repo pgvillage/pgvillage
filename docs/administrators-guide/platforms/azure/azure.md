@@ -205,8 +205,9 @@ with the same name in `inventories/standard/group_vars/all/`.
 
 ### Firewall
 
-Traffic from outside is filtered by the network security group. The `pgvillage.firewall` play still runs on
-`hacluster`, but the azure inventory sets no `firewall_*` variables, so the role runs with its defaults.
+Traffic from outside is filtered by the network security group. On the hosts, the `pgvillage.firewall` play opens
+the ports from standard (`firewall_ports_hacluster` and `firewall_ports_backup`); the azure inventory sets no
+`firewall_*` variables of its own.
 
 ## Known limitations
 

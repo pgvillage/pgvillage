@@ -18,7 +18,7 @@ stolon_cert_managed: false
 
 # Multi-instance: every cluster in stolon_clusters gets its own sentinel, keeper and proxy (stolon-<x>@<cluster>),
 # Postgres port, proxy port, data and wal directory. Keep the ports in line with walg_clusters, pgbouncer_instances,
-# avchecker_defaults and firewall_ports. See docs/administrators-guide/deployment_and_maintenance/multiinstance.
+# avchecker_defaults and firewall_ports_hacluster. See docs/administrators-guide/deployment_and_maintenance/multiinstance.
 stolon_multicluster: true
 
 # Resources per instance (systemd resource control), so one instance can't starve the others

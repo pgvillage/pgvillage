@@ -91,26 +91,19 @@ HAProxy, keepalived and pgroute66 run on the database hosts (`router` = `haclust
 |-----------------------------------|------|
 | `group_vars/all/haproxy.yml`      | Frontends and backends for `cluster1`: read-write (35433), stolon proxy (35434) and read-only (35435) |
 | `group_vars/all/keepalived.yml`   | VIP and interface |
+| `group_vars/all/firewall.yml`     | `firewall_ports_router`: the HAProxy frontend ports, taken from `haproxy_frontends` |
 | `group_vars/all/pgroute66.yml`    | pgroute66 groups for `cluster1` (5433) and `cluster2` (5434) |
 
 !!! note
-    HAProxy only has frontends for `cluster1`. Add frontends and backends for `cluster2` in `haproxy.yml` (and open
-    the ports in the firewall) if you need them.
+    HAProxy only has frontends for `cluster1`. Add frontends and backends for `cluster2` in `haproxy.yml` if you need
+    them; the firewall opens the ports of all frontends.
+
+The firewall: standard opens the ports of the groups a host is in (`firewall_ports_hacluster`,
+`firewall_ports_backup` and `firewall_ports_router`, combined in `firewall_ports`), so the database hosts get both the
+PostgreSQL and the HAProxy ports. The keepalived role allows VRRP in firewalld, so only one host has the VIP.
 
 ## Known issues
 
-Found in a test deploy (Ubuntu boxes, 2026-10-31); PostgreSQL, stolon (both clusters), etcd, PgBouncer, minio and WAL archiving with wal-g work.
-
-- The firewall blocks VRRP (the firewall role only opens TCP ports), so keepalived on every database host becomes
-  master and all three hosts have the VIP.
-- The HAProxy ports (35433-35435) are not in `firewall_ports` (standard only opens the PostgreSQL, PgBouncer, stolon
-  proxy and etcd ports). `firewall_ports` is set for `hacluster`, so opening them means overriding the whole
-  `firewall_ports` in `group_vars/hacluster/firewall.yml`.
-
-To try the router anyway, open both at runtime (until the next firewalld reload) on every database host:
-
-```bash
-sudo firewall-cmd --add-protocol=vrrp
-for p in 35433 35434 35435; do sudo firewall-cmd --add-port=$p/tcp; done
-sudo systemctl restart keepalived
-```
+None at the moment. Tested on Ubuntu boxes (2026-10-31): a fresh `vagrant up` and deploy without failures, a second
+deploy changes nothing, and PostgreSQL, stolon (both clusters), etcd, PgBouncer, RustFS, WAL archiving with wal-g,
+HAProxy and keepalived (one VIP holder, failover) work.
