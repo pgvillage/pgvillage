@@ -19,16 +19,3 @@ linux_public_repos:
     enabled: true
     priority: 20
 
-# The role default, but without minio for the backup hosts: the apt repo (v0.0.4) has no minio, and the minio role
-# installs RustFS itself (see group_vars/backup/minio.yml).
-linux_packages: >-
-  {{
-    _linux_packages.default
-    | combine(_linux_packages[ansible_facts.pkg_mgr], recursive=True, list_merge='append')
-    | combine(
-        {'hacluster': _linux_pg_packages[ansible_facts.pkg_mgr]
-                      | default(_linux_pg_packages.default)
-                      | pg_versioned(linux_pg_versions)},
-        recursive=True, list_merge='append')
-    | combine({'backup': ['acl']})
-  }}

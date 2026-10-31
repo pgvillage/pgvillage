@@ -15,6 +15,12 @@ additions added, which the shared folders need. You create them once, and only t
 The steps work on amd64 and on aarch64 (Apple silicon). The only difference is the guest additions installer:
 `VBoxLinuxAdditions-arm64.run` on aarch64, `VBoxLinuxAdditions.run` on amd64.
 
+Use recent guest additions: the kernel modules must build against the (updated) kernel of the box. With VirtualBox
+7.2.4, the guest additions it ships fail to build on Rocky Linux 9.8 (`implicit declaration of function 'from_timer'`);
+those of 7.2.22 build fine. Update VirtualBox, or download only the guest additions ISO of the latest release
+(`https://download.virtualbox.org/virtualbox/<version>/VBoxGuestAdditions_<version>.iso`, see `LATEST.TXT` in that
+folder) and attach that one instead. Guest additions newer than VirtualBox itself work.
+
 All boxes start the same way:
 
 1. Go to a new folder: `cd $(mktemp -d)`.
@@ -95,7 +101,9 @@ Based on `bento/rockylinux-9`.
    sudo dnf install dkms gcc make kernel-devel bzip2 binutils patch libgomp glibc-headers glibc-devel -y
    ```
 3. Stop the VM, add `VBoxGuestAdditions.iso` and install the guest additions, as in steps 3 to 7 of the
-   [Ubuntu box](#ubuntu-box). Clean the package cache: `sudo dnf clean all`.
+   [Ubuntu box](#ubuntu-box). The update installs a new kernel (Rocky 9.8), and the VM boots it in step 5, so the
+   guest additions build for that kernel (see the note on recent guest additions above). Check with
+   `lsmod | grep vbox` that `vboxguest` and `vboxsf` are loaded. Clean the package cache: `sudo dnf clean all`.
 4. Finish as above, with `vagrant package --output nibble-rocky-9.box` and
    `vagrant box add nibble-rocky-9.box --name nibble/rocky-9`.
 

@@ -1,5 +1,0 @@
----
-# The apt repo (v0.0.4) has RustFS instead of minio and mcli.
-minio_use_rustfs: true
-# The CA that chainsmith places for the client (minio_cert_managed is false in standard, so the role doesn't set one)
-minio_rustfs_client_ca_bundle: "{{ minio_cert_folders.client.path }}root.crt"

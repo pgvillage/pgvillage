@@ -4,19 +4,29 @@
 set -e
 
 PGV_OS=${PGV_OS:-ubuntu}
+PYTHON=python3
 
 echo Install python3
 if which apt-get >/dev/null 2>&1; then
   sudo apt-get update -y
   sudo apt-get install -y git python3-pip python3-venv libffi-dev
 elif which dnf >/dev/null 2>&1; then
-  sudo dnf install -y git python3-pip libffi-devel
+  # EL9's python3 is 3.9, which only gets ansible-core 2.15
+  sudo dnf install -y git python3.12 python3.12-pip libffi-devel
+  PYTHON=python3.12
 elif which zypper >/dev/null 2>&1; then
   sudo zypper install -y git python3-pip libffi-devel
 fi
 
+# On Apple silicon, VirtualBox reports SVE2 to some kernels (EL9), but the CPU can't run it. The OpenSSL in the
+# cryptography wheel then crashes Ansible with "Illegal instruction". Don't let OpenSSL use the CPU's crypto extensions.
+if [ "$(uname -m)" = aarch64 ]; then
+  export OPENSSL_armcap=0
+  grep -q OPENSSL_armcap ~/.bashrc || echo 'export OPENSSL_armcap=0' >>~/.bashrc
+fi
+
 echo Install ansible
-[ -e ~/venv ] || python3 -m venv ~/venv
+[ -e ~/venv ] || "${PYTHON}" -m venv ~/venv
 # shellcheck source=/dev/null
 . ~/venv/bin/activate
 grep -q venv/bin/activate ~/.bashrc || echo '. ~/venv/bin/activate' >>~/.bashrc
