@@ -6,7 +6,7 @@ The deployment uses three inventories, in this order, so later values win:
 
 - `inventories/standard`: the standard PgVillage config, multi-instance (`cluster1` and `cluster2`).
 - `inventories/el`: Enterprise Linux specifics (the vm's run EL), see [Enterprise Linux](el/index.md).
-- `inventories/lima`: the hosts, the network interface (`eth1`) and certificates in `/etc/pki/postgres`.
+- `inventories/lima`: the hosts and the network interface (`eth1`).
 
 ## Getting started
 

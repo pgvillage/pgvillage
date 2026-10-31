@@ -72,19 +72,14 @@ separate disks.
 
 ## Certificates
 
-Chainsmith creates certificates for the database hosts and the minio host (see standard). The only difference on
-vagrant: the server certificates of the database hosts are in `/etc/pki/postgres` (the chainsmith role default)
-instead of on the data mountpoint:
-
-| File                                  | Variable                      | Value |
-|---------------------------------------|-------------------------------|-------|
-| `group_vars/hacluster/chainsmith.yml` | `chainsmith_server_cert_path` | `/etc/pki/postgres` |
-| `group_vars/all/stolon.yml`           | `stolon_pg_certdir`           | `/etc/pki/postgres` |
+Chainsmith creates certificates for the database hosts and the minio host, as in standard: the server certificates of
+the database hosts are on the data mountpoint (`/data/postgres/data/certs`).
 
 ## Router
 
 HAProxy, keepalived and pgroute66 run on the database hosts (`router` = `hacluster`), with keepalived managing the VIP
-`172.30.1.30`. See [HAProxy](../../deployment_and_maintenance/multiinstance/haproxy.md) and
+`172.30.1.30`. The router hosts are set in `hosts`; pgroute66 (all clusters in `stolon_clusters`) comes from standard. See
+[HAProxy](../../deployment_and_maintenance/multiinstance/haproxy.md) and
 [pgroute66](../../deployment_and_maintenance/multiinstance/pgroute66.md).
 
 | File                              | What |
@@ -92,7 +87,6 @@ HAProxy, keepalived and pgroute66 run on the database hosts (`router` = `haclust
 | `group_vars/all/haproxy.yml`      | Frontends and backends for `cluster1`: read-write (35433), stolon proxy (35434) and read-only (35435) |
 | `group_vars/all/keepalived.yml`   | VIP and interface |
 | `group_vars/all/firewall.yml`     | `firewall_ports_router`: the HAProxy frontend ports, taken from `haproxy_frontends` |
-| `group_vars/all/pgroute66.yml`    | pgroute66 groups for `cluster1` (5433) and `cluster2` (5434) |
 
 !!! note
     HAProxy only has frontends for `cluster1`. Add frontends and backends for `cluster2` in `haproxy.yml` if you need

@@ -13,3 +13,8 @@ all:
     etcd_master:
       children:
         hacluster:
+    # The router (haproxy, keepalived, pgroute66) and its VIP. The platform inventory adds the hosts (e.g. the database
+    # hosts, as in inventories/vagrant), as the VIP (keepalived_vip) depends on the platform's network.
+    router:
+    # Hosts that get the HAProxy checks of nagios (usually the router hosts)
+    haproxy:

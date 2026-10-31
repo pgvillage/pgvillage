@@ -10,13 +10,14 @@ It is multi-instance: two stolon clusters, `cluster1` and `cluster2`, run side b
 | `cluster1` | 5433     | 25433        | 6433      | `<data mountpoint>/cluster1`, `<wal mountpoint>/stolon/cluster1` | `cluster1` |
 | `cluster2` | 5434     | 25434        | 6434      | `<data mountpoint>/cluster2`, `<wal mountpoint>/stolon/cluster2` | `cluster2` |
 
-The ports are set in `stolon.yml`, `wal-g.yml`, `pgbouncer.yml`, `avchecker.yml` and `group_vars/hacluster/firewall.yml`;
+The ports are set in `stolon.yml`, `wal-g.yml`, `pgbouncer.yml`, `avchecker.yml` and `firewall.yml` (`pgroute66.yml` takes them from `stolon_clusters`);
 keep them in line when adding or changing a cluster. See
 [multi-instance](../../docs/administrators-guide/deployment_and_maintenance/multiinstance/stolon.md).
 
 It has no OS specifics and no hosts. `hosts` only has the groups, and the standard architecture: stolon and etcd run on
 the database hosts (`stolon` and `etcd_master` are subgroups of `hacluster`); the platform inventory adds the hosts to
-`hacluster`, `backup` and `localhosts`. Use it with an OS layer (`inventories/el`, `inventories/ubuntu`,
+`hacluster`, `backup` and `localhosts`, and to `router` and `haproxy` when it has a router (it needs a VIP on the
+platform's network, e.g. `inventories/vagrant`). Use it with an OS layer (`inventories/el`, `inventories/ubuntu`,
 `inventories/suse`) and a platform inventory, in this order, so later values win:
 
 ```bash

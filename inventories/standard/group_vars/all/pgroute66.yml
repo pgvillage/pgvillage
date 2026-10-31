@@ -1,12 +1,17 @@
 ---
-pgroute66_pgport: 5433
+# pgroute66 runs on the router hosts (see hosts), and tells HAProxy which database host is the primary or a standby of
+# every cluster in stolon_clusters.
 pgroute66_pgnodes_group: hacluster
 
-pgroute66_clusters:
-  cluster1:
-    pgport: 5433
-  cluster2:
-    pgport: 5434
+# Every cluster in stolon_clusters, with its PostgreSQL port
+pgroute66_clusters: >-
+  {%- set clusters = {} -%}
+  {%- for name, cluster in stolon_clusters.items() -%}
+    {%- do clusters.update({name: {"pgport": cluster.sysconfig.stkeeper.pg_port}}) -%}
+  {%- endfor -%}
+  {{ clusters }}
+# The port of the first cluster (the role default for a single cluster)
+pgroute66_pgport: "{{ (pgroute66_clusters.values() | first).pgport }}"
 
 pgroute66_config:
   groups: >-
