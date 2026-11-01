@@ -58,6 +58,12 @@ more or fewer clusters, it is a data and a wal disk per cluster.
     LVM logical volumes, etc.: what matters most is that a full wal disk of one cluster doesn't fill the data of that
     cluster, or the storage of the other cluster.
 
+!!! warning
+    The standard inventory doesn't fully support a wal disk per cluster yet. The stolon keeper removes and recreates
+    the wal directory of a cluster (`/data/postgres/wal/stolon/cluster1`), so it can't be a mount point itself, and
+    stolon sizes `min_wal_size` and `max_wal_size` from the free space on `/data/postgres/wal/stolon`, which both
+    clusters share. Until that is fixed, use one wal disk on `/data/postgres/wal` for both clusters.
+
 ## The backup host
 
 The backup host runs RustFS, an S3 server, and stores the backups in `/var/lib/rustfs`: give it a disk that fits them.
