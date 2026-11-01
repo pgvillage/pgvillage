@@ -15,8 +15,8 @@ the standard PgVillage config, and an inventory with only your hosts. For ready-
 ## TL;DR
 
 You need 3 database hosts, 1 backup host and a control node (where you run Ansible), all running the same supported OS
-(Ubuntu, Rocky Linux / RHEL 9, or openSUSE / SUSE on x86_64), with internet access and a user with ssh access and
-passwordless sudo on all hosts.
+(see [Supported platforms](#supported-platforms)), with internet access and a user with ssh access and sudo on all
+hosts.
 
 On the database hosts, create the data and wal directories (preferably separate disks):
 
@@ -59,6 +59,64 @@ ansible-playbook -i inventories/standard -i inventories/el -i inventories/myclus
 
 That gives you two PostgreSQL clusters (`cluster1` and `cluster2`), each with a primary and two standbys managed by
 stolon, PgBouncer, backups with wal-g to RustFS on the backup host, and certificates from chainsmith.
+
+## Supported platforms
+
+<table markdown="1">
+<tr markdown="1">
+<th></th>
+<th colspan="2">Debian 12, 13<br>Ubuntu 22.04, 24.04, 26.04, 26.10<br>EL 8, 9, 10<br>Fedora 43, 44</th>
+<th colspan="2">openSUSE Leap 16</th>
+</tr>
+<tr markdown="1">
+<th></th>
+<th>AMD</th>
+<th>ARM</th>
+<th>AMD</th>
+<th>ARM*</th>
+</tr>
+<tr markdown="1">
+<td markdown="1">[Azure](azure/index.md)</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>⚠️*</td>
+</tr>
+<tr markdown="1">
+<td markdown="1">[macOS](macos.md) ([Vagrant](vagrant/index.md))</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>⚠️*</td>
+</tr>
+<tr markdown="1">
+<td markdown="1">[macOS](macos.md) ([Lima](lima.md))</td>
+<td>✅**</td>
+<td>✅</td>
+<td>✅**</td>
+<td>⚠️*</td>
+</tr>
+<tr markdown="1">
+<td markdown="1">Linux ([Vagrant](vagrant/index.md))</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>⚠️*</td>
+</tr>
+<tr markdown="1">
+<td markdown="1">[BYO](byo.md)</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>⚠️*</td>
+</tr>
+</table>
+
+\* PostgreSQL.org does not build ARM packages for openSUSE Leap 16.<br>
+\** Lima can be used with AMD emulation, but it has a huge performance impact.
+
+The versions are those in the [PgVillage repositories](https://repo.pgvillage.org/). See also
+[ARM vs AMD](arm-vs-amd.md).
 
 ## The layers
 
@@ -120,15 +178,15 @@ Ansible should connect to an address, add `ansible_host: <ip>` to the host.
 
 ### Requirements
 
-- **Storage**: `/data/postgres/data` and `/data/postgres/wal` on the database hosts; separate disks are best (the wal
-  settings are sized from the wal disk, and a full wal disk doesn't stop the data disk). The backup host stores the
+- **Storage**: `/data/postgres/data` and `/data/postgres/wal` on the database hosts; a separate data and wal disk per
+  cluster is best (a full wal disk doesn't stop the data disk), see [Disks](byo.md#disks). The backup host stores the
   backups in `/var/lib/rustfs`.
 - **Memory**: the two clusters together need at least 2 GB per database host; 1 GB is enough for the backup host.
 - **Network**: the hosts reach each other on all ports (firewalld is configured by PgVillage), and reach the package
   repositories: the PgVillage repository (repo.mannemsolutions.nl), download.postgresql.org (EL, SUSE), the OS
   repositories, and Ansible Galaxy from the control node.
-- **Access**: ssh with a key from the control node, and passwordless sudo. When the user on the hosts differs from
-  yours, see [Ansible config](../deployment_and_maintenance/ansible_cfg.md).
+- **Access**: ssh with a key from the control node, and sudo (with a password: run `ansible-playbook` with
+  `--ask-become-pass`). When the user on the hosts differs from yours, see [Ansible config](../deployment_and_maintenance/ansible_cfg.md).
 
 ### More than one network interface
 
@@ -192,4 +250,6 @@ Use it as a starting point for your inventory. See [KVM](kvm.md).
 - [Azure](azure/index.md): creates the Azure resources (VMs, load balancer, storage account) and deploys PgVillage on
   them.
 - [Vagrant](vagrant/index.md): a demo environment on your laptop with VirtualBox.
+- [macOS](macos.md): a demo environment on a Mac with Apple silicon, with Lima or Vagrant.
+- [Bring your own machines](byo.md): what to prepare on your own machines (physical, VMs, cloud VMs).
 - [ARM vs AMD](arm-vs-amd.md): running on ARM64 (aarch64) or AMD64 (x86_64).

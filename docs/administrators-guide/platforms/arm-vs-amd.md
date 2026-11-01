@@ -18,7 +18,7 @@ each host (the Debian names `amd64` and `arm64` for apt, `x86_64` and `aarch64` 
 |----|-------|-------|
 | [Ubuntu](ubuntu/index.md) | yes | yes |
 | [EL](el/index.md) (Rocky Linux, RHEL 9) | yes | yes |
-| [SUSE](suse/index.md) | yes | no: download.postgresql.org has no PostgreSQL builds for SUSE on ARM64 |
+| [SUSE](suse/index.md) | yes | not out of the box: download.postgresql.org has no PostgreSQL builds for SUSE on ARM64, see [SUSE](suse/index.md) |
 
 The PgVillage repositories (stolon, wal-g, etcd, RustFS, chainsmith, ...) have builds for both architectures. The
 packages of PostgreSQL itself come from download.postgresql.org (EL, SUSE) or the Ubuntu repositories.
