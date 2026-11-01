@@ -1,0 +1,32 @@
+---
+- name: create the storage account
+  azure_rm_storageaccount:
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ azure_storage_account_name }}"
+    type: "{{ azure_storage_account_type }}"
+    tags:
+      applicationRole: backup
+
+- name: Create backup bucket
+  azure_rm_storageblob:
+    resource_group: "{{ azure_resource_group }}"
+    storage_account_name: "{{ azure_storage_account_name }}"
+    container: "{{ azure_storage_container }}"
+
+- name: Get facts for azure storage account
+  azure_rm_storageaccount_info:
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ azure_storage_account_name }}"
+    show_connection_string: true
+  register: sainfo
+
+- name: Store storage account access key in inventory
+  copy:
+    content: |
+      ---
+      {{ body | to_nice_yaml(indent=8, width=1337) }}
+    dest: "{{ inventory_dir }}/group_vars/_postgres/wal-g.yml"
+  vars:
+    body:
+      azure_backup_access_key: '{{ sainfo.storageaccounts[0].primary_endpoints.key }}'
+      azure_storage_account_name: '{{ azure_storage_account_name }}'

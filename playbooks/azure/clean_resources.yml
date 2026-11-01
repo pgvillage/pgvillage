@@ -1,0 +1,20 @@
+- hosts: localhost
+  collections:
+    - azure.azcollection
+  tasks:
+    - name: Clean a resource group
+      local_action:
+        module: azure_rm_resourcegroup
+        name: "{{ azure_resource_group }}"
+        state: absent
+        force_delete_nonempty: "{{ azure_allow_clean }}"
+    - name: Clean generated files from inventory
+      file:
+        dest: "{{ inventory_dir }}/{{ item }}"
+        state: absent
+      loop:
+        - group_vars/all/certs.yml
+        - group_vars/all/azure_vip.yml
+        - group_vars/_postgres/wal-g.yml
+        - group_vars/_postgres/proxy.yml
+      when: azure_allow_clean

@@ -1,0 +1,7 @@
+---
+- hosts:
+    - localhost
+  collections:
+    - azure.azcollection
+  roles:
+    - azure

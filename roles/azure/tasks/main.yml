@@ -1,0 +1,5 @@
+---
+- include_tasks: rg.yml
+- include_tasks: bucket.yml
+- include_tasks: nw.yml
+- include_tasks: vmss.yml

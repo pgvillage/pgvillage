@@ -1,0 +1,105 @@
+---
+- name: Create virtual network
+  azure_rm_virtualnetwork:
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ azure_nw_name }}"
+    address_prefixes: "10.0.0.0/16"
+
+- name: Add subnet
+  azure_rm_subnet:
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ azure_subnet_name }}"
+    address_prefix: "10.0.1.0/24"
+    virtual_network: "{{ azure_nw_name }}"
+
+- name: Create public IP address
+  azure_rm_publicipaddress:
+    resource_group: "{{ azure_resource_group }}"
+    allocation_method: Static
+    name: "{{ azure_vip_name }}"
+    sku: Standard
+    domain_name: "{{ azure_vip_dns_name }}"
+  register: azure_vip
+
+- name: Create Network Security Group that allows PostgreSQL traffic and ssh
+  azure_rm_securitygroup:
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ azure_sg_name }}"
+    rules:
+      - name: ssh
+        protocol: Tcp
+        destination_port_range: 22
+        source_address_prefix: "{{ azure_control_ip }}/32"
+        access: Allow
+        priority: 1001
+        direction: Inbound
+      - name: PostgreSQL_rw
+        protocol: Tcp
+        destination_port_range: 5432
+        access: Allow
+        priority: 1002
+        direction: Inbound
+      - name: PostgreSQL_ro
+        protocol: Tcp
+        destination_port_range: 5433
+        access: Allow
+        priority: 1003
+        direction: Inbound
+
+- name: Create a load balancer
+  azure_rm_loadbalancer:
+    resource_group: "{{ azure_resource_group }}"
+    name: "{{ azure_lb_name }}"
+    sku: Standard
+    location: "{{ azure_location }}"
+    frontend_ip_configurations:
+      - name: "{{ azure_lbfe_name }}"
+        public_ip_address: "{{ azure_vip_name }}"
+    backend_address_pools:
+      - name: "{{ azure_lbbe_name }}"
+    probes:
+      - name: "probe_{{ azure_lb_name }}_0"
+        port: 22
+        interval: 10
+        fail_count: 3
+      - name: "probe_{{ azure_lb_name }}_1"
+        port: 5432
+        interval: 10
+        fail_count: 3
+      - name: "probe_{{ azure_lb_name }}_2"
+        port: 25432
+        interval: 10
+        fail_count: 3
+    load_balancing_rules:
+      - name: "rule_{{ azure_lb_name }}_0"
+        frontend_ip_configuration: "{{ azure_lbfe_name }}"
+        backend_address_pool: "{{ azure_lbbe_name }}"
+        frontend_port: 22
+        backend_port: 22
+        load_distribution: Default
+        probe: "probe_{{ azure_lb_name }}_0"
+      - name: "rule_{{ azure_lb_name }}_1"
+        frontend_ip_configuration: "{{ azure_lbfe_name }}"
+        backend_address_pool: "{{ azure_lbbe_name }}"
+        frontend_port: 5432
+        backend_port: 25432
+        load_distribution: Default
+        probe: "probe_{{ azure_lb_name }}_1"
+      - name: "rule_{{ azure_lb_name }}_2"
+        frontend_ip_configuration: "{{ azure_lbfe_name }}"
+        backend_address_pool: "{{ azure_lbbe_name }}"
+        frontend_port: 5433
+        backend_port: 5432
+        load_distribution: Default
+        probe: "probe_{{ azure_lb_name }}_2"
+
+- name: Store vip in inventory
+  copy:
+    content: |
+      ---
+      {{ body | to_nice_yaml(indent=8, width=1337) }}
+    dest: "{{ inventory_dir }}/group_vars/all/azure_vip.yml"
+  vars:
+    body:
+      azure_vip_ip: "{{ azure_vip.state.ip_address }}"
+      azure_vip_dns_fqdn: "{{ azure_vip_dns_fqdn }}"
