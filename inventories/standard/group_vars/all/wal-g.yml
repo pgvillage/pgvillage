@@ -14,8 +14,8 @@ walg_cron_mailto: "{{ cron_mailto }}"
 
 walg_postgresql_parameters:
   # archive_command is set per cluster in stolon_clusters (archive.sh <cluster> %p)
-  #can be used when we have configured buckets working with wal-g
-  #restore_command: "/opt/wal-g/scripts/archive_restore.sh %f %p"
+  # can be used when we have configured buckets working with wal-g
+  # restore_command: "/opt/wal-g/scripts/archive_restore.sh %f %p"
   archive_mode: "on"
   listen_addresses: "'*'"
   log_filename: "postgresql.log"

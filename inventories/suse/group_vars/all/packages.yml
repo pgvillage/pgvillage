@@ -12,9 +12,9 @@ linux_packages:
     - glibc-locale
     - glibc-locale-base
     - openssl
-    - "postgresql{{ linux_pg_version|replace('.','') }}"
-    - "postgresql{{ linux_pg_version|replace('.','') }}-server"
-    - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
+    - "postgresql{{ linux_pg_version | replace('.', '') }}"
+    - "postgresql{{ linux_pg_version | replace('.', '') }}-server"
+    - "postgresql{{ linux_pg_version | replace('.', '') }}-contrib"
   # RustFS instead of minio, installed by the pgvillage.minio role (see inventories/standard)
   backup: []
   router:

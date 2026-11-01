@@ -1,5 +1,5 @@
 ---
-etcd_secure: False
+etcd_secure: false
 etcd_data_dir: /var/lib/etcd
 etcd_additional_envvars:
   ETCD_AUTO_COMPACTION_RETENTION: 1

@@ -23,13 +23,13 @@ nagios_checks:
       critical: "{{ nagios_connections_critical }}"
   check_postgres:
     check_postgres_wal_files:
-      warning: "{{ nagios_wal_files_warning|int|round|int }}"
-      critical: "{{ nagios_wal_files_critical|int|round|int }}"
+      warning: "{{ nagios_wal_files_warning | int | round | int }}"
+      critical: "{{ nagios_wal_files_critical | int | round | int }}"
     check_postgres_txn_time:
-      warning: "{{ nagios_txn_time/2|round|int }}"
+      warning: "{{ nagios_txn_time / 2 | round | int }}"
       critical: "{{ nagios_txn_time }}"
     check_postgres_database_size:
-      warning: "{{nagios_db_size_warning }}"
+      warning: "{{ nagios_db_size_warning }}"
       critical: "{{ nagios_db_size_critical }}"
     check_postgres_indexes_size:
       warning: "{{ nagios_idx_size_warning }}"
@@ -77,8 +77,8 @@ nagios_checks:
       warning: "{{ 2 * nagios_sequence_space - 100 }}%"
       critical: "{{ nagios_sequence_space }}%"
     check_postgres_timesync:
-      warning: "{{ (nagios_timesync/2)|round|int }}"
-      critical: "{{ nagios_timesync|round|int }}"
+      warning: "{{ (nagios_timesync / 2) | round | int }}"
+      critical: "{{ nagios_timesync | round | int }}"
     check_postgres_txn_wraparound:
       warning: "{{ nagios_txn_wraparound_warning }}"
       critical: "{{ nagios_txn_wraparound_criticial }}"
@@ -101,7 +101,7 @@ nagios_checks:
       warning: "{{ nagios_running_postgresql_warning }}"
       critical: "{{ nagios_running_postgresql_critical }}"
 
-nagios_check_postgres_links: "{{ nagios_checks.multi_check.keys()|list + nagios_checks.check_postgres.keys()|list }}"
+nagios_check_postgres_links: "{{ nagios_checks.multi_check.keys() | list + nagios_checks.check_postgres.keys() | list }}"
 
 nagios_servers: []
 #  - hostname: nagios.example.org

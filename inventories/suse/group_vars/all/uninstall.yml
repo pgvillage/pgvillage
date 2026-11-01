@@ -1,10 +1,10 @@
 ---
 # SUSE (PGDG rpm) package names and paths for uninstall.yml
 uninstall_linux_packages:
-  - "postgresql{{ linux_pg_version|replace('.','') }}"
-  - "postgresql{{ linux_pg_version|replace('.','') }}-server"
-  - "postgresql{{ linux_pg_version|replace('.','') }}-contrib"
-  - "postgresql{{ linux_pg_version|replace('.','') }}-libs"
+  - "postgresql{{ linux_pg_version | replace('.', '') }}"
+  - "postgresql{{ linux_pg_version | replace('.', '') }}-server"
+  - "postgresql{{ linux_pg_version | replace('.', '') }}-contrib"
+  - "postgresql{{ linux_pg_version | replace('.', '') }}-libs"
   - "stolon"
   - "wal-g-pg"
   - "etcd"

@@ -1,5 +1,5 @@
 ---
-avchecker_cluster_members: "{% set nodes = [] %}{% for node in groups['hacluster'] %}{% do nodes.append(hostvars[node].ansible_facts.fqdn) %}{% endfor %}{{ nodes | list | join(',') }}"
+avchecker_cluster_members: "{{ groups['hacluster'] | map('extract', hostvars, ['ansible_facts', 'fqdn']) | join(',') }}"
 
 # One stolon (Postgres port, primary) and one proxy check per cluster in stolon_clusters
 avchecker_defaults:
