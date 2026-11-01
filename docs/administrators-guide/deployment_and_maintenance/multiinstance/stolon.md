@@ -165,4 +165,4 @@ You can set specific settings in `stolon_clusters[clustername].cgroups`.
 
 - `pg_port` and `stproxy.port` must be unique per host and opened in [`firewall_ports`](firewall.md).
 - `pgdata_dir` and `pg_port` must match the corresponding entry in [`walg_clusters`](walg.md).
-- The cluster name should match a bucket in [`minio_buckets`](minio.md).
+- The cluster name should match a bucket in [`rustfs_buckets`](rustfs.md).

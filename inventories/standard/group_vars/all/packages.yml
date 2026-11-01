@@ -3,18 +3,3 @@ linux_pg_version: '{{ postgresql_version }}'
 
 # linux_users, linux_groups and linux_public_repos are not set here: the pgvillage.linux role derives them per package
 # manager (apt, dnf, zypper). OS layers (inventories/el, ubuntu, suse) override them where needed.
-
-# The role default, but without minio for the backup hosts: the PgVillage repos (apt v0.0.4, yum and zypp v0.3.8) ship
-# RustFS instead, which the pgvillage.minio role installs itself (minio_use_rustfs in minio.yml). The backup hosts keep
-# the package manager specific packages (e.g. acl for apt).
-linux_packages: >-
-  {{
-    _linux_packages.default
-    | combine(_linux_packages[ansible_facts.pkg_mgr], recursive=True, list_merge='append')
-    | combine(
-        {'hacluster': _linux_pg_packages[ansible_facts.pkg_mgr]
-                      | default(_linux_pg_packages.default)
-                      | pg_versioned(linux_pg_versions)},
-        recursive=True, list_merge='append')
-    | combine({'backup': _linux_packages[ansible_facts.pkg_mgr].backup | default([])})
-  }}

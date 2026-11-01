@@ -1,23 +1,23 @@
 ---
-title: minio - multiinstance
-summary: A description of configuring minio to support backups for multiple instances
+title: RustFS - multiinstance
+summary: A description of configuring RustFS to support backups for multiple instances
 authors:
   - Sebas Mannem
-date: 2026-10-11
+date: 2026-11-01
 ---
 
-# minio - multiple buckets
+# RustFS - multiple buckets
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), you should separate the backups for each cluster to another bucket.
-To configure Minio with multiple buckets, edit the minio config (e.g. `inventories/standard/group_vars/all/minio.yml`) and define a bucket per cluster.
+To configure RustFS with multiple buckets, edit the RustFS config (e.g. `inventories/standard/group_vars/all/rustfs.yml`) and define a bucket per cluster.
 Then configure `s3_prefix` of every cluster in [`walg_clusters`](walg.md) to use the bucket meant for it.
 
-## `minio_buckets`
+## `rustfs_buckets`
 
 With multi-instance every Postgres instance gets its own bucket, named after the instance:
 
 ```yaml
-minio_buckets:
+rustfs_buckets:
   - cluster1
   - cluster2
 ```

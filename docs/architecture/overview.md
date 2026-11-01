@@ -33,7 +33,7 @@ There has been put a lot of effort into authorization:
 PgVillage offers a robust architecture, with state of the art infrastructure, such as
 
 - [Stolon](../administrators-guide/tools/stolon.md) relying on [etcd](../administrators-guide/tools/etcd.md) for High Availability
-- [WAL-g](../administrators-guide/tools/wal-g.md) and [minio](../administrators-guide/tools/minio.md) for backup
+- [WAL-g](../administrators-guide/tools/wal-g.md) and [RustFS](../administrators-guide/tools/rustfs.md) for backup
 - Prometheus / Grafana for metrics, alerts and dashboards
 - Properly connect to PostgreSQL
   - with Client Connection Failover if you can, or

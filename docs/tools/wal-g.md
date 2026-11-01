@@ -9,7 +9,7 @@ date: 2025-11-11
 
 # WAL-G
 
-For backup and restore, we use Wal-G and [MinIO](minio.md).
+For backup and restore, we use Wal-G and [RustFS](rustfs.md).
 
 WAL-G is an open-source project maintained by the community.
 
@@ -36,7 +36,7 @@ For making wal-g, the following components are needed:
 Deployed by Ansible to `/opt/wal-g/scripts/`:
 
 - `archive_restore.sh` – used for catch-up when a standby lags behind or during recovery
-- `archive.sh` – sends WAL files to MinIO using WAL-G
+- `archive.sh` – sends WAL files to RustFS using WAL-G
 - `backup_locked.sh` – wrapper script using `etcdctl lock` to ensure backups run on only one server
 - `backup.sh` – creates a new backup if there isn’t a recent one
 - `delete.sh` – cleans up old backups
@@ -57,9 +57,9 @@ Deployed by Ansible to `/opt/wal-g/scripts/`:
   - Number of delta backups
   - Backup skip intervals
 
-### 5. MinIO Configuration
+### 5. RustFS Configuration
 
-- MinIO runs on the **backup server**
+- RustFS runs on the **backup server**
 - Access configuration is included in `/etc/default/wal-g`
 - Root certificate located in `~postgres/.wal-g/certs/` (for TLS verification)
 

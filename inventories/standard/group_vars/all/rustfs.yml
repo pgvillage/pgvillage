@@ -1,0 +1,18 @@
+---
+# RustFS on the backup hosts (pgvillage.rustfs), the S3 storage for the wal-g backups. It replaces minio: the PgVillage
+# repos (apt v0.0.4, yum and zypp v0.3.8) ship RustFS, not minio. The role fails when minio_* variables are set.
+rustfs_server_addr: ":443"
+rustfs_server_console_enable: false
+# Placeholders; change them (e.g. with ansible-vault)
+rustfs_access_key: "AWSKEY"
+rustfs_secret_key: "AWSSECRET"
+# One bucket per cluster in stolon_clusters (see walg_clusters.<cluster>.s3_prefix)
+rustfs_buckets:
+  - cluster1
+  - cluster2
+
+# Chainsmith places the server certs in /etc/pki/rustfs (group_vars/backup/chainsmith.yml), where the role copies them
+# from (rustfs_cert_files). rc trusts the server chain in the client cert folder of rustfs (chainsmith_users,
+# chainsmith_client_cert_sub_folder in group_vars/backup/chainsmith.yml).
+rustfs_cert_managed: false
+rustfs_client_ca_bundle: "{{ getent_passwd[rustfs_user][4] }}/{{ chainsmith_client_cert_sub_folder }}/root.crt"
