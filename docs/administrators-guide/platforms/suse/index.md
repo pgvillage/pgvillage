@@ -24,15 +24,18 @@ ansible-playbook -i inventories/standard -i inventories/suse -i inventories/azur
 `inventories/suse` has no hosts (its `hosts` file only lists the groups); they come from the platform inventory.
 
 !!! note
-    There are fewer SUSE builds on download.postgresql.org (at the time of writing only leap-16 on x86_64 for
-    openSUSE, and sles15/16 on x86_64 for SUSE). We only build rpm's for leap/16 on x86_64. If you need other
-    architectures or specific SUSE builds, please reach out to us.
+    SUSE is supported on x86_64 only. download.postgresql.org (PGDG) builds PostgreSQL for SUSE only on x86_64 (at
+    the time of writing leap-16.0 for openSUSE, and sles15/16 for SUSE). The PgVillage packages (v0.3.8) exist for
+    leap 16 on x86_64 and aarch64, but without PostgreSQL itself a deploy on ARM64 fails. This includes vagrant on
+    Apple silicon. openSUSE's own repository does have PostgreSQL for aarch64; a separate setup for SUSE on ARM64,
+    with those packages, is planned. If you need other architectures or specific SUSE builds, please reach out to us.
 
 ## What it changes
 
 | File                           | Variable                   | SUSE |
 |--------------------------------|----------------------------|------|
-| `group_vars/all/packages.yml`  | `linux_packages`           | `stolon`, `wal-g-pg`, `etcd`, `glibc-locale`, `glibc-locale-base`, `openssl`, `postgresql17`, `-server`, `-contrib` on `hacluster`; `minio` on `backup`; `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts` |
+| `group_vars/all/packages.yml`  | `linux_pgvillage_channel`  | `v0.3.8`: the PgVillage repository is pinned to this version (role default: `stable`) |
+| `group_vars/all/packages.yml`  | `linux_packages`           | `stolon`, `wal-g-pg`, `etcd`, `glibc-locale`, `glibc-locale-base`, `openssl`, `postgresql17`, `-server`, `-contrib` on `hacluster`; nothing on `backup` (the `pgvillage.minio` role installs RustFS); `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts` |
 | `group_vars/all/postgres.yml`  | `postgresql_bindir`        | `/usr/pgsql-<version>/bin/` (PGDG rpm's) |
 | `group_vars/all/uninstall.yml` | `uninstall_linux_packages` | `postgresql17`, `-server`, `-contrib`, `-libs`, `stolon`, `wal-g-pg`, `etcd` |
 | `group_vars/all/uninstall.yml` | `uninstall_os_file_list`   | `/usr/pgsql-<version>`, `/var/lib/pgsql-<version>`, `/etc/systemd/system/postgresql-<version>.service` |
@@ -42,7 +45,7 @@ ansible-playbook -i inventories/standard -i inventories/suse -i inventories/azur
 inventory replaces it as a whole, so it lists all groups.
 
 Repositories, users and groups are not set in the inventory: the `pgvillage.linux` role picks them for zypper
-(PgVillage `repo.mannemsolutions.nl/zypp`, and PGDG per PostgreSQL version, common and extras).
+(PgVillage `repo.pgvillage.org/zypp/<channel>`, and PGDG per PostgreSQL version, common and extras).
 
 ## openSUSE PostgreSQL packages
 

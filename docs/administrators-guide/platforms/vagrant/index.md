@@ -108,7 +108,8 @@ The bootstrap writes `PGV_OS` to `~/.bashrc` of the Ansible host, so the deploy 
 [Getting started](#getting-started) uses the right OS inventory.
 
 !!! note
-    The PostgreSQL community has no aarch64 packages for SUSE: on Apple silicon, use `ubuntu` or `el`.
+    The PostgreSQL community (PGDG) has no aarch64 packages for SUSE: on Apple silicon, use `ubuntu` or `el`. See
+    [SUSE](../suse/index.md).
 
 ## The vagrant directory
 
