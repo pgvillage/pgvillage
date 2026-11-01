@@ -10,7 +10,7 @@ roles:
   - name: pgvillage.chainsmith
     version: "v0.2.1"
   - name: pgvillage.etcd
-    version: "v0.2.0"
+    version: "v0.2.1"
   - name: pgvillage.firewall
     version: "v0.2.0"
   - name: pgvillage.haproxy
