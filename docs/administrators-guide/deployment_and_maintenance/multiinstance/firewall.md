@@ -9,19 +9,24 @@ date: 2026-10-11
 # firewall - multiinstance
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), firewalld needs to allow traffic to the ports of all components of all clusters.
-To do so, you can edit the firewall config (e.g. `environments/cluster1/group_vars/{role}/firewall.yml`) and define all ports to be allowed.
+In the standard inventory (`inventories/standard/group_vars/all/firewall.yml`) you define the ports per inventory group:
+`firewall_ports_hacluster`, `firewall_ports_backup` and `firewall_ports_router`. `firewall_ports`, which the firewall
+role opens, combines the ports of the groups a host is in. That way a host in several groups (e.g. the router on the
+database hosts) gets the ports of all of them: `firewall_ports` set in the group_vars of two groups would replace each
+other instead of adding up.
+
+VRRP (keepalived) is not a port: the keepalived role allows it in firewalld (`keepalived_firewall_vrrp`).
 
 ## Example
 
 ### Combined
 
-When combining router and postgres, you can configure firewalld to open `postgres`, `pgbouncer`, `stolon-proxy`, `haproxy-rw`, `haproxy-ro`, and `haproxy-sp` for multiple cluster instances as follows:
-In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/hacluster/firewall.yml`) you can define all ports:
+When combining router and postgres on the same hosts, they are in both `hacluster` and `router`, and get the ports of
+both (see [Postgres](#postgres) and [Router](#router)). You can also put all ports in one group:
 
 !!! example
     ```yaml
-    firewall_type: firewalld
-    firewall_ports:
+    firewall_ports_hacluster:
 
       cluster1_postgres:     5433
       cluster1_pgbouncer:    6433
@@ -44,12 +49,11 @@ In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/ha
 ### Postgres
 
 When separating router and postgres, you can configure firewalld to open `postgres`, `pgbouncer`, and `stolon-proxy` on postgres nodes for multiple cluster instances as follows:
-In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/hacluster/firewall.yml`) you can define the following ports:
+In `firewall_ports_hacluster` you define the following ports:
 
 !!! example
     ```yaml
-    firewall_type: firewalld
-    firewall_ports:
+    firewall_ports_hacluster:
 
       cluster1_postgres:     5433
       cluster1_pgbouncer:    6433
@@ -66,12 +70,11 @@ In the inventory config for hacluster (e.g. `environments/cluster1/group_vars/ha
 ### Router
 
 When separating router and postgres, you can configure firewalld to open `haproxy-rw`, `haproxy-ro`, and `haproxy-sp` on router nodes for multiple cluster instances as follows:
-In the inventory config for router (e.g. `environments/cluster1/group_vars/router/firewall.yml`) you can define the following ports:
+In `firewall_ports_router` you define the following ports (standard takes them from `haproxy_frontends`, see [HAProxy](haproxy.md)):
 
 !!! example
     ```yaml
-    firewall_type: firewalld
-    firewall_ports:
+    firewall_ports_router:
 
       cluster1_haproxyrw:   35433
       cluster1_haproxyro:   45433
@@ -104,4 +107,4 @@ The key names are only labels; the values are the ports that are opened.
   - [`pgbouncer`](pgbouncer.md)
   - [`haproxy`](haproxy.md)
 - Best practice is not to open all ports, but to make a proper judgement call on which to open (e.g. you are probably fine with only one of postgres, stolon-proxy and haproxyrw).
-- When router and postgres run on separate hosts, HAProxy frontend ports belong in the firewall config of the `router` group rather than in `hacluster`.
+- HAProxy frontend ports belong in `firewall_ports_router`, also when router and postgres run on the same hosts.

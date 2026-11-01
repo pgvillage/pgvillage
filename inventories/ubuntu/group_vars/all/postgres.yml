@@ -1,0 +1,3 @@
+---
+# Overrides inventories/standard/group_vars/all/postgres.yml: Ubuntu (pgdg deb) path
+postgresql_bindir: "/usr/lib/postgresql/{{ stolon_pg_version }}/bin"

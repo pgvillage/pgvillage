@@ -24,11 +24,11 @@ ansible-galaxy collection install --requirements-file ./requirements.yml
 
 ## Using this playbook
 
-- We develop on vagrant. For an example, please refer to [pgVillage/pgv_vagrant](https://github.com/pgvillage/pgv_vagrant).
-- For a demo on Azure please refer to [pgVillage/pgv_azure](https://github.com/pgvillage/pgv_azure).
+- We develop on vagrant: see [`vagrant/`](vagrant/) and the [Vagrant docs](docs/administrators-guide/platforms/vagrant/index.md).
+- For a demo on Azure please refer to [Azure - deploy](docs/administrators-guide/platforms/azure/deploy.md).
 - For running on VMWare:
   - this deployment was originally developed against VMWare Virtual Machines, so it will definitely work
-  - you do need an option to supply the RPM packages (either through satellite, or use [this repo](https://repo.pgvillage.org/yum/latest/)).
+  - you do need an option to supply the RPM packages (either through satellite, or use [this repo](https://repo.mannemsolutions.nl/yum/pgvillage/)).
   - Currently firewalling is not included (already managed in the original setup and managed with security groups on Azure).
     - We can easilly make that part of the solution if needed.
     - Could even be (partially) automanaged through pg_hba rules

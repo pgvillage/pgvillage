@@ -13,7 +13,7 @@ To separate resources, one can run them as multiple systemd services and manage 
 To separate disk space, one can specify data directories and WAL directories on separate filesystems.
 There are other options, but this is the way the stolon role deploys multiple clusters on (virtual or physical) servers.
 
-To configure stolon to deploy and maintain multiple clusters, edit the stolon config (e.g. `environments/cluster1/group_vars/all/stolon.yml`) and configure separate `stolon_clusters`.
+To configure stolon to deploy and maintain multiple clusters, edit the stolon config (e.g. `inventories/standard/group_vars/all/stolon.yml`) and configure separate `stolon_clusters`.
 There are 3 main chapters, and for all three the configuration can set defaults (used for all clusters),
 which can be overridden by cluster specific values (in `stolon_clusters`):
 
