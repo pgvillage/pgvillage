@@ -30,7 +30,7 @@ roles:
   - name: pgvillage.pgroute66
     version: "v0.3.2"
   - name: pgvillage.pgbouncer
-    version: "v0.3.0"
+    version: "v0.3.2"
   - name: pgvillage.stolon
     version: "v0.4.0"
   - name: pgvillage.walg
