@@ -24,7 +24,7 @@ roles:
   - name: pgvillage.nagios
     version: "v0.3.0"
   - name: pgvillage.pgfga
-    version: "v0.3.0"
+    version: "v0.3.2"
   - name: pgvillage.pgquartz
     version: "v0.3.0"
   - name: pgvillage.pgroute66
