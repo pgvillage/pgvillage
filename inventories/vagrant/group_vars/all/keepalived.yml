@@ -1,0 +1,3 @@
+---
+keepalived_interface: "{{ vagrant_iface }}"
+keepalived_vip: 172.30.1.30
