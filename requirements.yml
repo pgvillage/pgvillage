@@ -12,7 +12,7 @@ roles:
   - name: pgvillage.etcd
     version: "v0.2.1"
   - name: pgvillage.firewall
-    version: "v0.2.0"
+    version: "v0.2.1"
   - name: pgvillage.haproxy
     version: "v0.3.4"
   - name: pgvillage.keepalived
