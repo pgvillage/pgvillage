@@ -127,6 +127,11 @@ The bootstrap writes `PGV_OS` to `~/.bashrc` of the Ansible host, so the deploy 
 Apple silicon (M1, M2, M3, etc.) is no issue: you can create the boxes for both amd64 and aarch64, see
 [Creating the boxes](boxes.md).
 
+On the Rocky Linux boxes, VirtualBox reports CPU features to the kernel that the CPU can't run, and Ansible crashes
+with `Illegal instruction`. `scripts/bootstrap.sh` works around it with `OPENSSL_armcap=0` in `~/.bashrc` (also kept for
+`sudo`). Set it yourself when you run `ansible-playbook` from a shell that doesn't read `~/.bashrc`. See
+[ARM vs AMD](../arm-vs-amd.md#openssl-on-virtualbox).
+
 ## DNS
 
 There is no DNS: `scripts/init_vm.sh` seeds the hosts into `/etc/hosts` of every box.

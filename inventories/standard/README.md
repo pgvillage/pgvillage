@@ -1,5 +1,7 @@
 # standard
 
+See [Getting started](../../docs/administrators-guide/platforms/index.md) for how to use it with your own machines.
+
 Standard PgVillage config, shared by all platforms: Postgres version, mountpoints, ports, packages, and the config of
 stolon, wal-g, avchecker, nagios, etc.
 
