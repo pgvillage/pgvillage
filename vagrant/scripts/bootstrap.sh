@@ -23,6 +23,9 @@ fi
 if [ "$(uname -m)" = aarch64 ]; then
   export OPENSSL_armcap=0
   grep -q OPENSSL_armcap ~/.bashrc || echo 'export OPENSSL_armcap=0' >>~/.bashrc
+  # Keep it for become (sudo) tasks on localhost, e.g. the dnf module (it crashes too without it)
+  echo 'Defaults env_keep += "OPENSSL_armcap"' | sudo tee /etc/sudoers.d/openssl_armcap >/dev/null
+  sudo chmod 0440 /etc/sudoers.d/openssl_armcap
 fi
 
 echo Install ansible
