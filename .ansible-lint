@@ -3,3 +3,18 @@
 # linted in their own repos
 exclude_paths:
   - roles/pgvillage.*/
+# The Azure playbooks need azure.azcollection, which only the Azure bootstrap scripts install (with its Python
+# requirements), not requirements.yml: mock its modules for the syntax check
+mock_modules:
+  - azure.azcollection.azure_rm_loadbalancer
+  - azure.azcollection.azure_rm_publicipaddress
+  - azure.azcollection.azure_rm_publicipaddress_info
+  - azure.azcollection.azure_rm_resourcegroup
+  - azure.azcollection.azure_rm_securitygroup
+  - azure.azcollection.azure_rm_storageaccount
+  - azure.azcollection.azure_rm_storageaccount_info
+  - azure.azcollection.azure_rm_storageblob
+  - azure.azcollection.azure_rm_subnet
+  - azure.azcollection.azure_rm_virtualmachine
+  - azure.azcollection.azure_rm_virtualmachinescaleset
+  - azure.azcollection.azure_rm_virtualnetwork
