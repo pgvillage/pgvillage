@@ -30,6 +30,9 @@
     - stolon
   become: true
   gather_facts: false
+  pre_tasks:
+    - name: Move the WAL of existing clusters to its subfolder
+      ansible.builtin.import_tasks: tasks/stolon_wal_subfolder.yml
   roles:
     - pgvillage.stolon
   tags:

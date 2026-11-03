@@ -1,0 +1,90 @@
+---
+# Moves the WAL of existing stolon clusters to the pgwal_dir in stolon_clusters, when the pg_wal symlink of the cluster
+# still points somewhere else. For deployments from before the WAL moved to a subfolder of <stolon_wal_dir>/<cluster>
+# (see inventories/standard/group_vars/all/stolon.yml); on a new deployment, or once moved, it does nothing.
+# The keeper of a cluster (and so its PostgreSQL) is stopped while its WAL moves, on all hosts at the same time.
+# Don't leave the move to the keeper: on start it moves the WAL to its wal dir when pg_wal points elsewhere, but stolon
+# 0.19.7 can't move it into a subfolder of itself (it nests wal/wal/wal/... without end). So the keeper gets its new
+# wal dir in its sysconfig before it starts again, and finds nothing to move.
+- name: Check where pg_wal of the stolon clusters points to
+  ansible.builtin.stat:
+    path: "{{ item.value.sysconfig.stkeeper.pgdata_dir }}/pg_wal"
+  loop: "{{ stolon_clusters | default({}) | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when:
+    - item.value.sysconfig.stkeeper.pgdata_dir is defined
+    - item.value.sysconfig.stkeeper.pgwal_dir is defined
+  register: stolon_wal_links
+
+- name: Find the clusters whose WAL moves
+  ansible.builtin.set_fact:
+    stolon_wal_moves: >-
+      {%- set moves = [] -%}
+      {%- for link in stolon_wal_links.results
+          if link.stat is defined and link.stat.islnk | default(false)
+          and link.stat.lnk_source != link.item.value.sysconfig.stkeeper.pgwal_dir -%}
+      {%- set _ = moves.append({'cluster': link.item.key, 'link': link.stat.path, 'old': link.stat.lnk_source,
+          'new': link.item.value.sysconfig.stkeeper.pgwal_dir,
+          'pgdata': link.item.value.sysconfig.stkeeper.pgdata_dir}) -%}
+      {%- endfor -%}
+      {{ moves }}
+
+# systemd stops the whole cgroup of the keeper (KillMode=control-group), so PostgreSQL is down when this returns. Don't
+# wait for postmaster.pid: it stays when PostgreSQL had to be killed.
+- name: Stop the keepers of the clusters whose WAL moves
+  ansible.builtin.systemd_service:
+    name: stolon-keeper{% if stolon_multicluster | default(false) %}@{{ item.cluster }}{% endif %}
+    state: stopped
+  loop: "{{ stolon_wal_moves }}"
+  loop_control:
+    label: "{{ item.cluster }}"
+
+- name: Create the new WAL folders
+  ansible.builtin.file:
+    path: "{{ item.new }}"
+    state: directory
+    owner: "{{ stolon_user | default('postgres') }}"
+    group: "{{ stolon_group | default('postgres') }}"
+    mode: "0700"
+  loop: "{{ stolon_wal_moves }}"
+  loop_control:
+    label: "{{ item.cluster }}"
+
+- name: Move the WAL to the new folders
+  ansible.builtin.command:
+    argv: [find, "{{ item.old }}", -mindepth, 1, -maxdepth, 1, "!", -path, "{{ item.new }}", -exec, mv, -t,
+           "{{ item.new }}", "{}", +]
+  loop: "{{ stolon_wal_moves }}"
+  loop_control:
+    label: "{{ item.cluster }}"
+  changed_when: true
+
+- name: Point pg_wal to the new folders
+  ansible.builtin.file:
+    src: "{{ item.new }}"
+    dest: "{{ item.link }}"
+    state: link
+    force: true
+    owner: "{{ stolon_user | default('postgres') }}"
+    group: "{{ stolon_group | default('postgres') }}"
+  loop: "{{ stolon_wal_moves }}"
+  loop_control:
+    label: "{{ item.cluster }}"
+
+- name: Set the new WAL folders in the sysconfig of the keepers
+  ansible.builtin.lineinfile:
+    path: /etc/sysconfig/stolon-stkeeper{% if stolon_multicluster | default(false) %}-{{ item.0.cluster }}{% endif %}
+    regexp: "^{{ item.1 }}="
+    line: "{{ item.1 }}={{ item.0.new }}"
+  loop: "{{ stolon_wal_moves | product(['STKEEPER_WAL_DIR', 'STKEEPER_PGWAL_DIR']) | list }}"
+  loop_control:
+    label: "{{ item.0.cluster }}: {{ item.1 }}"
+
+- name: Start the keepers of the clusters whose WAL moved
+  ansible.builtin.systemd_service:
+    name: stolon-keeper{% if stolon_multicluster | default(false) %}@{{ item.cluster }}{% endif %}
+    state: started
+  loop: "{{ stolon_wal_moves }}"
+  loop_control:
+    label: "{{ item.cluster }}"

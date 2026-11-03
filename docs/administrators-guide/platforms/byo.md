@@ -58,11 +58,16 @@ more or fewer clusters, it is a data and a wal disk per cluster.
     LVM logical volumes, etc.: what matters most is that a full wal disk of one cluster doesn't fill the data of that
     cluster, or the storage of the other cluster.
 
-!!! warning
-    The standard inventory doesn't fully support a wal disk per cluster yet. The stolon keeper removes and recreates
-    the wal directory of a cluster (`/data/postgres/wal/stolon/cluster1`), so it can't be a mount point itself, and
-    stolon sizes `min_wal_size` and `max_wal_size` from the free space on `/data/postgres/wal/stolon`, which both
-    clusters share. Until that is fixed, use one wal disk on `/data/postgres/wal` for both clusters.
+The wal of a cluster is in a subfolder of its wal disk (`/data/postgres/wal/stolon/cluster1/wal`). stolon sizes
+`min_wal_size` and `max_wal_size` of each cluster from the size of its wal disk.
+
+!!! note
+    The wal folder must be a subfolder of the mount point, not the mount point itself: the stolon keeper removes and
+    recreates it. Keep that in mind when you change `wal_dir` and `pgwal_dir` in `stolon_clusters`.
+
+Deployments from before this layout have the wal in `/data/postgres/wal/stolon/cluster1` itself. The next deploy moves
+it to the subfolder: it stops the keepers of the cluster (and so PostgreSQL) on all database hosts, moves the wal and
+starts them again, which takes a few seconds. Mount a disk on `/data/postgres/wal/stolon/cluster1` only after that.
 
 ## The backup host
 
