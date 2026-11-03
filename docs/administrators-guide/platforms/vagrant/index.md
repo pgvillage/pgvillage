@@ -108,8 +108,8 @@ The bootstrap writes `PGV_OS` to `~/.bashrc` of the Ansible host, so the deploy 
 [Getting started](#getting-started) uses the right OS inventory.
 
 !!! note
-    The PostgreSQL community (PGDG) has no aarch64 packages for SUSE: on Apple silicon, use `ubuntu` or `el`. See
-    [SUSE](../suse/index.md).
+    The PostgreSQL community (PGDG) has no aarch64 packages for SUSE: on Apple silicon, use `ubuntu` or `el`, or SUSE
+    with PostgreSQL packages from another source. See [SUSE](../suse/index.md).
 
 ## The vagrant directory
 
@@ -124,8 +124,8 @@ The bootstrap writes `PGV_OS` to `~/.bashrc` of the Ansible host, so the deploy 
 
 ## Mac M1+ users
 
-Apple silicon (M1, M2, M3, etc.) is no issue: you can create the boxes for both amd64 and aarch64, see
-[Creating the boxes](boxes.md).
+Apple silicon (M1, M2, M3, etc.) is no issue: create aarch64 boxes on the Mac, see [Creating the boxes](boxes.md).
+VirtualBox on Apple silicon only runs aarch64 VMs, so amd64 boxes don't run there. See also [macOS](../macos.md).
 
 On the Rocky Linux boxes, VirtualBox reports CPU features to the kernel that the CPU can't run, and Ansible crashes
 with `Illegal instruction`. `scripts/bootstrap.sh` works around it with `OPENSSL_armcap=0` in `~/.bashrc` (also kept for

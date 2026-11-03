@@ -112,7 +112,8 @@ Based on `bento/rockylinux-9`.
 Based on `bento/opensuse-leap-16.0`.
 
 !!! note
-    The PostgreSQL community has no aarch64 packages for SUSE.
+    The PostgreSQL community has no aarch64 packages for SUSE: on aarch64 you need PostgreSQL packages from another
+    source, see [SUSE](../suse/index.md).
 
 1. `vagrant init bento/opensuse-leap-16.0`, `vagrant up` and `vagrant ssh`.
 2. Update the packages: `sudo zypper update -y`.
