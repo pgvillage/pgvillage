@@ -9,8 +9,8 @@ It is multi-instance: two stolon clusters, `cluster1` and `cluster2`, run side b
 
 | Cluster    | Postgres | stolon proxy | PgBouncer | Data / wal                                    | Bucket     |
 |------------|----------|--------------|-----------|-----------------------------------------------|------------|
-| `cluster1` | 5433     | 25433        | 6433      | `<data mountpoint>/cluster1`, `<wal mountpoint>/stolon/cluster1` | `cluster1` |
-| `cluster2` | 5434     | 25434        | 6434      | `<data mountpoint>/cluster2`, `<wal mountpoint>/stolon/cluster2` | `cluster2` |
+| `cluster1` | 5433     | 25433        | 6433      | `<data mountpoint>/cluster1`, `<wal mountpoint>/stolon/cluster1/wal` | `cluster1` |
+| `cluster2` | 5434     | 25434        | 6434      | `<data mountpoint>/cluster2`, `<wal mountpoint>/stolon/cluster2/wal` | `cluster2` |
 
 The ports are set in `stolon.yml`, `wal-g.yml`, `pgbouncer.yml`, `avchecker.yml` and `firewall.yml` (`pgroute66.yml` and
 `haproxy.yml` take them from `stolon_clusters`: HAProxy on the router listens on 35433/45433/55433 (read-write,
