@@ -1,0 +1,15 @@
+---
+# Public IP of the Ansible control node; set it to your own
+azure_control_ip: 203.0.113.10
+azure_cluster_name: "{{ cluster_name }}"
+# required for clean playbook
+azure_resource_group: "rg_{{ azure_cluster_name }}"
+# to enable cleaning
+azure_allow_clean: true
+# Must be set here, since the defaults of the azure role are not available when running the pgvillage playbook
+# (wal-g uses it)
+azure_storage_container: "backup{{ azure_cluster_name }}"
+# azure_storage_account_name must be unique across all of azure. The role default uses a truncated machine_id of the
+# ansible control node, which is a terrible idea for production, but at least pseudorandom for demo purposes.
+# Set it to a fixed value when you mean business:
+# azure_storage_account_name: sapgvillageprod

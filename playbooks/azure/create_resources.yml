@@ -1,0 +1,6 @@
+---
+- name: Create the Azure resources
+  hosts:
+    - localhost
+  roles:
+    - azure

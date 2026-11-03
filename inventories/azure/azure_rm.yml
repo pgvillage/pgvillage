@@ -1,0 +1,11 @@
+---
+plugin: azure.azcollection.azure_rm
+include_vm_scale_sets: true
+include_vm_resource_groups:
+  - pgVillage
+  - rg_azure
+include_vmss_resource_groups:
+  - rg_azure
+auth_source: auto
+keyed_groups:
+  - key: tags.applicationRole
