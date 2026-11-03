@@ -1,0 +1,5 @@
+---
+# Overrides inventories/standard/group_vars/all/stolon.yml
+# Listen on the private network of the vagrant boxes
+stolon_pg_listen_address: "{{ ansible_host }}"
+stolon_proxy_listen_address: "{{ ansible_host }}"
