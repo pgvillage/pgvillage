@@ -1,19 +1,19 @@
 ---
 - name: Create virtual network
-  azure_rm_virtualnetwork:
+  azure.azcollection.azure_rm_virtualnetwork:
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_nw_name }}"
     address_prefixes: "10.0.0.0/16"
 
 - name: Add subnet
-  azure_rm_subnet:
+  azure.azcollection.azure_rm_subnet:
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_subnet_name }}"
     address_prefix: "10.0.1.0/24"
     virtual_network: "{{ azure_nw_name }}"
 
 - name: Create public IP address
-  azure_rm_publicipaddress:
+  azure.azcollection.azure_rm_publicipaddress:
     resource_group: "{{ azure_resource_group }}"
     allocation_method: Static
     name: "{{ azure_vip_name }}"
@@ -22,7 +22,7 @@
   register: azure_vip
 
 - name: Create Network Security Group that allows PostgreSQL traffic and ssh
-  azure_rm_securitygroup:
+  azure.azcollection.azure_rm_securitygroup:
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_sg_name }}"
     rules:
@@ -47,7 +47,7 @@
         direction: Inbound
 
 - name: Create a load balancer
-  azure_rm_loadbalancer:
+  azure.azcollection.azure_rm_loadbalancer:
     resource_group: "{{ azure_resource_group }}"
     name: "{{ azure_lb_name }}"
     sku: Standard
@@ -94,11 +94,12 @@
         probe: "probe_{{ azure_lb_name }}_2"
 
 - name: Store vip in inventory
-  copy:
+  ansible.builtin.copy:
     content: |
       ---
       {{ body | to_nice_yaml(indent=8, width=1337) }}
     dest: "{{ inventory_dir }}/group_vars/all/azure_vip.yml"
+    mode: "0644"
   vars:
     body:
       azure_vip_ip: "{{ azure_vip.state.ip_address }}"

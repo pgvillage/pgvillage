@@ -1,15 +1,14 @@
-- hosts: localhost
-  collections:
-    - azure.azcollection
+---
+- name: Remove the Azure resources
+  hosts: localhost
   tasks:
     - name: Clean a resource group
-      local_action:
-        module: azure_rm_resourcegroup
+      azure.azcollection.azure_rm_resourcegroup:
         name: "{{ azure_resource_group }}"
         state: absent
         force_delete_nonempty: "{{ azure_allow_clean }}"
     - name: Clean generated files from inventory
-      file:
+      ansible.builtin.file:
         dest: "{{ inventory_dir }}/{{ item }}"
         state: absent
       loop:

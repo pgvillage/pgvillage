@@ -5,15 +5,15 @@
     - _postgres
   tasks:
     - name: Create .ssh/config entries
-      blockinfile:
+      ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK {{ inventory_hostname }}"
-        content: '{{ block }}'
+        content: '{{ ssh_config_block }}'
         dest: "~/.ssh/config"
-        create: yes
+        create: true
         mode: '0644'
       delegate_to: localhost
       vars:
-        block: |
+        ssh_config_block: |
           Host {{ inventory_hostname }}
             User azureuser
             HostName {{ host_ip }}

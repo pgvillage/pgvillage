@@ -1,6 +1,6 @@
 ---
 plugin: azure.azcollection.azure_rm
-include_vm_scale_sets: yes
+include_vm_scale_sets: true
 include_vm_resource_groups:
   - pgVillage
   - rg_azure

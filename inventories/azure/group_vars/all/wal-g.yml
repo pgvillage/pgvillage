@@ -5,4 +5,4 @@ walg_bucket_defaults:
   WALG_AZ_PREFIX: "azure://{{ azure_storage_container }}"
   AZURE_STORAGE_ACCOUNT: "{{ azure_storage_account_name }}"
   AZURE_STORAGE_ACCESS_KEY: "{{ azure_backup_access_key }}"
-  #AZURE_SDK_GO_LOGGING: all
+  # AZURE_SDK_GO_LOGGING: all

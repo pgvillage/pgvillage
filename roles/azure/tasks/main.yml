@@ -1,5 +1,9 @@
 ---
-- include_tasks: rg.yml
-- include_tasks: bucket.yml
-- include_tasks: nw.yml
-- include_tasks: vmss.yml
+- name: Resource group
+  ansible.builtin.include_tasks: rg.yml
+- name: Storage account and backup bucket
+  ansible.builtin.include_tasks: bucket.yml
+- name: Network, public IP, security group and load balancer
+  ansible.builtin.include_tasks: nw.yml
+- name: Bastion and VM scale set
+  ansible.builtin.include_tasks: vmss.yml

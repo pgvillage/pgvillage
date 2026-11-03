@@ -12,4 +12,4 @@ azure_storage_container: "backup{{ azure_cluster_name }}"
 # azure_storage_account_name must be unique across all of azure. The role default uses a truncated machine_id of the
 # ansible control node, which is a terrible idea for production, but at least pseudorandom for demo purposes.
 # Set it to a fixed value when you mean business:
-#azure_storage_account_name: sapgvillageprod
+# azure_storage_account_name: sapgvillageprod

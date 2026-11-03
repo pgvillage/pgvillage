@@ -9,7 +9,7 @@
   gather_facts: true
   tasks:
     - name: Run bash script to partition and mount
-      script: mount_part.sh
+      ansible.builtin.script: mount_part.sh
       environment:
         PGDATAMOUNTPOINT: "{{ postgresql_data_mountpoint }}"
         PGWALMOUNTPOINT: "{{ postgresql_wal_mountpoint }}"

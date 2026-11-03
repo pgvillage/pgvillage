@@ -1,7 +1,6 @@
 ---
-- hosts:
+- name: Create the Azure resources
+  hosts:
     - localhost
-  collections:
-    - azure.azcollection
   roles:
     - azure
