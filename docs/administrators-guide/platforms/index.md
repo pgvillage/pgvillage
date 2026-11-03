@@ -250,6 +250,7 @@ Use it as a starting point for your inventory. See [KVM](kvm.md).
 - [Azure](azure/index.md): creates the Azure resources (VMs, load balancer, storage account) and deploys PgVillage on
   them.
 - [Vagrant](vagrant/index.md): a demo environment on your laptop with VirtualBox.
+- [Lima](lima.md): a demo environment on your Mac with Lima (no VirtualBox, no root permissions).
 - [macOS](macos.md): a demo environment on a Mac with Apple silicon, with Lima or Vagrant.
 - [Bring your own machines](byo.md): what to prepare on your own machines (physical, VMs, cloud VMs).
 - [ARM vs AMD](arm-vs-amd.md): running on ARM64 (aarch64) or AMD64 (x86_64).

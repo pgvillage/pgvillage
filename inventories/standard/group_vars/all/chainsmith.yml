@@ -2,5 +2,8 @@
 # The pgvillage.chainsmith role defaults generate server certs for all hosts in hacluster and backup
 # (chainsmith_nodes), valid for all their fqdn's and ips, and client certs for chainsmith_users.
 # Use the inventory ip (ansible_host) instead of the role default (first ip of the host, which can be a NAT address).
-chainsmith_ips: "{% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_host) %}{% endfor %}{{ nodes }}"
+# Without ansible_host (e.g. lima, where hosts are known by name): the address of the default route.
+chainsmith_ips: >-
+  {% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_host
+  | default(hostvars[node].ansible_facts.default_ipv4.address)) %}{% endfor %}{{ nodes }}
 chainsmith_package_names: []

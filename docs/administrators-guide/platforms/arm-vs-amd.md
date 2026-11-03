@@ -31,6 +31,8 @@ We test with all hosts of an environment on the same architecture.
 - **Azure**: ARM64 needs other VM sizes and an ARM64 image. See [Azure - AMD vs ARM](azure/amd-vs-arm.md).
 - **Vagrant on Apple silicon**: the boxes are ARM64 (build them on the Mac, see
   [Creating the boxes](vagrant/boxes.md)). See also [OpenSSL on VirtualBox](#openssl-on-virtualbox) below.
+- **Lima on Apple silicon**: the VMs are ARM64, from the cloud images of the distributions; no changes needed. See
+  [Lima](lima.md).
 
 ## OpenSSL on VirtualBox
 

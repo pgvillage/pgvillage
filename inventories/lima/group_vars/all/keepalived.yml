@@ -1,0 +1,6 @@
+---
+# The VIP on the lima user-v2 network (192.168.104.0/24; DHCP hands out addresses from the start of the range)
+keepalived_interface: eth0
+keepalived_vip: 192.168.104.250
+# user-v2 doesn't pass multicast, so VRRP goes to the other router hosts as unicast
+keepalived_unicast_peers: "{{ groups.router | map('extract', hostvars, ['ansible_facts', 'default_ipv4', 'address']) | list }}"
