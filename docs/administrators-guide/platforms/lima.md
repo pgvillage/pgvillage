@@ -156,5 +156,5 @@ Other differences:
 - **Network**: vagrant has a private network with static addresses that your Mac can reach; Lima has DHCP addresses
   behind names, which your Mac can't reach directly, and no multicast.
 - **Platforms**: Lima runs on macOS and Linux; vagrant with VirtualBox also on Windows and on x86_64 Macs.
-- **SUSE**: not tried on Lima (Lima has openSUSE images; PGDG has no aarch64 packages for SUSE, see
-  [SUSE](suse/index.md)).
+- **SUSE**: not tried on Lima (Lima has openSUSE images; PGDG has no aarch64 packages for SUSE, so you need
+  PostgreSQL packages from another source, see [SUSE](suse/index.md)).
