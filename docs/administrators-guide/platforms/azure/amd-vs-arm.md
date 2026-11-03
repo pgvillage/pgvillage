@@ -11,8 +11,8 @@ date: 2026-10-29
 The azure inventory deploys on AMD64 (x86_64). To deploy on ARM64, change the VM sizes and the image.
 
 !!! note
-    ARM64 works with EL (Rocky Linux) and Ubuntu, not with SUSE: download.postgresql.org has no PostgreSQL builds for
-    SUSE on ARM64, see [EL vs SUSE](el-vs-suse.md).
+    ARM64 works out of the box with EL (Rocky Linux) and Ubuntu. For SUSE you need PostgreSQL packages from another
+    source: download.postgresql.org has no PostgreSQL builds for SUSE on ARM64, see [EL vs SUSE](el-vs-suse.md).
 
 ## VM sizes
 
