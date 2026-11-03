@@ -18,7 +18,11 @@ stolon_cert_managed: false
 
 # Multi-instance: every cluster in stolon_clusters gets its own sentinel, keeper and proxy (stolon-<x>@<cluster>),
 # Postgres port, proxy port, data and wal directory. Keep the ports in line with walg_clusters, pgbouncer_instances,
-# avchecker_defaults and firewall_ports_hacluster. See docs/administrators-guide/deployment_and_maintenance/multiinstance.
+# avchecker_defaults and firewall_ports_hacluster.
+# The wal dir (wal_dir, pgwal_dir) must be a subfolder (<stolon_wal_dir>/<cluster>/wal), not a mount point: the keeper
+# removes and recreates it. Mount a wal disk per cluster on <stolon_wal_dir>/<cluster>. Deployments with the WAL in
+# <stolon_wal_dir>/<cluster> itself are moved by tasks/stolon_wal_subfolder.yml.
+# See docs/administrators-guide/deployment_and_maintenance/multiinstance.
 stolon_multicluster: true
 
 # Resources per instance (systemd resource control), so one instance can't starve the others
@@ -36,8 +40,8 @@ stolon_clusters:
         pg_port: 5433
         data_dir: "{{ postgresql_data_mountpoint }}/cluster1"
         pgdata_dir: "{{ postgresql_data_mountpoint }}/cluster1/postgres"
-        wal_dir: "{{ stolon_wal_dir }}/cluster1"
-        pgwal_dir: "{{ stolon_wal_dir }}/cluster1"
+        wal_dir: "{{ stolon_wal_dir }}/cluster1/wal"
+        pgwal_dir: "{{ stolon_wal_dir }}/cluster1/wal"
       stproxy:
         cluster_name: cluster1
         port: 25433
@@ -54,8 +58,8 @@ stolon_clusters:
         pg_port: 5434
         data_dir: "{{ postgresql_data_mountpoint }}/cluster2"
         pgdata_dir: "{{ postgresql_data_mountpoint }}/cluster2/postgres"
-        wal_dir: "{{ stolon_wal_dir }}/cluster2"
-        pgwal_dir: "{{ stolon_wal_dir }}/cluster2"
+        wal_dir: "{{ stolon_wal_dir }}/cluster2/wal"
+        pgwal_dir: "{{ stolon_wal_dir }}/cluster2/wal"
       stproxy:
         cluster_name: cluster2
         port: 25434
