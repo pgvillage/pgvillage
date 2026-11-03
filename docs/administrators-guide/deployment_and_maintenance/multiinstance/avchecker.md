@@ -9,7 +9,7 @@ date: 2026-10-11
 # avchecker - multi-instance
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), AVChecker can monitor all instances if you simply define them as separate instances of AVChecker.
-Edit the avchecker config (e.g. `environments/cluster1/group_vars/all/avchecker.yml`) and define all instances.
+Edit the avchecker config (e.g. `inventories/standard/group_vars/all/avchecker.yml`) and define all instances.
 
 ## Example
 

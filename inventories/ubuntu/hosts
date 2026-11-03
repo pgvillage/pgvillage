@@ -1,0 +1,11 @@
+---
+# No hosts: they come from the platform inventory. Use between standard and the platform:
+# -i inventories/standard -i inventories/ubuntu -i inventories/<platform>
+all:
+  children:
+    localhosts:
+    backup:
+    stolon:
+    etcd_master:
+    hacluster:
+    router:

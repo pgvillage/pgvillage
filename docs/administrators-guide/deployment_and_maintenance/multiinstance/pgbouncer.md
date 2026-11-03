@@ -18,7 +18,7 @@ When deploying multiple HA clusters (e.g. stolon or Patroni), the pgvillage/pgbo
     As such, the multiinstance feature for PgBouncer installs multiple instances of PgBouncer, which all should use their own port,
     and forward to another local PostgreSQL instance.
 
-To configure PgBouncer for multiinstance, edit the pgbouncer config (e.g. `environments/cluster1/group_vars/all/pgbouncer.yml`)
+To configure PgBouncer for multiinstance, edit the pgbouncer config (e.g. `inventories/standard/group_vars/all/pgbouncer.yml`)
 and configure a separate PgBouncer instance per Postgres cluster.
 
 ## `pgbouncer_instances`

@@ -1,0 +1,5 @@
+---
+# The roles from requirements.yml, when ansible-galaxy installs them in ./roles (roles_path in ansible.cfg): they are
+# linted in their own repos
+exclude_paths:
+  - roles/pgvillage.*/

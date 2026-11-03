@@ -1,0 +1,17 @@
+---
+pgquartz_cert_managed: false
+
+pgquartz_scheduler: cron
+
+pgquartz_cron_mailto: "{{ cron_mailto }}"
+pgquartz_jobsdir: "{{ pgquartz_configdir }}/jobs/pgvillage_jobs"
+
+# Run every job in pgquartz_jobs once per cluster in stolon_clusters, with the Postgres port of that cluster
+# (combined into the conn_params of every connection of the job). Every job gets its own etcd lock and log folder
+# per cluster. See docs/administrators-guide/deployment_and_maintenance/multiinstance/pgquartz.md.
+pgquartz_instances: >-
+  {%- set instances = {} -%}
+  {%- for cluster, settings in stolon_clusters.items() -%}
+    {%- do instances.update({cluster: {"conn_params": {"port": settings.sysconfig.stkeeper.pg_port | string}}}) -%}
+  {%- endfor -%}
+  {{ instances }}

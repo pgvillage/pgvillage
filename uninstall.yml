@@ -21,7 +21,7 @@
       loop: "{{ uninstall_services }}"
 
     - name: Remove packages
-      ansible.builtin.dnf:
+      ansible.builtin.package:
         name: "{{ uninstall_linux_packages }}"
         state: absent
       when: inventory_hostname in groups['hacluster'] or inventory_hostname in groups['router']

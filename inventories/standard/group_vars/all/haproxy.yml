@@ -1,0 +1,81 @@
+---
+# HAProxy on the router hosts (see hosts): a read-write, a read-only and a stolon proxy frontend for every cluster in
+# stolon_clusters, with the database hosts (hacluster) as servers. pgroute66 tells the check scripts which host is the
+# primary or a standby. See docs/administrators-guide/deployment_and_maintenance/multiinstance/haproxy.md.
+
+haproxy_timeout_client: 10800s
+haproxy_checkport: "9201"
+
+# The routes of every cluster. The frontend port is port_prefix * 10000 + the Postgres port of the cluster, e.g. for
+# cluster1 (5433): read-write 35433, read-only 45433, stolon proxy 55433. backend: the Postgres port (pg) or the stolon
+# proxy port (proxy) of the cluster. check: the pgroute66 script that decides which servers get traffic.
+haproxy_routes:
+  rw:
+    name: ReadWrite
+    port_prefix: 3
+    backend: pg
+    check: /opt/pgroute66/checkpgprimary.sh
+  ro:
+    name: ReadOnly
+    port_prefix: 4
+    backend: pg
+    check: /opt/pgroute66/checkpgstandby.sh
+  proxy:
+    name: Proxy
+    port_prefix: 5
+    backend: proxy
+    check: /opt/pgroute66/checkpgprimary.sh
+
+# Per cluster and route: the backend port (on the database hosts) and the frontend port (on the router)
+haproxy_config: >-
+  {%- set config = {} -%}
+  {%- for cluster, settings in stolon_clusters.items() -%}
+    {%- set pg_port = settings.sysconfig.stkeeper.pg_port | int -%}
+    {%- set backend_ports = {"pg": pg_port, "proxy": settings.sysconfig.stproxy.port | int} -%}
+    {%- set routes = {} -%}
+    {%- for key, route in haproxy_routes.items() -%}
+      {%- do routes.update({key: {"backend_port": backend_ports[route.backend],
+                                  "frontend_port": route.port_prefix * 10000 + pg_port}}) -%}
+    {%- endfor -%}
+    {%- do config.update({cluster: routes}) -%}
+  {%- endfor -%}
+  {{ config }}
+
+# Frontends and backends are named <cluster>-<route name>-frontend / -backend: the check scripts take the cluster name
+# from the backend name (everything before the first dash).
+haproxy_frontends: >-
+  {%- set frontends = [] -%}
+  {%- for cluster, routes in haproxy_config.items() -%}
+    {%- for key, ports in routes.items() -%}
+      {%- do frontends.append({"name": cluster ~ "-" ~ haproxy_routes[key].name ~ "-frontend",
+                               "address": "*",
+                               "port": ports.frontend_port,
+                               "mode": haproxy_mode,
+                               "backend": cluster ~ "-" ~ haproxy_routes[key].name ~ "-backend",
+                               "timeout_client": haproxy_timeout_client}) -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {{ frontends }}
+
+# The servers are the database hosts. Their name must be the inventory hostname (pgroute66 returns that).
+haproxy_backends: >-
+  {%- set backends = [] -%}
+  {%- for cluster, routes in haproxy_config.items() -%}
+    {%- for key, ports in routes.items() -%}
+      {%- set servers = [] -%}
+      {%- for host in groups['hacluster'] -%}
+        {%- do servers.append({"name": host,
+                               "address": hostvars[host].ansible_host | default(host),
+                               "port": ports.backend_port,
+                               "checkport": haproxy_checkport}) -%}
+      {%- endfor -%}
+      {%- do backends.append({"name": cluster ~ "-" ~ haproxy_routes[key].name ~ "-backend",
+                              "mode": haproxy_mode,
+                              "balance_method": "leastconn",
+                              "options": ["external-check"],
+                              "params": ["external-check command " ~ haproxy_routes[key].check],
+                              "timeout_server": haproxy_timeout_client,
+                              "servers": servers}) -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {{ backends }}
