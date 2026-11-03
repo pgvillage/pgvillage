@@ -11,40 +11,40 @@ mountType: virtiofs
 # user-v2: a network between the VMs (192.168.104.0/24), with names lima-<instance>.internal, and without root
 # permissions on the Mac (unlike the socket_vmnet networks)
 networks:
-- lima: user-v2
+  - lima: user-v2
 # Lima forwards the ports the VMs listen on to localhost on your Mac by default. The VMs use the same ports (e.g.
 # PostgreSQL on all database VMs), so don't.
 portForwards:
-- guestIP: 0.0.0.0
-  proto: any
-  ignore: true
-- guestIP: 127.0.0.1
-  proto: any
-  ignore: true
+  - guestIP: 0.0.0.0
+    proto: any
+    ignore: true
+  - guestIP: 127.0.0.1
+    proto: any
+    ignore: true
 
-provision:
 # Every boot: swap (the cloud images have none, and dnf runs out of memory on the 1 GiB VMs), the .internal name as the
 # fqdn (certificates, the wal-g endpoint), no automatic apt runs, and stepping the clock after a suspend
-- mode: system
-  script: |
-    #!/bin/bash
-    set -e
-    if [ ! -f /swapfile ]; then
-      dd if=/dev/zero of=/swapfile bs=1M count=1024 status=none
-      chmod 0600 /swapfile
-      mkswap /swapfile >/dev/null
-    fi
-    swapon --show=NAME --noheadings | grep -qx /swapfile || swapon /swapfile
-    ip=$(ip -4 -o addr show eth0 | awk '{print $4}' | cut -d/ -f1)
-    sed -i "/ $(hostname -s).internal /d" /etc/hosts
-    echo "${ip} $(hostname -s).internal $(hostname -s)" >>/etc/hosts
-    if [ -d /etc/apt ]; then
-      systemctl disable --now apt-daily.timer apt-daily-upgrade.timer unattended-upgrades.service 2>/dev/null || true
-    fi
-    for CHRONY_CONF in /etc/chrony/chrony.conf /etc/chrony.conf; do
-      if [ -f "${CHRONY_CONF}" ]; then
-        sed -i 's/^makestep.*/makestep 1 -1/' "${CHRONY_CONF}"
-        systemctl restart chrony 2>/dev/null || systemctl restart chronyd
-        break
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -e
+      if [ ! -f /swapfile ]; then
+        dd if=/dev/zero of=/swapfile bs=1M count=1024 status=none
+        chmod 0600 /swapfile
+        mkswap /swapfile >/dev/null
       fi
-    done
+      swapon --show=NAME --noheadings | grep -qx /swapfile || swapon /swapfile
+      ip=$(ip -4 -o addr show eth0 | awk '{print $4}' | cut -d/ -f1)
+      sed -i "/ $(hostname -s).internal /d" /etc/hosts
+      echo "${ip} $(hostname -s).internal $(hostname -s)" >>/etc/hosts
+      if [ -d /etc/apt ]; then
+        systemctl disable --now apt-daily.timer apt-daily-upgrade.timer unattended-upgrades.service 2>/dev/null || true
+      fi
+      for CHRONY_CONF in /etc/chrony/chrony.conf /etc/chrony.conf; do
+        if [ -f "${CHRONY_CONF}" ]; then
+          sed -i 's/^makestep.*/makestep 1 -1/' "${CHRONY_CONF}"
+          systemctl restart chrony 2>/dev/null || systemctl restart chronyd
+          break
+        fi
+      done
