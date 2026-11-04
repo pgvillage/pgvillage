@@ -33,6 +33,6 @@ roles:
   - name: pgvillage.pgbouncer
     version: "v0.3.2"
   - name: pgvillage.stolon
-    version: "v0.4.2"
+    version: "v0.4.3"
   - name: pgvillage.walg
     version: "v0.3.4"
