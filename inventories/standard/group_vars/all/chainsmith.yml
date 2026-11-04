@@ -4,3 +4,16 @@
 # Use the inventory ip (ansible_host) instead of the role default (first ip of the host, which can be a NAT address).
 chainsmith_ips: "{% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_host) %}{% endfor %}{{ nodes }}"
 chainsmith_package_names: []
+
+# The role default, with rustfs instead of minio on backup: its client cert folder gets the server chain, which rc
+# trusts (rustfs_client_ca_bundle)
+chainsmith_users:
+  hacluster:
+    - postgres
+    - avchecker
+    - pgquartz
+    - pgfga
+  router:
+    - pgroute66
+  backup:
+    - rustfs

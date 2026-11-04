@@ -5,15 +5,15 @@
   become: true
   gather_facts: true
 
-- name: Install Minio
+- name: Install RustFS
   hosts:
     - backup
   become: true
   gather_facts: false
   roles:
-    - pgvillage.minio
+    - pgvillage.rustfs
   tags:
-    - minio
+    - rustfs
 
 - name: Install wal-g
   hosts:

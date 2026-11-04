@@ -32,7 +32,7 @@ This is done using Ansible. This description can be used to load the inventory w
 
 #### iptables
 - **Database servers:** Ports `5432`, `25432`, `2379`, and `2380` must be open.
-- **Backup server:** Port `9091` must be open (or any other port as configured in `minio_server_addr`).
+- **Backup server:** Port `443` must be open (or any other port as configured in `rustfs_server_addr`).
 - **Router servers (if applicable):** Ports `5432` and `5433` must be open.
 - **Management server (where you run Ansible)**: Should be able to connect to all other servers using ssh (port 22)
 
