@@ -10,16 +10,16 @@ roles:
   - name: pgvillage.chainsmith
     version: "v0.2.4"
   - name: pgvillage.etcd
-    version: "v0.2.1"
+    version: "v0.2.2"
   - name: pgvillage.firewall
     version: "v0.2.1"
   - name: pgvillage.haproxy
-    version: "v0.3.4"
+    version: "v0.3.5"
   - name: pgvillage.keepalived
-    version: "v0.3.3"
+    version: "v0.3.4"
   - name: pgvillage.linux
-    # v0.3.9 creates the rustfs user on backup instead of minio: comes with the switch to the pgvillage.rustfs role
-    version: "v0.3.8"
+    # v0.3.9 and newer create the rustfs user on backup instead of minio: inventories/standard keeps minio (users.yml)
+    version: "v0.3.10"
   - name: pgvillage.minio
     version: "v0.3.2"
   - name: pgvillage.nagios
@@ -27,12 +27,12 @@ roles:
   - name: pgvillage.pgfga
     version: "v0.3.2"
   - name: pgvillage.pgquartz
-    version: "v0.3.1"
-  - name: pgvillage.pgroute66
-    version: "v0.3.5"
-  - name: pgvillage.pgbouncer
     version: "v0.3.3"
-  - name: pgvillage.stolon
-    version: "v0.4.3"
-  - name: pgvillage.walg
+  - name: pgvillage.pgroute66
+    version: "v0.3.6"
+  - name: pgvillage.pgbouncer
     version: "v0.3.4"
+  - name: pgvillage.stolon
+    version: "v0.4.4"
+  - name: pgvillage.walg
+    version: "v0.3.5"
