@@ -1,8 +1,8 @@
 ---
 linux_pg_version: '{{ postgresql_version }}'
 
-# linux_users, linux_groups and linux_public_repos are not set here: the pgvillage.linux role derives them per package
-# manager (apt, dnf, zypper). OS layers (inventories/el, ubuntu, suse) override them where needed.
+# linux_public_repos is not set here: the pgvillage.linux role derives it per package manager (apt, dnf, zypper). OS
+# layers (inventories/el, ubuntu, suse) override it where needed. linux_users and linux_groups are in users.yml.
 
 # The role default, but without minio for the backup hosts: the PgVillage repos (apt v0.0.4, yum and zypp v0.3.8) ship
 # RustFS instead, which the pgvillage.minio role installs itself (minio_use_rustfs in minio.yml). The backup hosts keep
