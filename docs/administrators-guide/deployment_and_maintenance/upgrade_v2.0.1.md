@@ -39,8 +39,8 @@ both clusters through HAProxy every second:
 
 | Step   | Duration | Writes per cluster                                     |
 |--------|----------|--------------------------------------------------------|
-| Step 1 | 8 min    | one gap of 15-17 seconds (the primary moves to another host) |
-| Step 2 | 5 min    | one gap of 11-17 seconds (the primary moves to another host) |
+| Step 1 | 8 min    | one gap of 12-17 seconds (the primary moves to another host) |
+| Step 2 | 5-6 min  | one gap of 11-17 seconds (the primary moves to another host) |
 
 The roles restart the services one host at a time: per cluster first the keepers of the standbys, then the primary,
 which they move to another host first (`stolonctl failkeeper`). etcd, pgroute66, HAProxy, keepalived and PgBouncer
