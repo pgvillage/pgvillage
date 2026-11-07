@@ -47,8 +47,8 @@ both clusters through HAProxy every second:
 
 | Step   | Duration | Writes per cluster                                     |
 |--------|----------|--------------------------------------------------------|
-| Step 0 | 5 min    | no interruption (only the apt sources change)          |
-| Step 1 | 8 min    | one gap of 12-17 seconds (the primary moves to another host) |
+| Step 0 | 2 min    | no interruption (only the apt sources change)          |
+| Step 1 | 6-8 min  | one gap of 10-17 seconds (the primary moves to another host) |
 | Step 2 | 5-6 min  | one gap of 11-17 seconds (the primary moves to another host) |
 
 The roles restart the services one host at a time: per cluster first the keepers of the standbys, then the primary,
