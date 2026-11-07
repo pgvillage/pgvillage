@@ -1,14 +1,15 @@
 ---
 # Packages, users and groups come from the pgvillage.linux role defaults for apt.
-# Overrides the role default repositories: pin the PgVillage apt repository to v0.0.5 (role default: latest).
-# v0.0.4 and later are the new apt repos (dists/ and pool/, binaries in /usr/bin). latest and v0.3.2 still have the
-# old builds (converted from rpm, binaries in /usr/local/bin), which the current roles don't support.
+# Overrides the role default repositories (repo.pgvillage.org, linux_pgvillage_channel): the PgVillage apt repository
+# apt/latest, which has the new apt builds (v0.0.5 and later: dists/ and pool/, binaries in /usr/bin). Until v2.0.0 it
+# had the old builds (now apt/v0.3.2: converted from rpm, binaries in /usr/local/bin), which the current roles don't
+# support; see docs/administrators-guide/deployment_and_maintenance/upgrade_v2.0.1.md.
 linux_public_repos:
   - name: PgVillage
     description: "PgVillage DEB Library - Ubuntu {{ ansible_facts.distribution_version }} - {{ ansible_facts.architecture }}"
     repo: >-
       [signed-by=/etc/apt/keyrings/pgvillage.asc arch={{ linux_architecture }}]
-      https://repo.mannemsolutions.nl/apt/v0.0.5
+      https://repo.mannemsolutions.nl/apt/latest
       {{ ansible_facts.distribution_release }}
       main
     priority: 10
