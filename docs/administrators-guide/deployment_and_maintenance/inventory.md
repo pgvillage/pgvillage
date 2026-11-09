@@ -42,7 +42,7 @@ This is done using Ansible. This description can be used to load the inventory w
 the following sources should be available either directly, or through a proxy (e.a. Satellite)
 - [pgvillage](https://github.com/pgvillage/pgvillage) (either https, or ssh, or zip if no other option is available)
 - [ansible galaxy for all ansible roles](https://galaxy.ansible.com/)
-- [Our rpm repos](https://repo.mannemsolutions.nl/)
+- [Our package repos](https://repo.pgvillage.org/)
 - [PostgreSQL repos](https://download.postgresql.org/)
 - os specific repos (e.a. centos, epel, CRB, or ubuntu repos, or Susue repos)
 

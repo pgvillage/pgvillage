@@ -1,3 +1,0 @@
----
-# Pin the PgVillage repository to v0.3.8 (role default: stable)
-linux_pgvillage_channel: v0.3.8

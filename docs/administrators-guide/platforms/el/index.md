@@ -38,7 +38,8 @@ These are not set in the inventory: the `pgvillage.linux` role picks them for dn
 - **Packages**: `stolon`, `wal-g-pg`, `etcd`, `glibc-all-langpacks`, `langpacks-en` and the PostgreSQL packages
   (`postgresql17`, `-server`, `-contrib`, `-devel`, `-plpython3`) on `hacluster`; `minio` on `backup`; `keepalived`,
   `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts`.
-- **Repositories**: PgVillage (`repo.mannemsolutions.nl/yum`), PGDG (per PostgreSQL version, common and extras), EPEL.
+- **Repositories**: PgVillage (`repo.pgvillage.org/yum/<channel>`, with `linux_pgvillage_channel: latest` from
+  `inventories/standard`), PGDG (per PostgreSQL version, common and extras), EPEL.
 - **Users and groups**: `postgres`, `pgbouncer`, `avchecker`, `pgquartz`, `pgfga`, `pgroute66` on `hacluster`;
   `minio` on `backup`; `haproxy`, `keepalived`, `pgroute66` on `router`.
 
