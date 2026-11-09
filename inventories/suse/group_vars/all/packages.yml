@@ -1,6 +1,6 @@
 ---
-# Pin the PgVillage repository to v0.3.9 (role default: stable)
-linux_pgvillage_channel: v0.3.9
+# The latest release of the PgVillage repository (role default: stable, which is still an older release)
+linux_pgvillage_channel: latest
 
 # Overrides the pgvillage.linux role default for zypper, which also installs postgresqlNN-plpython3 and -devel:
 # plpython3 is not available for openSUSE. linux_packages is replaced as a whole, so it has all groups.

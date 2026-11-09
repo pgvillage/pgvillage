@@ -25,7 +25,7 @@ ansible-playbook -i inventories/standard -i inventories/suse -i inventories/azur
 
 !!! note
     Out of the box, SUSE runs on x86_64 only. download.postgresql.org (PGDG) builds PostgreSQL for SUSE only on x86_64
-    (at the time of writing leap-16.0 for openSUSE, and sles15/16 for SUSE). The PgVillage packages (v0.3.9) exist for
+    (at the time of writing leap-16.0 for openSUSE, and sles15/16 for SUSE). The PgVillage packages exist for
     leap 16 on x86_64 and aarch64, so on ARM64 (e.g. Apple silicon) you need PostgreSQL packages from another source:
     openSUSE's own repository has them for aarch64, and other builds (or your own) work too. A setup for SUSE on ARM64
     with those packages is planned. If you need other architectures or specific SUSE builds, please reach out to us.
@@ -34,7 +34,7 @@ ansible-playbook -i inventories/standard -i inventories/suse -i inventories/azur
 
 | File                           | Variable                   | SUSE |
 |--------------------------------|----------------------------|------|
-| `group_vars/all/packages.yml`  | `linux_pgvillage_channel`  | `v0.3.9`: the PgVillage repository is pinned to this version (role default: `stable`) |
+| `group_vars/all/packages.yml`  | `linux_pgvillage_channel`  | `latest`: the latest release of the PgVillage repository (role default: `stable`, an older release) |
 | `group_vars/all/packages.yml`  | `linux_packages`           | `stolon`, `wal-g-pg`, `etcd`, `glibc-locale`, `glibc-locale-base`, `openssl`, `postgresql17`, `-server`, `-contrib` on `hacluster`; nothing on `backup` (the `pgvillage.minio` role installs RustFS); `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts` |
 | `group_vars/all/postgres.yml`  | `postgresql_bindir`        | `/usr/pgsql-<version>/bin/` (PGDG rpm's) |
 | `group_vars/all/uninstall.yml` | `uninstall_linux_packages` | `postgresql17`, `-server`, `-contrib`, `-libs`, `stolon`, `wal-g-pg`, `etcd` |
