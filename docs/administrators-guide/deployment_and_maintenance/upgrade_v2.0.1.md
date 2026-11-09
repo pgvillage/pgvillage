@@ -13,12 +13,13 @@ PgVillage v2.0.1 has the same playbooks as v2.0.0, but newer roles (`requirement
 
 |                        | v2.0.0                                                | v2.0.1                                                  |
 |------------------------|-------------------------------------------------------|---------------------------------------------------------|
-| apt repository         | `repo.mannemsolutions.nl/apt/latest` (role default)   | `repo.mannemsolutions.nl/apt/latest` (`inventories/ubuntu`) |
+| apt repository         | `repo.mannemsolutions.nl/apt/latest` (role default)   | `repo.pgvillage.org/apt/latest` (`inventories/standard`) |
 | Packages in it         | apt v0.3.2: converted from rpm (`0v0.19.7-2`, ...)    | apt v0.0.5 and newer: built as deb (`0.19.8-1`, ...)    |
 | Binaries               | `/usr/local/bin`                                      | `/usr/bin`                                              |
 | Backups (backup host)  | minio                                                 | RustFS                                                  |
 
-Both use `apt/latest`, but `apt/latest` moved from v0.3.2 to v0.0.5. The roles of v2.0.0 expect the binaries in
+Both use `apt/latest` (`repo.pgvillage.org` and `repo.mannemsolutions.nl` serve the same repository), but `apt/latest`
+moved from v0.3.2 to v0.0.5. The roles of v2.0.0 expect the binaries in
 `/usr/local/bin`, those of v2.0.1 in `/usr/bin`. Upgrade in three steps, so that the roles and the packages don't change
 in the same run:
 
@@ -82,7 +83,7 @@ linux_public_repos:
     description: "PgVillage DEB Library - Ubuntu {{ ansible_facts.distribution_version }} - {{ ansible_facts.architecture }}"
     repo: >-
       [signed-by=/etc/apt/keyrings/pgvillage.asc arch={{ linux_architecture }}]
-      https://repo.mannemsolutions.nl/apt/v0.3.2
+      https://repo.pgvillage.org/apt/v0.3.2
       {{ ansible_facts.distribution_release }}
       main
     priority: 10
@@ -107,8 +108,10 @@ Check that the hosts only see v0.3.2 now:
 
 ```bash
 ansible all <inventories> -m ansible.builtin.shell -a 'apt-cache policy stolon | grep -E "http|Candidate"'
-# Candidate: 0v0.19.7-2, and only https://repo.mannemsolutions.nl/apt/v0.3.2
+# Candidate: 0v0.19.7-2, and only https://repo.pgvillage.org/apt/v0.3.2
 ```
+
+If you pinned `https://repo.mannemsolutions.nl/apt/v0.3.2` instead: that is the same repository, keep it.
 
 Keep these additions until step 2. Your v2.0.0 deployment now stays on the packages it has, also when `apt/latest`
 moves.
@@ -144,7 +147,7 @@ pgquartz_bin: /usr/local/bin/pgquartz
 
 | Variable                  | Why |
 |---------------------------|-----|
-| `linux_public_repos`      | `inventories/ubuntu` uses `apt/latest`, which has the new packages now. This is the same list, with v0.3.2. |
+| `linux_public_repos`      | `inventories/standard` sets `linux_pgvillage_channel: latest` (`repo.pgvillage.org/apt/latest`), which has the new packages now. This list replaces the role default with v0.3.2. |
 | `minio_use_rustfs`        | `inventories/standard` replaces minio with RustFS, which apt v0.3.2 doesn't have (`No package matching 'rustfs' is available`). |
 | `*_bin_path`, `*_install_dir`, `*_deploydir`, `*_bin` | The systemd units, the wal-g scripts (`archive.sh`) and the pgquartz jobs call these binaries. |
 
@@ -175,8 +178,8 @@ avchecker_package_state: latest
 chainsmith_package_state: latest
 ```
 
-- `linux_public_repos` and the binary paths go: `inventories/ubuntu` uses `apt/latest`, whose packages install in
-  `/usr/bin`, the role defaults.
+- `linux_public_repos` and the binary paths go: `inventories/standard` uses `repo.pgvillage.org/apt/latest`, whose
+  packages install in `/usr/bin`, the role defaults.
 - Upgrade the PgVillage packages with the states of their roles, not with `linux_package_state: latest`. That upgrades
   all packages of the hosts at the start of the run (in the test even the kernel): the services then run on binaries
   that are gone, before their roles have updated the units.
@@ -195,8 +198,8 @@ After the upgrade:
 - Remove the source of apt v0.3.2 on all hosts (apt keeps it, like in step 0):
 
     ```bash
-    ansible all <inventories> -b -m ansible.builtin.file \
-      -a 'path=/etc/apt/sources.list.d/repo_mannemsolutions_nl_apt_v0_3_2.list state=absent'
+    ansible all <inventories> -b -m ansible.builtin.shell \
+      -a 'rm -fv /etc/apt/sources.list.d/repo_*_apt_v0_3_2.list'
     ansible all <inventories> -b -m ansible.builtin.apt -a 'update_cache=true'
     ```
 
