@@ -34,7 +34,6 @@ ansible-playbook -i inventories/standard -i inventories/suse -i inventories/azur
 
 | File                           | Variable                   | SUSE |
 |--------------------------------|----------------------------|------|
-| `group_vars/all/packages.yml`  | `linux_pgvillage_channel`  | `latest`: the latest release of the PgVillage repository (role default: `stable`, an older release) |
 | `group_vars/all/packages.yml`  | `linux_packages`           | `stolon`, `wal-g-pg`, `etcd`, `glibc-locale`, `glibc-locale-base`, `openssl`, `postgresql17`, `-server`, `-contrib` on `hacluster`; nothing on `backup` (the `pgvillage.minio` role installs RustFS); `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts` |
 | `group_vars/all/postgres.yml`  | `postgresql_bindir`        | `/usr/pgsql-<version>/bin/` (PGDG rpm's) |
 | `group_vars/all/uninstall.yml` | `uninstall_linux_packages` | `postgresql17`, `-server`, `-contrib`, `-libs`, `stolon`, `wal-g-pg`, `etcd` |
@@ -45,7 +44,8 @@ ansible-playbook -i inventories/standard -i inventories/suse -i inventories/azur
 inventory replaces it as a whole, so it lists all groups.
 
 Repositories, users and groups are not set in the inventory: the `pgvillage.linux` role picks them for zypper
-(PgVillage `repo.pgvillage.org/zypp/<channel>`, and PGDG per PostgreSQL version, common and extras).
+(PgVillage `repo.pgvillage.org/zypp/<channel>`, with `linux_pgvillage_channel: latest` from `inventories/standard`,
+and PGDG per PostgreSQL version, common and extras).
 
 ## openSUSE PostgreSQL packages
 

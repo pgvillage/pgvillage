@@ -183,7 +183,7 @@ Ansible should connect to an address, add `ansible_host: <ip>` to the host.
   backups in `/var/lib/rustfs`.
 - **Memory**: the two clusters together need at least 2 GB per database host; 1 GB is enough for the backup host.
 - **Network**: the hosts reach each other on all ports (firewalld is configured by PgVillage), and reach the package
-  repositories: the PgVillage repository (repo.mannemsolutions.nl), download.postgresql.org (EL, SUSE), the OS
+  repositories: the PgVillage repository (repo.pgvillage.org), download.postgresql.org (EL, SUSE), the OS
   repositories, and Ansible Galaxy from the control node.
 - **Access**: ssh with a key from the control node, and sudo (with a password: run `ansible-playbook` with
   `--ask-become-pass`). When the user on the hosts differs from yours, see [Ansible config](../deployment_and_maintenance/ansible_cfg.md).
