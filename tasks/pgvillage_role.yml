@@ -1,0 +1,31 @@
+---
+# One step of functional-all.yml (_pgvillage_step: name and settings, see pgvillage_roles there). Included by every
+# host; only the hosts in the groups of the step run its role or task file.
+- name: "Run role {{ _pgvillage_step.key }}"
+  ansible.builtin.include_role:
+    name: >-
+      {{ _pgvillage_step.value.role
+         | default(_pgvillage_step.key if '.' in _pgvillage_step.key else 'pgvillage.' ~ _pgvillage_step.key) }}
+    apply:
+      tags: "{{ _pgvillage_step.value.tags | default([]) + [_pgvillage_step.key] }}"
+  when:
+    - _pgvillage_step.value.tasks is not defined
+    - _pgvillage_step.value.enabled | default(true) | bool
+    - _pgvillage_step.value.groups | intersect(group_names + [inventory_hostname]) | length > 0
+  tags: always
+
+- name: "Run tasks {{ _pgvillage_step.key }}"
+  ansible.builtin.include_tasks:
+    file: "{{ playbook_dir }}/{{ _pgvillage_step.value.tasks }}"
+    apply:
+      tags: "{{ _pgvillage_step.value.tags | default([]) + [_pgvillage_step.key] }}"
+  when:
+    - _pgvillage_step.value.tasks is defined
+    - _pgvillage_step.value.enabled | default(true) | bool
+    - _pgvillage_step.value.groups | intersect(group_names + [inventory_hostname]) | length > 0
+  tags: always
+
+# As at the end of a play: restarts happen before the next step
+- name: "Run the handlers of {{ _pgvillage_step.key }}"
+  ansible.builtin.meta: flush_handlers
+  tags: always

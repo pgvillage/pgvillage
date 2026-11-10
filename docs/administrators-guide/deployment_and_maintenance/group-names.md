@@ -82,13 +82,14 @@ Update the hosts file (`environments/{ENV}/hosts`) as required.
 The new groups should be properly referred to in the playbooks.
 Update the following as required:
 
-- `functional-all.yml`: the `hosts:` lists of all plays
+- `functional-all.yml`: the `groups` of its steps; set them in the inventory with `pgvillage_roles` (see
+  [Roles in functional-all.yml](roles.md)) instead of changing the playbook
 - `rollout_new_certs.yml`: the `hosts:` lists of all plays
 - `uninstall.yml`: the `when:` condition referring to `groups['hacluster']` and `groups['router']`
 
 !!! example
     ```bash
-    for PB in functional-all.yml rollout_new_certs.yml uninstall.yml; do
+    for PB in rollout_new_certs.yml uninstall.yml; do
       sed -i.bak \
         -e 's/hacluster/pgnodes/g' \
         -e 's/backup/minio/g' \
