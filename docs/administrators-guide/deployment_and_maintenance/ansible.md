@@ -83,6 +83,9 @@ If you want to run only specific roles (for example, `stolon` and `avchecker`):
 ansible-playbook -i environments/[ENV] functional-all.yml --tags stolon,avchecker
 ```
 
+Which roles `functional-all.yml` runs, on which groups and in which order, is set in the inventory: see
+[Roles in functional-all.yml](roles.md).
+
 #### 3.4 Additional examples
 
 For other related examples and procedures, refer to the following documentation:

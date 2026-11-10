@@ -1,157 +1,63 @@
 ---
-- name: "Gather facts on all servers"
-  hosts:
-    - hacluster
-    - backup
-    - router
-    - localhost
+# Deploys PgVillage in one play: the steps in _pgvillage_roles_default, in `order`, each on the hosts of its groups.
+# Change them with pgvillage_roles in the inventory (merged into the defaults per step), e.g.:
+#   pgvillage_roles:
+#     nagios: { enabled: false }
+#     minio: { enabled: false }
+#     rustfs: { order: 50, groups: [backup] }                              # pgvillage.rustfs instead of minio
+#     mycompany.hardening: { order: 15, groups: [hacluster, backup, router] }
+# Per step:
+#   order:   position (required for new steps); steps with the same order run in the order of their names
+#   groups:  groups (or host names, e.g. localhost) to run on
+#   enabled: false skips the step (default true)
+#   role:    the role to run (default: the step name, prefixed with pgvillage. when it has no dot)
+#   tasks:   a task file (relative to this playbook) to run instead of a role
+#   tags:    extra tags; the step name is always a tag
+# See docs/administrators-guide/deployment_and_maintenance/roles.md.
+- name: Deploy PgVillage
+  hosts: all:localhost
   become: true
   gather_facts: true
-
-- name: Process all linux requirements
-  hosts:
-    - hacluster
-    - backup
-    - router
-    - localhost
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.linux
-  tags:
-    - packages
-    - linux
-
-- name: Install and run chainsmith to generate certificate chains
-  hosts:
-    - hacluster
-    - backup
-    - router
-    - localhost
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.chainsmith
-  tags:
-    - chainsmith
-    - certificates
-    - certs
-
-- name: Configure firewall as required
-  hosts:
-    - hacluster
-    - backup
-    - router
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.firewall
-  tags:
-    - firewall
-    - firewalld
-
-- name: Setup etcd
-  hosts:
-    - etcd_master
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.etcd
-  tags:
-    - etcd
-
-- name: Setup minio
-  hosts:
-    - backup
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.minio
-  tags:
-    - minio
-
-- name: Setup wal-g
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.walg
-  tags:
-    - walg
-
-- name: Setup Postgres with Stolon
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
+  vars:
+    _pgvillage_roles_default:
+      linux: { order: 10, groups: [hacluster, backup, router, localhost], tags: [packages] }
+      chainsmith: { order: 20, groups: [hacluster, backup, router, localhost], tags: [certificates, certs] }
+      firewall: { order: 30, groups: [hacluster, backup, router], tags: [firewalld] }
+      etcd: { order: 40, groups: [etcd_master] }
+      minio: { order: 50, groups: [backup] }
+      walg: { order: 60, groups: [hacluster] }
+      stolon_wal_subfolder:
+        order: 70
+        groups: [hacluster]
+        tasks: tasks/stolon_wal_subfolder.yml
+        tags: [stolon, postgres, postgresql, pg]
+      stolon: { order: 71, groups: [hacluster], tags: [postgres, postgresql, pg] }
+      avchecker: { order: 80, groups: [hacluster], tags: [availability_checker] }
+      haproxy: { order: 90, groups: [router], tags: [router] }
+      keepalived: { order: 91, groups: [router], tags: [router] }
+      pgroute66: { order: 92, groups: [router], tags: [router] }
+      pgbouncer: { order: 100, groups: [hacluster], tags: [bouncer, pooler] }
+      nagios: { order: 110, groups: [haproxy, backup, hacluster] }
+      pgquartz: { order: 120, groups: [hacluster] }
+    _pgvillage_roles: >-
+      {{ _pgvillage_roles_default | combine(pgvillage_roles | default({}), recursive=True)
+         | dict2items | sort(attribute='key') | sort(attribute='value.order') }}
   pre_tasks:
-    - name: Move the WAL of existing clusters to its subfolder
-      ansible.builtin.import_tasks: tasks/stolon_wal_subfolder.yml
-  roles:
-    - pgvillage.stolon
-  tags:
-    - stolon
-    - postgres
-    - postgresql
-    - pg
-
-- name: Setup AVChecker to monitor availability of PostgreSQL
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.avchecker
-  tags:
-    - avchecker
-    - availability_checker
-
-- name: Setup a proxy with HAProxy, KeepAlived and PGRoute66
-  hosts:
-    - router
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.haproxy
-    - pgvillage.keepalived
-    - pgvillage.pgroute66
-  tags:
-    - haproxy
-    - router
-    - keepalived
-    - pgroute66
-
-- name: Setup pgbouncer
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.pgbouncer
-  tags:
-    - pgbouncer
-    - bouncer
-    - pooler
-
-- name: Setup Nagios NRPE checks
-  hosts:
-    - haproxy
-    - backup
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.nagios
-  tags:
-    - nagios
-
-- name: Setup PGQuartz for scheduling of PostgreSQL jobs
-  hosts:
-    - hacluster
-  become: true
-  gather_facts: false
-  roles:
-    - pgvillage.pgquartz
-  tags:
-    - pgquartz
+    - name: Check pgvillage_roles
+      ansible.builtin.assert:
+        that:
+          - _pgvillage_roles | rejectattr('value.order', 'number') | list | length == 0
+          - _pgvillage_roles | rejectattr('value.groups', 'defined') | list | length == 0
+        fail_msg: "Every step in pgvillage_roles needs an order (a number) and groups"
+        quiet: true
+      tags: always
+  tasks:
+    # Every host includes every step, so all hosts go through the steps in the same order, and a step ends on all its
+    # hosts before the next one starts (as with a play per role). Whether a host runs a step is decided in the step.
+    - name: Run the PgVillage steps
+      ansible.builtin.include_tasks: tasks/pgvillage_role.yml
+      loop: "{{ _pgvillage_roles }}"
+      loop_control:
+        loop_var: _pgvillage_step
+        label: "{{ _pgvillage_step.key }}"
+      tags: always
