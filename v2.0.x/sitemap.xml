@@ -2,214 +2,290 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/about/license/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/about/branding/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/ansible/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/ansible_cfg/</loc>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/byo-client-certs/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/byo-server-certs/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/group-names/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/inventory/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/modify_existing/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/patching_procedure/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/point_in_time_restore/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/refresh_certificates/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/replacing_certificates/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/upgrade_v2.0.1/</loc>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/avchecker/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/firewall/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/haproxy/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/minio/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/nagios/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/pgbouncer/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/pgquartz/</loc>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/pgroute66/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/stolon/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/multiinstance/walg/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/arm-vs-amd/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/byo/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/lima/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/macos/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/azure/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/azure/amd-vs-arm/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/azure/azure/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/azure/deploy/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/azure/el-vs-suse/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/el/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/suse/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/ubuntu/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/vagrant/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/vagrant/boxes/</loc>
+         <lastmod>2026-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/platforms/vagrant/inventory/</loc>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/troubleshooting/connectivity/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/troubleshooting/openssl/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/troubleshooting/quick_fix/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/troubleshooting/verify/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/architecture/mtls/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/architecture/overview/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/architecture/pg_service/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/developers-guide/developing/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/developers-guide/vagrant/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/avchecker/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/chainsmith/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/etcd/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/haproxy/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/keepalived/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/minio/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/nagios/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/pgquartz/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/pgroute66/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/stolon/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tools/wal-g/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tuning/Parallellization_tuning/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tuning/disk_tuning/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tuning/forbidden_parameters/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tuning/hpages/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tuning/logging_tuning/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tuning/memory_tuning/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tuning/postgresql_tuning_intro/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tuning/tune_parameters/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/tuning/vacuum_tuning/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/users-guide/client_connection_failover/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/users-guide/clients/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
     <url>
          <loc>https://belastingdienst.github.io/pgvillage/v2.0.x/users-guide/jdbc/</loc>
-         <lastmod>2026-10-16</lastmod>
+         <lastmod>2026-11-10</lastmod>
     </url>
 </urlset>

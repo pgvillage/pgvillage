@@ -16,14 +16,14 @@
         <link rel="prev" href="../stolon/">
       
       
-        <link rel="next" href="../../../troubleshooting/connectivity/">
+        <link rel="next" href="../../../platforms/">
       
       
         
       
       
       <link rel="icon" href="../../../../about/branding/logo.png">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
       
       
 
@@ -600,6 +600,8 @@
       
         
       
+        
+      
     
     
     
@@ -655,6 +657,10 @@
   
     
     
+      
+        
+      
+        
       
         
       
@@ -738,6 +744,34 @@
     
   
     Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible_cfg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible config
   
 
     
@@ -1007,12 +1041,42 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../../upgrade_v2.0.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrading from v2.0.0 to v2.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
   
     
     
+      
+        
       
         
       
@@ -1045,10 +1109,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_13" checked>
         
           
-          <label class="md-nav__link" for="__nav_3_1_1_11" id="__nav_3_1_1_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_1_1_13" id="__nav_3_1_1_13_label" tabindex="0">
             
   
   
@@ -1066,8 +1130,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_1_1_11_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_1_1_11">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_1_1_13_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1_1_13">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1252,6 +1316,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../pgquartz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PgQuartz - multiinstance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../pgroute66/" class="md-nav__link">
         
   
@@ -1410,6 +1502,82 @@
             
           </ul>
         </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../platforms/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platforms
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
       
     </li>
   
@@ -1932,7 +2100,7 @@
 
 <h1 id="wal-g-multi-instance">wal-g - multi-instance<a class="headerlink" href="#wal-g-multi-instance" title="Permanent link">&para;</a></h1>
 <p>The wal-g role can manage backups for multiple PostgreSQL instances by adding some configuration to the inventory
-(e.g. <code>environments/cluster1/group_vars/all/wal-g.yml</code>).</p>
+(e.g. <code>inventories/standard/group_vars/all/wal-g.yml</code>).</p>
 <h2 id="walg_clusters"><code>walg_clusters</code><a class="headerlink" href="#walg_clusters" title="Permanent link">&para;</a></h2>
 <p>Dictionary with one entry per Postgres instance on the host. The key is the instance (cluster) name and must match
 the key used in <a href="../stolon/"><code>stolon_clusters</code></a> and the bucket name in <a href="../minio/"><code>minio_buckets</code></a>.
@@ -2070,10 +2238,10 @@ For every entry the role deploys a separate wal-g configuration, log folder and 
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>

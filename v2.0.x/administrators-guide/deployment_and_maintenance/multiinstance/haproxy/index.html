@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../../about/branding/logo.png">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
       
       
 
@@ -600,6 +600,8 @@
       
         
       
+        
+      
     
     
     
@@ -655,6 +657,10 @@
   
     
     
+      
+        
+      
+        
       
         
       
@@ -738,6 +744,34 @@
     
   
     Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible_cfg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible config
   
 
     
@@ -1007,12 +1041,42 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../../upgrade_v2.0.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrading from v2.0.0 to v2.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
   
     
     
+      
+        
       
         
       
@@ -1045,10 +1109,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_13" checked>
         
           
-          <label class="md-nav__link" for="__nav_3_1_1_11" id="__nav_3_1_1_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_1_1_13" id="__nav_3_1_1_13_label" tabindex="0">
             
   
   
@@ -1066,8 +1130,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_1_1_11_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_1_1_11">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_1_1_13_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1_1_13">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1200,6 +1264,17 @@
       On this page
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#haproxy_routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        haproxy_routes
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#generic-settings" class="md-nav__link">
@@ -1356,6 +1431,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../pgquartz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PgQuartz - multiinstance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../pgroute66/" class="md-nav__link">
         
   
@@ -1443,6 +1546,82 @@
             
           </ul>
         </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../platforms/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platforms
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
       
     </li>
   
@@ -1808,6 +1987,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#haproxy_routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        haproxy_routes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#generic-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1998,8 +2188,69 @@
 
 <h1 id="haproxy-multi-instance">HAProxy - multi-instance<a class="headerlink" href="#haproxy-multi-instance" title="Permanent link">&para;</a></h1>
 <p>When deploying multiple HA clusters (e.g. stolon or Patroni), HAProxy needs to forward traffic for all options for all instances.
-You can configure them by editing the haproxy config (e.g. <code>environments/cluster1/group_vars/all/haproxy.yml</code>) and define all front-ends and back-ends.
-Best is to define a global config first and define front-ends and backends from that.</p>
+The standard inventory (<code>inventories/standard/group_vars/all/haproxy.yml</code>) generates them: for every cluster in
+<a href="../stolon/"><code>stolon_clusters</code></a> a read-write, a read-only and a stolon proxy route (<code>haproxy_routes</code>), each with a
+frontend on the router and a backend with the database hosts (<code>hacluster</code>) as servers. Adding a cluster to
+<code>stolon_clusters</code> adds its routes, and the firewall opens their ports (<code>firewall_ports_router</code>, see
+<a href="../firewall/">firewall</a>). The platform inventory only adds the router hosts (the <code>router</code> and <code>haproxy</code> groups) and the
+keepalived VIP.</p>
+<p>The frontend port is <code>port_prefix * 10000 + &lt;Postgres port&gt;</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Cluster</th>
+<th>Postgres</th>
+<th>read-write (<code>rw</code>)</th>
+<th>read-only (<code>ro</code>)</th>
+<th>stolon proxy (<code>proxy</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cluster1</code></td>
+<td>5433</td>
+<td>35433</td>
+<td>45433</td>
+<td>55433</td>
+</tr>
+<tr>
+<td><code>cluster2</code></td>
+<td>5434</td>
+<td>35434</td>
+<td>45434</td>
+<td>55434</td>
+</tr>
+</tbody>
+</table>
+<p>To change the routes, override <code>haproxy_routes</code>; to set everything by hand, override <code>haproxy_config</code>,
+<code>haproxy_frontends</code> and <code>haproxy_backends</code> as described below.</p>
+<h2 id="haproxy_routes"><code>haproxy_routes</code><a class="headerlink" href="#haproxy_routes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Route name in the frontend and backend names (<code>ReadWrite</code>, <code>ReadOnly</code>, <code>Proxy</code>).</td>
+</tr>
+<tr>
+<td><code>port_prefix</code></td>
+<td>Frontend port: <code>port_prefix * 10000 + &lt;Postgres port&gt;</code> (3, 4 and 5).</td>
+</tr>
+<tr>
+<td><code>backend</code></td>
+<td><code>pg</code>: the Postgres port of the keepers, <code>proxy</code>: the stolon proxy port.</td>
+</tr>
+<tr>
+<td><code>check</code></td>
+<td>pgroute66 check script that decides which servers get traffic.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="generic-settings">Generic settings<a class="headerlink" href="#generic-settings" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2020,7 +2271,8 @@ Best is to define a global config first and define front-ends and backends from 
 </tbody>
 </table>
 <h2 id="haproxy_config"><code>haproxy_config</code><a class="headerlink" href="#haproxy_config" title="Permanent link">&para;</a></h2>
-<p>Helper dictionary that maps each route type to a backend port (on the database hosts) and a frontend port (on the router):</p>
+<p>Generated from <code>stolon_clusters</code> and <code>haproxy_routes</code>: per cluster and route, the backend port (on the database hosts)
+and the frontend port (on the router), e.g.:</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">haproxy_config</span><span class="p">:</span>
@@ -2076,7 +2328,7 @@ aligned with the backends.</p>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"cluster1-ReadWrite-frontend"</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">"*"</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">haproxy_config.cluster1.rw.frontend_port</span><span class="nv"> </span><span class="s">}}"</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">haproxy_default_mode</span><span class="nv"> </span><span class="s">}}"</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">haproxy_mode</span><span class="nv"> </span><span class="s">}}"</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">"cluster1-ReadWrite-backend"</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">timeout_client</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">haproxy_timeout_client</span><span class="nv"> </span><span class="s">}}"</span>
 </code></pre></div>
@@ -2108,7 +2360,7 @@ everything after the first dash to get the cluster name they query pgroute66 for
 </tr>
 <tr>
 <td><code>mode</code></td>
-<td>HAProxy mode (<code>haproxy_default_mode</code>).</td>
+<td>HAProxy mode (<code>haproxy_mode</code>).</td>
 </tr>
 <tr>
 <td><code>balance_method</code></td>
@@ -2136,7 +2388,7 @@ everything after the first dash to get the cluster name they query pgroute66 for
 <p class="admonition-title">Example</p>
 <div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">haproxy_backends</span><span class="p">:</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"cluster1-ReadWrite-backend"</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">haproxy_default_mode</span><span class="nv"> </span><span class="s">}}"</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">haproxy_mode</span><span class="nv"> </span><span class="s">}}"</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">balance_method</span><span class="p">:</span><span class="w"> </span><span class="s">"leastconn"</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">options</span><span class="p">:</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"external-check"</span>
@@ -2161,9 +2413,8 @@ proves Postgres accepts connections, so standbys would pass too and read-write t
 In a multiinstance setup, nothing listens on <code>5432</code> anyway (instances use e.g. <code>5433</code> and <code>5434</code>).</p>
 </div>
 <h2 id="adding-an-instance">Adding an instance<a class="headerlink" href="#adding-an-instance" title="Permanent link">&para;</a></h2>
-<p>The current inventory only routes <code>cluster1</code>. For another instance, add frontends and backends named after
-that cluster (e.g. <code>cluster2-ReadWrite-frontend</code> / <code>cluster2-ReadWrite-backend</code>) with unused frontend ports and the
-backend ports of that instance from <a href="../stolon/"><code>stolon_clusters</code></a>.</p>
+<p>Add the cluster to <code>stolon_clusters</code>: HAProxy gets its frontends and backends, pgroute66 its group, and the firewall
+the frontend ports. The frontend ports follow from the Postgres port of the new cluster.</p>
 
 
 
@@ -2227,10 +2478,10 @@ backend ports of that instance from <a href="../stolon/"><code>stolon_clusters</
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>

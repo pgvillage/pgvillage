@@ -1,0 +1,2163 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Nibble-IT">
+      
+      
+        <link rel="canonical" href="https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/upgrade_v2.0.1/">
+      
+      
+        <link rel="prev" href="../replacing_certificates/">
+      
+      
+        <link rel="next" href="../multiinstance/avchecker/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../about/branding/logo.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Upgrading from v2.0.0 to v2.0.1 - PgVillage</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Upgrading from v2.0.0 to v2.0.1 - PgVillage" />
+<meta property="og:image" content="https://belastingdienst.github.io/pgvillage/v2.0.x/assets/images/social/administrators-guide/deployment_and_maintenance/upgrade_v2.0.1.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://belastingdienst.github.io/pgvillage/v2.0.x/administrators-guide/deployment_and_maintenance/upgrade_v2.0.1/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Upgrading from v2.0.0 to v2.0.1 - PgVillage" />
+<meta property="twitter:image" content="https://belastingdienst.github.io/pgvillage/v2.0.x/assets/images/social/administrators-guide/deployment_and_maintenance/upgrade_v2.0.1.png" />
+</head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#upgrading-from-v200-to-v201" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+  You're not viewing the latest version.
+  <a href="../../../.."> 
+    <strong>Click here to go to latest.</strong>
+  </a>
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="PgVillage" class="md-header__button md-logo" aria-label="PgVillage" data-md-component="logo">
+      
+  <img src="../../../about/branding/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PgVillage
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Upgrading from v2.0.0 to v2.0.1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pgvillage/pgvillage" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pgvillage
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../architecture/mtls/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tools/avchecker/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../ansible/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../about/branding/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="PgVillage" class="md-nav__button md-logo" aria-label="PgVillage" data-md-component="logo">
+      
+  <img src="../../../about/branding/logo.png" alt="logo">
+
+    </a>
+    PgVillage
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pgvillage/pgvillage" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pgvillage
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../architecture/mtls/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../tools/avchecker/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administrator Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Administrator Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_1" id="__nav_3_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment and maintenance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deployment and maintenance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ansible_cfg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../byo-client-certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bring Your Own - Client Certificates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../byo-server-certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bring Your Own - Server Certificates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group-names/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom group names
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modify_existing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modifying an existing deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patching_procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../point_in_time_restore/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Point in time restore
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../refresh_certificates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refreshing certificates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../replacing_certificates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refreshing certificates (2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrading from v2.0.0 to v2.0.1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrading from v2.0.0 to v2.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-expect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to expect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-0-pin-apt-v032" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 0: pin apt v0.3.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-v201-on-apt-v032" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: v2.0.1 on apt v0.3.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-aptlatest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: apt/latest
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../multiinstance/avchecker/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiinstance
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../platforms/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platforms
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../troubleshooting/connectivity/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../users-guide/client_connection_failover/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../developers-guide/developing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../tuning/Parallellization_tuning/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tuning guide
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../about/branding/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-expect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to expect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-0-pin-apt-v032" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 0: pin apt v0.3.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-v201-on-apt-v032" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: v2.0.1 on apt v0.3.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-aptlatest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: apt/latest
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../ansible/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Guides
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../ansible/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Administrator Guide
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../ansible/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Deployment and maintenance
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pgvillage/pgvillage/edit/main/docs/administrators-guide/deployment_and_maintenance/upgrade_v2.0.1.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="upgrading-from-v200-to-v201">Upgrading from v2.0.0 to v2.0.1<a class="headerlink" href="#upgrading-from-v200-to-v201" title="Permanent link">&para;</a></h1>
+<p>PgVillage v2.0.1 has the same playbooks as v2.0.0, but newer roles (<code>requirements.yml</code>) and new inventories
+(<code>inventories/standard</code> and the OS layers). On Ubuntu and Debian it also moves to the new PgVillage apt packages:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>v2.0.0</th>
+<th>v2.0.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>apt repository</td>
+<td><code>repo.mannemsolutions.nl/apt/latest</code> (role default)</td>
+<td><code>repo.pgvillage.org/apt/latest</code> (<code>inventories/standard</code>)</td>
+</tr>
+<tr>
+<td>Packages in it</td>
+<td>apt v0.3.2: converted from rpm (<code>0v0.19.7-2</code>, ...)</td>
+<td>apt v0.0.5 and newer: built as deb (<code>0.19.8-1</code>, ...)</td>
+</tr>
+<tr>
+<td>Binaries</td>
+<td><code>/usr/local/bin</code></td>
+<td><code>/usr/bin</code></td>
+</tr>
+<tr>
+<td>Backups (backup host)</td>
+<td>minio</td>
+<td>RustFS</td>
+</tr>
+</tbody>
+</table>
+<p>Both use <code>apt/latest</code> (<code>repo.pgvillage.org</code> and <code>repo.mannemsolutions.nl</code> serve the same repository), but <code>apt/latest</code>
+moved from v0.3.2 to v0.0.5. The roles of v2.0.0 expect the binaries in
+<code>/usr/local/bin</code>, those of v2.0.1 in <code>/usr/bin</code>. Upgrade in three steps, so that the roles and the packages don't change
+in the same run:</p>
+<ol>
+<li><a href="#step-0-pin-apt-v032">Pin apt v0.3.2</a> (still with v2.0.0): keep the packages you have.</li>
+<li><a href="#step-1-v201-on-apt-v032">v2.0.1 on apt v0.3.2</a>: the new roles, with the packages you have.</li>
+<li><a href="#step-2-aptlatest">apt/latest</a>: the new packages.</li>
+</ol>
+<p>This page is about Ubuntu (and Debian) deployments. On EL and SUSE the packages have always been in <code>/usr/bin</code>; there
+you only bump the roles (and the repository version, <code>linux_pgvillage_channel</code>).</p>
+<div class="admonition danger">
+<p class="admonition-title">Do step 0 now</p>
+<p>A v2.0.0 deployment that still uses <code>apt/latest</code> gets the new packages as soon as they are installed or upgraded:
+on a new or rebuilt host, with <code>apt upgrade</code>, or with a <code>*_package_state: latest</code>. Their binaries are in <code>/usr/bin</code>,
+while the systemd units of v2.0.0 point to <code>/usr/local/bin</code>: the services fail at their next restart. Step 0
+prevents that, and you can do it any time before the upgrade itself.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Don't run v2.0.1 on a v2.0.0 deployment without the inventory changes of step 1. The new systemd units point to
+<code>/usr/bin</code>, and the role handlers restart stolon on all hosts: <strong>all clusters go down</strong> (<code>status=203/EXEC</code>), and WAL
+archiving stops (<code>archive.sh</code> exits with 127, the WAL piles up in <code>pg_wal</code>).</p>
+</div>
+<h2 id="what-to-expect">What to expect<a class="headerlink" href="#what-to-expect" title="Permanent link">&para;</a></h2>
+<p>Tested on <a href="../../platforms/lima/">lima</a> (Ubuntu 26.04, 3 database hosts, 2 clusters, TLS), with a client writing to
+both clusters through HAProxy every second:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Duration</th>
+<th>Writes per cluster</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Step 0</td>
+<td>2 min</td>
+<td>no interruption (only the apt sources change)</td>
+</tr>
+<tr>
+<td>Step 1</td>
+<td>5-8 min</td>
+<td>two gaps: 13-18 seconds (the WAL moves to its subfolder, see below), then 10-17 seconds (the primary moves to another host)</td>
+</tr>
+<tr>
+<td>Step 2</td>
+<td>5-6 min</td>
+<td>one gap of 11-17 seconds (the primary moves to another host)</td>
+</tr>
+</tbody>
+</table>
+<p>The roles restart the services one host at a time: per cluster first the keepers of the standbys, then the primary,
+which they move to another host first (<code>stolonctl failkeeper</code>). etcd, pgroute66, HAProxy, keepalived and PgBouncer
+restart one host at a time too. The two clusters have their gap at a different moment. Reads from the standbys go on.</p>
+<p>In step 1, v2.0.1 also moves the WAL of each cluster from <code>&lt;stolon_wal_dir&gt;/&lt;cluster&gt;</code> to the subfolder
+<code>&lt;stolon_wal_dir&gt;/&lt;cluster&gt;/wal</code> (<code>tasks/stolon_wal_subfolder.yml</code>, before the stolon role), so the WAL of a cluster can
+have its own disk, mounted on <code>&lt;stolon_wal_dir&gt;/&lt;cluster&gt;</code> (see <a href="../../platforms/byo/">BYO</a>). For that, the keepers of a
+cluster stop on all database hosts at the same time, for the seconds the move takes: no reads either. Once moved, later
+runs skip it.</p>
+<p>On Ubuntu, <code>needrestart</code> restarts services after every apt run, on all hosts at once. The linux role of v2.0.1 tells
+it to leave the PgVillage services alone (<code>/etc/needrestart/conf.d/pgvillage.conf</code>, see <code>linux_needrestart_exclude</code>
+of the linux role): their roles restart them instead.</p>
+<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Check that the clusters are healthy (<code>stolonctl status</code>) and that archiving works (<code>pg_stat_archiver</code>): you want a
+  recent backup and WAL archive before you start.</li>
+<li>Plan steps 1 and 2 as a change with a short interruption of writes (see <a href="#what-to-expect">What to expect</a>).</li>
+<li>Keep your inventory (hosts, cluster settings) as it is. The changes below go in your own inventory, e.g. in
+  <code>group_vars/all/upgrade.yml</code>: on top of your v2.0.0 inventory for step 0, and on top of <code>inventories/standard</code> and
+  <code>inventories/ubuntu</code> of v2.0.1 for steps 1 and 2.</li>
+<li>In the commands below, <code>&lt;inventories&gt;</code> stands for the <code>-i</code> options of your deploy.</li>
+</ul>
+<h2 id="step-0-pin-apt-v032">Step 0: pin apt v0.3.2<a class="headerlink" href="#step-0-pin-apt-v032" title="Permanent link">&para;</a></h2>
+<p>Still with v2.0.0: point the PgVillage apt repository to v0.3.2, the version that <code>apt/latest</code> had until it moved. Add
+to your inventory:</p>
+<div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nn">---</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Upgrade step 0: pin the PgVillage apt repository to v0.3.2 (the packages of v2.0.0); apt/latest moved to v0.0.5</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">linux_public_repos</span><span class="p">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PgVillage</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"PgVillage</span><span class="nv"> </span><span class="s">DEB</span><span class="nv"> </span><span class="s">Library</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Ubuntu</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">ansible_facts.distribution_version</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">ansible_facts.architecture</span><span class="nv"> </span><span class="s">}}"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;-</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="no">[signed-by=/etc/apt/keyrings/pgvillage.asc arch={{ linux_architecture }}]</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="no">https://repo.pgvillage.org/apt/v0.3.2</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="no">{{ ansible_facts.distribution_release }}</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="no">main</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"pgdg{{</span><span class="nv"> </span><span class="s">linux_pg_version</span><span class="nv"> </span><span class="s">}}"</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"PostgreSQL</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">linux_pg_version</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">Ubuntu</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">ansible_facts.distribution_version</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">ansible_facts.architecture</span><span class="nv"> </span><span class="s">}}"</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">      </span><span class="no">[signed-by=/etc/apt/keyrings/postgresql.asc] https://apt.postgresql.org/pub/repos/apt {{ ansible_facts.distribution_release }}-pgdg main</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+</code></pre></div>
+<p>Deploy as usual (v2.0.0). This adds the v0.3.2 repository, but it doesn't remove the one of <code>apt/latest</code>
+(<code>ansible.builtin.apt_repository</code> only adds): remove that one yourself, on all hosts:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ansible<span class="w"> </span>all<span class="w"> </span>&lt;inventories&gt;<span class="w"> </span>-b<span class="w"> </span>-m<span class="w"> </span>ansible.builtin.file<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-a<span class="w"> </span><span class="s1">'path=/etc/apt/sources.list.d/repo_mannemsolutions_nl_apt_latest.list state=absent'</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>ansible<span class="w"> </span>all<span class="w"> </span>&lt;inventories&gt;<span class="w"> </span>-b<span class="w"> </span>-m<span class="w"> </span>ansible.builtin.apt<span class="w"> </span>-a<span class="w"> </span><span class="s1">'update_cache=true'</span>
+</code></pre></div>
+<p>Check that the hosts only see v0.3.2 now:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ansible<span class="w"> </span>all<span class="w"> </span>&lt;inventories&gt;<span class="w"> </span>-m<span class="w"> </span>ansible.builtin.shell<span class="w"> </span>-a<span class="w"> </span><span class="s1">'apt-cache policy stolon | grep -E "http|Candidate"'</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Candidate: 0v0.19.7-2, and only https://repo.pgvillage.org/apt/v0.3.2</span>
+</code></pre></div>
+<p>If you pinned <code>https://repo.mannemsolutions.nl/apt/v0.3.2</code> instead: that is the same repository, keep it.</p>
+<p>Keep these additions until step 2. Your v2.0.0 deployment now stays on the packages it has, also when <code>apt/latest</code>
+moves.</p>
+<h2 id="step-1-v201-on-apt-v032">Step 1: v2.0.1 on apt v0.3.2<a class="headerlink" href="#step-1-v201-on-apt-v032" title="Permanent link">&para;</a></h2>
+<p>Check out v2.0.1 and install its roles:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>v2.0.1
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>ansible-galaxy<span class="w"> </span>role<span class="w"> </span>install<span class="w"> </span>--force<span class="w"> </span>-r<span class="w"> </span>requirements.yml
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>ansible-galaxy<span class="w"> </span>collection<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.yml
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code>ansible.cfg</code> of v2.0.1 has <code>roles_path = ./roles:...</code>, so <code>ansible-galaxy</code> installs the roles in <code>./roles</code>,
+and they come before the v2.0.0 roles in <code>~/.ansible/roles</code>. Check the versions with <code>ansible-galaxy role list</code>.</p>
+</div>
+<p>Keep the <code>linux_public_repos</code> of step 0, and add:</p>
+<div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Upgrade step 1 (v2.0.1 on apt v0.3.2)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># apt v0.3.2 ships minio, not RustFS (inventories/standard sets true); switching to RustFS is a migration of its own</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nt">minio_use_rustfs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># The packages of apt v0.3.2 install in /usr/local/bin; the v2.0.1 roles default to /usr/bin</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nt">stolon_bin_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/local/bin</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nt">etcd_install_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/local/bin</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="nt">pgroute66_deploydir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/local/bin</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nt">pgfga_deploydir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/local/bin</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nt">walg_bin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/local/bin/wal-g-pg</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nt">pgquartz_bin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/local/bin/pgquartz</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>linux_public_repos</code></td>
+<td><code>inventories/standard</code> sets <code>linux_pgvillage_channel: latest</code> (<code>repo.pgvillage.org/apt/latest</code>), which has the new packages now. This list replaces the role default with v0.3.2.</td>
+</tr>
+<tr>
+<td><code>minio_use_rustfs</code></td>
+<td><code>inventories/standard</code> replaces minio with RustFS, which apt v0.3.2 doesn't have (<code>No package matching 'rustfs' is available</code>).</td>
+</tr>
+<tr>
+<td><code>*_bin_path</code>, <code>*_install_dir</code>, <code>*_deploydir</code>, <code>*_bin</code></td>
+<td>The systemd units, the wal-g scripts (<code>archive.sh</code>) and the pgquartz jobs call these binaries.</td>
+</tr>
+</tbody>
+</table>
+<p>Then deploy as usual:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventories/standard<span class="w"> </span>-i<span class="w"> </span>inventories/ubuntu<span class="w"> </span>-i<span class="w"> </span>&lt;your<span class="w"> </span>inventory&gt;<span class="w"> </span>functional-all.yml
+</code></pre></div>
+<p>A second run should change nothing. Check that <code>pg_wal</code> of each cluster points to the subfolder:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sudo<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/data/postgres/data/cluster1/postgres/pg_wal<span class="w">   </span><span class="c1"># standard paths; -&gt; &lt;stolon_wal_dir&gt;/cluster1/wal</span>
+</code></pre></div>
+<h2 id="step-2-aptlatest">Step 2: apt/latest<a class="headerlink" href="#step-2-aptlatest" title="Permanent link">&para;</a></h2>
+<p>Replace the additions of steps 0 and 1 with:</p>
+<div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nn">---</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># Upgrade step 2 (apt/latest): upgrade the PgVillage packages from apt v0.3.2 (/usr/local/bin) to those of apt/latest</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># (/usr/bin). Each role upgrades its own package and then restarts its services, one host at a time.</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nt">minio_use_rustfs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nt">stolon_package_name_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nt">etcd_package_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="nt">walg_package_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="nt">pgquartz_package_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nt">pgroute66_package_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="nt">pgfga_package_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nt">avchecker_package_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="nt">chainsmith_package_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
+</code></pre></div>
+<ul>
+<li><code>linux_public_repos</code> and the binary paths go: <code>inventories/standard</code> uses <code>repo.pgvillage.org/apt/latest</code>, whose
+  packages install in <code>/usr/bin</code>, the role defaults.</li>
+<li>Upgrade the PgVillage packages with the states of their roles, not with <code>linux_package_state: latest</code>. That upgrades
+  all packages of the hosts at the start of the run (in the test even the kernel): the services then run on binaries
+  that are gone, before their roles have updated the units.</li>
+</ul>
+<p>Deploy again (same command as in step 1), and check:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>dpkg-query<span class="w"> </span>-W<span class="w"> </span>stolon<span class="w"> </span>etcd<span class="w"> </span>wal-g-pg<span class="w"> </span>pgroute66<span class="w"> </span>pgquartz<span class="w">   </span><span class="c1"># the new versions, e.g. stolon 0.19.8-1</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>stolon-keeper<span class="w"> </span>wal-g-pg<span class="w"> </span>etcd<span class="w">                    </span><span class="c1"># /usr/bin/...</span>
+</code></pre></div>
+<p>After the upgrade:</p>
+<ul>
+<li>Remove the <code>*_state: latest</code> lines again, so later runs don't upgrade packages unplanned (or keep them, if that is
+  how you want to patch).</li>
+<li>
+<p>Remove the source of apt v0.3.2 on all hosts (apt keeps it, like in step 0):</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>ansible<span class="w"> </span>all<span class="w"> </span>&lt;inventories&gt;<span class="w"> </span>-b<span class="w"> </span>-m<span class="w"> </span>ansible.builtin.shell<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-a<span class="w"> </span><span class="s1">'rm -fv /etc/apt/sources.list.d/repo_*_apt_v0_3_2.list'</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>ansible<span class="w"> </span>all<span class="w"> </span>&lt;inventories&gt;<span class="w"> </span>-b<span class="w"> </span>-m<span class="w"> </span>ansible.builtin.apt<span class="w"> </span>-a<span class="w"> </span><span class="s1">'update_cache=true'</span>
+</code></pre></div>
+</li>
+<li>
+<p>minio keeps running on the backup host. Moving the backups to RustFS is a separate step.</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Nibble-IT
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

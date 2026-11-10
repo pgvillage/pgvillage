@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../../about/branding/logo.png">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
       
       
 
@@ -600,6 +600,8 @@
       
         
       
+        
+      
     
     
     
@@ -655,6 +657,10 @@
   
     
     
+      
+        
+      
+        
       
         
       
@@ -738,6 +744,34 @@
     
   
     Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible_cfg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible config
   
 
     
@@ -1007,12 +1041,42 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../../upgrade_v2.0.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrading from v2.0.0 to v2.0.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
   
     
     
+      
+        
       
         
       
@@ -1045,10 +1109,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_13" checked>
         
           
-          <label class="md-nav__link" for="__nav_3_1_1_11" id="__nav_3_1_1_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_1_1_13" id="__nav_3_1_1_13_label" tabindex="0">
             
   
   
@@ -1066,8 +1130,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_1_1_11_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_1_1_11">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_1_1_13_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1_1_13">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1232,6 +1296,34 @@
     
   
     PgBouncer - multiinstance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pgquartz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PgQuartz - multiinstance
   
 
     
@@ -1549,6 +1641,82 @@
             
           </ul>
         </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../platforms/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platforms
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
       
     </li>
   
@@ -2213,7 +2381,7 @@
 To separate resources, one can run them as multiple systemd services and manage them with cgroups.
 To separate disk space, one can specify data directories and WAL directories on separate filesystems.
 There are other options, but this is the way the stolon role deploys multiple clusters on (virtual or physical) servers.</p>
-<p>To configure stolon to deploy and maintain multiple clusters, edit the stolon config (e.g. <code>environments/cluster1/group_vars/all/stolon.yml</code>) and configure separate <code>stolon_clusters</code>.
+<p>To configure stolon to deploy and maintain multiple clusters, edit the stolon config (e.g. <code>inventories/standard/group_vars/all/stolon.yml</code>) and configure separate <code>stolon_clusters</code>.
 There are 3 main chapters, and for all three the configuration can set defaults (used for all clusters),
 which can be overridden by cluster specific values (in <code>stolon_clusters</code>):</p>
 <ul>
@@ -2369,8 +2537,8 @@ You can set specific settings in <code>stolon_clusters[clustername].cgroups</cod
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="nt">pg_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5433</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="nt">data_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">postgresql_data_mountpoint</span><span class="nv"> </span><span class="s">}}/cluster1"</span>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="nt">pgdata_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">postgresql_data_mountpoint</span><span class="nv"> </span><span class="s">}}/cluster1/postgres"</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="nt">wal_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">stolon_wal_dir</span><span class="nv"> </span><span class="s">}}/cluster1"</span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="nt">pgwal_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">stolon_wal_dir</span><span class="nv"> </span><span class="s">}}/cluster1"</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="nt">wal_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">stolon_wal_dir</span><span class="nv"> </span><span class="s">}}/cluster1/wal"</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="nt">pgwal_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">stolon_wal_dir</span><span class="nv"> </span><span class="s">}}/cluster1/wal"</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">      </span><span class="nt">stproxy</span><span class="p">:</span>
 <a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">        </span><span class="nt">cluster_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
 <a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25433</span>
@@ -2388,8 +2556,8 @@ You can set specific settings in <code>stolon_clusters[clustername].cgroups</cod
 <a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">        </span><span class="nt">pg_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5434</span>
 <a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">        </span><span class="nt">data_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">postgresql_data_mountpoint</span><span class="nv"> </span><span class="s">}}/cluster2"</span>
 <a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">        </span><span class="nt">pgdata_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">postgresql_data_mountpoint</span><span class="nv"> </span><span class="s">}}/cluster2/postgres"</span>
-<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">        </span><span class="nt">wal_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">stolon_wal_dir</span><span class="nv"> </span><span class="s">}}/cluster2"</span>
-<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">        </span><span class="nt">pgwal_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">stolon_wal_dir</span><span class="nv"> </span><span class="s">}}/cluster2"</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">        </span><span class="nt">wal_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">stolon_wal_dir</span><span class="nv"> </span><span class="s">}}/cluster2/wal"</span>
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">        </span><span class="nt">pgwal_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">stolon_wal_dir</span><span class="nv"> </span><span class="s">}}/cluster2/wal"</span>
 <a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">      </span><span class="nt">stproxy</span><span class="p">:</span>
 <a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">        </span><span class="nt">cluster_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster2</span>
 <a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25434</span>
@@ -2404,6 +2572,11 @@ You can set specific settings in <code>stolon_clusters[clustername].cgroups</cod
 <ul>
 <li><code>pg_port</code> and <code>stproxy.port</code> must be unique per host and opened in <a href="../firewall/"><code>firewall_ports</code></a>.</li>
 <li><code>pgdata_dir</code> and <code>pg_port</code> must match the corresponding entry in <a href="../walg/"><code>walg_clusters</code></a>.</li>
+<li><code>wal_dir</code> and <code>pgwal_dir</code> must be a subfolder of the wal disk of the cluster (mounted on
+  <code>{{ stolon_wal_dir }}/&lt;cluster&gt;</code>), not the mount point itself: the keeper removes and recreates it. min_wal_size and
+  max_wal_size are sized from the size of that disk. Deployments that have the wal in <code>{{ stolon_wal_dir }}/&lt;cluster&gt;</code> itself are moved by
+  <code>tasks/stolon_wal_subfolder.yml</code> (in the stolon plays of <code>functional-all.yml</code>, <code>minimal.yml</code> and
+  <code>rollout_new_certs.yml</code>); the keepers are stopped while it moves.</li>
 <li>The cluster name should match a bucket in <a href="../minio/"><code>minio_buckets</code></a>.</li>
 </ul>
 
@@ -2469,10 +2642,10 @@ You can set specific settings in <code>stolon_clusters[clustername].cgroups</cod
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.action.edit", "navigation.expand", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.prune", "search.suggest", "search.share", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>
