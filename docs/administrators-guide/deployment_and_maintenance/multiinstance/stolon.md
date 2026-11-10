@@ -130,8 +130,8 @@ You can set specific settings in `stolon_clusters[clustername].cgroups`.
             pg_port: 5433
             data_dir: "{{ postgresql_data_mountpoint }}/cluster1"
             pgdata_dir: "{{ postgresql_data_mountpoint }}/cluster1/postgres"
-            wal_dir: "{{ stolon_wal_dir }}/cluster1"
-            pgwal_dir: "{{ stolon_wal_dir }}/cluster1"
+            wal_dir: "{{ stolon_wal_dir }}/cluster1/wal"
+            pgwal_dir: "{{ stolon_wal_dir }}/cluster1/wal"
           stproxy:
             cluster_name: cluster1
             port: 25433
@@ -149,8 +149,8 @@ You can set specific settings in `stolon_clusters[clustername].cgroups`.
             pg_port: 5434
             data_dir: "{{ postgresql_data_mountpoint }}/cluster2"
             pgdata_dir: "{{ postgresql_data_mountpoint }}/cluster2/postgres"
-            wal_dir: "{{ stolon_wal_dir }}/cluster2"
-            pgwal_dir: "{{ stolon_wal_dir }}/cluster2"
+            wal_dir: "{{ stolon_wal_dir }}/cluster2/wal"
+            pgwal_dir: "{{ stolon_wal_dir }}/cluster2/wal"
           stproxy:
             cluster_name: cluster2
             port: 25434
@@ -165,4 +165,9 @@ You can set specific settings in `stolon_clusters[clustername].cgroups`.
 
 - `pg_port` and `stproxy.port` must be unique per host and opened in [`firewall_ports`](firewall.md).
 - `pgdata_dir` and `pg_port` must match the corresponding entry in [`walg_clusters`](walg.md).
+- `wal_dir` and `pgwal_dir` must be a subfolder of the wal disk of the cluster (mounted on
+  `{{ stolon_wal_dir }}/<cluster>`), not the mount point itself: the keeper removes and recreates it. min_wal_size and
+  max_wal_size are sized from the size of that disk. Deployments that have the wal in `{{ stolon_wal_dir }}/<cluster>` itself are moved by
+  `tasks/stolon_wal_subfolder.yml` (in the stolon plays of `functional-all.yml`, `minimal.yml` and
+  `rollout_new_certs.yml`); the keepers are stopped while it moves.
 - The cluster name should match a bucket in [`minio_buckets`](minio.md).
