@@ -49,12 +49,18 @@ both clusters through HAProxy every second:
 | Step   | Duration | Writes per cluster                                     |
 |--------|----------|--------------------------------------------------------|
 | Step 0 | 2 min    | no interruption (only the apt sources change)          |
-| Step 1 | 6-8 min  | one gap of 10-17 seconds (the primary moves to another host) |
+| Step 1 | 5-8 min  | two gaps: 13-18 seconds (the WAL moves to its subfolder, see below), then 10-17 seconds (the primary moves to another host) |
 | Step 2 | 5-6 min  | one gap of 11-17 seconds (the primary moves to another host) |
 
 The roles restart the services one host at a time: per cluster first the keepers of the standbys, then the primary,
 which they move to another host first (`stolonctl failkeeper`). etcd, pgroute66, HAProxy, keepalived and PgBouncer
 restart one host at a time too. The two clusters have their gap at a different moment. Reads from the standbys go on.
+
+In step 1, v2.0.1 also moves the WAL of each cluster from `<stolon_wal_dir>/<cluster>` to the subfolder
+`<stolon_wal_dir>/<cluster>/wal` (`tasks/stolon_wal_subfolder.yml`, before the stolon role), so the WAL of a cluster can
+have its own disk, mounted on `<stolon_wal_dir>/<cluster>` (see [BYO](../platforms/byo.md)). For that, the keepers of a
+cluster stop on all database hosts at the same time, for the seconds the move takes: no reads either. Once moved, later
+runs skip it.
 
 On Ubuntu, `needrestart` restarts services after every apt run, on all hosts at once. The linux role of v2.0.1 tells
 it to leave the PgVillage services alone (`/etc/needrestart/conf.d/pgvillage.conf`, see `linux_needrestart_exclude`
@@ -157,7 +163,11 @@ Then deploy as usual:
 ansible-playbook -i inventories/standard -i inventories/ubuntu -i <your inventory> functional-all.yml
 ```
 
-A second run should change nothing.
+A second run should change nothing. Check that `pg_wal` of each cluster points to the subfolder:
+
+```bash
+sudo ls -l /data/postgres/data/cluster1/postgres/pg_wal   # standard paths; -> <stolon_wal_dir>/cluster1/wal
+```
 
 ## Step 2: apt/latest
 
