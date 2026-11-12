@@ -1,0 +1,40 @@
+---
+# RustFS on the backup hosts (pgvillage.rustfs), the S3 storage for the wal-g backups. It replaces the pgvillage.minio
+# role, which ran RustFS too (minio_use_rustfs) up to PgVillage v2.0.1. The rustfs role fails when minio_* variables
+# are set: see docs/tools/rustfs.md for the migration.
+rustfs_server_addr: ":443"
+rustfs_server_console_enable: false
+# Placeholders; change them (e.g. with ansible-vault)
+rustfs_access_key: "AWSKEY"
+rustfs_secret_key: "AWSSECRET"
+# One bucket per cluster in stolon_clusters (see walg_clusters.<cluster>.s3_prefix)
+rustfs_buckets:
+  - cluster1
+  - cluster2
+
+# The user and data directory of the minio role, so hosts deployed with it keep their data (and new hosts are the same).
+# The minio user is created by the linux role (users.yml).
+rustfs_user: minio
+rustfs_server_datadirs:
+  - /var/lib/minio
+# Removes Minio from hosts that still run it (PgVillage v2.0.0 and older; it keeps the data). No-op on other hosts.
+rustfs_remove_minio: true
+
+# The certificates of chainsmith (group_vars/backup/chainsmith.yml): the role copies the server certs from
+# /etc/pki/minio to rustfs_tls_path, and rc trusts the CA in the client cert folder of the minio user.
+rustfs_cert_managed: false
+rustfs_client_ca_bundle: >-
+  {{ getent_passwd[rustfs_user][4] }}/{{ chainsmith_client_cert_sub_folder }}/{{ chainsmith_client_root_filename }}
+rustfs_cert_files:
+  server_cert:
+    path: "{{ rustfs_tls_path }}/rustfs_cert.pem"
+    owner: "{{ rustfs_user }}"
+    source: /etc/pki/minio/server.crt
+  server_key:
+    path: "{{ rustfs_tls_path }}/rustfs_key.pem"
+    owner: "{{ rustfs_user }}"
+    source: /etc/pki/minio/server.key
+  server_chain:
+    path: "{{ rustfs_tls_path }}/ca.crt"
+    owner: "{{ rustfs_user }}"
+    source: /etc/pki/minio/root.crt

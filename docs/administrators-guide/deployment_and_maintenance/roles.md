@@ -20,7 +20,7 @@ playbook.
 | 20    | `chainsmith`           | `pgvillage.chainsmith`                | `hacluster`, `backup`, `router`, `localhost` | `certificates`, `certs` |
 | 30    | `firewall`             | `pgvillage.firewall`                  | `hacluster`, `backup`, `router`           | `firewalld` |
 | 40    | `etcd`                 | `pgvillage.etcd`                      | `etcd_master`                             | |
-| 50    | `minio`                | `pgvillage.minio`                     | `backup`                                  | |
+| 50    | `rustfs`               | `pgvillage.rustfs`                    | `backup`                                  | |
 | 60    | `walg`                 | `pgvillage.walg`                      | `hacluster`                               | |
 | 70    | `stolon_wal_subfolder` | `tasks/stolon_wal_subfolder.yml`      | `hacluster`                               | `stolon`, `postgres`, `postgresql`, `pg` |
 | 71    | `stolon`               | `pgvillage.stolon`                    | `hacluster`                               | `postgres`, `postgresql`, `pg` |
@@ -52,12 +52,9 @@ pgvillage_roles:
   # Run a step on other groups
   pgquartz:
     groups: [hacluster, backup]
-  # Replace minio with RustFS (pgvillage.rustfs), at the same position
-  minio:
-    enabled: false
+  # Run another role in a step (here instead of pgvillage.rustfs)
   rustfs:
-    order: 50
-    groups: [backup]
+    role: mycompany.objectstore
   # Add a role of your own, right after linux (from requirements.yml or your roles path)
   mycompany.hardening:
     order: 15

@@ -16,7 +16,7 @@ ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/va
 ```
 
 A file in `inventories/vagrant/group_vars/<group>/` overrides the variables with the same name in the earlier
-inventories. Everything not listed here comes from standard (the clusters and their ports, wal-g, minio buckets,
+inventories. Everything not listed here comes from standard (the clusters and their ports, wal-g, RustFS buckets,
 PgBouncer, avchecker, firewall, etcd, nagios, etc.) or from the OS inventory (packages, repositories, users, paths).
 
 ## Hosts
@@ -72,7 +72,7 @@ separate disks.
 
 ## Certificates
 
-Chainsmith creates certificates for the database hosts and the minio host, as in standard: the server certificates of
+Chainsmith creates certificates for the database hosts and the backup host (`minio.local`), as in standard: the server certificates of
 the database hosts are on the data mountpoint (`/data/postgres/data/certs`).
 
 ## Router

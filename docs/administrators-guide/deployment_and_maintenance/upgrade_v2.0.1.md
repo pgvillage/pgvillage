@@ -213,4 +213,5 @@ After the upgrade:
     ansible all <inventories> -b -m ansible.builtin.apt -a 'update_cache=true'
     ```
 
-- minio keeps running on the backup host. Moving the backups to RustFS is a separate step.
+- minio keeps running on the backup host. Moving the backups to RustFS is a separate step, with the release after
+  v2.0.1: see [Migrating from the minio role](../../tools/rustfs.md#migrating-from-the-minio-role).
