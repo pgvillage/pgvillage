@@ -32,23 +32,22 @@ ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/va
 | `group_vars/all/uninstall.yml`       | `uninstall_linux_packages` | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd` | EL package names |
 | `group_vars/all/uninstall.yml`       | `uninstall_os_file_list`   | `/etc/postgresql/<version>`, `/var/lib/postgresql/<version>` (the default cluster of the deb package) | `/usr/pgsql-<version>`, `/var/lib/pgsql-<version>`, ... |
 | `group_vars/hacluster/pgbouncer.yml` | `pgbouncer_install_dir`    | `/usr/sbin`                               | role default |
-| `group_vars/backup/minio.yml`        | `minio_use_rustfs`, `minio_rustfs_client_ca_bundle` | RustFS instead of minio; the RustFS client trusts chainsmith's CA | minio |
 
 The PgVillage apt repository is `repo.pgvillage.org/apt/latest` (`linux_pgvillage_channel: latest` in
 `inventories/standard`), which has the new apt builds (v0.0.5 and later: binaries in `/usr/bin`,
 which the roles expect). Until PgVillage v2.0.0 it had the older builds, converted from rpm, with the binaries in
 `/usr/local/bin` (now `apt/v0.3.2`); to upgrade such a deployment, see
 [Upgrading from v2.0.0 to v2.0.1](../../deployment_and_maintenance/upgrade_v2.0.1.md). The new builds have RustFS
-instead of minio, so the backup host runs RustFS (the `pgvillage.minio` role with `minio_use_rustfs`).
+instead of minio, so the backup host runs RustFS (the `pgvillage.rustfs` role, see [RustFS](../../../tools/rustfs.md)).
 
-Repositories, users and groups are not set in the inventory, and packages only for `backup`: the `pgvillage.linux` role
-picks them for apt (PgVillage `repo.pgvillage.org/apt/<channel>`, and pgdg):
+Repositories and packages are not set in the inventory: the `pgvillage.linux` role picks them for apt (PgVillage
+`repo.pgvillage.org/apt/<channel>`, and pgdg):
 
-- **Packages**: `stolon`, `wal-g-pg`, `etcd`, `acl` and `postgresql-17` on `hacluster`; `acl` on `backup` (the
-  `pgvillage.minio` role installs `rustfs` and `rustfs-cli`);
-  `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts`.
+- **Packages**: `stolon`, `wal-g-pg`, `etcd`, `acl` and `postgresql-17` on `hacluster`; `acl`, `rustfs` and
+  `rustfs-cli` on `backup`; `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts`.
 - **Users and groups**: `postgres`, `pgbouncer`, `avchecker`, `pgquartz`, `pgfga`, `pgroute66` on `hacluster`;
-  `minio` on `backup`; `haproxy`, `keepalived`, `pgroute66` on `router`.
+  `minio` on `backup` (`inventories/standard`, as RustFS runs as `minio`); `haproxy`, `keepalived`, `pgroute66` on
+  `router`.
 
 To change them, set `linux_packages`, `linux_users` or `linux_groups`. They are dictionaries per host group, and a
 later inventory replaces them as a whole, so list all groups.

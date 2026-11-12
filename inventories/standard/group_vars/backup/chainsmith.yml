@@ -1,5 +1,8 @@
 ---
-# minio: server cert owned by minio (in /etc/pki/minio, the role default), client certs where mcli looks for them
+# The backup host (RustFS, as the minio user): the server certs in /etc/pki/minio (the role default for owner minio),
+# and the client certs of minio where the minio role (mcli) had them. These paths stay, so moving from the minio role
+# to the rustfs role doesn't make chainsmith reissue all certificates. The rustfs role takes the certs from here
+# (rustfs.yml).
 chainsmith_client_cert_sub_folder: '.mcli/certs'
 chainsmith_client_cert_filename: 'public.crt'
 chainsmith_client_pkey_filename: 'private.key'

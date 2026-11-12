@@ -28,11 +28,11 @@ walg_bucket_cert: "{{ certs.server.chain }}"
 walg_cert_folders: {}
 walg_cert_files: {}
 
-# S3 (minio on the backup host); platforms with other storage (e.g. azure) override walg_bucket_defaults.
+# S3 (RustFS on the backup host); platforms with other storage (e.g. azure) override walg_bucket_defaults.
 # WALG_S3_PREFIX is set per cluster (walg_clusters.<cluster>.s3_prefix).
 walg_bucket_defaults:
-  AWS_ACCESS_KEY_ID: "{{ minio_access_key }}"
-  AWS_SECRET_ACCESS_KEY: "{{ minio_secret_key }}"
+  AWS_ACCESS_KEY_ID: "{{ rustfs_access_key }}"
+  AWS_SECRET_ACCESS_KEY: "{{ rustfs_secret_key }}"
   AWS_ENDPOINT: "https://{{ hostvars[groups.backup[0]].ansible_fqdn }}"
   AWS_S3_FORCE_PATH_STYLE: true
   S3_CA_CERT_FILE: "{{ getent_passwd[walg_user][4] }}/.postgresql/root.crt"

@@ -11,7 +11,7 @@ date: 2026-10-08
 The default inventory group names chosen for PgVillage are:
 
 - `hacluster`: This group should hold all PostgreSQL database nodes and will receive PostgreSQL, Stolon, WAL-G and other database server tooling.
-- `backup`: This group can have one backup server. PgVillage will deploy MinIO on it, to be used as an S3 endpoint.
+- `backup`: This group can have one backup server. PgVillage will deploy RustFS on it, to be used as an S3 endpoint.
 - `router`: All servers in this group will receive HAProxy, Keepalived and PgRoute66.
 
 !!! note

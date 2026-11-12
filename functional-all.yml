@@ -3,8 +3,7 @@
 # Change them with pgvillage_roles in the inventory (merged into the defaults per step), e.g.:
 #   pgvillage_roles:
 #     nagios: { enabled: false }
-#     minio: { enabled: false }
-#     rustfs: { order: 50, groups: [backup] }                              # pgvillage.rustfs instead of minio
+#     pgquartz: { groups: [hacluster, backup] }
 #     mycompany.hardening: { order: 15, groups: [hacluster, backup, router] }
 # Per step:
 #   order:   position (required for new steps); steps with the same order run in the order of their names
@@ -24,7 +23,7 @@
       chainsmith: { order: 20, groups: [hacluster, backup, router, localhost], tags: [certificates, certs] }
       firewall: { order: 30, groups: [hacluster, backup, router], tags: [firewalld] }
       etcd: { order: 40, groups: [etcd_master] }
-      minio: { order: 50, groups: [backup] }
+      rustfs: { order: 50, groups: [backup] }
       walg: { order: 60, groups: [hacluster] }
       stolon_wal_subfolder:
         order: 70

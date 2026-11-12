@@ -18,7 +18,7 @@ firewall_ports_hacluster:
   etcd_server: 2380
 
 firewall_ports_backup:
-  minio: 443
+  rustfs: 443
 
 # The HAProxy frontends (haproxy.yml), on the router hosts
 firewall_ports_router: "{{ haproxy_frontends | items2dict(key_name='name', value_name='port') }}"

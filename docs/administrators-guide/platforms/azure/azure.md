@@ -182,7 +182,7 @@ inventory has no database hosts.
 - Defines `localhost` in `localhosts`. It must be defined here and not in `inventories/standard`: `inventory_dir`
   of `localhost` is the inventory that defines it, and that sets `cluster_name` (and so all resource names) and
   the folder the role writes its [generated files](#generated-files) to.
-- The `backup` group is empty: there is no minio, wal-g writes to the storage account.
+- The `backup` group is empty: there is no RustFS, wal-g writes to the storage account.
 
 `host_vars/localhost` makes Ansible run locally on the control node (`ansible_connection: local`, with the Python
 of `ansible-playbook`), and sets no chainsmith cert files (`chainsmith_cert_files: []`).

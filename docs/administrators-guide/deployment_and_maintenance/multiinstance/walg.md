@@ -15,7 +15,7 @@ The wal-g role can manage backups for multiple PostgreSQL instances by adding so
 ## `walg_clusters`
 
 Dictionary with one entry per Postgres instance on the host. The key is the instance (cluster) name and must match
-the key used in [`stolon_clusters`](stolon.md) and the bucket name in [`minio_buckets`](minio.md).
+the key used in [`stolon_clusters`](stolon.md) and the bucket name in [`rustfs_buckets`](rustfs.md).
 For every entry the role deploys a separate wal-g configuration, log folder and backup cron job.
 
 | Key                | Description                                                                                  |
