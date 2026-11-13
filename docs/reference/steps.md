@@ -19,6 +19,7 @@ playbook.
 | 5     | `rustfs_user`          | `tasks/rustfs_user.yml`               | `backup`                                  | `linux`, `packages`, `chainsmith`, `certificates`, `certs`, `rustfs`, `minio` |
 | 10    | `linux`                | `pgvillage.linux`                     | `hacluster`, `backup`, `router`, `localhost` | `packages` |
 | 20    | `chainsmith`           | `pgvillage.chainsmith`                | `hacluster`, `backup`, `router`, `localhost` | `certificates`, `certs` |
+| 21    | `reload_new_certs`     | `tasks/reload_new_certs.yml`          | `hacluster`, `router`                     | `chainsmith`, `certificates`, `certs` |
 | 30    | `firewall`             | `pgvillage.firewall`                  | `hacluster`, `backup`, `router`           | `firewalld` |
 | 40    | `etcd`                 | `pgvillage.etcd`                      | `etcd_master`                             | |
 | 50    | `rustfs`               | `pgvillage.rustfs`                    | `backup`                                  | `minio` |
@@ -35,6 +36,10 @@ playbook.
 
 `rustfs_user` renames the `minio` user of deployments of v2.0.1 and older to `rustfs`, before the linux role and
 chainsmith run (see [The rustfs user](../tools/rustfs.md#the-rustfs-user)). On other hosts it does nothing.
+
+`reload_new_certs` reloads PostgreSQL and restarts pgroute66 (one host at a time) when chainsmith has just issued new
+certificates, so they use them (see
+[Refreshing certificates](../operate/certificates/refresh_certificates.md)). Otherwise it does nothing.
 
 The name of a step is always a tag too, so `--tags stolon,avchecker` runs those two roles (and the steps that have
 these tags), as before.
