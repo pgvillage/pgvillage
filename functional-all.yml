@@ -22,6 +22,11 @@
     _pgvillage_roles_default:
       linux: { order: 10, groups: [hacluster, backup, router, localhost], tags: [packages] }
       chainsmith: { order: 20, groups: [hacluster, backup, router, localhost], tags: [certificates, certs] }
+      reload_new_certs:
+        order: 21
+        groups: [hacluster, router]
+        tasks: tasks/reload_new_certs.yml
+        tags: [chainsmith, certificates, certs]
       firewall: { order: 30, groups: [hacluster, backup, router], tags: [firewalld] }
       etcd: { order: 40, groups: [etcd_master] }
       minio: { order: 50, groups: [backup] }

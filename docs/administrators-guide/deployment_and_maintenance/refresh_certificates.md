@@ -55,3 +55,10 @@ glab mr create
 - When using `bring your own` certificates: [byo server certs](byo-server-certs.md)
 
 Once the certificate rollout is complete, **PostgreSQL and the application will run using the refreshed certificates.**
+
+!!! note
+    chainsmith issues new certificates for all hosts (with a new CA) when a certificate is missing or expires within
+    `chainsmith_expiry_days` on any host. `functional-all.yml` then reloads PostgreSQL on the database hosts and restarts pgroute66
+    on the router hosts (one host at a time) right after chainsmith (step `reload_new_certs`, see [Roles](roles.md)):
+    until then they keep the old certificates, and connections between the hosts fail (`SSL error: invalid padding`). The backup host restarts
+    RustFS when its certificates change (in the `minio` step).

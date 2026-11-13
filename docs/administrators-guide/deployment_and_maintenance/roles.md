@@ -18,6 +18,7 @@ playbook.
 |-------|------------------------|---------------------------------------|-------------------------------------------|------------|
 | 10    | `linux`                | `pgvillage.linux`                     | `hacluster`, `backup`, `router`, `localhost` | `packages` |
 | 20    | `chainsmith`           | `pgvillage.chainsmith`                | `hacluster`, `backup`, `router`, `localhost` | `certificates`, `certs` |
+| 21    | `reload_new_certs`     | `tasks/reload_new_certs.yml`          | `hacluster`, `router`                     | `chainsmith`, `certificates`, `certs` |
 | 30    | `firewall`             | `pgvillage.firewall`                  | `hacluster`, `backup`, `router`           | `firewalld` |
 | 40    | `etcd`                 | `pgvillage.etcd`                      | `etcd_master`                             | |
 | 50    | `minio`                | `pgvillage.minio`                     | `backup`                                  | |
@@ -31,6 +32,9 @@ playbook.
 | 100   | `pgbouncer`            | `pgvillage.pgbouncer`                 | `hacluster`                               | `bouncer`, `pooler` |
 | 110   | `nagios`               | `pgvillage.nagios`                    | `haproxy`, `backup`, `hacluster`          | |
 | 120   | `pgquartz`             | `pgvillage.pgquartz`                  | `hacluster`                               | |
+
+`reload_new_certs` reloads PostgreSQL and restarts pgroute66 (one host at a time) when chainsmith has just issued new
+certificates, so they use them (see [Refreshing certificates](refresh_certificates.md)). Otherwise it does nothing.
 
 The name of a step is always a tag too, so `--tags stolon,avchecker` runs those two roles (and the steps that have
 these tags), as before.

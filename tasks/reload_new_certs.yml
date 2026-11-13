@@ -1,0 +1,67 @@
+---
+# Runs right after chainsmith. When chainsmith issues new certificates, it does so for all hosts (a new CA), but the
+# running services keep what they loaded at their start, and connections between the hosts fail with e.g.
+# `SSL error: invalid padding` or `data too large for modulus`:
+# - PostgreSQL (database hosts): a reload is enough, and doesn't interrupt it (existing connections go on, new ones
+#   use the new certificates). Without it, replication and the PostgreSQL users that the stolon role creates fail;
+# - pgroute66 (router hosts) reads its client certificate only at start: restart it, one host at a time.
+# Clients that connect with libpq (avchecker, pgquartz, ...) read the certificates for every new connection. RustFS on
+# the backup host restarts when the minio step copies its new certificates.
+# chainsmith reissues when its check (chainsmith_cert_check, registered by the chainsmith role) failed on any host.
+# When chainsmith didn't run (e.g. other --tags), this does nothing.
+- name: Check whether chainsmith issued new certificates
+  ansible.builtin.set_fact:
+    _reload_new_certs_issued: >-
+      {{ groups['all'] | map('extract', hostvars) | selectattr('chainsmith_cert_check', 'defined')
+         | map(attribute='chainsmith_cert_check') | selectattr('rc', 'defined') | map(attribute='rc')
+         | select('gt', 0) | list | length > 0 }}
+
+- name: Reload PostgreSQL, so it uses the new certificates
+  # The first line of postmaster.pid is the pid of the postmaster; SIGHUP is what pg_ctl reload sends. Only when it
+  # runs: a PostgreSQL that is down starts with the new certificates anyway.
+  ansible.builtin.shell:
+    cmd: |
+      set -e
+      [ -f "${PIDFILE}" ] || exit 0
+      pid=$(head -n 1 "${PIDFILE}")
+      [ "$(ps -o comm= -p "${pid}" || true)" = postgres ] || exit 0
+      kill -HUP "${pid}"
+      echo reloaded
+  environment:
+    PIDFILE: "{{ item.value.sysconfig.stkeeper.pgdata_dir }}/postmaster.pid"
+  loop: "{{ stolon_clusters | default({}) | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when:
+    - _reload_new_certs_issued | bool
+    - inventory_hostname in groups['hacluster'] | default([])
+    - item.value.sysconfig.stkeeper.pgdata_dir is defined
+  register: _reload_new_certs_hup
+  changed_when: "'reloaded' in _reload_new_certs_hup.stdout"
+
+- name: Restart pgroute66, one host at a time, so it uses the new certificates
+  # Only where it runs; wait until its API answers again before the next host
+  ansible.builtin.shell:
+    cmd: |
+      set -e
+      systemctl is-active --quiet pgroute66.service || exit 0
+      systemctl restart pgroute66.service
+      for i in $(seq "${WAIT}"); do
+        if (exec 3<>"/dev/tcp/${ADDR}/${PORT}") 2>/dev/null; then echo restarted; exit 0; fi
+        sleep 1
+      done
+      echo "pgroute66 doesn't answer on ${ADDR}:${PORT} after ${WAIT} seconds" >&2
+      exit 1
+    executable: /bin/bash
+  environment:
+    ADDR: "{{ {'': '127.0.0.1', '0.0.0.0': '127.0.0.1', '::': '::1'}.get(_bind, _bind) }}"
+    PORT: "{{ pgroute66_port | default(8080) }}"
+    WAIT: "{{ pgroute66_restart_wait_timeout | default(60) }}"
+  vars:
+    _bind: "{{ pgroute66_bind | default('127.0.0.1') | default('', true) | string | trim }}"
+  when:
+    - _reload_new_certs_issued | bool
+    - inventory_hostname in groups['router'] | default([])
+  throttle: 1
+  register: _reload_new_certs_pgroute66
+  changed_when: "'restarted' in _reload_new_certs_pgroute66.stdout"
