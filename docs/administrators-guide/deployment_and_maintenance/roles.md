@@ -16,6 +16,7 @@ playbook.
 
 | Order | Step                   | Runs                                  | Groups                                    | Extra tags |
 |-------|------------------------|---------------------------------------|-------------------------------------------|------------|
+| 5     | `rustfs_user`          | `tasks/rustfs_user.yml`               | `backup`                                  | `linux`, `packages`, `chainsmith`, `certificates`, `certs`, `minio` |
 | 10    | `linux`                | `pgvillage.linux`                     | `hacluster`, `backup`, `router`, `localhost` | `packages` |
 | 20    | `chainsmith`           | `pgvillage.chainsmith`                | `hacluster`, `backup`, `router`, `localhost` | `certificates`, `certs` |
 | 30    | `firewall`             | `pgvillage.firewall`                  | `hacluster`, `backup`, `router`           | `firewalld` |
@@ -31,6 +32,9 @@ playbook.
 | 100   | `pgbouncer`            | `pgvillage.pgbouncer`                 | `hacluster`                               | `bouncer`, `pooler` |
 | 110   | `nagios`               | `pgvillage.nagios`                    | `haproxy`, `backup`, `hacluster`          | |
 | 120   | `pgquartz`             | `pgvillage.pgquartz`                  | `hacluster`                               | |
+
+`rustfs_user` renames the `minio` user of deployments of v2.0.1 and older to `rustfs`, before the linux role and
+chainsmith run (see [The rustfs user](../../tools/minio.md#the-rustfs-user)). On other hosts it does nothing.
 
 The name of a step is always a tag too, so `--tags stolon,avchecker` runs those two roles (and the steps that have
 these tags), as before.

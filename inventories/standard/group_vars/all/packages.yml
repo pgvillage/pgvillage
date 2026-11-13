@@ -9,7 +9,7 @@ linux_pgvillage_channel: latest
 
 # linux_public_repos is not set here: the pgvillage.linux role derives it per package manager (apt, dnf, zypper) and
 # linux_pgvillage_channel. OS layers (inventories/el, ubuntu, suse) override it where needed. linux_users and
-# linux_groups are in users.yml.
+# linux_groups are the role defaults (rustfs on the backup hosts, see tasks/rustfs_user.yml).
 
 # The role default, but without minio for the backup hosts: the PgVillage repos (latest) ship
 # RustFS instead, which the pgvillage.minio role installs itself (minio_use_rustfs in minio.yml). The backup hosts keep
