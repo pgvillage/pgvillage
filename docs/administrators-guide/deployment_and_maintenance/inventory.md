@@ -17,10 +17,9 @@ This is done using Ansible. This description can be used to load the inventory w
 
 ## Requirements
 
-- 3 (or more) database servers, 1 backup server (and optionally 2 router servers)
-  - Requested through a change request (see [from database request to server request]   (inventory.md) for more information).
-  - Delivered by SHS
-- Management server with the correct configuration: [ssh](../ssh.md) config, [ansible](ansible.md) config
+- 3 (or more) database servers, 1 backup server (and optionally router servers)
+- A control node (management server, where you run Ansible) with ssh access and sudo on all servers, see
+  [Bring your own machines](../platforms/byo.md#checklist) and [Ansible](ansible.md)
 
 ---
 
@@ -30,21 +29,22 @@ This is done using Ansible. This description can be used to load the inventory w
 
 ### 1. Verify that the delivered servers meet the requirements
 
-#### iptables
-- **Database servers:** Ports `5432`, `25432`, `2379`, and `2380` must be open.
-- **Backup server:** Port `9091` must be open (or any other port as configured in `minio_server_addr`).
-- **Router servers (if applicable):** Ports `5432` and `5433` must be open.
-- **Management server (where you run Ansible)**: Should be able to connect to all other servers using ssh (port 22)
+Go through the [checklist](../platforms/byo.md#checklist). In short:
+
+#### Network
+- **All servers** reach each other on all ports. PgVillage configures firewalld on the servers, but not a firewall
+  between them. The ports per cluster are in [The standard inventory](../platforms/index.md#the-standard-inventory).
+- **Control node (where you run Ansible)**: Should be able to connect to all other servers using ssh (port 22)
 
 ---
 
-#### DOwnloading sources
+#### Downloading sources
 the following sources should be available either directly, or through a proxy (e.a. Satellite)
 - [pgvillage](https://github.com/pgvillage/pgvillage) (either https, or ssh, or zip if no other option is available)
 - [ansible galaxy for all ansible roles](https://galaxy.ansible.com/)
 - [Our package repos](https://repo.pgvillage.org/)
 - [PostgreSQL repos](https://download.postgresql.org/)
-- os specific repos (e.a. centos, epel, CRB, or ubuntu repos, or Susue repos)
+- os specific repos (e.a. centos, epel, CRB, or ubuntu repos, or Suse repos)
 
 For more info, check [our linux role](https://raw.githubusercontent.com/pgvillage/ansible-role-linux/refs/heads/main/defaults/main.yml) (see `_linux_public_repos`).
 
@@ -52,9 +52,9 @@ For more info, check [our linux role](https://raw.githubusercontent.com/pgvillag
 
 #### Storage
 - **Database servers:**  
-  `/data/postgres/data` and `/data/postgres/wal` must exist and have sufficient space.
+  `/data/postgres/data` and `/data/postgres/wal` must exist and have sufficient space (see [Disks](../platforms/byo.md#disks)).
 - **Backup server:**  
-  `/data/postgres/backup` must exist and have sufficient space.
+  `/var/lib/rustfs` must have sufficient space for the backups.
 
 ---
 
@@ -67,26 +67,40 @@ For more info, check [our linux role](https://raw.githubusercontent.com/pgvillag
 
 ### 2. Ensure the inventory has been created and filled out correctly
 
-The inventory can (for example) be copied from an existing inventory and possibly even assembled itself.
+PgVillage ships its inventories in `inventories/`. You run Ansible with several of them, in this order (later values
+win):
 
-Examples:
+1. `inventories/standard`: the standard PgVillage config, shared by all platforms (no hosts)
+2. an OS layer: `inventories/el`, `inventories/ubuntu` or `inventories/suse` (no hosts)
+3. a platform inventory with the hosts and the platform specifics, e.g. your own `inventories/<cluster>`
 
-<!-- These should be replaced by example environments as shipped with pgvillage (e.a. pgv_azure and pgv_vagrant) -->
+```bash
+ansible-playbook -i inventories/standard -i inventories/el -i inventories/<cluster> functional-all.yml
+```
 
-- `environments/poc` explains how it works in the POC environment: PG14, including router configuration.
-- `environments/geo_a` relates to a solution with PG14 and PostGIS.
-- `environments/vbe_a` pertains to a solution with PostgreSQL 12, router, foreign data wrapper, and pgQuartz jobs.
+See [Getting started](../platforms/index.md) for the layers and a minimal inventory for your own machines.
+
+Examples of platform inventories:
+
+- `inventories/vagrant`: the vagrant demo environment, with a router (see [Vagrant](../platforms/vagrant/index.md))
+- `inventories/lima`: VMs on a Mac with lima (see [Lima](../platforms/lima.md))
+- `inventories/azure`: Azure, with a dynamic inventory (see [Azure](../platforms/azure/index.md))
+
+Change a setting in your own inventory by adding a file with the same name to `inventories/<cluster>/group_vars/all/`
+(e.g. `generic.yml`), instead of changing `inventories/standard`. The files below are the ones in `inventories/standard`
+that hold the setting.
 
 Let's move on to the following:
 
 #### Multihomed
 
 When running multi-homed, you should set the correct interface to bind all processes to.
-Set the folling parameters as to your likings:
+See [More than one network interface](../platforms/index.md#more-than-one-network-interface).
+Set the following parameters as to your likings:
 
-- `environments/[ENV]/group_vars/all/stolon.yml`, look for:
+- `inventories/<cluster>/group_vars/all/stolon.yml`, look for:
   - stolon_pg_listen_address and set it to something like: "{{ ansible_facts['eth1']['ipv4']['address'] }}"
-- `environments/[ENV]/group_vars/all/etcd.yml`, look for:
+- `inventories/<cluster>/group_vars/all/etcd.yml`, look for:
   - etcd_iface_cluster and set it to your interface name (e.a. eth1)
 
 !!! note
@@ -95,43 +109,42 @@ Set the folling parameters as to your likings:
 ---
 
 #### PostgreSQL Version
-  - `environments/[ENV]/group_vars/all/generic.yml`: postgresql_version
-  - `environments/[ENV]/group_vars/all/packages.yml`: linux_rhsm_poolids
-    - see examples in `environments/vbe_t/group_vars/all/packages.yml` (PG12)             and `environments/ geo_a/group_vars/all/packages.yml` (PG14)
+  - `group_vars/all/generic.yml`: `postgresql_version`
+  - `group_vars/all/packages.yml`: `linux_rh_subscription.pool_ids` (RHEL with subscriptions, see the
+    `pgvillage.linux` role)
 
 ---
 
 #### Router Configuration
- - `environments/[ENV]/group_vars/all/generic.yml`:
-  - `postgresql_vip_fqdn`
-  - `postgresql_vip_ip`
-  - `postgresql_subnet`
-  - `haproxy_rw_backends`
-  - `haproxy_ro_backends`
+ - `group_vars/all/generic.yml`:
+    - `postgresql_vip_fqdn`
+    - `postgresql_vip_ip`
+    - `postgresql_subnet`
+ - See [Router](../platforms/index.md#router) and [HAProxy](multiinstance/haproxy.md)
 
 ---
 
 #### Foreign Data Wrapper
-  - `environments/[ENV]/group_vars/all/generic.yml`:
+  - `group_vars/all/stolon.yml`:
     - `stolon_keeper_extra_env_vars`
     - `stolon_package_names`
 
 ---
 
 #### PgQuartz Configuration
-  - `environments/[ENV]/group_vars/all/generic.yml`: 
+  - `group_vars/all/pgquartz.yml`:
     - `pgquartz_definitions`
     - `pgquartz_jobs`
 
 ---
 
 #### PostGIS
-  - `environments/[ENV]/group_vars/hacluster/packages.yml`: `linux_packages.postgres`
+  - `group_vars/all/packages.yml`: `linux_packages`
 
 ---
 
 #### pg_hba Configuration
-  - `environments/[ENV]/group_vars/all/generic.yml`: `stolon_pg_hba`
+  - `group_vars/all/generic.yml`: `stolon_pg_hba`
   - The first required pg_hba entries are:
 
     ```
@@ -144,25 +157,25 @@ The remaining lines must follow the Host Based Access table from the database re
 
 ---
 
-### Creating a New Inventory Based on geo_a
+### Creating a New Inventory
 
 1. Create a new branch:
 
 ```bash
 NEW_ENV=[ENV]_[OMGEVING]
-git checkout -b feature/$NEW_ENV dev
+git checkout -b feature/$NEW_ENV main
 ```
 
-2. Copy existing inventory
+2. Create the inventory, e.g. by copying an existing one (the folder name is the cluster name)
 
 ```bash
-rsync -av environments/geo_a environments/$NEW_ENV
+mkdir -p inventories/$NEW_ENV/group_vars/all
 ```
 
 3. Modify required files:
 
-- `environments/[ENV]/hosts` - fill in correct hostnames  
-- `environments/[ENV]/group_vars/all/generic.yml` - configure pg_hba  
+- `inventories/$NEW_ENV/hosts` - fill in correct hostnames (see [Hosts](../platforms/index.md#hosts))
+- `inventories/$NEW_ENV/group_vars/all/generic.yml` - configure pg_hba
 ---
 
 <!-- This should be replaced on running PgVillage with certs signed by the orgs internal CA -->
@@ -176,7 +189,7 @@ Create a new commit, push and make a merge request (create it as a draft MR)
 
 ```bash
 NEW_ENV=[ENV]_[OMGEVING]
-git add environments/$NEW_ENV
+git add inventories/$NEW_ENV
 git commit -m "New environment $NEW_ENV"
 git push
 #glab, or follow the link in the output of the `git push` command
