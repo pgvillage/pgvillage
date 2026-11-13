@@ -71,7 +71,7 @@ starts them again, which takes a few seconds. Mount a disk on `/data/postgres/wa
 
 ## The backup host
 
-The backup host runs RustFS, an S3 server, and stores the backups in `/var/lib/rustfs`: give it a disk that fits them.
+The backup host runs RustFS, an S3 server, and stores the backups in `/var/lib/minio`: give it a disk that fits them.
 
 !!! note
     The backup host is a simple solution for when there is no other storage for the backups. Depending on Enterprise

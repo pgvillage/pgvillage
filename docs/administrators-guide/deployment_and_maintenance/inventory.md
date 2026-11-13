@@ -54,7 +54,7 @@ For more info, check [our linux role](https://raw.githubusercontent.com/pgvillag
 - **Database servers:**  
   `/data/postgres/data` and `/data/postgres/wal` must exist and have sufficient space (see [Disks](../platforms/byo.md#disks)).
 - **Backup server:**  
-  `/var/lib/rustfs` must have sufficient space for the backups.
+  `/var/lib/minio` (the RustFS data directory) must have sufficient space for the backups.
 
 ---
 
