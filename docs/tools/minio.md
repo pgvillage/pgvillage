@@ -93,6 +93,34 @@ me@gurus-ansible-server1 ~/g/ansible-postgres (tmp)> ssh gurus-backup-server1.ac
 [2022-10-13 19:31:56 UTC]     0B base_000000010000001000000046_D_000000010000000E0000006E/
 ```
 
+## The rustfs user
+
+RustFS (or MinIO, see [Upgrading from v2.0.0 to v2.0.1](../administrators-guide/deployment_and_maintenance/upgrade_v2.0.1.md))
+runs as the `rustfs` user on the backup host (`minio_user` in `inventories/standard`). PgVillage v2.0.1 and older ran it
+as `minio`. On those deployments, the first step of `functional-all.yml`, `rustfs_user` (`tasks/rustfs_user.yml`),
+renames the user before the linux role and chainsmith run (the linux role would otherwise create a new `rustfs` user,
+and chainsmith would issue new certificates for all hosts):
+
+- RustFS (or MinIO) stops;
+- the `minio` group and user are renamed to `rustfs`, with the same gid and uid: the data (`/var/lib/minio`, or your
+  `minio_server_datadirs`) keeps its owner and stays where it is;
+- the home dir moves from `/home/minio` to `/home/rustfs`, with the certificates and the client config in it (`.minio`,
+  `.mcli`, `.config/rc`);
+- the server certificates of chainsmith move from `/etc/pki/minio` to `/etc/pki/rustfs`;
+- the systemd unit (`User=`, `Group=`) and the paths in `/etc/default/rustfs` (or `/etc/default/minio`) and the client
+  config point to `rustfs`, and RustFS (or MinIO) starts again.
+
+Backups and WAL archiving to the backup host stop for the seconds that takes. Later runs, and new deployments, skip it.
+`rollout_new_certs.yml` runs it too, before the minio role.
+
+If both a `minio` and a `rustfs` user exist on the backup host, the deploy stops: remove the `rustfs` user (and group)
+when it owns nothing (e.g. created by a deploy of the linux role without the rename), and deploy again.
+
+To keep running as `minio`, set `minio_user: minio`, `chainsmith_server_cert_owner: minio` (backup hosts),
+`minio` instead of `rustfs` for `backup` in `linux_users`, `linux_groups` and `chainsmith_users`, `/etc/pki/minio` in
+`minio_cert_files` and `minio_rustfs_cert_files`, and disable the step (`pgvillage_roles: {rustfs_user: {enabled: false}}`,
+see [Roles](../administrators-guide/deployment_and_maintenance/roles.md)).
+
 ## Tips & tricks
 
 When files are deleted, they are temporarily stored in a temporary folder for a certain period of time.

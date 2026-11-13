@@ -10,6 +10,9 @@
     - backup
   become: true
   gather_facts: false
+  pre_tasks:
+    - name: Rename the minio user to rustfs (deployments of v2.0.1 and older)
+      ansible.builtin.import_tasks: tasks/rustfs_user.yml
   roles:
     - pgvillage.minio
   tags:

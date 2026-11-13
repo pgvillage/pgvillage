@@ -11,5 +11,41 @@ minio_buckets:
 
 # RustFS instead of minio: the PgVillage repos no longer ship minio (see packages.yml)
 minio_use_rustfs: true
+# RustFS (or minio) runs as rustfs, the user that the linux role creates on the backup hosts. PgVillage v2.0.1
+# and older used minio: tasks/rustfs_user.yml renames it (same uid, so the data keeps its owner).
+minio_user: rustfs
+# The role defaults, but with the server certificates from /etc/pki/rustfs, where chainsmith places them for rustfs
+# (chainsmith_server_cert_owner in group_vars/backup/chainsmith.yml), instead of /etc/pki/minio
+minio_cert_files:
+  minio_chain:
+    path: "{{ minio_cert_folders.client.path }}/CA_{{ ansible_facts.hostname }}.crt"
+    body: "{{ minio_client_cert }}"
+    owner: "{{ minio_user }}"
+  server_cert:
+    path: "{{ minio_cert_folders.server.path }}/public.crt"
+    body: "{{ minio_server_cert }}"
+    owner: "{{ minio_cert_folders.server.owner }}"
+    source: /etc/pki/rustfs/server.crt
+  server_key:
+    path: "{{ minio_cert_folders.server.path }}/private.key"
+    body: "{{ minio_server_key }}"
+    owner: "{{ minio_cert_folders.server.owner }}"
+    source: /etc/pki/rustfs/server.key
+  server_chain:
+    path: "{{ minio_cert_folders.server.path }}/ca.pem"
+    body: "{{ minio_server_chain }}"
+    owner: "{{ minio_cert_folders.server.owner }}"
+    source: /etc/pki/rustfs/root.crt
+minio_rustfs_cert_files:
+  rustfs_cert:
+    path: "{{ minio_rustfs_tls_path }}/rustfs_cert.pem"
+    body: "{{ minio_server_cert }}"
+    owner: "{{ minio_user }}"
+    source: /etc/pki/rustfs/server.crt
+  rustfs_key:
+    path: "{{ minio_rustfs_tls_path }}/rustfs_key.pem"
+    body: "{{ minio_server_key }}"
+    owner: "{{ minio_user }}"
+    source: /etc/pki/rustfs/server.key
 # The CA that chainsmith places for the client (minio_cert_managed is false, so the role doesn't set one)
 minio_rustfs_client_ca_bundle: "{{ minio_cert_folders.client.path }}root.crt"
