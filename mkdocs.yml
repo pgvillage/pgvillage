@@ -72,7 +72,6 @@ plugins:
       implicit_index: true
   - redirects:
       redirect_maps:
-        'index.md': 'architecture/overview.md'
         'administrators-guide/deployment_and_maintenance/multiinstance/avchecker.md': 'tools/avchecker.md#multi-instance'
         'administrators-guide/deployment_and_maintenance/multiinstance/firewall.md': 'tools/firewall.md#multi-instance'
         'administrators-guide/deployment_and_maintenance/multiinstance/haproxy.md': 'tools/haproxy.md#multi-instance'
@@ -83,16 +82,102 @@ plugins:
         'administrators-guide/deployment_and_maintenance/multiinstance/pgroute66.md': 'tools/pgroute66.md#multi-instance'
         'administrators-guide/deployment_and_maintenance/multiinstance/stolon.md': 'tools/stolon.md#multi-instance'
         'administrators-guide/deployment_and_maintenance/multiinstance/walg.md': 'tools/wal-g.md#multi-instance'
+        'administrators-guide/platforms/index.md': 'index.md'
+        'administrators-guide/platforms/lima.md': 'try-it/lima.md'
+        'administrators-guide/platforms/vagrant/index.md': 'try-it/vagrant/index.md'
+        'administrators-guide/platforms/vagrant/boxes.md': 'try-it/vagrant/boxes.md'
+        'administrators-guide/platforms/macos.md': 'try-it/vagrant/macos.md'
+        'administrators-guide/platforms/azure/deploy.md': 'try-it/azure.md'
+        'administrators-guide/platforms/byo.md': 'deploy/byo.md'
+        'administrators-guide/deployment_and_maintenance/inventory.md': 'deploy/inventory/index.md'
+        'administrators-guide/platforms/vagrant/inventory.md': 'deploy/inventory/vagrant-example.md'
+        'administrators-guide/deployment_and_maintenance/ansible.md': 'deploy/control-node/ansible.md'
+        'administrators-guide/deployment_and_maintenance/ansible_cfg.md': 'deploy/control-node/ansible_cfg.md'
+        'administrators-guide/platforms/ubuntu/index.md': 'deploy/os/debian.md'
+        'administrators-guide/platforms/el/index.md': 'deploy/os/el.md'
+        'administrators-guide/platforms/suse/index.md': 'deploy/os/suse.md'
+        'administrators-guide/platforms/arm-vs-amd.md': 'deploy/os/arm-vs-amd.md'
+        'administrators-guide/platforms/azure/index.md': 'deploy/platforms/azure/index.md'
+        'administrators-guide/platforms/azure/azure.md': 'deploy/platforms/azure/azure.md'
+        'administrators-guide/platforms/azure/amd-vs-arm.md': 'deploy/platforms/azure/amd-vs-arm.md'
+        'administrators-guide/platforms/azure/el-vs-suse.md': 'deploy/platforms/azure/el-vs-suse.md'
+        'administrators-guide/deployment_and_maintenance/multi-instance.md': 'deploy/multi-instance.md'
+        'administrators-guide/deployment_and_maintenance/byo-server-certs.md': 'deploy/certificates/byo-server-certs.md'
+        'administrators-guide/deployment_and_maintenance/byo-client-certs.md': 'deploy/certificates/byo-client-certs.md'
+        'administrators-guide/deployment_and_maintenance/modify_existing.md': 'operate/modify_existing.md'
+        'administrators-guide/deployment_and_maintenance/upgrade_v2.0.1.md': 'operate/upgrading/upgrade_v2.0.1.md'
+        'administrators-guide/deployment_and_maintenance/patching_procedure.md': 'operate/patching_procedure.md'
+        'administrators-guide/deployment_and_maintenance/refresh_certificates.md': 'operate/certificates/refresh_certificates.md'
+        'administrators-guide/deployment_and_maintenance/replacing_certificates.md': 'operate/certificates/replacing_certificates.md'
+        'administrators-guide/deployment_and_maintenance/point_in_time_restore.md': 'operate/backup-and-restore/point_in_time_restore.md'
+        'administrators-guide/troubleshooting/verify.md': 'operate/troubleshooting/verify.md'
+        'administrators-guide/troubleshooting/quick_fix.md': 'operate/troubleshooting/quick_fix.md'
+        'administrators-guide/troubleshooting/connectivity.md': 'operate/troubleshooting/connectivity.md'
+        'administrators-guide/troubleshooting/openssl.md': 'operate/troubleshooting/openssl.md'
+        'users-guide/clients.md': 'connecting/clients.md'
+        'users-guide/client_connection_failover.md': 'connecting/client_connection_failover.md'
+        'users-guide/jdbc.md': 'connecting/jdbc.md'
+        'architecture/pg_service.md': 'connecting/pg_service.md'
+        'administrators-guide/deployment_and_maintenance/group-names.md': 'reference/groups.md'
+        'administrators-guide/deployment_and_maintenance/roles.md': 'reference/steps.md'
+        'developers-guide/developing.md': 'developers/developing.md'
+        'developers-guide/vagrant.md': 'developers/vagrant.md'
 
 # Navigation
 nav:
-  - Architecture: architecture/
-  - Tools: tools/
-  - Guides:
-      - Administrator Guide: administrators-guide/
-      - User Guide: users-guide/
-      - Developer Guide: developers-guide/
-      - Tuning guide: tuning/
+  - Getting started: index.md
+  - Try it:
+      - Lima: try-it/lima.md
+      - Vagrant:
+          - try-it/vagrant/index.md
+          - Creating the boxes: try-it/vagrant/boxes.md
+          - macOS: try-it/vagrant/macos.md
+      - Azure: try-it/azure.md
+  - Deploy:
+      - Your own machines: deploy/byo.md
+      - The inventory:
+          - deploy/inventory/index.md
+          - Example, the vagrant inventory: deploy/inventory/vagrant-example.md
+      - Control node & Ansible:
+          - deploy/control-node/ansible.md
+          - deploy/control-node/ansible_cfg.md
+      - Operating systems:
+          - deploy/os/debian.md
+          - deploy/os/el.md
+          - deploy/os/suse.md
+          - deploy/os/arm-vs-amd.md
+      - Platforms:
+          - Azure:
+              - deploy/platforms/azure/index.md
+              - deploy/platforms/azure/azure.md
+              - deploy/platforms/azure/amd-vs-arm.md
+              - deploy/platforms/azure/el-vs-suse.md
+      - Multi-instance: deploy/multi-instance.md
+      - Your own certificates:
+          - deploy/certificates/byo-server-certs.md
+          - deploy/certificates/byo-client-certs.md
+  - Operate:
+      - Changing a cluster: operate/modify_existing.md
+      - Upgrading: operate/upgrading/
+      - Patching: operate/patching_procedure.md
+      - Certificates: operate/certificates/
+      - Backup and restore: operate/backup-and-restore/
+      - Troubleshooting:
+          - operate/troubleshooting/verify.md
+          - operate/troubleshooting/quick_fix.md
+          - operate/troubleshooting/connectivity.md
+          - operate/troubleshooting/openssl.md
+  - Connecting applications: connecting/
+  - Tuning: tuning/
+  - Reference:
+      - Roles: reference/roles/
+      - Groups: reference/groups.md
+      - Steps: reference/steps.md
+  - Architecture & tools:
+      - architecture/overview.md
+      - architecture/mtls.md
+      - Tools: tools/
+  - Developers: developers/
   - About:
       - Branding: about/branding/
       - License: about/license.md

@@ -214,7 +214,7 @@ Use "wal-g delete \[command\] --help"for more information about a command.
 
 ## Multi-instance
 
-How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+How to configure this for several clusters on the same hosts. See [Multi-instance](../deploy/multi-instance.md)
 for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-walg/blob/main/defaults/main.yml) of the role for all its variables.
 
 The wal-g role can manage backups for multiple PostgreSQL instances by adding some configuration to the inventory

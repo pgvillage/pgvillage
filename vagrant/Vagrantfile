@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 # PgVillage demo environment: an Ansible host, a minio host and three database hosts.
-# See docs/administrators-guide/platforms/vagrant/index.md.
+# See docs/try-it/vagrant/index.md.
 #
 # PGV_OS selects the box, and the OS inventory to deploy with (ubuntu: inventories/os/debian, el: inventories/os/el,
 # suse: inventories/os/suse; bootstrap.sh sets PGV_OS_INVENTORY on the ansible box):
