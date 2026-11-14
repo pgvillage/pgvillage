@@ -16,6 +16,7 @@ playbook.
 
 | Order | Step                   | Runs                                  | Groups                                    | Extra tags |
 |-------|------------------------|---------------------------------------|-------------------------------------------|------------|
+| 0     | `preflight`            | `tasks/preflight.yml`                 | `hacluster`, `backup`, `router`, `etcd_master`, `stolon`, `haproxy`, `localhost` | |
 | 5     | `rustfs_user`          | `tasks/rustfs_user.yml`               | `backup`                                  | `linux`, `packages`, `chainsmith`, `certificates`, `certs`, `rustfs`, `minio` |
 | 10    | `linux`                | `pgvillage.linux`                     | `hacluster`, `backup`, `router`, `localhost` | `packages` |
 | 20    | `chainsmith`           | `pgvillage.chainsmith`                | `hacluster`, `backup`, `router`, `localhost` | `certificates`, `certs` |
@@ -33,6 +34,10 @@ playbook.
 | 100   | `pgbouncer`            | `pgvillage.pgbouncer`                 | `hacluster`                               | `bouncer`, `pooler` |
 | 110   | `nagios`               | `pgvillage.nagios`                    | `haproxy`, `backup`, `hacluster`          | |
 | 120   | `pgquartz`             | `pgvillage.pgquartz`                  | `hacluster`                               | |
+
+`preflight` checks the hosts and the inventory (read-only) and fails before anything changes when they aren't
+ready; `preflight.yml` runs the same checks on its own. See [Preflight checks](../deploy/preflight.md). Skip it with
+`pgvillage_roles: {preflight: {enabled: false}}`.
 
 `rustfs_user` renames the `minio` user of deployments of v2.0.1 and older to `rustfs`, before the linux role and
 chainsmith run (see [The rustfs user](../tools/rustfs.md#the-rustfs-user)). On other hosts it does nothing.

@@ -1,7 +1,8 @@
 # vagrant
 
 Everything specific to the vagrant demo environment: the boxes (`hosts`), the private network (its interface is
-looked up in the facts), certificates in `/etc/pki`, and the router (HAProxy, keepalived, pgroute66). The boxes and
+looked up in the facts), certificates in `/etc/pki`, the router (HAProxy, keepalived, pgroute66), and fixed S3 keys for the backup host
+(`group_vars/all/minio.yml`, demo only). The boxes and
 scripts are in `vagrant/`. Use it on top of `inventories/standard` and the OS inventory of the boxes (ubuntu by
 default, or el or suse):
 

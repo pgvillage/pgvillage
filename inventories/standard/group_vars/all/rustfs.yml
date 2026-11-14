@@ -4,7 +4,9 @@
 # are set: see docs/tools/rustfs.md for the migration.
 rustfs_server_addr: ":443"
 rustfs_server_console_enable: false
-# Placeholders; change them (e.g. with ansible-vault)
+# Placeholders: set your own keys in your inventory (with ansible-vault, a HashiCorp Vault lookup, ...).
+# Preflight (step 0 of functional-all.yml) fails while they are AWSKEY / AWSSECRET, see
+# docs/deploy/preflight.md#secrets.
 rustfs_access_key: "AWSKEY"
 rustfs_secret_key: "AWSSECRET"
 # One bucket per cluster in stolon_clusters (see walg_clusters.<cluster>.s3_prefix)
