@@ -1,6 +1,6 @@
 # PgVillage demo VM for Lima: vz, on the user-v2 network shared by all PgVillage VMs. lima/up.sh creates the VMs from
 # this template (the OS image, cpus, memory and the repository mount are set there).
-# See docs/administrators-guide/platforms/lima.md.
+# See docs/try-it/lima.md.
 minimumLimaVersion: 2.0.0
 
 vmType: vz

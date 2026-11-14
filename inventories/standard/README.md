@@ -1,6 +1,6 @@
 # standard
 
-See [Getting started](../../docs/administrators-guide/platforms/index.md) for how to use it with your own machines.
+See [Getting started](../../docs/index.md) for how to use it with your own machines.
 
 Standard PgVillage config, shared by all platforms: Postgres version, mountpoints, ports, packages, and the config of
 stolon, wal-g, avchecker, nagios, etc.
@@ -16,7 +16,7 @@ The ports are set in `stolon.yml`, `wal-g.yml`, `pgbouncer.yml`, `avchecker.yml`
 `haproxy.yml` take them from `stolon_clusters`: HAProxy on the router listens on 35433/45433/55433 (read-write,
 read-only, stolon proxy) for `cluster1` and 35434/45434/55434 for `cluster2`);
 keep them in line when adding or changing a cluster. See
-[multi-instance](../../docs/administrators-guide/deployment_and_maintenance/multi-instance.md).
+[multi-instance](../../docs/deploy/multi-instance.md).
 
 It has no OS specifics and no hosts. `hosts` only has the groups, and the standard architecture: stolon and etcd run on
 the database hosts (`stolon` and `etcd_master` are subgroups of `hacluster`); the platform inventory adds the hosts to

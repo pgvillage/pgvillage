@@ -8,4 +8,4 @@ them for dnf. It has no hosts; use it between standard and a platform inventory:
 ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/platform/azure functional-all.yml
 ```
 
-See the [OS docs](../../../docs/administrators-guide/platforms/el/index.md).
+See the [OS docs](../../../docs/deploy/os/el.md).

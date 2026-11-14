@@ -4,7 +4,7 @@ linux_pg_version: '{{ postgresql_version }}'
 # The latest release of the PgVillage repositories on repo.pgvillage.org (apt, yum and zypp); the role default is
 # stable, an older release. apt/latest has the apt builds of v0.0.5 and later (binaries in /usr/bin); until PgVillage
 # v2.0.0 it had the older builds (now apt/v0.3.2, binaries in /usr/local/bin), which the current roles don't support:
-# see docs/administrators-guide/deployment_and_maintenance/upgrade_v2.0.1.md.
+# see docs/operate/upgrading/upgrade_v2.0.1.md.
 linux_pgvillage_channel: latest
 
 # linux_public_repos is not set here: the pgvillage.linux role derives it per package manager (apt, dnf, zypper) and
