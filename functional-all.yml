@@ -2,6 +2,7 @@
 # Deploys PgVillage in one play: the steps in _pgvillage_roles_default, in `order`, each on the hosts of its groups.
 # Change them with pgvillage_roles in the inventory (merged into the defaults per step), e.g.:
 #   pgvillage_roles:
+#     preflight: { enabled: false }                                       # skip the checks of step 0
 #     nagios: { enabled: false }
 #     minio: { enabled: false }
 #     rustfs: { order: 50, groups: [backup] }                              # pgvillage.rustfs instead of minio
@@ -20,6 +21,11 @@
   gather_facts: true
   vars:
     _pgvillage_roles_default:
+      # The checks of preflight.yml (read-only); fails before anything changes when the hosts or inventory aren't ready
+      preflight:
+        order: 0
+        groups: [hacluster, backup, router, etcd_master, stolon, haproxy, localhost]
+        tasks: tasks/preflight.yml
       linux: { order: 10, groups: [hacluster, backup, router, localhost], tags: [packages] }
       chainsmith: { order: 20, groups: [hacluster, backup, router, localhost], tags: [certificates, certs] }
       firewall: { order: 30, groups: [hacluster, backup, router], tags: [firewalld] }

@@ -1,7 +1,9 @@
 ---
 minio_server_addr: ":443"
 minio_cert_managed: false
-# Placeholders; change them (e.g. with ansible-vault)
+# Placeholders: set your own keys in your inventory (with ansible-vault, a HashiCorp Vault lookup, ...).
+# Preflight (step 0 of functional-all.yml) fails while they are AWSKEY / AWSSECRET, see
+# docs/administrators-guide/deployment_and_maintenance/preflight.md#secrets.
 minio_access_key: "AWSKEY"
 minio_secret_key: "AWSSECRET"
 # One bucket per cluster in stolon_clusters (see walg_clusters.<cluster>.s3_prefix)

@@ -1,0 +1,6 @@
+---
+# DEMO ONLY: fixed S3 keys of the backup host, so the demo VMs deploy without setting secrets first. Everyone who has
+# this repository knows them: never use them (or this inventory) for anything but a throw-away demo. Your own inventory
+# sets its own keys, see docs/administrators-guide/deployment_and_maintenance/preflight.md#secrets.
+minio_access_key: pgvillage-demo
+minio_secret_key: pgvillage-demo-not-secret

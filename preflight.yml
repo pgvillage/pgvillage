@@ -1,0 +1,11 @@
+---
+# Checks the hosts and the inventory before a deploy, and reports all problems at the end (fails on any "fail").
+# Read-only: it changes nothing on the hosts. functional-all.yml runs the same checks as its first step (preflight).
+#   ansible-playbook -i inventories/standard -i inventories/<os> -i inventories/<yours> preflight.yml
+# See docs/administrators-guide/deployment_and_maintenance/preflight.md.
+- name: Preflight
+  hosts: all:localhost
+  gather_facts: false
+  tasks:
+    - name: Run the preflight checks
+      ansible.builtin.include_tasks: tasks/preflight.yml

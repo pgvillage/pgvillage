@@ -1,0 +1,492 @@
+---
+# Checks the hosts and the inventory before a deploy (preflight.yml, and step preflight of functional-all.yml).
+# Read-only: it changes nothing on the hosts (the repository check uses a temporary cache folder, removed right after).
+# Every host collects its problems in _pf_issues; the last task reports those of all hosts, and fails on any "fail".
+# Included by every host of the play (and localhost). Settings, all optional, in the inventory:
+#   preflight_skip: [repos, vip_in_use]     # checks to skip (the names between [] in the report)
+#   preflight_supported_os: {...}           # replaces the list of supported OS versions below
+#   preflight_min_memory_mb: 1800           # memory of a database host below which preflight warns
+# See docs/administrators-guide/deployment_and_maintenance/preflight.md.
+- name: Preflight
+  vars:
+    _pf_docs: >-
+      {{ preflight_docs_url
+         | default('https://pgvillage.github.io/pgvillage/administrators-guide/deployment_and_maintenance/preflight/') }}
+    _pf_skip: "{{ preflight_skip | default([]) }}"
+    # The hosts PgVillage deploys on (localhost and hosts in other groups are not checked)
+    _pf_hosts: >-
+      {{ (groups.hacluster | default([])) | union(groups.backup | default([])) | union(groups.router | default([]))
+         | union(groups.etcd_master | default([])) | union(groups.stolon | default([]))
+         | union(groups.haproxy | default([])) | difference(['localhost']) }}
+    # Supported OS versions per distribution (EL: RHEL and rebuilds), from the docs (Getting started > Supported
+    # platforms). A host matches when its distribution_version or distribution_major_version is in the list.
+    _pf_supported_os: >-
+      {{ preflight_supported_os | default({
+           'Debian': ['12', '13'],
+           'Ubuntu': ['22.04', '24.04', '26.04', '26.10'],
+           'EL': ['8', '9', '10'],
+           'Fedora': ['43', '44'],
+           'openSUSE Leap': ['16'],
+         }) }}
+    _pf_architectures: [x86_64, aarch64]
+    _pf_os_key: >-
+      {{ 'EL' if ansible_facts.os_family | default('') == 'RedHat' and ansible_facts.distribution | default('') != 'Fedora'
+         else ansible_facts.distribution | default('') }}
+    _pf_vip: "{{ keepalived_vip | default('') }}"
+    _pf_vip_enabled: >-
+      {{ _pf_vip | length > 0 and groups.router | default([]) | length > 0
+         and (pgvillage_roles.keepalived.enabled | default(true) | bool if pgvillage_roles is defined else true) }}
+  block:
+    - name: Preflight | Start with no problems
+      ansible.builtin.set_fact:
+        _pf_issues: []
+        _pf_reached: false
+
+    # Access: ssh (without sudo) and then sudo. Unreachable hosts stay in the play, so they are reported at the end.
+    # In functional-all.yml, hosts that failed gathering facts are no longer in the play: the report lists them too.
+    - name: Preflight | Check access over ssh
+      ansible.builtin.ping:
+      become: false
+      ignore_unreachable: true
+      ignore_errors: true
+      register: _pf_ssh
+      when: inventory_hostname in _pf_hosts
+
+    - name: Preflight | Check sudo
+      ansible.builtin.command: id -u
+      become: true
+      changed_when: false
+      check_mode: false
+      ignore_unreachable: true
+      ignore_errors: true
+      register: _pf_sudo
+      when:
+        - inventory_hostname in _pf_hosts
+        - not _pf_ssh.unreachable | default(false)
+        - not _pf_ssh.failed | default(false)
+
+    - name: Preflight | Record access problems
+      ansible.builtin.set_fact:
+        _pf_reached: "{{ _pf_ok }}"
+        _pf_issues: >-
+          {{ _pf_issues + ([] if _pf_ok else [{'level': 'fail', 'check': 'access', 'msg':
+             ('ssh: ' ~ (_pf_ssh.msg | default('unreachable')) | trim) if _pf_sudo is skipped
+             else ('sudo: ' ~ (_pf_sudo.msg | default(_pf_sudo.stderr | default('')) | default('failed', true))
+                   | trim),
+             'doc': 'access'}]) }}
+      vars:
+        _pf_ok: "{{ _pf_sudo is not skipped and _pf_sudo.rc | default(1) == 0 and _pf_sudo.stdout | default('') == '0' }}"
+      when: inventory_hostname in _pf_hosts
+
+    - name: Preflight | Gather facts
+      ansible.builtin.setup:
+      become: true
+      when:
+        - _pf_reached
+        - ansible_facts.distribution is not defined or ansible_facts.mounts is not defined
+
+    - name: Preflight | Checks on the hosts
+      when: _pf_reached
+      block:
+        - name: Preflight | Check the OS
+          ansible.builtin.set_fact:
+            _pf_issues: >-
+              {%- set r = [] -%}
+              {%- set versions = _pf_supported_os[_pf_os_key] | default([]) | map('string') | list -%}
+              {%- if 'os' not in _pf_skip and ansible_facts.distribution_version not in versions
+                  and ansible_facts.distribution_major_version not in versions -%}
+              {%- set _ = r.append({'level': 'fail', 'check': 'os', 'doc': 'os', 'msg':
+                    ansible_facts.distribution ~ ' ' ~ ansible_facts.distribution_version ~ ' is not supported'
+                    ~ (' (supported: ' ~ versions | join(', ') ~ ')' if versions else '')}) -%}
+              {%- endif -%}
+              {%- if 'os' not in _pf_skip and ansible_facts.architecture not in _pf_architectures -%}
+              {%- set _ = r.append({'level': 'fail', 'check': 'os', 'doc': 'os', 'msg':
+                    'architecture ' ~ ansible_facts.architecture ~ ' is not supported'}) -%}
+              {%- endif -%}
+              {{ _pf_issues + r }}
+
+        - name: Preflight | Check the memory of the database hosts
+          ansible.builtin.set_fact:
+            _pf_issues: >-
+              {{ _pf_issues + [{'level': 'warn', 'check': 'memory', 'doc': 'memory', 'msg':
+                 ansible_facts.memtotal_mb ~ ' MB memory; a database host needs 2 GB or more'}] }}
+          when:
+            - "'memory' not in _pf_skip"
+            - inventory_hostname in groups.hacluster | default([])
+            - ansible_facts.memtotal_mb | int < preflight_min_memory_mb | default(1800) | int
+
+        # Interfaces with an IPv4 address, other than loopback
+        - name: Preflight | Check the network interfaces
+          ansible.builtin.set_fact:
+            _pf_issues: >-
+              {{ _pf_issues + [{'level': 'warn', 'check': 'interface', 'doc': 'interface', 'msg':
+                 'several IPv4 interfaces (' ~ _pf_ifaces | join(', ') ~ ') and none chosen in the inventory'
+                 ~ ' (etcd_iface_cluster, stolon_pg_listen_address); PgVillage uses the one of the default route ('
+                 ~ ansible_facts.default_ipv4.interface | default('none') ~ ')'}] }}
+          vars:
+            _pf_ifaces: >-
+              {{ ansible_facts.interfaces | map('regex_replace', '-', '_') | map('extract', ansible_facts)
+                 | selectattr('ipv4', 'defined') | rejectattr('type', 'equalto', 'loopback')
+                 | map(attribute='device') | list }}
+          when:
+            - "'interface' not in _pf_skip"
+            - _pf_ifaces | length > 1
+            - etcd_iface_cluster is not defined
+            - etcd_network_iface is not defined
+            - stolon_pg_listen_address is not defined
+
+        - name: Preflight | Find the time sync services
+          ansible.builtin.service_facts:
+          when: "'timesync' not in _pf_skip"
+
+        - name: Preflight | Check time sync
+          ansible.builtin.set_fact:
+            _pf_issues: >-
+              {{ _pf_issues + [{'level': 'warn', 'check': 'timesync', 'doc': 'time-sync', 'msg':
+                 'no time sync service runs (chronyd, systemd-timesyncd, ntpd)'}] }}
+          vars:
+            _pf_timesync: >-
+              {{ ansible_facts.services | default({}) | dict2items
+                 | selectattr('key', 'in', ['chronyd.service', 'chrony.service', 'systemd-timesyncd.service',
+                                            'ntpd.service', 'ntp.service', 'ntpsec.service'])
+                 | selectattr('value.state', 'equalto', 'running') | list }}
+          when:
+            - "'timesync' not in _pf_skip"
+            - _pf_timesync | length == 0
+
+        # Names: the FQDNs of the other hosts (certificates, etcd) and the backup endpoint (wal-g)
+        - name: Preflight | Resolve the names of the other hosts
+          ansible.builtin.shell: |
+            for name in {{ _pf_names | map('quote') | join(' ') }}; do
+              getent hosts "${name}" >/dev/null || echo "${name}"
+            done
+          changed_when: false
+          check_mode: false
+          register: _pf_resolve
+          vars:
+            _pf_names: >-
+              {{ _pf_hosts | difference([inventory_hostname]) | map('extract', hostvars)
+                 | selectattr('_pf_reached', 'defined') | selectattr('_pf_reached') | map(attribute='ansible_facts.fqdn')
+                 | list | union([hostvars[groups.backup[0]].ansible_facts.fqdn | default(groups.backup[0])]
+                                if groups.backup | default([]) | length > 0 else []) }}
+          when: "'names' not in _pf_skip"
+
+        - name: Preflight | Record the names that don't resolve
+          ansible.builtin.set_fact:
+            _pf_issues: >-
+              {{ _pf_issues + [{'level': 'fail', 'check': 'names', 'doc': 'names', 'msg':
+                 'does not resolve ' ~ _pf_resolve.stdout_lines | join(', ')}] }}
+          when:
+            - "'names' not in _pf_skip"
+            - _pf_resolve.stdout_lines | length > 0
+
+        - name: Preflight | Check the disks of the stolon clusters
+          when:
+            - "'disks' not in _pf_skip"
+            - inventory_hostname in groups.hacluster | default([])
+          block:
+            - name: Preflight | Check the data and wal mount points
+              ansible.builtin.stat:
+                path: "{{ item }}"
+              loop: "{{ [postgresql_data_mountpoint | default(''), postgresql_wal_mountpoint | default('')] | select | list }}"
+              register: _pf_mountpoints
+
+            # The file system (mount point) of every data and wal folder, or of its nearest existing parent folder.
+            # findmnt rather than the mounts in the facts, which leave out e.g. tmpfs.
+            - name: Preflight | Find the file systems of the data and wal folders
+              ansible.builtin.shell: |
+                for path in {{ _pf_paths | map('quote') | join(' ') }}; do
+                  dir="${path}"
+                  while [ ! -e "${dir}" ]; do dir=$(dirname "${dir}"); done
+                  printf '%s\t%s\n' "${path}" "$(findmnt -n -o TARGET --target "${dir}")"
+                done
+              changed_when: false
+              check_mode: false
+              register: _pf_filesystems
+              vars:
+                _pf_paths: >-
+                  {%- set r = [] -%}
+                  {%- for cluster in (stolon_clusters | default({})).values() -%}
+                  {%- set keeper = cluster.sysconfig.stkeeper | default({}) -%}
+                  {%- set _ = r.append(keeper.pgdata_dir | default('')) -%}
+                  {%- set _ = r.append(keeper.pgwal_dir | default(keeper.wal_dir | default(''))) -%}
+                  {%- endfor -%}
+                  {{ r | select | map('regex_replace', '/+$', '') | unique | list }}
+
+            - name: Preflight | Check the data and wal folders
+              ansible.builtin.set_fact:
+                _pf_issues: >-
+                  {%- set r = [] -%}
+                  {%- for m in _pf_mountpoints.results if not (m.stat.isdir | default(false)) -%}
+                  {%- set _ = r.append({'level': 'fail', 'check': 'disks', 'doc': 'disks',
+                        'msg': 'mount point ' ~ m.item ~ ' does not exist'}) -%}
+                  {%- endfor -%}
+                  {%- set fs = dict(_pf_filesystems.stdout_lines | map('split', '\t') | list) -%}
+                  {%- for name, cluster in (stolon_clusters | default({})).items() -%}
+                  {%- set keeper = cluster.sysconfig.stkeeper | default({}) -%}
+                  {%- set pgdata = keeper.pgdata_dir | default('') | regex_replace('/+$', '') -%}
+                  {%- set pgwal = keeper.pgwal_dir | default(keeper.wal_dir | default('')) | regex_replace('/+$', '') -%}
+                  {%- set roots = {'data': [postgresql_data_mountpoint | default(''), keeper.data_dir | default('')],
+                                   'wal': [postgresql_wal_mountpoint | default(''), stolon_wal_dir | default('')]} -%}
+                  {%- for kind, path in [('data', pgdata), ('wal', pgwal)] if path -%}
+                  {%- if fs[path] | default('') == path or path in roots[kind] | map('regex_replace', '/+$', '') -%}
+                  {%- set _ = r.append({'level': 'fail', 'check': 'disks', 'doc': 'disks', 'msg': name ~ ': the '
+                        ~ kind ~ ' folder ' ~ path ~ ' is a mount point (or where one goes); make it a subfolder of the mount point'}) -%}
+                  {%- endif -%}
+                  {%- endfor -%}
+                  {%- if pgwal and pgwal == (stolon_wal_dir | default('') ~ '/' ~ name) -%}
+                  {%- set _ = r.append({'level': 'warn', 'check': 'disks', 'doc': 'disks', 'msg': name
+                        ~ ': the wal folder ' ~ pgwal ~ ' is where the wal disk of the cluster goes;'
+                        ~ ' put the wal in a subfolder (' ~ pgwal ~ '/wal)'}) -%}
+                  {%- endif -%}
+                  {%- if pgdata and pgwal -%}
+                  {%- if fs[pgdata] | default('') == fs[pgwal] | default('-') -%}
+                  {%- set _ = r.append({'level': 'warn', 'check': 'disks', 'doc': 'disks', 'msg': name
+                        ~ ': data and wal are on the same file system (' ~ fs[pgdata] ~ ')'}) -%}
+                  {%- endif -%}
+                  {%- endif -%}
+                  {%- endfor -%}
+                  {{ _pf_issues + r }}
+
+        # The package repositories configured on the host: the package manager refreshes them into a temporary
+        # cache folder (so the cache of the host doesn't change), which also covers Satellite and mirrors.
+        - name: Preflight | Check the repositories configured on the host
+          ansible.builtin.shell: |
+            set -o pipefail
+            tmp=$(mktemp -d)
+            trap 'rm -rf "${tmp}"' EXIT
+            case "{{ ansible_facts.pkg_mgr }}" in
+              apt)
+                mkdir -p "${tmp}/lists/partial" "${tmp}/cache/archives/partial"
+                apt-get update -o Dir::State::Lists="${tmp}/lists" -o Dir::Cache="${tmp}/cache" \
+                  -o APT::Sandbox::User=root -o Debug::NoLocking=true 2>&1 |
+                  { grep -E '^(Err:|E:|W: (Failed|Some index))' || true; } ;;
+              dnf|dnf5|yum)
+                dnf -q makecache --setopt=cachedir="${tmp}" --setopt=system_cachedir="${tmp}" \
+                  --setopt=skip_if_unavailable=False >"${tmp}/out" 2>&1 || grep -v '^$' "${tmp}/out" ;;
+              zypper)
+                zypper --non-interactive --quiet --cache-dir "${tmp}" refresh --force >"${tmp}/out" 2>&1 ||
+                  grep -v '^$' "${tmp}/out" ;;
+            esac
+          args:
+            executable: /bin/bash
+          become: true
+          changed_when: false
+          check_mode: false
+          register: _pf_host_repos
+          when: "'repos' not in _pf_skip"
+
+        - name: Preflight | Record the repositories on the host that fail
+          ansible.builtin.set_fact:
+            _pf_issues: >-
+              {{ _pf_issues + [{'level': 'fail', 'check': 'repos', 'doc': 'repositories', 'msg':
+                 ansible_facts.pkg_mgr ~ ' cannot refresh the repositories: '
+                 ~ _pf_host_repos.stdout_lines[:5] | join(' | ')}] }}
+          when:
+            - "'repos' not in _pf_skip"
+            - _pf_host_repos.stdout_lines | length > 0
+
+        # The repositories the linux role adds: those of linux_public_repos when the inventory sets it, else the
+        # PgVillage and PostgreSQL (PGDG) servers of the role's defaults.
+        - name: Preflight | Find the repositories of the inventory
+          ansible.builtin.set_fact:
+            _pf_inventory_repos: >-
+              {%- set r = [] -%}
+              {%- if linux_public_repos is defined -%}
+              {%- for repo in linux_public_repos -%}
+              {%- set url = repo.baseurl | default(repo.mirrorlist | default(repo.metalink | default(''))) -%}
+              {%- if not url and repo.repo is defined -%}
+              {%- set url = repo.repo | regex_search('https?://\\S+') | default('', true) -%}
+              {%- endif -%}
+              {%- if url -%}
+              {%- set _ = r.append(url | replace('$releasever', ansible_facts.distribution_major_version)
+                    | replace('$basearch', ansible_facts.architecture) | replace('$arch', ansible_facts.architecture)) -%}
+              {%- endif -%}
+              {%- endfor -%}
+              {%- else -%}
+              {%- set _ = r.append('https://repo.pgvillage.org/') -%}
+              {%- set _ = r.append('https://apt.postgresql.org/pub/repos/apt/' if ansible_facts.pkg_mgr == 'apt'
+                    else 'https://download.postgresql.org/pub/repos/') -%}
+              {%- endif -%}
+              {{ r | unique }}
+          when: "'repos' not in _pf_skip"
+
+        - name: Preflight | Check the repositories of the inventory
+          ansible.builtin.uri:
+            url: "{{ item }}"
+            method: GET
+            return_content: false
+            timeout: 20
+          check_mode: false
+          loop: "{{ _pf_inventory_repos }}"
+          failed_when: false
+          register: _pf_inventory_repo_checks
+          when: "'repos' not in _pf_skip"
+
+        - name: Preflight | Record the repositories of the inventory that can't be reached
+          ansible.builtin.set_fact:
+            _pf_issues: >-
+              {%- set r = [] -%}
+              {%- for check in _pf_inventory_repo_checks.results | default([])
+                  if not 0 < check.status | default(-1) | int < 500 -%}
+              {%- set _ = r.append({'level': 'fail', 'check': 'repos', 'doc': 'repositories', 'msg': 'cannot reach '
+                    ~ check.item ~ ': ' ~ check.msg | default('') | regex_replace('^.*Request failed: ', '')
+                    | regex_replace(' and not \\[.*$', '') | truncate(120)}) -%}
+              {%- endfor -%}
+              {{ _pf_issues + r }}
+          when: "'repos' not in _pf_skip"
+
+        # The VIP: in the subnet of the router hosts (of keepalived_interface, when set)
+        - name: Preflight | Check that the VIP is in the subnet of the router hosts
+          ansible.builtin.set_fact:
+            _pf_issues: >-
+              {%- macro ip2int(ip) -%}
+              {%- set o = ip.split('.') | map('int') | list -%}{{ ((o[0] * 256 + o[1]) * 256 + o[2]) * 256 + o[3] }}
+              {%- endmacro -%}
+              {%- set ns = namespace(found=false, nets=[]) -%}
+              {%- set ifaces = [keepalived_interface] if keepalived_interface is defined else ansible_facts.interfaces -%}
+              {%- for iface in ifaces -%}
+              {%- set info = ansible_facts[iface | regex_replace('-', '_')] | default({}) -%}
+              {%- for addr in [info.ipv4 | default({})] + info.ipv4_secondaries | default([])
+                  if addr.network is defined and addr.netmask is defined -%}
+              {%- set net = ip2int(addr.network) | int -%}
+              {%- set size = 4294967296 - ip2int(addr.netmask) | int -%}
+              {%- set _ = ns.nets.append(iface ~ ' ' ~ addr.network ~ '/' ~ addr.netmask) -%}
+              {%- if net <= ip2int(_pf_vip) | int < net + size -%}{%- set ns.found = true -%}{%- endif -%}
+              {%- endfor -%}
+              {%- endfor -%}
+              {%- if ns.found -%}{{ _pf_issues }}{%- else -%}
+              {{ _pf_issues + [{'level': 'fail', 'check': 'vip', 'doc': 'vip', 'msg': 'the VIP ' ~ _pf_vip
+                 ~ ' (keepalived_vip) is not in the subnet of '
+                 ~ (('keepalived_interface ' ~ keepalived_interface) if keepalived_interface is defined
+                    else 'any interface') ~ ' (' ~ ns.nets | unique | join(', ') ~ ')'}] }}
+              {%- endif -%}
+          when:
+            - "'vip' not in _pf_skip"
+            - _pf_vip_enabled
+            - inventory_hostname in groups.router | default([])
+            - _pf_vip is match('^\d+\.\d+\.\d+\.\d+$')
+
+        # Not in use: unless one of the router hosts has it (keepalived runs already), nothing answers on it. The first
+        # router host pings it and looks in its ARP table (some hosts don't answer a ping).
+        - name: Preflight | Check that the VIP is not in use
+          ansible.builtin.shell: |
+            set -o pipefail
+            ping -c 2 -W 1 {{ _pf_vip | quote }} >/dev/null 2>&1 && { echo "it answers a ping"; exit 0; }
+            ip neigh show {{ _pf_vip | quote }} 2>/dev/null | grep -q lladdr && echo "a host has it (ARP table)"
+            exit 0
+          args:
+            executable: /bin/bash
+          changed_when: false
+          check_mode: false
+          register: _pf_vip_in_use
+          when:
+            - "'vip' not in _pf_skip"
+            - "'vip_in_use' not in _pf_skip"
+            - _pf_vip_enabled
+            - inventory_hostname == _pf_routers | first | default('')
+            # An address outside the subnet goes to the gateway, which may answer for it
+            - _pf_issues | selectattr('check', 'equalto', 'vip') | list | length == 0
+            - _pf_vip not in _pf_routers | map('extract', hostvars, ['ansible_facts', 'all_ipv4_addresses'])
+                                         | flatten
+          vars:
+            _pf_routers: >-
+              {{ groups.router | default([]) | map('extract', hostvars) | selectattr('_pf_reached', 'defined')
+                 | selectattr('_pf_reached') | map(attribute='inventory_hostname') | list }}
+
+        - name: Preflight | Record a VIP in use
+          ansible.builtin.set_fact:
+            _pf_issues: >-
+              {{ _pf_issues + [{'level': 'fail', 'check': 'vip', 'doc': 'vip', 'msg': 'the VIP ' ~ _pf_vip
+                 ~ ' (keepalived_vip) is in use: ' ~ _pf_vip_in_use.stdout ~ ', but none of the router hosts has it'}] }}
+          when:
+            - _pf_vip_in_use is not skipped
+            - _pf_vip_in_use.stdout | default('') | length > 0
+
+    # The checks of the inventory, and the report of all hosts
+    - name: Preflight | Report
+      run_once: true
+      vars:
+        _pf_backup: "{{ groups.backup | default([]) }}"
+        _pf_etcd: "{{ groups.etcd_master | default([]) | length }}"
+        _pf_reached_hosts: >-
+          {{ _pf_hosts | map('extract', hostvars) | selectattr('_pf_reached', 'defined') | selectattr('_pf_reached')
+             | map(attribute='inventory_hostname') | list }}
+        _pf_global: >-
+          {%- set r = [] -%}
+          {%- if 'groups' not in _pf_skip -%}
+          {%- if _pf_etcd | int % 2 == 0 -%}
+          {%- set _ = r.append({'level': 'fail', 'check': 'groups', 'doc': 'groups', 'msg': 'etcd_master has '
+                ~ _pf_etcd ~ ' hosts; etcd needs an odd number (1, 3, 5, ...)'}) -%}
+          {%- endif -%}
+          {%- if groups.hacluster | default([]) | length == 0 -%}
+          {%- set _ = r.append({'level': 'fail', 'check': 'groups', 'doc': 'groups',
+                'msg': 'hacluster has no hosts; it needs at least 1'}) -%}
+          {%- endif -%}
+          {%- if _pf_backup | length > 1 -%}
+          {%- set _ = r.append({'level': 'fail', 'check': 'groups', 'doc': 'groups', 'msg': 'backup has '
+                ~ _pf_backup | length ~ ' hosts; it takes 0 (a bucket elsewhere) or 1'}) -%}
+          {%- endif -%}
+          {%- if 'localhost' not in groups.all -%}
+          {%- set _ = r.append({'level': 'fail', 'check': 'groups', 'doc': 'groups', 'msg': 'localhost is not in the'
+                ~ ' inventory; add it to localhosts in the hosts file of your inventory'}) -%}
+          {%- endif -%}
+          {%- endif -%}
+          {%- for host in _pf_hosts | difference(_pf_reached_hosts) -%}
+          {%- if hostvars[host]._pf_issues | default([]) | length == 0 -%}
+          {%- set _ = r.append({'level': 'fail', 'check': 'access', 'doc': 'access', 'host': host, 'msg':
+                'not reached: check ssh and sudo (see the error of this host above)'}) -%}
+          {%- endif -%}
+          {%- endfor -%}
+          {%- if 'os' not in _pf_skip and _pf_reached_hosts | length > 0 -%}
+          {%- set facts = _pf_reached_hosts | map('extract', hostvars, 'ansible_facts') | list -%}
+          {%- for fact in ['os_family', 'architecture'] -%}
+          {%- set values = facts | map(attribute=fact) | unique | list -%}
+          {%- if values | length > 1 -%}
+          {%- set _ = r.append({'level': 'fail', 'check': 'os', 'doc': 'os', 'msg': 'the hosts differ in '
+                ~ fact ~ ' (' ~ values | join(', ') ~ '); all hosts need the same'}) -%}
+          {%- endif -%}
+          {%- endfor -%}
+          {%- endif -%}
+          {%- if 'secrets' not in _pf_skip and _pf_backup | length > 0 -%}
+          {%- for var in ['minio_access_key', 'minio_secret_key', 'rustfs_access_key', 'rustfs_secret_key']
+              if hostvars[_pf_backup[0]][var] | default('') in ['AWSKEY', 'AWSSECRET'] -%}
+          {%- set _ = r.append({'level': 'fail', 'check': 'secrets', 'doc': 'secrets', 'msg': var
+                ~ ' is still the placeholder of inventories/standard; set your own key'}) -%}
+          {%- endfor -%}
+          {%- endif -%}
+          {{ r }}
+        _pf_all: >-
+          {%- set r = [] -%}
+          {%- for issue in _pf_global -%}{%- set _ = r.append(issue) -%}{%- endfor -%}
+          {%- for host in ansible_play_hosts_all | union(_pf_hosts) -%}
+          {%- for issue in hostvars[host]._pf_issues | default([]) -%}
+          {%- set _ = r.append(issue | combine({'host': host})) -%}
+          {%- endfor -%}
+          {%- endfor -%}
+          {{ r }}
+        _pf_lines: >-
+          {%- set r = [] -%}
+          {%- for level in ['fail', 'warn'] -%}
+          {%- for issue in _pf_all | selectattr('level', 'equalto', level) -%}
+          {%- set _ = r.append(level | upper ~ ' [' ~ issue.check ~ '] ' ~ (issue.host ~ ': ' if issue.host is defined
+                else '') ~ issue.msg ~ ' (' ~ _pf_docs ~ '#' ~ issue.doc ~ ')') -%}
+          {%- endfor -%}
+          {%- endfor -%}
+          {{ r }}
+        _pf_fails: "{{ _pf_all | selectattr('level', 'equalto', 'fail') | list | length }}"
+        _pf_warns: "{{ _pf_all | selectattr('level', 'equalto', 'warn') | list | length }}"
+      block:
+        - name: Preflight | Show the problems
+          ansible.builtin.debug:
+            msg: >-
+              {{ ['Preflight: ' ~ _pf_fails ~ ' failed, ' ~ _pf_warns ~ ' warnings, on ' ~ _pf_hosts | length
+                  ~ ' hosts. Each line links to its fix; skip a check with preflight_skip, see ' ~ _pf_docs] + _pf_lines }}
+
+        # Ends the play on all hosts, so functional-all.yml changes nothing
+        - name: Preflight | Fail on problems
+          any_errors_fatal: true
+          ansible.builtin.fail:
+            msg: >-
+              Preflight found {{ _pf_fails }} problem(s): see the list of "Show the problems" above
+          when: _pf_fails | int > 0
