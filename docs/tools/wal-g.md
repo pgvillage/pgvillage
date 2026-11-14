@@ -42,7 +42,7 @@ Deployed by Ansible to `/opt/wal-g/scripts/`:
 - `delete.sh` – cleans up old backups
 - `log_cleanup.sh` – maintains WAL-G log files
 - `maintenance.sh` – wrapper for `log_cleanup.sh` and `delete.sh`
-- `restore.sh` – restores a WAL-G backup (see [Point in time restore](../../roles/walg/files/scripts/restore.sh) for more information)
+- `restore.sh` – restores a WAL-G backup (see [restore.sh](https://github.com/pgvillage/ansible-role-walg/blob/main/files/scripts/restore.sh) for more information)
 
 ### 3. Cron Scheduling
 
@@ -69,7 +69,7 @@ Deployed by Ansible to `/opt/wal-g/scripts/`:
 
 Essentially, everything is automated using Ansible, Bash scripts, and cron.
 
-You can even perform a Point-in-Time Restore using this procedure: [Point in time restore](../../roles/walg/files/scripts/restore.sh).
+You can even perform a Point-in-Time Restore using this procedure: [restore.sh](https://github.com/pgvillage/ansible-role-walg/blob/main/files/scripts/restore.sh).
 
 However, if desired, wal-g can also be invoked as a command-line tool.
 
@@ -211,3 +211,58 @@ Global Flags:
 To get the complete list of all global flags, run: `wal-g flags`
 
 Use "wal-g delete \[command\] --help"for more information about a command.
+
+## Multi-instance
+
+How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-walg/blob/main/defaults/main.yml) of the role for all its variables.
+
+The wal-g role can manage backups for multiple PostgreSQL instances by adding some configuration to the inventory
+(e.g. `inventories/standard/group_vars/all/wal-g.yml`).
+
+### `walg_clusters`
+
+Dictionary with one entry per Postgres instance on the host. The key is the instance (cluster) name and must match
+the key used in [`stolon_clusters`](stolon.md#multi-instance) and the bucket name in [`minio_buckets`](minio.md#multi-instance).
+For every entry the role deploys a separate wal-g configuration, log folder and backup cron job.
+
+| Key                | Description                                                                                  |
+|--------------------|----------------------------------------------------------------------------------------------|
+| `pg_datadir`       | PGDATA of the instance. Must match `stolon_clusters.<name>.sysconfig.stkeeper.pgdata_dir`.   |
+| `pg_port`          | Port the instance listens on. Must match `stolon_clusters.<name>.sysconfig.stkeeper.pg_port`. |
+| `s3_prefix`        | S3 location backups and WAL are written to (e.g. `s3://cluster1`).                           |
+| `logfolder`        | Log folder for wal-g of this instance, typically `{{ walg_logfolder }}/<name>/`.             |
+| `cron.enabled`     | Enable the scheduled backup for this instance (defaults to `walg_cron_enabled`).             |
+| `cron.minute`      | Minute of the backup cron job (defaults to `walg_cron_minute`).                              |
+| `cron.hour`        | Hour of the backup cron job (defaults to `walg_cron_hour`).                                  |
+
+!!! example
+    ```yaml
+    walg_clusters:
+      cluster1:
+        pg_datadir: "{{ postgresql_data_mountpoint }}/cluster1/postgres"
+        pg_port: 5433
+        s3_prefix: "s3://cluster1"
+        logfolder: "{{ walg_logfolder }}/cluster1/"
+        cron:
+          enabled: "{{ walg_cron_enabled }}"
+          minute: "{{ walg_cron_minute }}"
+          hour: "{{ walg_cron_hour }}"
+      cluster2:
+        pg_datadir: "{{ postgresql_data_mountpoint }}/cluster2/postgres"
+        pg_port: 5434
+        s3_prefix: "s3://cluster2"
+        logfolder: "{{ walg_logfolder }}/cluster2/"
+        cron:
+          enabled: "{{ walg_cron_enabled }}"
+          minute: "{{ walg_cron_minute }}"
+          hour: "{{ walg_cron_hour }}"
+    ```
+
+!!! note
+    You can stagger `cron.minute` / `cron.hour` per instance so backups of all instances on a host do not run at the same time.
+
+### Related
+
+- Each stolon instance must archive through the instance aware archive script by setting a specific `archive_command`.
+  See [stolon.md](stolon.md#multi-instance) for more info

@@ -1,5 +1,5 @@
 ---
-# Disabled for multi-instance deployments (see deployment_and_maintenance/multiinstance/nagios.md)
+# Disabled for multi-instance deployments (see docs/tools/nagios.md, Multi-instance)
 nagios_enabled: false
 nagios_pg_version: "{{ postgresql_version }}"
 nagios_running_postgresql_user: postgres

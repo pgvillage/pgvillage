@@ -150,7 +150,7 @@ the groups, the variables that a layer sets per group, and how to make and keep 
   | `cluster1` | 5433       | 25433        | 6433      | 35433 / 45433 / 55433                   | `cluster1` |
   | `cluster2` | 5434       | 25434        | 6434      | 35434 / 45434 / 55434                   | `cluster2` |
 
-  To add or remove a cluster, see [multi-instance](../deployment_and_maintenance/multiinstance/stolon.md).
+  To add or remove a cluster, see [multi-instance](../deployment_and_maintenance/multi-instance.md).
 - etcd and stolon (sentinel, keeper, proxy) on the database hosts (`etcd_master` and `stolon` are subgroups of
   `hacluster`).
 - RustFS on the backup host, with a bucket per cluster; wal-g archives the WAL and makes the backups there.
@@ -226,8 +226,8 @@ keepalived_interface: eth0
 keepalived_vip: 192.0.2.30
 ```
 
-See [HAProxy](../deployment_and_maintenance/multiinstance/haproxy.md) and
-[pgroute66](../deployment_and_maintenance/multiinstance/pgroute66.md).
+See [HAProxy](../../tools/haproxy.md#multi-instance) and
+[pgroute66](../../tools/pgroute66.md#multi-instance).
 
 ## Deploy and check
 
@@ -242,11 +242,6 @@ On a database host, check the clusters and the WAL archiving:
 ```bash
 sudo -u postgres psql -h /tmp -p 5433 -c 'select pg_is_in_recovery()' -c 'select * from pg_stat_archiver'
 ```
-
-## KVM
-
-`inventories/kvm` is an example of your own machines: three database VMs and a backup VM on KVM, with Rocky Linux.
-Use it as a starting point for your inventory. See [KVM](kvm.md).
 
 ## Running on specific platforms
 

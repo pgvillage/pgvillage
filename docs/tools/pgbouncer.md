@@ -1,12 +1,17 @@
 ---
-title: PgBouncer - multiinstance
-summary: A description of configuring pgbouncer to support pooling for multiple instances
-authors:
-  - Sebas Mannem
-date: 2026-10-11
+title: PgBouncer
+summary: PgBouncer, a connection pooler, deployed by the pgbouncer role on the database hosts
 ---
 
-# PgBouncer - multiple instances
+# PgBouncer
+
+PgBouncer is a connection pooler. PgVillage runs it on the database hosts, next to PostgreSQL: one PgBouncer
+instance per PostgreSQL instance (cluster), which only pools connections to that local instance.
+
+## Multi-instance
+
+How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-pgbouncer/blob/main/defaults/main.yml) of the role for all its variables.
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), the pgvillage/pgbouncer role supports deploying multiple instances of PgBouncer too.
 
@@ -21,7 +26,7 @@ When deploying multiple HA clusters (e.g. stolon or Patroni), the pgvillage/pgbo
 To configure PgBouncer for multiinstance, edit the pgbouncer config (e.g. `inventories/standard/group_vars/all/pgbouncer.yml`)
 and configure a separate PgBouncer instance per Postgres cluster.
 
-## `pgbouncer_instances`
+### `pgbouncer_instances`
 
 Dictionary with one entry per pgbouncer instance. The key is the instance name. Each instance sits in front of one
 Postgres instance.
@@ -50,4 +55,4 @@ pgbouncer_instances:
 ```
 
 !!! note
-    Make sure you open [`firewall_ports`](firewall.md) for PgBouncer (unless PgBouncer should only be available through HAProxy).
+    Make sure you open [`firewall_ports`](firewall.md#multi-instance) for PgBouncer (unless PgBouncer should only be available through HAProxy).
