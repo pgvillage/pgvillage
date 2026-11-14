@@ -35,14 +35,14 @@ For making wal-g, the following components are needed:
 
 Deployed by Ansible to `/opt/wal-g/scripts/`:
 
-- `archive_restore.sh` – used for catch-up when a standby lags behind or during recovery
+- `archive_restore.sh <cluster> %f %p` – the `restore_command`: fetches WAL from the archive, for a standby that lags behind or during recovery
 - `archive.sh` – sends WAL files to MinIO using WAL-G
 - `backup_locked.sh` – wrapper script using `etcdctl lock` to ensure backups run on only one server
 - `backup.sh` – creates a new backup if there isn’t a recent one
 - `delete.sh` – cleans up old backups
 - `log_cleanup.sh` – maintains WAL-G log files
 - `maintenance.sh` – wrapper for `log_cleanup.sh` and `delete.sh`
-- `restore.sh` – restores a WAL-G backup (see [Point in time restore](../../roles/walg/files/scripts/restore.sh) for more information)
+- `restore.sh <cluster> [<folder>] [<target>]` – restores a WAL-G backup (full + deltas) and replays the WAL up to a point in time; `restore.yml` uses it (see [Point in time restore](../administrators-guide/deployment_and_maintenance/point_in_time_restore.md))
 
 ### 3. Cron Scheduling
 
@@ -51,7 +51,7 @@ Deployed by Ansible to `/opt/wal-g/scripts/`:
 
 ### 4. Configuration File
 
-- File: `/etc/default/wal-g` (maintained by Ansible)
+- File: `/etc/default/wal-g-<cluster>` per cluster (maintained by Ansible)
 - Contains:
   - Retention policies
   - Number of delta backups
@@ -60,7 +60,7 @@ Deployed by Ansible to `/opt/wal-g/scripts/`:
 ### 5. MinIO Configuration
 
 - MinIO runs on the **backup server**
-- Access configuration is included in `/etc/default/wal-g`
+- Access configuration is included in `/etc/default/wal-g-<cluster>`
 - Root certificate located in `~postgres/.wal-g/certs/` (for TLS verification)
 
 ---
@@ -69,7 +69,12 @@ Deployed by Ansible to `/opt/wal-g/scripts/`:
 
 Essentially, everything is automated using Ansible, Bash scripts, and cron.
 
-You can even perform a Point-in-Time Restore using this procedure: [Point in time restore](../../roles/walg/files/scripts/restore.sh).
+Restore with the playbook `restore.yml` (see [Point in time restore](../administrators-guide/deployment_and_maintenance/point_in_time_restore.md)), which uses `restore.sh`.
+
+!!! warning
+
+    Never restore with `wal-g backup-fetch` directly: on PgVillage it hangs on delta backups, leaves `pg_wal` out and
+    replays no WAL, and restoring into the data folder of a running stolon cluster breaks the cluster.
 
 However, if desired, wal-g can also be invoked as a command-line tool.
 
@@ -79,12 +84,12 @@ That works as follows:
 
 We do this by sourcing the environment variables using the following command:
 
-Read the configuration from `/etc/default/wal-g`
+Read the configuration of the cluster from `/etc/default/wal-g-<cluster>`
 
 ```bash
 # Skip lines with a #
 # Export them as variables for subcommands
-eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g)"
+eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g-cluster1)"
 ```
 
 Then wal-g can be called directly.
