@@ -1,12 +1,17 @@
 ---
-title: firewall - multiinstance
-summary: A description of configuring firewall to allow traffic for ports for multiple PostgreSQL HA clusters
-authors:
-  - Sebas Mannem
-date: 2026-10-11
+title: Firewall
+summary: firewalld, configured by the firewall role on all hosts with the ports of their groups
 ---
 
-# firewall - multiinstance
+# Firewall
+
+The firewall role configures firewalld on the database, backup and router hosts, and opens the ports of the
+groups each host is in.
+
+## Multi-instance
+
+How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-firewall/blob/main/defaults/main.yml) of the role for all its variables.
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), firewalld needs to allow traffic to the ports of all components of all clusters.
 In the standard inventory (`inventories/standard/group_vars/all/firewall.yml`) you define the ports per inventory group:
@@ -17,9 +22,9 @@ other instead of adding up.
 
 VRRP (keepalived) is not a port: the keepalived role allows it in firewalld (`keepalived_firewall_vrrp`).
 
-## Example
+### Example
 
-### Combined
+#### Combined
 
 When combining router and postgres on the same hosts, they are in both `hacluster` and `router`, and get the ports of
 both (see [Postgres](#postgres) and [Router](#router)). You can also put all ports in one group:
@@ -46,7 +51,7 @@ both (see [Postgres](#postgres) and [Router](#router)). You can also put all por
       etcd_server: 2380
     ```
 
-### Postgres
+#### Postgres
 
 When separating router and postgres, you can configure firewalld to open `postgres`, `pgbouncer`, and `stolon-proxy` on postgres nodes for multiple cluster instances as follows:
 In `firewall_ports_hacluster` you define the following ports:
@@ -67,10 +72,10 @@ In `firewall_ports_hacluster` you define the following ports:
       etcd_server: 2380
     ```
 
-### Router
+#### Router
 
 When separating router and postgres, you can configure firewalld to open `haproxy-rw`, `haproxy-ro`, and `haproxy-sp` on router nodes for multiple cluster instances as follows:
-In `firewall_ports_router` you define the following ports (standard takes them from `haproxy_frontends`, see [HAProxy](haproxy.md)):
+In `firewall_ports_router` you define the following ports (standard takes them from `haproxy_frontends`, see [HAProxy](haproxy.md#multi-instance)):
 
 !!! example
     ```yaml
@@ -85,7 +90,7 @@ In `firewall_ports_router` you define the following ports (standard takes them f
       cluster2_haproxysp:   55434
     ```
 
-## Description
+### Description
 
 The key names are only labels; the values are the ports that are opened.
 
@@ -100,11 +105,11 @@ The key names are only labels; the values are the ports that are opened.
 | `etcd_client`    | etcd client port (shared by all instances).                                         |
 | `etcd_server`    | etcd peer port (shared by all instances).                                           |
 
-## Remarks
+### Remarks
 
 - Make sure all configured ports are aligned with port configuration for other modules
-  - [`stolon`](stolon.md)
-  - [`pgbouncer`](pgbouncer.md)
-  - [`haproxy`](haproxy.md)
+  - [`stolon`](stolon.md#multi-instance)
+  - [`pgbouncer`](pgbouncer.md#multi-instance)
+  - [`haproxy`](haproxy.md#multi-instance)
 - Best practice is not to open all ports, but to make a proper judgement call on which to open (e.g. you are probably fine with only one of postgres, stolon-proxy and haproxyrw).
 - HAProxy frontend ports belong in `firewall_ports_router`, also when router and postgres run on the same hosts.

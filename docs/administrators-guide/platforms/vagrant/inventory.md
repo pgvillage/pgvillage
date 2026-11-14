@@ -80,8 +80,8 @@ the database hosts are on the data mountpoint (`/data/postgres/data/certs`).
 HAProxy, keepalived and pgroute66 run on the database hosts (`router` = `hacluster`), with keepalived managing the VIP
 `172.30.1.30`. Only the router hosts (`hosts`) and the VIP are vagrant specific; HAProxy (a read-write, read-only and
 stolon proxy frontend for every cluster), pgroute66 and the firewall ports come from standard. See
-[HAProxy](../../deployment_and_maintenance/multiinstance/haproxy.md) and
-[pgroute66](../../deployment_and_maintenance/multiinstance/pgroute66.md).
+[HAProxy](../../../tools/haproxy.md#multi-instance) and
+[pgroute66](../../../tools/pgroute66.md#multi-instance).
 
 | File                              | What |
 |-----------------------------------|------|

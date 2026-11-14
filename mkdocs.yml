@@ -66,13 +66,23 @@ plugins:
   - tags
   - privacy
   - kroki:
-      HttpMethod: POST
+      http_method: POST
   - literate-nav:
       nav_file: README.md
       implicit_index: true
   - redirects:
       redirect_maps:
         'index.md': 'architecture/overview.md'
+        'administrators-guide/deployment_and_maintenance/multiinstance/avchecker.md': 'tools/avchecker.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/firewall.md': 'tools/firewall.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/haproxy.md': 'tools/haproxy.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/minio.md': 'tools/minio.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/nagios.md': 'tools/nagios.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/pgbouncer.md': 'tools/pgbouncer.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/pgquartz.md': 'tools/pgquartz.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/pgroute66.md': 'tools/pgroute66.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/stolon.md': 'tools/stolon.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/walg.md': 'tools/wal-g.md#multi-instance'
 
 # Navigation
 nav:
