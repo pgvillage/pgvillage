@@ -31,4 +31,4 @@ As an alternative you have the option to generate your own certificates from you
 
 ## Background information
 
-- Background information about the tool: [chainsmith](chainsmith.md)
+- Background information about the tool: [chainsmith](../tools/chainsmith.md)

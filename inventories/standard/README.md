@@ -16,7 +16,7 @@ The ports are set in `stolon.yml`, `wal-g.yml`, `pgbouncer.yml`, `avchecker.yml`
 `haproxy.yml` take them from `stolon_clusters`: HAProxy on the router listens on 35433/45433/55433 (read-write,
 read-only, stolon proxy) for `cluster1` and 35434/45434/55434 for `cluster2`);
 keep them in line when adding or changing a cluster. See
-[multi-instance](../../docs/administrators-guide/deployment_and_maintenance/multiinstance/stolon.md).
+[multi-instance](../../docs/administrators-guide/deployment_and_maintenance/multi-instance.md).
 
 It has no OS specifics and no hosts. `hosts` only has the groups, and the standard architecture: stolon and etcd run on
 the database hosts (`stolon` and `etcd_master` are subgroups of `hacluster`); the platform inventory adds the hosts to

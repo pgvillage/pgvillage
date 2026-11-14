@@ -49,6 +49,22 @@ For the POC environment, the configuration on Nagios itself is disabled:
 nagios_servers[1].enabled: false
 ```
 
+## Multi-instance
+
+How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-nagios/blob/main/defaults/main.yml) of the role for all its variables.
+
+The nagios role can be disabled in the nagios config (e.g. `inventories/standard/group_vars/all/nagios.yml`).
+
+### `nagios_enabled`
+
+Boolean to enable or disable the nagios role. It is set to `false` in this inventory
+(the README also requires this for Ubuntu deployments).
+
+```yaml
+nagios_enabled: false
+```
+
 ## Todo
 
 The following things can be better:

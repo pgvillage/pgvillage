@@ -84,7 +84,7 @@ Create a folder in `inventories/` with your hosts, and put everything that is sp
 interface, the VIP, overrides of the standard values). The name of the folder is the name of the cluster. Keep it in
 your own repository (e.g. a fork, or a separate repository next to this one), so updates of PgVillage don't touch it.
 
-`inventories/kvm` is an example: three database VMs and a backup VM on KVM, with Rocky Linux. See [KVM](kvm.md).
+See [Inventory explained](../deployment_and_maintenance/inventory.md#make-your-own-inventory) for how to make it.
 
 ## After the deploy
 
