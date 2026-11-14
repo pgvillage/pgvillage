@@ -357,11 +357,11 @@ After that, the backup was discarded and restored.
 
 This approach is **not recommended** for production use.
 
-It is better to use the [Point in time restore](../administrators-guide/deployment_and_maintenance/point_in_time_restore.md) procedure. It also executes an init but with the PITR option so that the latest backup is restored from wal-g.
+It is better to use the [Point in time restore](../operate/backup-and-restore/point_in_time_restore.md) procedure. It also executes an init but with the PITR option so that the latest backup is restored from wal-g.
 
 ## Multi-instance
 
-How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+How to configure this for several clusters on the same hosts. See [Multi-instance](../deploy/multi-instance.md)
 for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-stolon/blob/main/defaults/main.yml) of the role for all its variables.
 
 PostgreSQL can be deployed multi-instance, which means that multiple PostgreSQL processes are running separately next to each other.

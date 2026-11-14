@@ -49,4 +49,4 @@ With PgVillage you are relaxed, healthy, in control, and happy.
 
 ## Design
 
-![Architecture](./architecture.png)
+![Architecture](architecture.png)

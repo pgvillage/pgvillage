@@ -83,7 +83,7 @@ loglevel: develop
 
 ## Multi-instance
 
-How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+How to configure this for several clusters on the same hosts. See [Multi-instance](../deploy/multi-instance.md)
 for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-pgroute66/blob/main/defaults/main.yml) of the role for all its variables.
 
 Pgroute66 allows for defining clusters of instances, and as of release v0.8.28, we have an option to have one instance of pgroute66 manage multiple clusters.

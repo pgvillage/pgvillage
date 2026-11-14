@@ -8,4 +8,4 @@ inventory:
 ansible-playbook -i inventories/standard -i inventories/os/debian -i inventories/platform/vagrant functional-all.yml
 ```
 
-See the [Debian (including Ubuntu) docs](../../../docs/administrators-guide/platforms/ubuntu/index.md).
+See the [Debian (including Ubuntu) docs](../../../docs/deploy/os/debian.md).

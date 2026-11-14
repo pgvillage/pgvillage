@@ -10,5 +10,5 @@ cd ~/git/pgvillage/
 ansible-playbook -i inventories/standard -i ${PGV_OS_INVENTORY:?} -i inventories/platform/vagrant functional-all.yml
 ```
 
-Create the box first. See the [Vagrant docs](../docs/administrators-guide/platforms/vagrant/index.md) and
-[Creating the boxes](../docs/administrators-guide/platforms/vagrant/boxes.md).
+Create the box first. See the [Vagrant docs](../docs/try-it/vagrant/index.md) and
+[Creating the boxes](../docs/try-it/vagrant/boxes.md).

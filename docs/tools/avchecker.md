@@ -426,7 +426,7 @@ This tells you that:
 
 ## Multi-instance
 
-How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+How to configure this for several clusters on the same hosts. See [Multi-instance](../deploy/multi-instance.md)
 for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-avchecker/blob/main/defaults/main.yml) of the role for all its variables.
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), AVChecker can monitor all instances if you simply define them as separate instances of AVChecker.

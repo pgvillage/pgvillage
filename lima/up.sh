@@ -2,7 +2,7 @@
 # Creates and starts the PgVillage lima VMs (an Ansible VM, a backup VM and three database VMs), lets the Ansible VM
 # log in on the others, and installs Ansible and the roles on it. Run it from anywhere; rerunning it is safe.
 # PGV_OS selects the image and matches the OS inventory to deploy with: ubuntu (default) or el.
-# See docs/administrators-guide/platforms/lima.md.
+# See docs/try-it/lima.md.
 set -e
 
 PGV_OS=${PGV_OS:-ubuntu}
