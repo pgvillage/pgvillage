@@ -19,11 +19,6 @@ need no VirtualBox, no boxes to build and no root permissions. Everything you ne
   [EL](../deploy/os/el.md).
 - `inventories/platform/lima`: the hosts and the VIP. See [The lima inventory](#the-lima-inventory).
 
-!!! warning
-    The VIP needs the `keepalived_unicast_peers` of the keepalived role
-    ([ansible-role-keepalived#17](https://github.com/pgvillage/ansible-role-keepalived/pull/17)), which is not in a
-    release yet. With the keepalived release in `requirements.yml`, every router VM takes the VIP.
-
 ## What gets deployed
 
 | VM            | Name on the network          | Groups                                         | Runs |

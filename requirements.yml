@@ -6,33 +6,35 @@ collections:
 
 roles:
   - name: pgvillage.avchecker
-    version: "v0.2.5"
+    version: "v0.2.6"
   - name: pgvillage.chainsmith
+    # v0.3.0 makes rustfs the owner of the backup certificates (chainsmith_users); the backup hosts still run as the
+    # minio user. Bump it together with the rename of that user (#147).
     version: "v0.2.4"
   - name: pgvillage.etcd
-    version: "v0.2.2"
+    version: "v0.2.3"
   - name: pgvillage.firewall
-    version: "v0.2.1"
+    version: "v0.2.2"
   - name: pgvillage.haproxy
-    version: "v0.3.5"
+    version: "v0.3.6"
   - name: pgvillage.keepalived
-    version: "v0.3.4"
+    version: "v0.3.5"
   - name: pgvillage.linux
     # v0.3.9 and newer create the rustfs user on backup instead of minio: inventories/standard keeps minio (users.yml)
-    version: "v0.3.10"
+    version: "v0.4.0"
   - name: pgvillage.minio
     version: "v0.3.2"
   - name: pgvillage.nagios
-    version: "v0.4.0"
+    version: "v0.5.0"
   - name: pgvillage.pgfga
-    version: "v0.3.2"
+    version: "v0.4.0"
   - name: pgvillage.pgquartz
-    version: "v0.3.3"
-  - name: pgvillage.pgroute66
-    version: "v0.3.6"
-  - name: pgvillage.pgbouncer
     version: "v0.3.4"
-  - name: pgvillage.stolon
-    version: "v0.4.4"
-  - name: pgvillage.walg
+  - name: pgvillage.pgroute66
+    version: "v0.3.7"
+  - name: pgvillage.pgbouncer
     version: "v0.3.5"
+  - name: pgvillage.stolon
+    version: "v0.5.0"
+  - name: pgvillage.walg
+    version: "v0.4.0"
