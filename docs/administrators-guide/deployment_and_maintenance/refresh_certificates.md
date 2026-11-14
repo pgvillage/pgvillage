@@ -16,7 +16,7 @@ The chain is generated using [Chainsmith](../../tools/chainsmith.md) and (re)gen
 ## Dependencies
 
 - [chainsmith](../../tools/chainsmith.md)
-- [nieuwe uitrol](inventory.md)
+- [Inventory explained](inventory.md)
 - [ansible](ansible.md)
 
 ## Work Instructions

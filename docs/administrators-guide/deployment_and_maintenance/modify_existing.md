@@ -23,7 +23,7 @@ For now, we perform this manually.
 - A properly stored database request form in teams:
   - Acme-IV-BI-Ops > General > Files > Database Request Forms >
 - A running PostgreSQL cluster. Optionally, you can:
-  - request servers according to [From database request to server request](inventory.md)
+  - request servers according to [Inventory explained](inventory.md)
   - deploy via [link label] from servers to running database
     - This procedure is part of that procedure, so it should be good after this.
 
