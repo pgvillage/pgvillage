@@ -36,3 +36,6 @@ vagrant/.vagrant/
 
 # Roles from requirements.yml, when ansible-galaxy installs them here (roles_path in ansible.cfg)
 roles/pgvillage.*/
+
+# The roles that the docs build installs for the role reference (docs/scripts/role_reference.py)
+.cache/role-reference/
