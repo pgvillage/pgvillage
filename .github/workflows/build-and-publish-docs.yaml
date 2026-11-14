@@ -58,6 +58,9 @@ jobs:
                                      mkdocs-material[recommended] \
                                      mkdocs-material[imaging] \
                                      mkdocs-kroki-plugin \
+                                     mkdocs-gen-files \
+                                     ansible-core \
+                                     ruamel.yaml \
                                      mike
 
       - name: Configure Git user

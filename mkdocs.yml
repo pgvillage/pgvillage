@@ -67,6 +67,10 @@ plugins:
   - privacy
   - kroki:
       http_method: POST
+  # Generates the role reference (reference/roles/) from the roles in requirements.yml
+  - gen-files:
+      scripts:
+        - docs/scripts/role_reference.py
   - literate-nav:
       nav_file: README.md
       implicit_index: true
