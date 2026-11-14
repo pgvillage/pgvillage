@@ -21,7 +21,7 @@ hosts is different, set it in one of these places:
   [defaults]
   remote_user = pgvillage
   ```
-- In the `hosts` of your platform inventory, for all its hosts (as `inventories/vagrant` does with `vagrant`):
+- In the `hosts` of your platform inventory, for all its hosts (as `inventories/platform/vagrant` does with `vagrant`):
   ```yaml
   all:
     vars:

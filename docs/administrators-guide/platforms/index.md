@@ -54,7 +54,7 @@ all:
 EOF
 
 # el, ubuntu or suse: the OS of your hosts
-ansible-playbook -i inventories/standard -i inventories/el -i inventories/mycluster functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/mycluster functional-all.yml
 ```
 
 That gives you two PostgreSQL clusters (`cluster1` and `cluster2`), each with a primary and two standbys managed by
@@ -125,7 +125,7 @@ PgVillage combines three inventories, in this order, so later values win:
 | Layer | Inventory | What it has |
 |-------|-----------|-------------|
 | Standard | [`inventories/standard`](#the-standard-inventory) | The PgVillage config, shared by all platforms. No hosts, no OS specifics. |
-| OS | `inventories/ubuntu`, `inventories/el` or `inventories/suse` | Package names, repositories and paths of the OS. See [Ubuntu](ubuntu/index.md), [EL](el/index.md) and [SUSE](suse/index.md). |
+| OS | `inventories/os/debian`, `inventories/os/el` or `inventories/os/suse` | Package names, repositories and paths of the OS. See [Debian (including Ubuntu)](ubuntu/index.md), [EL](el/index.md) and [SUSE](suse/index.md). |
 | Platform | e.g. `inventories/mycluster` | Your hosts, and what is specific to your machines (network interface, VIP, ...). |
 
 To change a value, add a file to `group_vars/all/` (or `group_vars/<group>/`) of a later layer, preferably your own:
@@ -231,7 +231,7 @@ See [HAProxy](../deployment_and_maintenance/multiinstance/haproxy.md) and
 Run the playbook again after every change; a second run should change nothing.
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/el -i inventories/mycluster functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/mycluster functional-all.yml
 ```
 
 On a database host, check the clusters and the WAL archiving:

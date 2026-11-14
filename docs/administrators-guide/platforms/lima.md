@@ -15,9 +15,9 @@ need no VirtualBox, no boxes to build and no root permissions. Everything you ne
 - `lima/`: the VM template (`pgvillage.yaml`) and `up.sh`, which creates the VMs and prepares the Ansible VM.
 - `inventories/standard`: the standard PgVillage config, shared by all platforms (multi-instance: `cluster1` and
   `cluster2`).
-- `inventories/ubuntu` or `inventories/el`: the OS of the VMs (Ubuntu by default). See [Ubuntu](ubuntu/index.md) and
+- `inventories/os/debian` or `inventories/os/el`: the OS of the VMs (Ubuntu by default, which uses the debian OS inventory). See [Debian (including Ubuntu)](ubuntu/index.md) and
   [EL](el/index.md).
-- `inventories/lima`: the hosts and the VIP. See [The lima inventory](#the-lima-inventory).
+- `inventories/platform/lima`: the hosts and the VIP. See [The lima inventory](#the-lima-inventory).
 
 !!! warning
     The VIP needs the `keepalived_unicast_peers` of the keepalived role
@@ -55,7 +55,7 @@ what is used).
    ```bash
    limactl shell --workdir=/ pgv-ansible
    cd ~/git/pgvillage/
-   ansible-playbook -i inventories/standard -i inventories/${PGV_OS} -i inventories/lima functional-all.yml
+   ansible-playbook -i inventories/standard -i ${PGV_OS_INVENTORY} -i inventories/platform/lima functional-all.yml
    ```
    `~/git/pgvillage` is this repository (a writable virtiofs mount), so you deploy what you have checked out.
 4. Check it: e.g. connect to the read-write route of `cluster1` through the VIP, from a database VM:
@@ -105,7 +105,7 @@ The Lima network does not reach your Mac's own network, and your Mac can't reach
 
 ### The lima inventory
 
-`inventories/lima` only has what is specific to these VMs. It goes on top of `inventories/standard` and an OS
+`inventories/platform/lima` only has what is specific to these VMs. It goes on top of `inventories/standard` and an OS
 inventory:
 
 | File                            | What |

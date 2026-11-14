@@ -25,7 +25,7 @@ Everything runs from an Ansible control node in Azure:
 | `functional-all.yml`                  | The normal PgVillage deployment.                                                 |
 | `playbooks/azure/clean_resources.yml` | Removes the cluster (the whole resource group).                                  |
 
-All playbooks use three inventories, in this order: `-i inventories/standard -i inventories/el -i inventories/azure`
+All playbooks use three inventories, in this order: `-i inventories/standard -i inventories/os/el -i inventories/platform/azure`
 (standard config, the OS layer, and Azure).
 
 ## Prerequisites
@@ -128,12 +128,12 @@ secrets of other control nodes stay valid.
 Check that Ansible can reach Azure; this should list the control node in `_ansible_runner`:
 
 ```bash
-ansible-inventory -i inventories/standard -i inventories/el -i inventories/azure --graph
+ansible-inventory -i inventories/standard -i inventories/os/el -i inventories/platform/azure --graph
 ```
 
 ## 4. Configure the inventory
 
-Set `azure_control_ip` in `inventories/azure/group_vars/all/azure.yml` to the public IP of the control node. It is the
+Set `azure_control_ip` in `inventories/platform/azure/group_vars/all/azure.yml` to the public IP of the control node. It is the
 only address allowed to ssh to the bastion and database hosts:
 
 ```bash
@@ -157,15 +157,15 @@ Optionally:
 
 ```bash
 cd ~/git/pgvillage
-scripts/create_new_cluster.sh                 # inventories/azure, on EL (inventories/el)
+scripts/create_new_cluster.sh                 # inventories/platform/azure, on EL (inventories/os/el)
 scripts/create_new_cluster.sh mycluster       # inventories/mycluster, on EL
-scripts/create_new_cluster.sh azure suse      # inventories/azure, on openSUSE (inventories/suse)
+scripts/create_new_cluster.sh azure suse      # inventories/platform/azure, on openSUSE (inventories/os/suse)
 ```
 
 The script runs these steps; you can also run them one by one:
 
 ```bash
-INV="-i inventories/standard -i inventories/el -i inventories/azure"
+INV="-i inventories/standard -i inventories/os/el -i inventories/platform/azure"
 ansible-playbook $INV playbooks/azure/create_resources.yml
 sleep 90   # give the VMSS hosts time to boot
 ansible-playbook $INV playbooks/azure/inventory.yml
@@ -187,7 +187,7 @@ ansible-playbook $INV functional-all.yml
 List the hosts:
 
 ```bash
-ansible-inventory -i inventories/standard -i inventories/el -i inventories/azure --graph
+ansible-inventory -i inventories/standard -i inventories/os/el -i inventories/platform/azure --graph
 ```
 
 Log in to a database host and check PostgreSQL:
@@ -199,7 +199,7 @@ sudo -iu postgres psql -h /tmp -c 'select pg_is_in_recovery()'
 
 One host returns `f` (the primary), the others `t` (standbys).
 
-Clients connect to the VIP (`azure_vip_dns_fqdn` in `inventories/azure/group_vars/all/azure_vip.yml`): port 5432 for
+Clients connect to the VIP (`azure_vip_dns_fqdn` in `inventories/platform/azure/group_vars/all/azure_vip.yml`): port 5432 for
 read-write, 5433 for read-only. `pg_hba` only allows certificate authentication (`hostssl ... cert`), so clients need a
 client certificate from chainsmith.
 
@@ -218,7 +218,7 @@ client certificate from chainsmith.
 ## Remove the cluster
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/el -i inventories/azure playbooks/azure/clean_resources.yml
+ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/platform/azure playbooks/azure/clean_resources.yml
 ```
 
 This deletes the resource group `rg_azure` with everything in it (only when `azure_allow_clean` is `true`), and

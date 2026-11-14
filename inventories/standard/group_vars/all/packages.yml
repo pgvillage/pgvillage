@@ -8,7 +8,7 @@ linux_pg_version: '{{ postgresql_version }}'
 linux_pgvillage_channel: latest
 
 # linux_public_repos is not set here: the pgvillage.linux role derives it per package manager (apt, dnf, zypper) and
-# linux_pgvillage_channel. OS layers (inventories/el, ubuntu, suse) override it where needed. linux_users and
+# linux_pgvillage_channel. OS layers (inventories/os/el, debian, suse) override it where needed. linux_users and
 # linux_groups are in users.yml.
 
 # The role default, but without minio for the backup hosts: the PgVillage repos (latest) ship
