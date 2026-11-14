@@ -1,0 +1,273 @@
+---
+# Point in time restore of one cluster in stolon_clusters, from the wal-g backups (full + delta) and the WAL archive.
+# See docs/administrators-guide/deployment_and_maintenance/point_in_time_restore.md.
+#
+# Replace the cluster (destructive: the current data of the cluster on all its hosts is removed):
+#   ansible-playbook -i inventories/<env> restore.yml -e restore_cluster=cluster1 -e restore_confirm=cluster1 \
+#     [-e 'restore_target_time="2026-11-14 10:30:00+01:00"' | -e restore_target_xid=12345 | -e restore_target_name=x]
+#   Without a target it restores up to the end of the WAL archive (latest).
+# Restore next to the running cluster (for inspection; the cluster is not touched):
+#   ansible-playbook -i inventories/<env> restore.yml -e restore_cluster=cluster1 -e restore_dir=/data/restore/cluster1 \
+#     [-e restore_host=<host>] [-e restore_target_...]
+#
+# Other variables:
+#   restore_backup_name: restore this backup (a name from list-backups.sh) instead of the one restore.sh chooses
+#   restore_target_timeline: recovery_target_timeline (default: PostgreSQL's default, latest)
+#   restore_backup_after: make a full backup when the restore is done (default true; replace mode)
+#   restore_timeout: seconds to wait for the restore and the standbys (default 7200)
+#
+# It uses restore.sh of the walg role. Replace mode uses stolon's point in time recovery (stolonctl init with
+# initMode pitr): a keeper of the cluster removes its data, runs restore.sh to fetch the backup, replays the WAL up to the
+# target and becomes the primary; the other keepers clone it (resync).
+- name: Point in time restore of a stolon cluster
+  hosts: hacluster
+  become: true
+  gather_facts: false
+  any_errors_fatal: true
+  vars:
+    _restore_alongside: "{{ restore_dir is defined and restore_dir | length > 0 }}"
+    _restore_host: "{{ restore_host | default(ansible_play_hosts[0]) }}"
+    _restore_scripts: "{{ walg_home | default('/opt/wal-g') }}/scripts"
+    _restore_stolon_bin: "{{ stolon_bin_path | default('/usr/bin') }}"
+    _restore_multi: "{{ stolon_multicluster | default(false) | bool }}"
+    _restore_sentinel_env: >-
+      /etc/sysconfig/stolon-stsentinel{{ ('-' ~ restore_cluster) if _restore_multi else '' }}
+    _restore_spec_file: >-
+      {{ stolon_config_dir | default('/var/lib/pgsql/' ~ stolon_pg_version ~ '/config') }}/stolon_custom_config{{
+      ('-' ~ restore_cluster) if _restore_multi else '' }}.yml
+    _restore_targets: >-
+      {{ {'time': restore_target_time | default(''), 'xid': restore_target_xid | default('') | string,
+          'name': restore_target_name | default('')} | dict2items | rejectattr('value', 'equalto', '') | list }}
+    _restore_timeout: "{{ restore_timeout | default(7200) | int }}"
+    # stolonctl with the store settings of the sentinel of the cluster
+    _restore_stolonctl: >-
+      eval "$(sed -e '/#/d;s/^STSENTINEL/export STOLONCTL/' {{ _restore_sentinel_env | trim }})" &&
+      {{ _restore_stolon_bin }}/stolonctl
+  tasks:
+    - name: Check the variables
+      ansible.builtin.assert:
+        that:
+          - restore_cluster is defined
+          - restore_cluster in stolon_clusters
+          - restore_cluster in (walg_clusters | default({}))
+          - _restore_targets | length <= 1
+          - _restore_host in ansible_play_hosts
+          - _restore_alongside or (restore_confirm | default('')) == restore_cluster
+        fail_msg: >-
+          Set restore_cluster to a cluster in stolon_clusters and walg_clusters, and at most one of restore_target_time,
+          restore_target_xid and restore_target_name. Replacing a cluster removes its current data on all hosts:
+          confirm with -e restore_confirm=<cluster>. Or restore next to the running cluster with -e restore_dir=<dir>.
+        quiet: true
+
+    - name: Check that restore.sh can restore into stolon
+      ansible.builtin.command: grep -q RESTORE_DRY_RUN {{ _restore_scripts }}/restore.sh
+      changed_when: false
+      register: _restore_script_check
+      failed_when: _restore_script_check.rc != 0
+      when: inventory_hostname == _restore_host
+
+    - name: Normalize the target time
+      ansible.builtin.command: date -d "{{ restore_target_time }}" --rfc-3339=seconds
+      register: _restore_time
+      changed_when: false
+      when:
+        - inventory_hostname == _restore_host
+        - restore_target_time | default('') | length > 0
+
+    - name: Set the restore target
+      ansible.builtin.set_fact:
+        _restore_target: >-
+          {{ _restore_time.stdout if (restore_target_time | default('') | length > 0)
+             else (_restore_targets[0].value if _restore_targets else '') }}
+      when: inventory_hostname == _restore_host
+
+    - name: Choose the backup
+      ansible.builtin.command:
+        argv:
+          - "{{ _restore_scripts }}/restore.sh"
+          - "{{ restore_cluster }}"
+          - /nonexistent
+          - "{{ hostvars[_restore_host]._restore_target }}"
+      environment:
+        RESTORE_DRY_RUN: "1"
+        RESTORE_BACKUP: "{{ restore_backup_name | default('') }}"
+      become: true
+      become_user: postgres
+      register: _restore_choice
+      changed_when: false
+      when: inventory_hostname == _restore_host
+
+    - name: Show the restore
+      ansible.builtin.debug:
+        msg: >-
+          {{ 'Restoring' if not _restore_alongside else 'Restoring next to the running cluster:' }} {{ restore_cluster }}
+          from backup {{ _restore_backup }}, target {{ hostvars[_restore_host]._restore_target | default('', true) or 'latest' }}
+          {{ ('into ' ~ restore_dir ~ ' on ' ~ _restore_host) if _restore_alongside else '' }}
+      vars:
+        _restore_backup: "{{ _restore_choice.stdout_lines | select('match', '^RESTORE_BACKUP=') | first | regex_replace('^RESTORE_BACKUP=', '') }}"
+      when: inventory_hostname == _restore_host
+
+    - name: Restore next to the running cluster
+      when: _restore_alongside
+      block:
+        - name: Run restore.sh
+          ansible.builtin.command:
+            argv:
+              - "{{ _restore_scripts }}/restore.sh"
+              - "{{ restore_cluster }}"
+              - "{{ restore_dir }}"
+              - "{{ _restore_target }}"
+          vars:
+            _restore_target: "{{ hostvars[_restore_host]._restore_target }}"
+            _restore_backup: "{{ _restore_choice.stdout_lines | select('match', '^RESTORE_BACKUP=') | first | regex_replace('^RESTORE_BACKUP=', '') }}"
+          environment:
+            RESTORE_BACKUP: "{{ _restore_backup }}"
+            PGCTLTIMEOUT: "{{ _restore_timeout }}"
+          changed_when: true
+          become: true
+          become_user: postgres
+          register: _restore_alongside_run
+          when: inventory_hostname == _restore_host
+
+        - name: Wait until the restored instance is promoted
+          ansible.builtin.shell:
+            cmd: >-
+              eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g-{{ restore_cluster }})" &&
+              "$PGBIN/psql" -h /tmp -p "${PGRESTOREPORT:-$((PGPORT + 10000))}" -d postgres -Atc 'SELECT pg_is_in_recovery()'
+          become: true
+          become_user: postgres
+          register: _restore_alongside_state
+          until: _restore_alongside_state.stdout == 'f'
+          retries: "{{ (_restore_timeout | int / 10) | int }}"
+          delay: 10
+          changed_when: false
+          when: inventory_hostname == _restore_host
+
+        - name: Show how to reach the restored instance
+          ansible.builtin.debug:
+            msg: >-
+              The restored instance runs from {{ restore_dir }} on {{ _restore_host }}, port PGPORT + 10000 (it logs into
+              {{ restore_dir }}/log). Stop and remove it when done: pg_ctl stop -D {{ restore_dir }}; rm -rf {{ restore_dir }}
+          when: inventory_hostname == _restore_host
+
+    - name: Replace the cluster with the restore
+      when: not _restore_alongside
+      block:
+        - name: Read the cluster spec of the inventory
+          ansible.builtin.slurp:
+            src: "{{ _restore_spec_file | trim }}"
+          register: _restore_spec
+          when: inventory_hostname == _restore_host
+
+        # So a restore to latest includes the WAL up to now. Best effort: the cluster may be down.
+        - name: Switch and archive the current WAL of the primary
+          ansible.builtin.shell:
+            cmd: |
+              set -e
+              eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g-{{ restore_cluster }})"
+              export PGHOST=/tmp
+              [ "$("$PGBIN/psql" -d postgres -Atc 'SELECT pg_is_in_recovery()')" = f ] || exit 0
+              WAL=$("$PGBIN/psql" -d postgres -Atc 'SELECT pg_walfile_name(pg_switch_wal())')
+              for _ in $(seq 60); do
+                [ "$("$PGBIN/psql" -d postgres -Atc "SELECT last_archived_wal >= '$WAL' FROM pg_stat_archiver")" = t ] && exit 0
+                sleep 2
+              done
+              echo "WAL $WAL was not archived within 2 minutes" >&2
+              exit 1
+            executable: /bin/bash
+          become: true
+          become_user: postgres
+          changed_when: false
+          failed_when: false
+
+        - name: Re-initialize the cluster with a point in time recovery
+          ansible.builtin.shell:
+            cmd: >-
+              {{ _restore_stolonctl }} init -y --file -
+            stdin: "{{ _spec | to_json }}"
+            executable: /bin/bash
+          vars:
+            _restore_backup: "{{ _restore_choice.stdout_lines | select('match', '^RESTORE_BACKUP=') | first | regex_replace('^RESTORE_BACKUP=', '') }}"
+            _restore_target: "{{ hostvars[_restore_host]._restore_target }}"
+            _recovery_target: >-
+              {{ {} if not _restore_targets else
+                 {'recoveryTargetTime': _restore_target} if _restore_targets[0].key == 'time' else
+                 {'recoveryTargetXid': _restore_target} if _restore_targets[0].key == 'xid' else
+                 {'recoveryTargetName': _restore_target} }}
+            _recovery_settings: >-
+              {{ _recovery_target | combine({'recoveryTargetTimeline': restore_target_timeline | string}
+                 if restore_target_timeline is defined else {}) }}
+            _pitr:
+              dataRestoreCommand: >-
+                RESTORE_FETCH_ONLY=1 RESTORE_WALDIR=%w RESTORE_BACKUP='{{ _restore_backup }}'
+                {{ _restore_scripts }}/restore.sh {{ restore_cluster }} %d
+              archiveRecoverySettings:
+                restoreCommand: "{{ _restore_scripts }}/archive_restore.sh {{ restore_cluster }} %f %p"
+            # mergePgParameters false: keep the pgParameters of the inventory, instead of those of the restored instance
+            _spec: >-
+              {{ _restore_spec.content | b64decode | from_json
+                 | combine({'initMode': 'pitr', 'mergePgParameters': false,
+                            'pitrConfig': _pitr | combine({'recoveryTargetSettings': _recovery_settings}
+                                                          if _recovery_settings else {})}) }}
+          become: true
+          become_user: postgres
+          changed_when: true
+          when: inventory_hostname == _restore_host
+
+        - name: Wait until the restored primary and all standbys are healthy
+          ansible.builtin.shell:
+            cmd: "{{ _restore_stolonctl }} clusterdata read"
+            executable: /bin/bash
+          become: true
+          become_user: postgres
+          register: _restore_cd
+          vars:
+            _cd: "{{ _restore_cd.stdout | from_json }}"
+            _dbs: "{{ _cd.dbs | default({}) | dict2items | map(attribute='value') | list }}"
+          until:
+            - _restore_cd.rc == 0
+            - _cd.cluster.status.phase == 'normal'
+            - _dbs | selectattr('status.healthy', 'defined') | selectattr('status.healthy') | list | length
+              == ansible_play_hosts | length
+            - _dbs | selectattr('spec.role', 'equalto', 'standby') | list | length == ansible_play_hosts | length - 1
+          retries: "{{ (_restore_timeout | int / 10) | int }}"
+          delay: 10
+          changed_when: false
+          when: inventory_hostname == _restore_host
+
+        - name: Check the role, timeline and replication of the instances
+          ansible.builtin.shell:
+            cmd: >-
+              eval "$(sed '/#/d;s/^/export /' /etc/default/wal-g-{{ restore_cluster }})" &&
+              "$PGBIN/psql" -h /tmp -d postgres -Atc "SELECT CASE WHEN pg_is_in_recovery() THEN 'standby' ELSE 'primary' END,
+              (SELECT timeline_id FROM pg_control_checkpoint()),
+              (SELECT count(*) FROM pg_stat_replication WHERE state = 'streaming'),
+              (SELECT count(*) FROM pg_stat_wal_receiver WHERE status = 'streaming')"
+          become: true
+          become_user: postgres
+          register: _restore_state
+          until: >-
+            _restore_state.rc == 0 and
+            (_restore_state.stdout.split('|')[0] == 'standby' and _restore_state.stdout.split('|')[3] == '1' or
+             _restore_state.stdout.split('|')[0] == 'primary'
+             and _restore_state.stdout.split('|')[2] | int == ansible_play_hosts | length - 1)
+          retries: 60
+          delay: 5
+          changed_when: false
+
+        - name: Show the restored cluster
+          ansible.builtin.debug:
+            msg: "{{ restore_cluster }}: {{ _restore_state.stdout.split('|')[0] }}, timeline {{ _restore_state.stdout.split('|')[1] }}"
+
+        # The restored cluster runs on a new timeline; the newest backups are from the old one, and a later restore to
+        # latest (or a delta backup) must not build on them.
+        - name: Make a full backup of the restored cluster
+          ansible.builtin.command: "{{ _restore_scripts }}/backup_locked.sh {{ restore_cluster }}"
+          environment:
+            WALG_BACKUP_FORCE: "1"
+          changed_when: true
+          become: true
+          become_user: postgres
+          when:
+            - restore_backup_after | default(true) | bool
+            - _restore_state.stdout.split('|')[0] == 'primary'

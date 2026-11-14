@@ -179,7 +179,7 @@ Outcome:
 "max_wal_size": "76762MB",
 "max_worker_processes": "8",
 "min_wal_size": "25587MB",
-"restore_command": "/opt/wal-g/scripts/archive_restore.sh %f %p",
+"restore_command": "/opt/wal-g/scripts/archive_restore.sh cluster1 %f %p",
 "shared_buffers": "1940MB",
 "ssl": "true",
 "ssl_ca_file": "/data/postgres/data/certs/root.crt",
@@ -357,4 +357,4 @@ After that, the backup was discarded and restored.
 
 This approach is **not recommended** for production use.
 
-It is better to use the [Point in time restore](../administrators-guide/deployment_and_maintenance/point_in_time_restore.md) procedure. It also executes an init but with the PITR option so that the latest backup is restored from wal-g.
+It is better to use the [Point in time restore](../administrators-guide/deployment_and_maintenance/point_in_time_restore.md) playbook (`restore.yml`). It also executes an init, but with `initMode: pitr`, so a keeper restores the backup with `restore.sh` and replays the WAL with `archive_restore.sh <cluster> %f %p`. Don't restore with `wal-g backup-fetch` directly.
