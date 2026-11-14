@@ -1,239 +1,160 @@
 ---
-title: Ansible inventory
-summary: A description of the Ansible inventory, how it works, and hoe it is implemented in PgVillage
-authors:
-  - Sebas Mannem
-  - Snehal Kapure
-date: 2025-11-11
+title: Inventory explained
+summary: How the PgVillage inventories are layered (standard, OS, platform, yours), what each inventory in inventories/ is for, and how to make your own
 ---
 
-# Inventory
+# Inventory explained
 
-Once the new servers are available, they can be deployed as new database, backup, and (optionally) routing servers.
+PgVillage is configured with Ansible inventories. You don't write one from scratch: you combine the inventories in
+`inventories/` with a small inventory of your own, which only has your hosts and what differs for you.
+[Getting started](../platforms/index.md) has the short version; this page explains it in full.
 
-This is done using Ansible. This description can be used to load the inventory with the correct information and run Ansible to create a running database cluster.
+## The layers
 
----
-
-## Requirements
-
-- 3 (or more) database servers, 1 backup server (and optionally router servers)
-- A control node (management server, where you run Ansible) with ssh access and sudo on all servers, see
-  [Bring your own machines](../platforms/byo.md#checklist) and [Ansible](ansible.md)
-
----
-
-## Instruction Manual
-
-<!-- This docs should be replaced by checks before running first time -->
-
-### 1. Verify that the delivered servers meet the requirements
-
-Go through the [checklist](../platforms/byo.md#checklist). In short:
-
-#### Network
-- **All servers** reach each other on all ports. PgVillage configures firewalld on the servers, but not a firewall
-  between them. The ports per cluster are in [The standard inventory](../platforms/index.md#the-standard-inventory).
-- **Control node (where you run Ansible)**: Should be able to connect to all other servers using ssh (port 22)
-
----
-
-#### Downloading sources
-the following sources should be available either directly, or through a proxy (e.a. Satellite)
-- [pgvillage](https://github.com/pgvillage/pgvillage) (either https, or ssh, or zip if no other option is available)
-- [ansible galaxy for all ansible roles](https://galaxy.ansible.com/)
-- [Our package repos](https://repo.pgvillage.org/)
-- [PostgreSQL repos](https://download.postgresql.org/)
-- os specific repos (e.a. centos, epel, CRB, or ubuntu repos, or Suse repos)
-
-For more info, check [our linux role](https://raw.githubusercontent.com/pgvillage/ansible-role-linux/refs/heads/main/defaults/main.yml) (see `_linux_public_repos`).
-
----
-
-#### Storage
-- **Database servers:**  
-  `/data/postgres/data` and `/data/postgres/wal` must exist and have sufficient space (see [Disks](../platforms/byo.md#disks)).
-- **Backup server:**  
-  `/var/lib/minio` (the RustFS data directory) must have sufficient space for the backups.
-
----
-
-#### CPU and Memory
-- **Database server:**  See server request form.
-- **Backup server:** 1 CPU, 4 GB RAM is sufficient.
-- **Router servers:** 1 CPU, 4 GB RAM is sufficient.
-
----
-
-### 2. Ensure the inventory has been created and filled out correctly
-
-PgVillage ships its inventories in `inventories/`. You run Ansible with several of them, in this order (later values
-win):
-
-1. `inventories/standard`: the standard PgVillage config, shared by all platforms (no hosts)
-2. an OS layer: `inventories/el`, `inventories/ubuntu` or `inventories/suse` (no hosts)
-3. a platform inventory with the hosts and the platform specifics, e.g. your own `inventories/<cluster>`
+`ansible-playbook` gets several inventories (`-i`), in this order:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/el -i inventories/<cluster> functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/<os> -i <your inventory> functional-all.yml
 ```
 
-See [Getting started](../platforms/index.md) for the layers and a minimal inventory for your own machines.
+A variable can be set in several places. From weak to strong:
 
-Examples of platform inventories:
+1. **Role defaults**: `defaults/main.yml` of each role (see the role repositories, e.g.
+   [ansible-role-stolon](https://github.com/pgvillage/ansible-role-stolon/blob/main/defaults/main.yml)).
+2. **Standard** (`inventories/standard`): the PgVillage config, shared by everyone.
+3. **OS** (`inventories/os/<os>`): package names, repositories and paths of the OS.
+4. **Platform** (`inventories/platform/<platform>`): the hosts and what is specific to a platform. When you bring your
+   own machines, your own inventory takes this place.
+5. **Yours**: your own inventory, last, so it wins.
 
-- `inventories/vagrant`: the vagrant demo environment, with a router (see [Vagrant](../platforms/vagrant/index.md))
-- `inventories/lima`: VMs on a Mac with lima (see [Lima](../platforms/lima.md))
-- `inventories/azure`: Azure, with a dynamic inventory (see [Azure](../platforms/azure/index.md))
+Ansible merges the inventories into one, and a later inventory overrides the variables of an earlier one. There is one
+exception: a variable in `group_vars/<group>` (e.g. `group_vars/hacluster`) beats the same variable in
+`group_vars/all`, whatever the layer. So when a shared layer sets a variable for a group, your `group_vars/all` doesn't
+override it: set it in `group_vars/<group>` of your inventory instead. See
+[Variables that are set per group](#variables-that-are-set-per-group).
 
-Change a setting in your own inventory by adding a file with the same name to `inventories/<cluster>/group_vars/all/`
-(e.g. `generic.yml`), instead of changing `inventories/standard`. The files below are the ones in `inventories/standard`
-that hold the setting.
+A variable is the whole value: when you set a dictionary or a list (e.g. `stolon_pg_hba`), yours replaces the one of
+the earlier layer; it is not merged.
 
-Let's move on to the following:
+## The groups
 
-#### Multihomed
+The hosts are in these groups (see [Custom group names](group-names.md) to use other names):
 
-When running multi-homed, you should set the correct interface to bind all processes to.
-See [More than one network interface](../platforms/index.md#more-than-one-network-interface).
-Set the following parameters as to your likings:
+- `hacluster`: the database hosts (3 or more). They run PostgreSQL with stolon, PgBouncer, wal-g, avchecker and
+  PgQuartz. In the standard architecture they also run etcd: `stolon` and `etcd_master` are subgroups of `hacluster`.
+- `backup`: the backup host (0 or 1). It runs RustFS, an S3 server, for the backups of wal-g.
+- `router` (and `haproxy`): optional, the hosts that run HAProxy, keepalived (the VIP) and pgroute66. They can be the
+  database hosts.
+- `localhosts`: `localhost`, the control node, where Ansible and chainsmith (the certificates) run. It is in your
+  inventory, not in standard: the cluster name is the name of the folder of the inventory that has `localhost`
+  (`cluster_name: "{{ inventory_dir | basename }}"`).
 
-- `inventories/<cluster>/group_vars/all/stolon.yml`, look for:
-  - stolon_pg_listen_address and set it to something like: "{{ ansible_facts['eth1']['ipv4']['address'] }}"
-- `inventories/<cluster>/group_vars/all/etcd.yml`, look for:
-  - etcd_iface_cluster and set it to your interface name (e.a. eth1)
+## The steps
 
-!!! note
-    This might also be set if you are using another interface name, such as enp0s9
+`functional-all.yml` runs the roles as steps, in order, each on the hosts of its groups: linux, chainsmith, firewall,
+etcd, the backup server, wal-g, stolon, avchecker, the router (haproxy, keepalived, pgroute66), pgbouncer, nagios and
+pgquartz. The inventory can change the steps (`pgvillage_roles`): disable one, change its groups, or add your own. See
+[Roles in functional-all.yml](roles.md).
 
----
+## The inventories in `inventories/`
 
-#### PostgreSQL Version
-  - `group_vars/all/generic.yml`: `postgresql_version`
-  - `group_vars/all/packages.yml`: `linux_rh_subscription.pool_ids` (RHEL with subscriptions, see the
-    `pgvillage.linux` role)
+### Standard
 
----
+- `inventories/standard`: an opinionated, multi-instance PgVillage setup, used by every deployment. PostgreSQL 17,
+  two stolon clusters (`cluster1` and `cluster2`) side by side on the same hosts, etcd and stolon on the database hosts,
+  RustFS on the backup host with a bucket per cluster, certificates from chainsmith, firewalld, avchecker, PgQuartz
+  and nagios. It has no hosts (its `hosts` file only has the groups) and no OS specifics. See
+  [The standard inventory](../platforms/index.md#the-standard-inventory) and its
+  [README](https://github.com/pgvillage/pgvillage/blob/main/inventories/standard/README.md).
 
-#### Router Configuration
- - `group_vars/all/generic.yml`:
-    - `postgresql_vip_fqdn`
-    - `postgresql_vip_ip`
-    - `postgresql_subnet`
- - See [Router](../platforms/index.md#router) and [HAProxy](multiinstance/haproxy.md)
+### Platform
 
----
+The platform inventories have hosts. Use them as they are to try PgVillage, or as an example for your own inventory.
 
-#### Foreign Data Wrapper
-  - `group_vars/all/stolon.yml`:
-    - `stolon_keeper_extra_env_vars`
-    - `stolon_package_names`
+- `inventories/platform/azure`: VMs on Azure, created by the playbooks in `playbooks/azure`. See
+  [Azure](#azure) below and the [Azure docs](../platforms/azure/index.md).
+- `inventories/platform/lima`: VMs on your Mac with Lima: the hosts and a VIP. See [Lima](../platforms/lima.md).
+- `inventories/platform/vagrant`: boxes on your laptop with Vagrant and VirtualBox: the hosts, a second network
+  interface, and the router on the database hosts. See [Vagrant](../platforms/vagrant/index.md) and
+  [The vagrant inventory](../platforms/vagrant/inventory.md), which explains every setting.
 
----
+### OS
 
-#### PgQuartz Configuration
-  - `group_vars/all/pgquartz.yml`:
-    - `pgquartz_definitions`
-    - `pgquartz_jobs`
+Pick the one that matches your hosts. They have no hosts.
 
----
+- `inventories/os/suse`: openSUSE and SUSE. See [SUSE](../platforms/suse/index.md).
+- `inventories/os/el`: Enterprise Linux (Rocky Linux, RHEL, ...). See [EL](../platforms/el/index.md).
+- `inventories/os/debian`: Debian (including Ubuntu). See
+  [Debian (including Ubuntu)](../platforms/ubuntu/index.md).
 
-#### PostGIS
-  - `group_vars/all/packages.yml`: `linux_packages`
+### Azure
 
----
+`inventories/platform/azure` is a dynamic inventory: `azure_rm.yml` (the `azure.azcollection.azure_rm` plugin) finds
+the VMs in the resource groups of the cluster, and puts the database hosts of the scale set in the group `_postgres`,
+which `hosts` maps to `hacluster`. `host_vars/localhost` makes `localhost` the control node (a local connection, and no
+certificates of its own). The azure role writes some files into the inventory itself (`group_vars/_postgres`: the
+storage account key for wal-g and the ssh proxy through the bastion). See [Azure integration](../platforms/azure/azure.md).
 
-#### pg_hba Configuration
-  - `group_vars/all/generic.yml`: `stolon_pg_hba`
-  - The first required pg_hba entries are:
+## Variables that are set per group
 
-    ```
-    local all all ident
-    hostssl postgres avchecker samenet cert
-    ```
----
+These shared layers set a variable in `group_vars/<group>`, not in `group_vars/all`. Your `group_vars/all` can't
+override them; set them in the same `group_vars/<group>` folder of your inventory:
 
-The remaining lines must follow the Host Based Access table from the database request form.
+- `inventories/standard/group_vars/hacluster/chainsmith.yml`: `chainsmith_server_cert_path` (the server certificates
+  of the database hosts are on the data mount point).
+- `inventories/standard/group_vars/backup/chainsmith.yml`: `chainsmith_client_cert_sub_folder`,
+  `chainsmith_client_cert_filename`, `chainsmith_client_pkey_filename`, `chainsmith_client_root_filename` and
+  `chainsmith_server_cert_owner` (the certificates of RustFS and its client).
+- `inventories/os/debian/group_vars/hacluster/pgbouncer.yml`: `pgbouncer_install_dir` (Debian and Ubuntu install
+  pgbouncer in `/usr/sbin`).
 
----
+## Make your own inventory
 
-### Creating a New Inventory
+1. Copy a platform inventory that looks like your setup, or start from the `hosts` file in
+   [Getting started](../platforms/index.md#tldr). The name of the folder is the cluster name.
+2. Keep it in your own Git repository (or a fork of this one), next to a checkout of PgVillage, so you can update
+   PgVillage without conflicts. Don't change `inventories/standard` or the OS inventories: put your changes in yours.
+3. Put only what differs in it: your hosts in `hosts`, and a file in `group_vars/all/` (or `group_vars/<group>/`) for
+   each change. The name of the file doesn't matter to Ansible; using the name of the file in standard that sets the
+   variable (e.g. `generic.yml`, `stolon.yml`) keeps it easy to find.
+4. Deploy with the standard and OS inventories in front of it:
+   ```bash
+   ansible-playbook -i inventories/standard -i inventories/os/el -i ~/git/my-inventories/mycluster functional-all.yml
+   ```
 
-1. Create a new branch:
+The variables of each role are documented in `defaults/main.yml` of the role. Some examples:
 
-```bash
-NEW_ENV=[ENV]_[OMGEVING]
-git checkout -b feature/$NEW_ENV main
-```
-
-2. Create the inventory, e.g. by copying an existing one (the folder name is the cluster name)
-
-```bash
-mkdir -p inventories/$NEW_ENV/group_vars/all
-```
-
-3. Modify required files:
-
-- `inventories/$NEW_ENV/hosts` - fill in correct hostnames (see [Hosts](../platforms/index.md#hosts))
-- `inventories/$NEW_ENV/group_vars/all/generic.yml` - configure pg_hba
----
-
-<!-- This should be replaced on running PgVillage with certs signed by the orgs internal CA -->
-<!-- We might add an option to generate CSR's instead of generating a chain -->
-
-4. Create the client certificates according to the work instruction [generate new certificates](byo-server-certs.md)
-
-
-5. Commit and Push the New Environment
-Create a new commit, push and make a merge request (create it as a draft MR)
-
-```bash
-NEW_ENV=[ENV]_[OMGEVING]
-git add inventories/$NEW_ENV
-git commit -m "New environment $NEW_ENV"
-git push
-#glab, or follow the link in the output of the `git push` command
-glab mr create
-
-```
-
-6. Execute Ansible Deployment
-  - check the output and resolve any issues according to the [Ansible documentation](ansible.md)
-
-**Check the result:**
-
-- Ensure that Postgres is working and check the PostgreSQL version:
-
-```bash
-psql --version
-
-ssh gurus-dbtdb-server3.int.corp.com
-
-Last login: Thu Oct 2015 10:06 from 10.0.6.100
-
-[me@gurus-dbtdb-server3~]$ sudo iu postgres
-
-#### ClusterInfo
-
-MasterKeeper: gurus_dbtdb_server2
-
-#### Keepers/DBtree
-
-gurus_dbtdb_server2 (master)
-│── gurus_dbtdb_server3
-└── gurus_dbtdb_server1
-
-[postgres@gurus-dbtdb-server3~]$ psql service=proxy
-
-psql(14.5)
-
-SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-
-Type "help" for help.
-
-postgres=#
-```
-- Check the status of [avchecker](../../tools/avchecker.md)
-- Create users as per [Extra database en/of user aanmaken](modify_existing.md)
-
-If everything is okay after the rollout, mark the Merge Request as Ready and ensure that the Merge Request gets merged.
+- **A VIP for the router**: put the router hosts in `router` and `haproxy` (or the database hosts, with
+  `children: hacluster:`) and set the VIP, see [Router](../platforms/index.md#router):
+  ```yaml
+  # group_vars/all/keepalived.yml
+  keepalived_vip: 10.0.0.100
+  ```
+- **Another PostgreSQL version**:
+  ```yaml
+  # group_vars/all/generic.yml
+  postgresql_version: 16
+  ```
+- **pg_hba**: `stolon_pg_hba` is the whole list, so repeat the entries of standard that you need (the first two are
+  required by avchecker and the nagios checks) and add yours:
+  ```yaml
+  # group_vars/all/generic.yml
+  stolon_pg_hba:
+    - local all all ident
+    - hostssl postgres avchecker samenet cert
+    - hostssl all all samenet cert
+    - hostssl myapp myapp 10.1.0.0/16 scram-sha-256
+  ```
+- **Another cluster** on the same hosts: add it to `stolon_clusters`, with its own ports and bucket. See
+  [Multi-instance](multiinstance/stolon.md).
+- **More than one network interface** (e.g. `eth1`): set the interface that etcd, stolon and keepalived use, see
+  [More than one network interface](../platforms/index.md#more-than-one-network-interface).
+- **A foreign data wrapper** (e.g. `oracle_fdw`): install the client packages on the database hosts with
+  `linux_packages` (a dictionary per group; it replaces the one of standard, so keep its value and add yours), and give
+  PostgreSQL the environment it needs with `stolon_keeper_extra_env_vars`:
+  ```yaml
+  # group_vars/all/stolon.yml
+  stolon_keeper_extra_env_vars:
+    ORACLE_HOME: /usr/lib/oracle/21/client64
+    LD_LIBRARY_PATH: /usr/lib/oracle/21/client64/lib
+  ```
