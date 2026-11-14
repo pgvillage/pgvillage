@@ -37,8 +37,14 @@ pip3 install --upgrade pip ansible netaddr
 ansible-galaxy role install --role-file ~/git/pgvillage/requirements.yml
 ansible-galaxy collection install --requirements-file ~/git/pgvillage/requirements.yml
 
-# The OS inventory to deploy with: ansible-playbook -i inventories/standard -i inventories/${PGV_OS} ...
-grep -q PGV_OS ~/.bashrc || echo "export PGV_OS=${PGV_OS}" >>~/.bashrc
+# The OS inventory to deploy with: ansible-playbook -i inventories/standard -i ${PGV_OS_INVENTORY} ...
+# PGV_OS is the box or image (ubuntu, el, suse); Ubuntu uses the debian OS inventory.
+case "${PGV_OS}" in
+  ubuntu) PGV_OS_INVENTORY=inventories/os/debian ;;
+  *) PGV_OS_INVENTORY=inventories/os/${PGV_OS} ;;
+esac
+grep -q 'PGV_OS=' ~/.bashrc || echo "export PGV_OS=${PGV_OS}" >>~/.bashrc
+grep -q PGV_OS_INVENTORY ~/.bashrc || echo "export PGV_OS_INVENTORY=${PGV_OS_INVENTORY}" >>~/.bashrc
 
 echo Setup ssh localhost
 ssh-keygen -H -F localhost >/dev/null || ssh-keyscan -H localhost >>~/.ssh/known_hosts

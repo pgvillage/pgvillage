@@ -1,5 +1,5 @@
 ---
-# postgresql_bindir is OS specific, see inventories/el, ubuntu, suse
+# postgresql_bindir is OS specific, see inventories/os/el, debian, suse
 postgresql_log_directory: /var/log/postgresql
 
 # /tmp is hardcoded by stolon. :(

@@ -8,14 +8,14 @@ date: 2026-10-30
 
 # Vagrant - inventory
 
-`inventories/vagrant` only has what is specific to the vagrant boxes. It goes on top of `inventories/standard` and an
+`inventories/platform/vagrant` only has what is specific to the vagrant boxes. It goes on top of `inventories/standard` and an
 OS inventory (Ubuntu by default, the OS of the boxes), in this order:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/vagrant functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/debian -i inventories/platform/vagrant functional-all.yml
 ```
 
-A file in `inventories/vagrant/group_vars/<group>/` overrides the variables with the same name in the earlier
+A file in `inventories/platform/vagrant/group_vars/<group>/` overrides the variables with the same name in the earlier
 inventories. Everything not listed here comes from standard (the clusters and their ports, wal-g, minio buckets,
 PgBouncer, avchecker, firewall, etcd, nagios, etc.) or from the OS inventory (packages, repositories, users, paths).
 
@@ -57,12 +57,12 @@ between standard and vagrant. Use the one that matches the box (`PGV_OS`, see
 [Other operating systems](index.md#other-operating-systems)):
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/vagrant functional-all.yml  # default
-ansible-playbook -i inventories/standard -i inventories/el -i inventories/vagrant functional-all.yml      # Rocky Linux
-ansible-playbook -i inventories/standard -i inventories/suse -i inventories/vagrant functional-all.yml    # openSUSE
+ansible-playbook -i inventories/standard -i inventories/os/debian -i inventories/platform/vagrant functional-all.yml  # default
+ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/platform/vagrant functional-all.yml      # Rocky Linux
+ansible-playbook -i inventories/standard -i inventories/os/suse -i inventories/platform/vagrant functional-all.yml    # openSUSE
 ```
 
-See [Ubuntu](../ubuntu/index.md), [EL](../el/index.md) and [SUSE](../suse/index.md).
+See [Debian (including Ubuntu)](../ubuntu/index.md), [EL](../el/index.md) and [SUSE](../suse/index.md).
 
 ## Data directories
 

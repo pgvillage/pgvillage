@@ -5,7 +5,7 @@ VIP with unicast VRRP (`group_vars/all/keepalived.yml`). Use it on top of `inven
 (Ubuntu by default):
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/lima functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/debian -i inventories/platform/lima functional-all.yml
 ```
 
-See the [lima docs](../../docs/administrators-guide/platforms/lima.md).
+See the [lima docs](../../../docs/administrators-guide/platforms/lima.md).

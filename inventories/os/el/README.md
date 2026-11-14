@@ -5,7 +5,7 @@ and the uninstall lists. Packages, repositories, users and groups come from the 
 them for dnf. It has no hosts; use it between standard and a platform inventory:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/el -i inventories/azure functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/platform/azure functional-all.yml
 ```
 
-See the [OS docs](../../docs/administrators-guide/platforms/el/index.md).
+See the [OS docs](../../../docs/administrators-guide/platforms/el/index.md).

@@ -73,7 +73,8 @@ of the linux role): their roles restart them instead.
 - Plan steps 1 and 2 as a change with a short interruption of writes (see [What to expect](#what-to-expect)).
 - Keep your inventory (hosts, cluster settings) as it is. The changes below go in your own inventory, e.g. in
   `group_vars/all/upgrade.yml`: on top of your v2.0.0 inventory for step 0, and on top of `inventories/standard` and
-  `inventories/ubuntu` of v2.0.1 for steps 1 and 2.
+  `inventories/ubuntu` of v2.0.1 for steps 1 and 2 (v2.0.1 has the old inventory paths; later versions have
+  `inventories/os/debian`).
 - In the commands below, `<inventories>` stands for the `-i` options of your deploy.
 
 ## Step 0: pin apt v0.3.2

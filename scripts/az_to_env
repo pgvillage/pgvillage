@@ -7,7 +7,8 @@ set -e
 # - creates a service principal (or reuses it) with Contributor on only that resource group, and Reader on the
 #   resource group of the control node
 #
-# Usage: scripts/az_to_env [cluster]   (default: azure, i.e. inventories/azure)
+# Usage: scripts/az_to_env [cluster]   (default: azure, i.e. inventories/platform/azure; another cluster can be
+#        inventories/platform/<cluster> or inventories/<cluster>)
 # Run it again for every cluster (and after removing a cluster, since that removes the resource group).
 
 CLUSTER=${1:-azure}
@@ -16,7 +17,8 @@ CONTROL_RESOURCE_GROUP=pgVillage
 SP_NAME="Ansible-Power-User"
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
-INVENTORY="${REPO}/inventories/${CLUSTER}"
+INVENTORY="${REPO}/inventories/platform/${CLUSTER}"
+[ -d "${INVENTORY}" ] || INVENTORY="${REPO}/inventories/${CLUSTER}"
 ENV_FILE="${REPO}/azure_creds.env"
 RESOURCE_GROUP="rg_${CLUSTER}"
 

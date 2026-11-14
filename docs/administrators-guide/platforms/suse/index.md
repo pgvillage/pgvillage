@@ -8,20 +8,20 @@ date: 2026-10-30
 
 # SUSE
 
-`inventories/standard` has no OS specifics. For openSUSE or SUSE hosts, add `inventories/suse` between standard and
+`inventories/standard` has no OS specifics. For openSUSE or SUSE hosts, add `inventories/os/suse` between standard and
 the platform inventory:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/suse -i inventories/<platform> functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/suse -i inventories/platform/<platform> functional-all.yml
 ```
 
 For example, on Azure with an openSUSE Leap image (see [Azure - EL vs SUSE](../azure/el-vs-suse.md)):
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/suse -i inventories/azure functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/suse -i inventories/platform/azure functional-all.yml
 ```
 
-`inventories/suse` has no hosts (its `hosts` file only lists the groups); they come from the platform inventory.
+`inventories/os/suse` has no hosts (its `hosts` file only lists the groups); they come from the platform inventory.
 
 !!! note
     Out of the box, SUSE runs on x86_64 only. download.postgresql.org (PGDG) builds PostgreSQL for SUSE only on x86_64
@@ -50,5 +50,5 @@ and PGDG per PostgreSQL version, common and extras).
 ## openSUSE PostgreSQL packages
 
 `postgresql_bindir` is the path of the PGDG rpm's. If you use the openSUSE PostgreSQL packages instead, set it to
-`/usr/lib/postgresql<version>/bin` (in `inventories/suse` or the platform inventory), and change the `/usr/pgsql-*`
+`/usr/lib/postgresql<version>/bin` (in `inventories/os/suse` or the platform inventory), and change the `/usr/pgsql-*`
 and `/var/lib/pgsql-*` entries in `uninstall_os_file_list` accordingly.

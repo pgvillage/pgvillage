@@ -14,10 +14,10 @@ Run a PgVillage demo environment on your laptop with [Vagrant](https://www.vagra
 - `vagrant/`: the `Vagrantfile` and the scripts that prepare the boxes.
 - `inventories/standard`: the standard PgVillage config, shared by all platforms. It is multi-instance: two stolon
   clusters (`cluster1` and `cluster2`) run side by side on the same hosts.
-- `inventories/ubuntu`, `inventories/el` or `inventories/suse`: the OS of the boxes (Ubuntu by default). See
-  [Ubuntu](../ubuntu/index.md), [EL](../el/index.md) and [SUSE](../suse/index.md).
-- `inventories/vagrant`: everything specific to the vagrant boxes: the hosts, the network, certificates, and the router
-  (HAProxy, keepalived and pgroute66). See [The vagrant inventory](inventory.md).
+- `inventories/os/debian`, `inventories/os/el` or `inventories/os/suse`: the OS of the boxes (Ubuntu by default). See
+  [Debian (including Ubuntu)](../ubuntu/index.md), [EL](../el/index.md) and [SUSE](../suse/index.md).
+- `inventories/platform/vagrant`: everything specific to the vagrant boxes: the hosts, the network, certificates, and
+  the router (HAProxy, keepalived and pgroute66). See [The vagrant inventory](inventory.md).
 
 ## What gets deployed
 
@@ -58,12 +58,12 @@ The database hosts get 2 GB of memory, the others 1 GB, all 2 CPUs: about 9 GB f
    ```bash
    vagrant ssh ansible
    cd ~/git/pgvillage/
-   ansible-playbook -i inventories/standard -i inventories/${PGV_OS:?} -i inventories/vagrant functional-all.yml
+   ansible-playbook -i inventories/standard -i ${PGV_OS_INVENTORY:?} -i inventories/platform/vagrant functional-all.yml
    ```
 5. Be amazed.
 
 `~/git/pgvillage` on the Ansible host is this repository on your laptop (a VirtualBox shared folder), so you deploy
-what you have checked out, including your local changes. `PGV_OS` is set in `~/.bashrc` of the Ansible host (see
+what you have checked out, including your local changes. `PGV_OS` and `PGV_OS_INVENTORY` are set in `~/.bashrc` of the Ansible host (see
 [Other operating systems](#other-operating-systems)).
 
 ## Check the deployment
@@ -87,14 +87,14 @@ sudo -iu postgres psql "host=172.30.1.30 port=45433 dbname=postgres sslmode=requ
 
 ## Other operating systems
 
-The boxes run Ubuntu by default. `PGV_OS` picks another OS; it selects the box and is the name of the OS inventory
+The boxes run Ubuntu by default. `PGV_OS` picks another OS; it selects the box and the OS inventory
 to deploy with:
 
-| `PGV_OS`           | Box                   | OS inventory           |
-|--------------------|-----------------------|------------------------|
-| `ubuntu` (default) | `nibble/ubuntu-26.04` | `inventories/ubuntu`   |
-| `el`               | `nibble/rocky-9`      | `inventories/el`       |
-| `suse`             | `nibble/suse-16`      | `inventories/suse`     |
+| `PGV_OS`           | Box                   | OS inventory            |
+|--------------------|-----------------------|-------------------------|
+| `ubuntu` (default) | `nibble/ubuntu-26.04` | `inventories/os/debian` |
+| `el`               | `nibble/rocky-9`      | `inventories/os/el`     |
+| `suse`             | `nibble/suse-16`      | `inventories/os/suse`   |
 
 ```bash
 cd vagrant
@@ -104,8 +104,8 @@ PGV_OS=el vagrant up
 Set it for every `vagrant` command on these boxes (`vagrant up`, `vagrant provision`, `vagrant destroy`), e.g. with
 `export PGV_OS=el`. `PGV_BOX` overrides the box name, if you named your box differently.
 
-The bootstrap writes `PGV_OS` to `~/.bashrc` of the Ansible host, so the deploy command in
-[Getting started](#getting-started) uses the right OS inventory.
+The bootstrap writes `PGV_OS` and `PGV_OS_INVENTORY` (the OS inventory) to `~/.bashrc` of the Ansible host, so the
+deploy command in [Getting started](#getting-started) uses the right OS inventory.
 
 !!! note
     The PostgreSQL community (PGDG) has no aarch64 packages for SUSE: on Apple silicon, use `ubuntu` or `el`, or SUSE

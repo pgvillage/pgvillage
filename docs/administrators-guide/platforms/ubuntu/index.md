@@ -1,32 +1,32 @@
 ---
-title: Ubuntu
-summary: Deploying PgVillage on Ubuntu with the ubuntu inventory on top of the standard inventory
+title: Debian (including Ubuntu)
+summary: Deploying PgVillage on Debian and Ubuntu with the debian OS inventory on top of the standard inventory
 authors:
   - Sebas Mannem
 date: 2026-10-30
 ---
 
-# Ubuntu
+# Debian (including Ubuntu)
 
-`inventories/standard` has no OS specifics. For Ubuntu hosts, add `inventories/ubuntu` between standard and the
-platform inventory, so the Ubuntu values override standard and the platform overrides both (for Enterprise Linux,
-use [`inventories/el`](../el/index.md), for SUSE [`inventories/suse`](../suse/index.md)):
+`inventories/standard` has no OS specifics. For Debian hosts (including Ubuntu), add `inventories/os/debian` between standard and
+the platform inventory, so the Debian values override standard and the platform overrides both (for Enterprise Linux,
+use [`inventories/os/el`](../el/index.md), for SUSE [`inventories/os/suse`](../suse/index.md)):
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/<platform> functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/debian -i inventories/platform/<platform> functional-all.yml
 ```
 
 For example, the [vagrant](../vagrant/index.md) boxes run Ubuntu by default:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/ubuntu -i inventories/vagrant functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/debian -i inventories/platform/vagrant functional-all.yml
 ```
 
-`inventories/ubuntu` has no hosts (its `hosts` file only lists the groups); they come from the platform inventory.
+`inventories/os/debian` has no hosts (its `hosts` file only lists the groups); they come from the platform inventory.
 
 ## What it changes
 
-| File                                 | Variable                   | Ubuntu                                   | EL (`inventories/el`) |
+| File                                 | Variable                   | Ubuntu                                   | EL (`inventories/os/el`) |
 |--------------------------------------|----------------------------|------------------------------------------|---------------|
 | `group_vars/all/postgres.yml`        | `postgresql_bindir`        | `/usr/lib/postgresql/<version>/bin`       | `/usr/pgsql-<version>/bin/` |
 | `group_vars/all/uninstall.yml`       | `uninstall_linux_packages` | `postgresql-17`, `stolon`, `wal-g-pg`, `etcd` | EL package names |
