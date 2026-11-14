@@ -19,3 +19,8 @@ mkdocs-material
 mkdocs-material[recommended]
 mkdocs-material[imaging]
 mkdocs-redirects
+
+# For the role reference (docs/scripts/role_reference.py): installs the roles and reads their defaults/main.yml
+mkdocs-gen-files
+ansible-core
+ruamel.yaml
