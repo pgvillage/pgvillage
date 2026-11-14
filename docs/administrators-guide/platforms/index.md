@@ -53,7 +53,7 @@ all:
           ansible_python_interpreter: "{{ansible_playbook_python}}"
 EOF
 
-# el, ubuntu or suse: the OS of your hosts
+# os/el, os/debian (also for Ubuntu) or os/suse: the OS of your hosts
 ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/mycluster functional-all.yml
 ```
 
