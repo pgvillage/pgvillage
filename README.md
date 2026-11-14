@@ -8,6 +8,12 @@ That design is the foundation of PgVillage.
 PgVillage is a solution design which can be deployen in the cloud, or on premise VM's using Ansible, and (future) can run as a Kubernetes deployment.
 The solution is comprised of 100% Open Source software and meets all CloudNative primitives as [defined by CNCF](https://github.com/cncf/toc/blob/main/DEFINITION.md).
 
+## Documentation
+
+The documentation is published on [https://pgvillage.github.io/pgvillage/](https://pgvillage.github.io/pgvillage/)
+(the source is in [`docs/`](docs/)). To get started on your own machines, see
+[Getting started](https://pgvillage.github.io/pgvillage/latest/administrators-guide/platforms/).
+
 ## Ansible roles
 
 All roles developed for PgVillage are managed on Ansible Galaxy.
