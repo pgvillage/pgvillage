@@ -13,7 +13,7 @@ The Azure integration has three parts:
 1. **The `azure` role** (`roles/azure`) creates the Azure resources: resource group, storage account, network, load
    balancer, bastion host and a VM Scale Set (VMSS) for the database hosts. It runs on the control node, against
    `localhost`.
-2. **The inventory** (`inventories/azure`, on top of `inventories/standard`) finds the created VMs with the
+2. **The inventory** (`inventories/platform/azure`, on top of `inventories/standard`) finds the created VMs with the
    `azure_rm` dynamic inventory plugin, and passes the Azure details (VIP, storage account) to the PgVillage roles.
 3. **Scripts and playbooks**: `scripts/` bootstraps the control node and creates credentials and clusters
    (`create_new_cluster.sh`); `playbooks/azure/` creates the resources, configures ssh and the data and wal disks, and
@@ -192,7 +192,7 @@ of `ansible-playbook`), and sets no chainsmith cert files (`chainsmith_cert_file
 
 ### How PgVillage uses the Azure values
 
-The Azure values are passed to PgVillage by files in `inventories/azure/group_vars/all/` that override the file
+The Azure values are passed to PgVillage by files in `inventories/platform/azure/group_vars/all/` that override the file
 with the same name in `inventories/standard/group_vars/all/`.
 
 | Inventory file                  | Uses                                    | For |

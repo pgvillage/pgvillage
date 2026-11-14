@@ -12,7 +12,7 @@ uninstall_services:
   - avchecker@cluster2-stolon.service
   - avchecker@cluster2-proxy.service
 
-# Plus the OS specific files (uninstall_os_file_list) of the OS layer (inventories/el, ubuntu, suse)
+# Plus the OS specific files (uninstall_os_file_list) of the OS layer (inventories/os/el, debian, suse)
 uninstall_file_list: "{{ uninstall_common_file_list + (uninstall_os_file_list | default([])) }}"
 
 uninstall_common_file_list:
@@ -66,4 +66,4 @@ uninstall_user_list:
   - avchecker
   - pgquartz
 
-# uninstall_linux_packages is OS specific, see inventories/el, ubuntu, suse
+# uninstall_linux_packages is OS specific, see inventories/os/el, debian, suse
