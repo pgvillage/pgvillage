@@ -1,5 +1,5 @@
 ---
-title: Firewall
+title: firewalld
 summary: firewalld, configured by the firewall role on all hosts with the ports of their groups
 ---
 

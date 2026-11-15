@@ -73,7 +73,7 @@ The standard inventory (`inventories/standard/group_vars/all/haproxy.yml`) gener
 [`stolon_clusters`](stolon.md#multi-instance) a read-write, a read-only and a stolon proxy route (`haproxy_routes`), each with a
 frontend on the router and a backend with the database hosts (`hacluster`) as servers. Adding a cluster to
 `stolon_clusters` adds its routes, and the firewall opens their ports (`firewall_ports_router`, see
-[firewall](firewall.md#multi-instance)). The platform inventory only adds the router hosts (the `router` and `haproxy` groups) and the
+[firewall](firewalld.md#multi-instance)). The platform inventory only adds the router hosts (the `router` and `haproxy` groups) and the
 keepalived VIP.
 
 The frontend port is `port_prefix * 10000 + <Postgres port>`:
@@ -195,7 +195,7 @@ everything after the first dash to get the cluster name they query pgroute66 for
 !!! note
     With `external-check`, HAProxy does not run a TCP check against `checkport`. Health is decided by the check script,
     which asks pgroute66 whether the server (by `name`) is the primary or a standby of the cluster (by backend name).
-    Therefore `checkport` does not need to be opened in the [firewall](firewall.md#multi-instance) of the database hosts.
+    Therefore `checkport` does not need to be opened in the [firewall](firewalld.md#multi-instance) of the database hosts.
 
     Do not replace the external check with a plain TCP check on the Postgres port (e.g. `5432`): a TCP check only
     proves Postgres accepts connections, so standbys would pass too and read-write traffic could be sent to a standby.

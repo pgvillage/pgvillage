@@ -55,4 +55,4 @@ pgbouncer_instances:
 ```
 
 !!! note
-    Make sure you open [`firewall_ports`](firewall.md#multi-instance) for PgBouncer (unless PgBouncer should only be available through HAProxy).
+    Make sure you open [`firewall_ports`](firewalld.md#multi-instance) for PgBouncer (unless PgBouncer should only be available through HAProxy).

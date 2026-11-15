@@ -74,7 +74,7 @@ plugins:
       redirect_maps:
         'index.md': 'architecture/overview.md'
         'administrators-guide/deployment_and_maintenance/multiinstance/avchecker.md': 'tools/avchecker.md#multi-instance'
-        'administrators-guide/deployment_and_maintenance/multiinstance/firewall.md': 'tools/firewall.md#multi-instance'
+        'administrators-guide/deployment_and_maintenance/multiinstance/firewall.md': 'tools/firewalld.md#multi-instance'
         'administrators-guide/deployment_and_maintenance/multiinstance/haproxy.md': 'tools/haproxy.md#multi-instance'
         'administrators-guide/deployment_and_maintenance/multiinstance/minio.md': 'tools/minio.md#multi-instance'
         'administrators-guide/deployment_and_maintenance/multiinstance/nagios.md': 'tools/nagios.md#multi-instance'

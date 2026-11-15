@@ -519,7 +519,7 @@ You can set specific settings in `stolon_clusters[clustername].cgroups`.
 
 ### Comments
 
-- `pg_port` and `stproxy.port` must be unique per host and opened in [`firewall_ports`](firewall.md#multi-instance).
+- `pg_port` and `stproxy.port` must be unique per host and opened in [`firewall_ports`](firewalld.md#multi-instance).
 - `pgdata_dir` and `pg_port` must match the corresponding entry in [`walg_clusters`](wal-g.md#multi-instance).
 - `wal_dir` and `pgwal_dir` must be a subfolder of the wal disk of the cluster (mounted on
   `{{ stolon_wal_dir }}/<cluster>`), not the mount point itself: the keeper removes and recreates it. min_wal_size and
