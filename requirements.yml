@@ -8,7 +8,7 @@ roles:
   - name: pgvillage.avchecker
     version: "v0.2.5"
   - name: pgvillage.chainsmith
-    version: "v0.2.4"
+    version: "v0.3.0"
   - name: pgvillage.etcd
     version: "v0.2.2"
   - name: pgvillage.firewall
