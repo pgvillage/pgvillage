@@ -19,8 +19,10 @@ Before running Ansible, ensure that all prerequisites are correctly configured.
 
 Ensure that SSH access is properly configured.
 
-- In our predefinied deployments (`pgv_azure` and `pgv_vagrant`) this is already taken care of.
-  For on-prem deployments, make sure that a user with proper permissions and ssh authentication is created.
+- In the platforms shipped with PgVillage ([Azure](../platforms/azure/index.md), [Vagrant](../platforms/vagrant/index.md)
+  and [Lima](../platforms/lima.md)) this is already taken care of.
+  For your own machines (on-prem), make sure that a user with proper permissions and ssh authentication is created,
+  see [Bring your own machines](../platforms/byo.md#checklist).
 - Git clone and Ansible setup of the Ansible code (this work instruction)
 
 ---
@@ -52,8 +54,12 @@ git clone git@github.com:pgvillage/pgvillage.git
 ### Step 2: (Optional) Adjust the inventory configuration
 
 Optionally adjust the inventory configuration to suit your environment.  
+PgVillage ships its inventories in `inventories/`: the standard config (`inventories/standard`), an OS layer
+(`inventories/os/el`, `inventories/os/debian`, `inventories/os/suse`) and platform inventories with the hosts
+(`inventories/platform/vagrant`, `inventories/platform/lima`, `inventories/platform/azure`).
+Add your own inventory for your hosts, e.g. `inventories/<cluster>`, see [Getting started](../platforms/index.md).  
 For detailed steps, refer to:  
-[From Server to Running Database](inventory.md)
+[Inventory explained](inventory.md)
 
 ---
 
@@ -64,15 +70,16 @@ For detailed steps, refer to:
 Go to the cloned Ansible repository directory:
 
 ```bash
-cd ~/git/ansible-postgres
+cd ~/git/pgvillage
 ```
 
 #### 3.2 Run everything
 
-Execute all roles for the selected environment:
+Execute all roles for the selected inventory, on top of the standard config and the OS layer (`os/el`, `os/debian` or
+`os/suse`) of your hosts:
 
 ```bash
-ansible-playbook -i environments/[ENV] functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/<cluster> functional-all.yml
 ```
 
 #### 3.3 Run specific roles (example)
@@ -80,7 +87,7 @@ ansible-playbook -i environments/[ENV] functional-all.yml
 If you want to run only specific roles (for example, `stolon` and `avchecker`):
 
 ```bash
-ansible-playbook -i environments/[ENV] functional-all.yml --tags stolon,avchecker
+ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/<cluster> functional-all.yml --tags stolon,avchecker
 ```
 
 Which roles `functional-all.yml` runs, on which groups and in which order, is set in the inventory: see
@@ -91,5 +98,5 @@ Which roles `functional-all.yml` runs, on which groups and in which order, is se
 For other related examples and procedures, refer to the following documentation:
 
 - [Chainsmith](../../tools/chainsmith.md)
-- [Inventory](inventory.md)
+- [Inventory explained](inventory.md)
 

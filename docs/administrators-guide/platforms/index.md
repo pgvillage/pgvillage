@@ -134,6 +134,9 @@ keeps updates of this repository easy.
 
 The cluster name is the name of your inventory folder (`mycluster`).
 
+See [Inventory explained](../deployment_and_maintenance/inventory.md) for the full version: the order of the layers,
+the groups, the variables that a layer sets per group, and how to make and keep your own inventory.
+
 ## The standard inventory
 
 `inventories/standard` is an opinionated, multi-instance PgVillage setup:
@@ -180,7 +183,7 @@ Ansible should connect to an address, add `ansible_host: <ip>` to the host.
 
 - **Storage**: `/data/postgres/data` and `/data/postgres/wal` on the database hosts; a separate data and wal disk per
   cluster is best (a full wal disk doesn't stop the data disk), see [Disks](byo.md#disks). The backup host stores the
-  backups in `/var/lib/rustfs`.
+  backups in `/var/lib/minio`.
 - **Memory**: the two clusters together need at least 2 GB per database host; 1 GB is enough for the backup host.
 - **Network**: the hosts reach each other on all ports (firewalld is configured by PgVillage), and reach the package
   repositories: the PgVillage repository (repo.pgvillage.org), download.postgresql.org (EL, SUSE), the OS
