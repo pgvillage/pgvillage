@@ -3,8 +3,7 @@
 # Change them with pgvillage_roles in the inventory (merged into the defaults per step), e.g.:
 #   pgvillage_roles:
 #     nagios: { enabled: false }
-#     minio: { enabled: false }
-#     rustfs: { order: 50, groups: [backup] }                              # pgvillage.rustfs instead of minio
+#     pgquartz: { groups: [hacluster, backup] }
 #     mycompany.hardening: { order: 15, groups: [hacluster, backup, router] }
 # Per step:
 #   order:   position (required for new steps); steps with the same order run in the order of their names
@@ -24,12 +23,13 @@
         order: 5
         groups: [backup]
         tasks: tasks/rustfs_user.yml
-        tags: [linux, packages, chainsmith, certificates, certs, minio]
+        tags: [linux, packages, chainsmith, certificates, certs, rustfs, minio]
       linux: { order: 10, groups: [hacluster, backup, router, localhost], tags: [packages] }
       chainsmith: { order: 20, groups: [hacluster, backup, router, localhost], tags: [certificates, certs] }
       firewall: { order: 30, groups: [hacluster, backup, router], tags: [firewalld] }
       etcd: { order: 40, groups: [etcd_master] }
-      minio: { order: 50, groups: [backup] }
+      # The tag minio for --tags minio of PgVillage v2.0.1 and older (the step minio ran the pgvillage.minio role)
+      rustfs: { order: 50, groups: [backup], tags: [minio] }
       walg: { order: 60, groups: [hacluster] }
       stolon_wal_subfolder:
         order: 70

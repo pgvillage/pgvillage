@@ -9,7 +9,7 @@ date: 2025-11-11
 
 # WAL-G
 
-For backup and restore, we use Wal-G and [MinIO](minio.md).
+For backup and restore, we use Wal-G and [RustFS](rustfs.md).
 
 WAL-G is an open-source project maintained by the community.
 
@@ -36,7 +36,7 @@ For making wal-g, the following components are needed:
 Deployed by Ansible to `/opt/wal-g/scripts/`:
 
 - `archive_restore.sh <cluster> %f %p` – the `restore_command`: fetches WAL from the archive, for a standby that lags behind or during recovery
-- `archive.sh` – sends WAL files to MinIO using WAL-G
+- `archive.sh` – sends WAL files to RustFS using WAL-G
 - `backup_locked.sh` – wrapper script using `etcdctl lock` to ensure backups run on only one server
 - `backup.sh` – creates a new backup if there isn’t a recent one
 - `delete.sh` – cleans up old backups
@@ -57,11 +57,11 @@ Deployed by Ansible to `/opt/wal-g/scripts/`:
   - Number of delta backups
   - Backup skip intervals
 
-### 5. MinIO Configuration
+### 5. RustFS Configuration
 
-- MinIO runs on the **backup server**
+- RustFS runs on the **backup server**, with a bucket per cluster
 - Access configuration is included in `/etc/default/wal-g-<cluster>`
-- Root certificate located in `~postgres/.wal-g/certs/` (for TLS verification)
+- Root certificate located in `~postgres/.postgresql/root.crt` (`S3_CA_CERT_FILE`, for TLS verification)
 
 ---
 
@@ -228,7 +228,7 @@ The wal-g role can manage backups for multiple PostgreSQL instances by adding so
 ### `walg_clusters`
 
 Dictionary with one entry per Postgres instance on the host. The key is the instance (cluster) name and must match
-the key used in [`stolon_clusters`](stolon.md#multi-instance) and the bucket name in [`minio_buckets`](minio.md#multi-instance).
+the key used in [`stolon_clusters`](stolon.md#multi-instance) and the bucket name in [`rustfs_buckets`](rustfs.md#multi-instance).
 For every entry the role deploys a separate wal-g configuration, log folder and backup cron job.
 
 | Key                | Description                                                                                  |

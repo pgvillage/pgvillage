@@ -25,7 +25,7 @@ date: 2025-12-09
     - pgquartz
     - pgfga
     - pgroute66
-    - minio
+    - rustfs
 
 and you should be good to go...
 

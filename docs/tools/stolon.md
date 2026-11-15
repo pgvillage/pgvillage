@@ -526,4 +526,4 @@ You can set specific settings in `stolon_clusters[clustername].cgroups`.
   max_wal_size are sized from the size of that disk. Deployments that have the wal in `{{ stolon_wal_dir }}/<cluster>` itself are moved by
   `tasks/stolon_wal_subfolder.yml` (in the stolon plays of `functional-all.yml`, `minimal.yml` and
   `rollout_new_certs.yml`); the keepers are stopped while it moves.
-- The cluster name should match a bucket in [`minio_buckets`](minio.md#multi-instance).
+- The cluster name should match a bucket in [`rustfs_buckets`](rustfs.md#multi-instance).

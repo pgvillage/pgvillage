@@ -27,7 +27,7 @@ Run a PgVillage demo environment on your laptop with [Vagrant](https://www.vagra
 | `db-1.local`   | 172.30.1.31   | `hacluster`, `stolon`, `etcd_master`, `router` | etcd, and per cluster: stolon (sentinel, keeper, proxy), PostgreSQL, PgBouncer, wal-g, avchecker; plus HAProxy, keepalived and pgroute66 |
 | `db-2.local`   | 172.30.1.32   | same                                           | same |
 | `db-3.local`   | 172.30.1.33   | same                                           | same |
-| `minio.local`  | 172.30.1.20   | `backup`                                       | minio (RustFS on Ubuntu), with a bucket per cluster |
+| `minio.local`  | 172.30.1.20   | `backup`                                       | RustFS, with a bucket per cluster |
 | VIP            | 172.30.1.30   |                                                | keepalived VIP for HAProxy |
 
 The ports per cluster:

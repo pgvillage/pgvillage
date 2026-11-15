@@ -16,12 +16,12 @@ playbook.
 
 | Order | Step                   | Runs                                  | Groups                                    | Extra tags |
 |-------|------------------------|---------------------------------------|-------------------------------------------|------------|
-| 5     | `rustfs_user`          | `tasks/rustfs_user.yml`               | `backup`                                  | `linux`, `packages`, `chainsmith`, `certificates`, `certs`, `minio` |
+| 5     | `rustfs_user`          | `tasks/rustfs_user.yml`               | `backup`                                  | `linux`, `packages`, `chainsmith`, `certificates`, `certs`, `rustfs`, `minio` |
 | 10    | `linux`                | `pgvillage.linux`                     | `hacluster`, `backup`, `router`, `localhost` | `packages` |
 | 20    | `chainsmith`           | `pgvillage.chainsmith`                | `hacluster`, `backup`, `router`, `localhost` | `certificates`, `certs` |
 | 30    | `firewall`             | `pgvillage.firewall`                  | `hacluster`, `backup`, `router`           | `firewalld` |
 | 40    | `etcd`                 | `pgvillage.etcd`                      | `etcd_master`                             | |
-| 50    | `minio`                | `pgvillage.minio`                     | `backup`                                  | |
+| 50    | `rustfs`               | `pgvillage.rustfs`                    | `backup`                                  | `minio` |
 | 60    | `walg`                 | `pgvillage.walg`                      | `hacluster`                               | |
 | 70    | `stolon_wal_subfolder` | `tasks/stolon_wal_subfolder.yml`      | `hacluster`                               | `stolon`, `postgres`, `postgresql`, `pg` |
 | 71    | `stolon`               | `pgvillage.stolon`                    | `hacluster`                               | `postgres`, `postgresql`, `pg` |
@@ -34,7 +34,7 @@ playbook.
 | 120   | `pgquartz`             | `pgvillage.pgquartz`                  | `hacluster`                               | |
 
 `rustfs_user` renames the `minio` user of deployments of v2.0.1 and older to `rustfs`, before the linux role and
-chainsmith run (see [The rustfs user](../tools/minio.md#the-rustfs-user)). On other hosts it does nothing.
+chainsmith run (see [The rustfs user](../tools/rustfs.md#the-rustfs-user)). On other hosts it does nothing.
 
 The name of a step is always a tag too, so `--tags stolon,avchecker` runs those two roles (and the steps that have
 these tags), as before.
@@ -56,12 +56,9 @@ pgvillage_roles:
   # Run a step on other groups
   pgquartz:
     groups: [hacluster, backup]
-  # Replace minio with RustFS (pgvillage.rustfs), at the same position
-  minio:
-    enabled: false
+  # Run another role in a step (here instead of pgvillage.rustfs)
   rustfs:
-    order: 50
-    groups: [backup]
+    role: mycompany.objectstore
   # Add a role of your own, right after linux (from requirements.yml or your roles path)
   mycompany.hardening:
     order: 15
