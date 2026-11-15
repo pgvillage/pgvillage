@@ -3,6 +3,8 @@
 # linted in their own repos
 exclude_paths:
   - roles/pgvillage.*/
+  # The roles that the docs build installs for the role reference (docs/scripts/role_reference.py)
+  - .cache/role-reference/
 # The Azure playbooks need azure.azcollection, which only the Azure bootstrap scripts install (with its Python
 # requirements), not requirements.yml: mock its modules for the syntax check
 mock_modules:

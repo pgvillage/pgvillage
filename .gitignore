@@ -37,6 +37,7 @@ vagrant/.vagrant/
 # Roles from requirements.yml, when ansible-galaxy installs them here (roles_path in ansible.cfg)
 roles/pgvillage.*/
 
-# mkdocs build output and the cache of its privacy plugin
+# mkdocs build output, and its cache: the privacy plugin's assets and the roles of the role reference
+# (docs/scripts/role_reference.py installs them in .cache/role-reference/)
 site/
 .cache/
