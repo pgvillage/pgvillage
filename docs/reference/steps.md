@@ -34,7 +34,7 @@ playbook.
 | 120   | `pgquartz`             | `pgvillage.pgquartz`                  | `hacluster`                               | |
 
 `rustfs_user` renames the `minio` user of deployments of v2.0.1 and older to `rustfs`, before the linux role and
-chainsmith run (see [The rustfs user](../../tools/minio.md#the-rustfs-user)). On other hosts it does nothing.
+chainsmith run (see [The rustfs user](../tools/minio.md#the-rustfs-user)). On other hosts it does nothing.
 
 The name of a step is always a tag too, so `--tags stolon,avchecker` runs those two roles (and the steps that have
 these tags), as before.

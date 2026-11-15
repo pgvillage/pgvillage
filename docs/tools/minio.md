@@ -95,7 +95,7 @@ me@gurus-ansible-server1 ~/g/ansible-postgres (tmp)> ssh gurus-backup-server1.ac
 
 ## The rustfs user
 
-RustFS (or MinIO, see [Upgrading from v2.0.0 to v2.0.1](../administrators-guide/deployment_and_maintenance/upgrade_v2.0.1.md))
+RustFS (or MinIO, see [Upgrading from v2.0.0 to v2.0.1](../operate/upgrading/upgrade_v2.0.1.md))
 runs as the `rustfs` user on the backup host (`minio_user` in `inventories/standard`). PgVillage v2.0.1 and older ran it
 as `minio`. On those deployments, the first step of `functional-all.yml`, `rustfs_user` (`tasks/rustfs_user.yml`),
 renames the user before the linux role and chainsmith run (the linux role would otherwise create a new `rustfs` user,
@@ -119,7 +119,7 @@ when it owns nothing (e.g. created by a deploy of the linux role without the ren
 To keep running as `minio`, set `minio_user: minio`, `chainsmith_server_cert_owner: minio` (backup hosts),
 `minio` instead of `rustfs` for `backup` in `linux_users`, `linux_groups` and `chainsmith_users`, `/etc/pki/minio` in
 `minio_cert_files` and `minio_rustfs_cert_files`, and disable the step (`pgvillage_roles: {rustfs_user: {enabled: false}}`,
-see [Roles](../administrators-guide/deployment_and_maintenance/roles.md)).
+see [Roles](../reference/steps.md)).
 
 ## Tips & tricks
 
