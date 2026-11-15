@@ -32,15 +32,15 @@ There has been put a lot of effort into authorization:
 
 PgVillage offers a robust architecture, with state of the art infrastructure, such as
 
-- [Stolon](../administrators-guide/tools/stolon.md) relying on [etcd](../administrators-guide/tools/etcd.md) for High Availability
-- [WAL-g](../administrators-guide/tools/wal-g.md) and [minio](../administrators-guide/tools/minio.md) for backup
+- [Stolon](../tools/stolon.md) relying on [etcd](../tools/etcd.md) for High Availability
+- [WAL-g](../tools/wal-g.md) and [minio](../tools/minio.md) for backup
 - Prometheus / Grafana for metrics, alerts and dashboards
 - Properly connect to PostgreSQL
   - with Client Connection Failover if you can, or
-  - with [stolon-proxy](../administrators-guide/tools/stolon.md) which always points at the current pimary, or
-  - use a proxy with [pgroute66](../administrators-guide/tools/pgroute66.md), [haproxy](../administrators-guide/tools/haproxy.md) and optionally [keepalived](../administrators-guide/tools/keepalived.md) for VIP management if you want.
-- [PgQuartz](../administrators-guide/tools/pgquartz.md) for PostgreSQL miantenance
-- Implement federated authorization (ldap sync), and manage the resources such as databases, extensions, users, roles, etc. with [pgfga](../administrators-guide/tools/pgfga.md)
+  - with [stolon-proxy](../tools/stolon.md) which always points at the current pimary, or
+  - use a proxy with [pgroute66](../tools/pgroute66.md), [haproxy](../tools/haproxy.md) and optionally [keepalived](../tools/keepalived.md) for VIP management if you want.
+- [PgQuartz](../tools/pgquartz.md) for PostgreSQL miantenance
+- Implement federated authorization (ldap sync), and manage the resources such as databases, extensions, users, roles, etc. with [pgfga](https://github.com/pgvillage/ansible-role-pgfga)
 - With PgVillage you are in control of how you leverage the power of PostgreSQL.
   Run your favorite distribution, deploay and maintain with ease, use the Power of PostgreSQL with Foreign Data Wrappers such as db2_fdw
 

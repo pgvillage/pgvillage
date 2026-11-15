@@ -146,7 +146,7 @@ The variables of each role are documented in `defaults/main.yml` of the role. So
     - hostssl myapp myapp 10.1.0.0/16 scram-sha-256
   ```
 - **Another cluster** on the same hosts: add it to `stolon_clusters`, with its own ports and bucket. See
-  [Multi-instance](multiinstance/stolon.md).
+  [Multi-instance](multi-instance.md).
 - **More than one network interface** (e.g. `eth1`): set the interface that etcd, stolon and keepalived use, see
   [More than one network interface](../platforms/index.md#more-than-one-network-interface).
 - **A foreign data wrapper** (e.g. `oracle_fdw`): install the client packages on the database hosts with

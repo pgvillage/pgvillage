@@ -112,3 +112,22 @@ This only affects a backup and restore (they need to be restarted).
 ---
 
 Recovery (wal-fetch) and archiving (wal-push) are simply replayed and are not impacted by a MinIO restart.
+
+## Multi-instance
+
+How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-minio/blob/main/defaults/main.yml) of the role for all its variables.
+
+When deploying multiple HA clusters (e.g. stolon or Patroni), you should separate the backups for each cluster to another bucket.
+To configure Minio with multiple buckets, edit the minio config (e.g. `inventories/standard/group_vars/all/minio.yml`) and define a bucket per cluster.
+Then configure `s3_prefix` of every cluster in [`walg_clusters`](wal-g.md#multi-instance) to use the bucket meant for it.
+
+### `minio_buckets`
+
+With multi-instance every Postgres instance gets its own bucket, named after the instance:
+
+```yaml
+minio_buckets:
+  - cluster1
+  - cluster2
+```

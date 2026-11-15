@@ -22,7 +22,7 @@ stolon_cert_managed: false
 # The wal dir (wal_dir, pgwal_dir) must be a subfolder (<stolon_wal_dir>/<cluster>/wal), not a mount point: the keeper
 # removes and recreates it. Mount a wal disk per cluster on <stolon_wal_dir>/<cluster>. Deployments with the WAL in
 # <stolon_wal_dir>/<cluster> itself are moved by tasks/stolon_wal_subfolder.yml.
-# See docs/administrators-guide/deployment_and_maintenance/multiinstance.
+# See docs/administrators-guide/deployment_and_maintenance/multi-instance.md and docs/tools/stolon.md.
 stolon_multicluster: true
 
 # Resources per instance (systemd resource control), so one instance can't starve the others

@@ -1,7 +1,7 @@
 ---
 # HAProxy on the router hosts (see hosts): a read-write, a read-only and a stolon proxy frontend for every cluster in
 # stolon_clusters, with the database hosts (hacluster) as servers. pgroute66 tells the check scripts which host is the
-# primary or a standby. See docs/administrators-guide/deployment_and_maintenance/multiinstance/haproxy.md.
+# primary or a standby. See docs/tools/haproxy.md (Multi-instance).
 
 haproxy_timeout_client: 10800s
 haproxy_checkport: "9201"
