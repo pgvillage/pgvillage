@@ -65,7 +65,7 @@ From this output, you can conclude that:
 
 ## Multi-instance
 
-How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+How to configure this for several clusters on the same hosts. See [Multi-instance](../deploy/multi-instance.md)
 for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-haproxy/blob/main/defaults/main.yml) of the role for all its variables.
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), HAProxy needs to forward traffic for all options for all instances.

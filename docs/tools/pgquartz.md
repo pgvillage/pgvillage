@@ -31,12 +31,12 @@ PgQuartz is installed by default with the PostgreSQL SBB, but it is only used fo
 
 More information:
 
-- [Inventory explained](../administrators-guide/deployment_and_maintenance/inventory.md)
+- [Inventory explained](../deploy/inventory/index.md)
 - [PgQuartz](https://github.com/pgvillage-tools/pgquartz)
 
 ## Multi-instance
 
-How to configure this for several clusters on the same hosts. See [Multi-instance](../administrators-guide/deployment_and_maintenance/multi-instance.md)
+How to configure this for several clusters on the same hosts. See [Multi-instance](../deploy/multi-instance.md)
 for the feature, and the [defaults](https://github.com/pgvillage/ansible-role-pgquartz/blob/main/defaults/main.yml) of the role for all its variables.
 
 When deploying multiple HA clusters (e.g. stolon or Patroni), PgQuartz jobs should run for every Postgres instance.

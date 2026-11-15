@@ -9,5 +9,5 @@ default, or el or suse):
 ansible-playbook -i inventories/standard -i inventories/os/debian -i inventories/platform/vagrant functional-all.yml
 ```
 
-See the [Vagrant docs](../../../docs/administrators-guide/platforms/vagrant/index.md), and
-[the vagrant inventory](../../../docs/administrators-guide/platforms/vagrant/inventory.md) for what it changes and why.
+See the [Vagrant docs](../../../docs/try-it/vagrant/index.md), and
+[the vagrant inventory](../../../docs/deploy/inventory/vagrant-example.md) for what it changes and why.

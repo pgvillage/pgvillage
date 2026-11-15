@@ -13,7 +13,7 @@
 #   role:    the role to run (default: the step name, prefixed with pgvillage. when it has no dot)
 #   tasks:   a task file (relative to this playbook) to run instead of a role
 #   tags:    extra tags; the step name is always a tag
-# See docs/administrators-guide/deployment_and_maintenance/roles.md.
+# See docs/reference/steps.md.
 - name: Deploy PgVillage
   hosts: all:localhost
   become: true

@@ -18,18 +18,18 @@ This page has the logo's we use with PgVillage.
 ### PNG formatted source
 
 <figure markdown="span">
-  ![PgVillage Logo in PNG format](./logo.png){ loading=lazy }
+  ![PgVillage Logo in PNG format](logo.png){ loading=lazy }
   <figcaption>PNG logo</figcaption>
 </figure>
 
 <figure markdown="span">
-  ![PgVillage Logo in high-res PNG format](./logo-high-res.png){ loading=lazy }
+  ![PgVillage Logo in high-res PNG format](logo-high-res.png){ loading=lazy }
   <figcaption>PNG logo high res</figcaption>
 </figure>
 
 ### JPG formatted size variants
 
 <figure markdown="span">
-  ![PgVillage Logo in JPEG format](./logo.jpeg){ loading=lazy }
+  ![PgVillage Logo in JPEG format](logo.jpeg){ loading=lazy }
   <figcaption>JPEG logo</figcaption>
 </figure>

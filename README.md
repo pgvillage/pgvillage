@@ -11,8 +11,7 @@ The solution is comprised of 100% Open Source software and meets all CloudNative
 ## Documentation
 
 The documentation is published on [https://pgvillage.github.io/pgvillage/](https://pgvillage.github.io/pgvillage/)
-(the source is in [`docs/`](docs/)). To get started on your own machines, see
-[Getting started](https://pgvillage.github.io/pgvillage/latest/administrators-guide/platforms/).
+(the source is in [`docs/`](docs/)); its home page is Getting started.
 
 ## Ansible roles
 
@@ -30,8 +29,8 @@ ansible-galaxy collection install --requirements-file ./requirements.yml
 
 ## Using this playbook
 
-- We develop on vagrant: see [`vagrant/`](vagrant/) and the [Vagrant docs](docs/administrators-guide/platforms/vagrant/index.md).
-- For a demo on Azure please refer to [Azure - deploy](docs/administrators-guide/platforms/azure/deploy.md).
+- We develop on vagrant: see [`vagrant/`](vagrant/) and the [Vagrant docs](docs/try-it/vagrant/index.md).
+- For a demo on Azure please refer to [Azure - deploy](docs/try-it/azure.md).
 - For running on VMWare:
   - this deployment was originally developed against VMWare Virtual Machines, so it will definitely work
   - you do need an option to supply the RPM packages (either through satellite, or use [this repo](https://repo.pgvillage.org/yum/pgvillage/)).
