@@ -21,11 +21,12 @@ keep them in line when adding or changing a cluster. See
 It has no OS specifics and no hosts. `hosts` only has the groups, and the standard architecture: stolon and etcd run on
 the database hosts (`stolon` and `etcd_master` are subgroups of `hacluster`); the platform inventory adds the hosts to
 `hacluster`, `backup` and `localhosts`, and to `router` and `haproxy` when it has a router (it needs a VIP on the
-platform's network, e.g. `inventories/vagrant`). Use it with an OS layer (`inventories/el`, `inventories/ubuntu`,
-`inventories/suse`) and a platform inventory, in this order, so later values win:
+platform's network, e.g. `inventories/platform/vagrant`). Use it with an OS layer (`inventories/os/el`, `inventories/os/debian`,
+`inventories/os/suse`) and a platform inventory, in this order, so later values win:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/el -i inventories/azure functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/platform/azure functional-all.yml
 ```
 
-To change a value for one OS or platform, add a file with the same name to `inventories/<os or platform>/group_vars/all/`.
+To change a value for one OS or platform, add a file with the same name to `inventories/os/<os>/group_vars/all/` or
+`inventories/platform/<platform>/group_vars/all/`.

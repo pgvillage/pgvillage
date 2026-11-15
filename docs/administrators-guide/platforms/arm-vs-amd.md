@@ -16,7 +16,7 @@ each host (the Debian names `amd64` and `arm64` for apt, `x86_64` and `aarch64` 
 
 | OS | AMD64 | ARM64 |
 |----|-------|-------|
-| [Ubuntu](ubuntu/index.md) | yes | yes |
+| [Debian (including Ubuntu)](ubuntu/index.md) | yes | yes |
 | [EL](el/index.md) (Rocky Linux, RHEL 9) | yes | yes |
 | [SUSE](suse/index.md) | yes | not out of the box: download.postgresql.org has no PostgreSQL builds for SUSE on ARM64, see [SUSE](suse/index.md) |
 

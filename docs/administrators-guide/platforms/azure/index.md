@@ -13,12 +13,12 @@ On Azure, PgVillage is deployed in two steps:
 1. The playbooks in `playbooks/azure` create the Azure resources, with the `azure` role (`roles/azure`).
 2. The normal PgVillage playbook deploys PostgreSQL, stolon and all other components on the created VMs.
 
-The inventory is layered: `inventories/standard` has the standard PgVillage config, `inventories/el` the Enterprise
-Linux specifics (the default image is Rocky Linux), and `inventories/azure` everything specific to Azure. Use them in
+The inventory is layered: `inventories/standard` has the standard PgVillage config, `inventories/os/el` the Enterprise
+Linux specifics (the default image is Rocky Linux), and `inventories/platform/azure` everything specific to Azure. Use them in
 this order, so later values win:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/el -i inventories/azure functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/el -i inventories/platform/azure functional-all.yml
 ```
 
 It deploys Rocky Linux EL-9 on AMD64. See also:
@@ -63,7 +63,7 @@ curl https://raw.githubusercontent.com/pgvillage/pgvillage/main/scripts/bootstra
 source ~/.profile
 cd ~/git/pgvillage
 scripts/az_to_env && source azure_creds.env
-# set azure_control_ip in inventories/azure/group_vars/all/azure.yml to: curl -s https://ifconfig.me
+# set azure_control_ip in inventories/platform/azure/group_vars/all/azure.yml to: curl -s https://ifconfig.me
 scripts/create_new_cluster.sh
 ```
 
@@ -78,7 +78,7 @@ See [Deploy](deploy.md) for the details.
 
 ## The inventory
 
-`inventories/azure`:
+`inventories/platform/azure`:
 
 | File                                  | Purpose                                                                                       |
 |---------------------------------------|-----------------------------------------------------------------------------------------------|
@@ -92,15 +92,15 @@ See [Deploy](deploy.md) for the details.
 | `group_vars/all/wal-g.yml`            | Backups to the storage container (`WALG_AZ_PREFIX`, `AZURE_STORAGE_*`).                       |
 
 `inventories/standard` has the rest: Postgres version, mountpoints, ports, packages, and the config of stolon,
-wal-g, avchecker, nagios, etc. A file in `inventories/azure/group_vars/all/` with the same name as one in
+wal-g, avchecker, nagios, etc. A file in `inventories/platform/azure/group_vars/all/` with the same name as one in
 `inventories/standard/group_vars/all/` overrides its values. See [Azure integration](azure.md) for details.
 
 ### Cluster name
 
 The cluster name is the name of the inventory folder (`cluster_name: "{{ inventory_dir | basename }}"`), so
-`inventories/azure` deploys a cluster named `azure` in resource group `rg_azure`.
+`inventories/platform/azure` deploys a cluster named `azure` in resource group `rg_azure`.
 
-To deploy another cluster, copy `inventories/azure` and change the resource group names in `azure_rm.yml`:
+To deploy another cluster, copy `inventories/platform/azure` and change the resource group names in `azure_rm.yml`:
 
 ```yaml
 include_vm_resource_groups:
@@ -124,7 +124,7 @@ Apart from these changes, the clusters differed only in their name (and thus the
 
 ### Control node IP
 
-Set `azure_control_ip` in `inventories/azure/group_vars/all/azure.yml` to the public IP of your control node:
+Set `azure_control_ip` in `inventories/platform/azure/group_vars/all/azure.yml` to the public IP of your control node:
 
 ```yaml
 azure_control_ip: 203.0.113.10
@@ -145,7 +145,7 @@ azure_control_ip: 203.0.113.10
    az vm image terms accept --publisher resf --offer rockylinux-x86_64 --plan 9-lvm
    ```
 
-3. Change `inventories/azure/group_vars/all/azure.yml` to use this image for the bastion and/or the VMSS (replace the fields in `[]`
+3. Change `inventories/platform/azure/group_vars/all/azure.yml` to use this image for the bastion and/or the VMSS (replace the fields in `[]`
    with the corresponding columns of the command). See [EL vs SUSE](el-vs-suse.md) and [AMD vs ARM](amd-vs-arm.md)
    for examples.
    ```yaml

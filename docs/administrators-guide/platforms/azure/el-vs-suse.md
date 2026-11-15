@@ -8,15 +8,15 @@ date: 2026-10-29
 
 # Azure - EL vs SUSE
 
-The azure inventory deploys Rocky Linux EL-9, with the EL layer (`inventories/el`). To deploy on openSUSE Leap
-(x86_64), use the SUSE layer (`inventories/suse`) instead, and change the image:
+The azure inventory deploys Rocky Linux EL-9, with the EL layer (`inventories/os/el`). To deploy on openSUSE Leap
+(x86_64), use the SUSE layer (`inventories/os/suse`) instead, and change the image:
 
 ```bash
-ansible-playbook -i inventories/standard -i inventories/suse -i inventories/azure functional-all.yml
+ansible-playbook -i inventories/standard -i inventories/os/suse -i inventories/platform/azure functional-all.yml
 scripts/create_new_cluster.sh azure suse
 ```
 
-The packages, paths and uninstall lists for SUSE are in `inventories/suse`, see [SUSE](../suse/index.md).
+The packages, paths and uninstall lists for SUSE are in `inventories/os/suse`, see [SUSE](../suse/index.md).
 
 !!! note
     Out of the box, SUSE runs on x86_64 only. download.postgresql.org (PGDG) builds PostgreSQL for SUSE only on x86_64
@@ -27,7 +27,7 @@ The packages, paths and uninstall lists for SUSE are in `inventories/suse`, see 
 
 ## Image
 
-Add the openSUSE image to `inventories/azure/group_vars/all/azure.yml`. The image is a marketplace image, so it needs a plan, and the
+Add the openSUSE image to `inventories/platform/azure/group_vars/all/azure.yml`. The image is a marketplace image, so it needs a plan, and the
 bastion uses the same image and plan as the VMSS:
 
 ```yaml
@@ -53,5 +53,5 @@ azure_vmss_plan:
 
 | What                                     | EL (default)                          | openSUSE Leap                                   |
 |------------------------------------------|---------------------------------------|-------------------------------------------------|
-| OS layer                                 | `-i inventories/el`                   | `-i inventories/suse`                           |
-| `azure.yml` in `inventories/azure`       | role default image (Rocky EL-9)       | `susellc:opensuse-leap-x86-64:gen2`, with plan; bastion uses the same |
+| OS layer                                 | `-i inventories/os/el`                   | `-i inventories/os/suse`                           |
+| `azure.yml` in `inventories/platform/azure`       | role default image (Rocky EL-9)       | `susellc:opensuse-leap-x86-64:gen2`, with plan; bastion uses the same |

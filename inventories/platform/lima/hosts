@@ -1,19 +1,18 @@
 ---
-# Use on top of standard and the OS of the boxes: -i inventories/standard -i inventories/ubuntu (or el, suse) -i inventories/vagrant
+# Use on top of standard and the OS of the VMs:
+# -i inventories/standard -i inventories/os/debian (or el) -i inventories/platform/lima
+# The VMs of lima/up.sh, by their names on the lima user-v2 network (lima-<instance>.internal). Their addresses come
+# from DHCP, so there is no ansible_host: standard takes the addresses from the facts.
 all:
   children:
     hacluster:
       hosts:
-        db-1.local:
-          ansible_host: 172.30.1.31
-        db-2.local:
-          ansible_host: 172.30.1.32
-        db-3.local:
-          ansible_host: 172.30.1.33
+        lima-pgv-db-1.internal:
+        lima-pgv-db-2.internal:
+        lima-pgv-db-3.internal:
     backup:
       hosts:
-        minio.local:
-          ansible_host: 172.30.1.20
+        lima-pgv-backup.internal:
     # The router (haproxy, keepalived, pgroute66) runs on the database hosts (stolon and etcd too, see standard)
     router:
       children:
@@ -27,5 +26,3 @@ all:
         localhost:
            ansible_connection: local
            ansible_python_interpreter: "{{ansible_playbook_python}}"
-  vars:
-    ansible_user: vagrant
