@@ -14,8 +14,7 @@ walg_cron_mailto: "{{ cron_mailto }}"
 
 walg_postgresql_parameters:
   # archive_command is set per cluster in stolon_clusters (archive.sh <cluster> %p)
-  # can be used when we have configured buckets working with wal-g
-  # restore_command: "/opt/wal-g/scripts/archive_restore.sh %f %p"
+  # restore_command (archive_restore.sh <cluster> %f %p) is set per cluster, by restore.yml for a point in time restore
   # No listen_addresses, max_wal_senders or wal_level: the stolon keeper sets those itself (the host address, enough
   # wal senders, replica). After initdb, stolon replaces the spec with what the keeper reports, without them, and the
   # stolon role (v0.5.0+) would then re-apply the spec on the next run.
