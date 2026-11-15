@@ -20,6 +20,11 @@
   gather_facts: true
   vars:
     _pgvillage_roles_default:
+      rustfs_user:
+        order: 5
+        groups: [backup]
+        tasks: tasks/rustfs_user.yml
+        tags: [linux, packages, chainsmith, certificates, certs, minio]
       linux: { order: 10, groups: [hacluster, backup, router, localhost], tags: [packages] }
       chainsmith: { order: 20, groups: [hacluster, backup, router, localhost], tags: [certificates, certs] }
       firewall: { order: 30, groups: [hacluster, backup, router], tags: [firewalld] }

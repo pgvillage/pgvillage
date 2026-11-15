@@ -1,0 +1,141 @@
+---
+# Renames the minio user and group on the backup hosts to rustfs, for deployments from before the backup hosts ran
+# RustFS as rustfs (PgVillage v2.0.1 and older ran RustFS, or MinIO, as minio). On a new deployment, or once renamed,
+# it does nothing.
+# It runs before the linux role, which would otherwise create a new rustfs user (with a new uid), and before
+# chainsmith, which would otherwise not find the certificates of rustfs and issue new ones for all hosts (a new CA,
+# which the running PostgreSQL doesn't know yet).
+# The uid and gid stay the same, so the data (e.g. /var/lib/minio) keeps its owner and stays where it is. What moves:
+# - the home dir (/home/minio -> /home/rustfs), with the certificates and client config in it (.minio, .mcli,
+#   .config/rc);
+# - the server certificates of chainsmith (/etc/pki/minio -> /etc/pki/rustfs).
+# RustFS (or MinIO) is stopped for the rename, and started again as rustfs right after.
+- name: Get the users on the backup host
+  ansible.builtin.getent:
+    database: passwd
+
+- name: Get the groups on the backup host
+  ansible.builtin.getent:
+    database: group
+
+- name: Check that the minio user can be renamed to rustfs
+  ansible.builtin.assert:
+    that: not (_rustfs_user_from in getent_passwd and _rustfs_user_to in getent_passwd)
+    fail_msg: >-
+      Both the {{ _rustfs_user_from }} and the {{ _rustfs_user_to }} user exist on {{ inventory_hostname }}, so
+      {{ _rustfs_user_from }} can't be renamed to {{ _rustfs_user_to }}. RustFS (or MinIO) runs as
+      {{ _rustfs_user_from }} and its data is owned by {{ _rustfs_user_from }}. If {{ _rustfs_user_to }} was created by
+      a deploy (e.g. by the linux role) and owns nothing, remove it (userdel {{ _rustfs_user_to }}; groupdel
+      {{ _rustfs_user_to }}) and deploy again. See docs/tools/minio.md.
+    quiet: true
+  vars:
+    _rustfs_user_from: minio
+    _rustfs_user_to: rustfs
+
+- name: Rename the minio user to rustfs
+  when:
+    - "'minio' in getent_passwd"
+    - "'rustfs' not in getent_passwd"
+  vars:
+    _rustfs_user_old_home: "{{ getent_passwd.minio[4] }}"
+    # The home dir moves along when it is named after the user (e.g. /home/minio), but never when it is (or holds) a
+    # data dir
+    _rustfs_user_datadirs: "{{ minio_server_datadirs | default(['/var/lib/minio']) | map('regex_replace', '/+$', '') }}"
+    _rustfs_user_move_home: >-
+      {{ _rustfs_user_old_home | basename == 'minio'
+         and _rustfs_user_old_home not in _rustfs_user_datadirs
+         and _rustfs_user_datadirs | select('match', (_rustfs_user_old_home ~ '/') | regex_escape) | list | length == 0 }}
+    _rustfs_user_new_home: >-
+      {{ (_rustfs_user_old_home | dirname ~ '/rustfs') if _rustfs_user_move_home | bool else _rustfs_user_old_home }}
+    _rustfs_user_services: [rustfs, minio]
+    # The files of the minio role that name the user or its home dir (those that exist), see "Point ... to rustfs"
+    _rustfs_user_files:
+      - /etc/systemd/system/rustfs.service
+      - /etc/systemd/system/minio.service
+      - /etc/default/rustfs
+      - /etc/default/minio
+      - "{{ _rustfs_user_new_home }}/.config/rc/config.toml"
+      - "{{ _rustfs_user_new_home }}/.mcli/config.json"
+  block:
+    - name: Gather the services
+      ansible.builtin.service_facts:
+
+    - name: Stop RustFS and MinIO
+      ansible.builtin.systemd_service:
+        name: "{{ item }}"
+        state: stopped
+      loop: "{{ _rustfs_user_running }}"
+      vars:
+        _rustfs_user_running: >-
+          {{ _rustfs_user_services | select('in', ansible_facts.services | dict2items
+             | selectattr('value.state', 'eq', 'running') | map(attribute='key')
+             | map('regex_replace', '\.service$', '') | list) | list }}
+      register: _rustfs_user_stopped
+
+    - name: Rename the minio group to rustfs
+      ansible.builtin.command:
+        argv: [groupmod, --new-name, rustfs, minio]
+      when:
+        - "'minio' in getent_group"
+        - "'rustfs' not in getent_group"
+      changed_when: true
+
+    - name: Rename the minio user to rustfs (same uid; the home dir moves along)
+      ansible.builtin.command:
+        argv: >-
+          {{ ['usermod', '--login', 'rustfs']
+             + (['--home', _rustfs_user_new_home, '--move-home'] if _rustfs_user_move_home | bool else [])
+             + ['minio'] }}
+      changed_when: true
+
+    - name: Check the server certificates of minio
+      ansible.builtin.stat:
+        path: /etc/pki/minio
+      register: _rustfs_user_old_pki
+
+    - name: Check the server certificates of rustfs
+      ansible.builtin.stat:
+        path: /etc/pki/rustfs
+      register: _rustfs_user_new_pki
+
+    - name: Move the server certificates to /etc/pki/rustfs
+      ansible.builtin.command:
+        argv: [mv, /etc/pki/minio, /etc/pki/rustfs]
+      when:
+        - _rustfs_user_old_pki.stat.isdir | default(false)
+        - not _rustfs_user_new_pki.stat.exists
+      changed_when: true
+
+    - name: Check the files that name the minio user or its home dir
+      ansible.builtin.stat:
+        path: "{{ item }}"
+      loop: "{{ _rustfs_user_files }}"
+      register: _rustfs_user_file_stats
+
+    # The minio role writes these files again later in the deploy (with minio_user: rustfs), but RustFS starts again
+    # right away, and has to find its certificates then
+    - name: Point User= and Group= in the systemd units to rustfs
+      ansible.builtin.replace:
+        path: "{{ item.0 }}"
+        regexp: "^{{ item.1 }}=minio$"
+        replace: "{{ item.1 }}=rustfs"
+      loop: >-
+        {{ _rustfs_user_file_stats.results | selectattr('stat.exists') | map(attribute='item')
+           | select('match', '/etc/systemd/') | product(['User', 'Group']) | list }}
+      loop_control:
+        label: "{{ item.0 }}: {{ item.1 }}"
+
+    - name: Point the paths in the home dir of minio to that of rustfs
+      ansible.builtin.replace:
+        path: "{{ item }}"
+        regexp: "{{ _rustfs_user_old_home | regex_escape }}(?=/|\"|'|$)"
+        replace: "{{ _rustfs_user_new_home }}"
+      loop: "{{ _rustfs_user_file_stats.results | selectattr('stat.exists') | map(attribute='item') | list }}"
+      when: _rustfs_user_move_home | bool
+
+    - name: Start RustFS and MinIO again, as rustfs
+      ansible.builtin.systemd_service:
+        name: "{{ item }}"
+        state: started
+        daemon_reload: true
+      loop: "{{ _rustfs_user_stopped.results | default([]) | selectattr('changed') | map(attribute='item') | list }}"

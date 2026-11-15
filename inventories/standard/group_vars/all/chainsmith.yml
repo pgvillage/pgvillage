@@ -7,3 +7,14 @@ chainsmith_ips: >-
   {% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_host
   | default(hostvars[node].ansible_facts.default_ipv4.address)) %}{% endfor %}{{ nodes }}
 chainsmith_package_names: []
+# The role default, but with a client cert for rustfs instead of minio on the backup hosts (the user RustFS runs as)
+chainsmith_users:
+  hacluster:
+    - postgres
+    - avchecker
+    - pgquartz
+    - pgfga
+  router:
+    - pgroute66
+  backup:
+    - rustfs
