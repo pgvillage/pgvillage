@@ -6,7 +6,7 @@ collections:
 
 roles:
   - name: pgvillage.avchecker
-    version: "v0.2.5"
+    version: "v0.2.6"
   - name: pgvillage.chainsmith
     version: "v0.2.4"
   - name: pgvillage.etcd
