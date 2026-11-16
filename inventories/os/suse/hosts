@@ -4,6 +4,10 @@
 all:
   children:
     localhosts:
+    chainsmith:
+      children:
+        chainsmith_controller:
+        chainsmith_nodes:
     backup:
     stolon:
     etcd_master:

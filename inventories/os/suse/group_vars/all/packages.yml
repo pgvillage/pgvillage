@@ -18,5 +18,7 @@ linux_packages:
     - keepalived
     - haproxy
     - pgroute66
-  localhosts:
+  chainsmith_controller:
     - chainsmith
+  chainsmith_nodes:
+    - openssl

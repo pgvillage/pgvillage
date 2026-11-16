@@ -51,6 +51,15 @@ all:
         localhost:
           ansible_connection: local
           ansible_python_interpreter: "{{ansible_playbook_python}}"
+    chainsmith:
+      children:
+        chainsmith_controller:
+          hosts:
+            localhost:
+        chainsmith_nodes:
+          children:
+            hacluster:
+            backup:
 EOF
 
 # os/el, os/debian (also for Ubuntu) or os/suse: the OS of your hosts
@@ -154,7 +163,7 @@ the groups, the variables that a layer sets per group, and how to make and keep 
 - etcd and stolon (sentinel, keeper, proxy) on the database hosts (`etcd_master` and `stolon` are subgroups of
   `hacluster`).
 - RustFS on the backup host, with a bucket per cluster; wal-g archives the WAL and makes the backups there.
-- chainsmith (on the control node) creates a CA, server certificates for all hosts and client certificates for the
+- chainsmith (on `chainsmith_controller`) creates a CA, server certificates for `chainsmith_nodes` and client certificates for the
   internal users. Connections need TLS, and clients log in with a certificate (`stolon_pg_hba`).
 - firewalld on all hosts, with the ports of the groups each host is in.
 - avchecker, PgQuartz, pgfga and nagios checks per cluster.
@@ -170,11 +179,18 @@ and the files in `inventories/standard/group_vars`.
 |--------------|-------|------|
 | `hacluster`  | 3 (or more) database hosts | etcd, and per cluster: stolon, PostgreSQL, PgBouncer, wal-g, avchecker, PgQuartz |
 | `backup`     | 1 backup host | RustFS |
-| `localhosts` | `localhost`, the control node | Ansible, chainsmith |
+| `localhosts` | `localhost`, the control node | Ansible |
+| `chainsmith` | the controller and all recipients | Runs the Chainsmith step |
+| `chainsmith_controller` | exactly one host; `localhost` in the examples | Chainsmith certificate generation |
+| `chainsmith_nodes` | recipients selected in your platform inventory | Receive certificates and keys |
 | `router`     | optional, see [Router](#router) | HAProxy, keepalived, pgroute66 |
 
 The control node gets packages from the PgVillage repository too (chainsmith), so it runs the same OS family as the
 hosts. `localhost` must be in your inventory, not in standard: the cluster name comes from its inventory folder.
+
+The controller can have another inventory name and may also belong to `chainsmith_nodes` if it runs a service
+that needs certificates. Use the same inventory hostname for that machine in every group. See
+[Chainsmith](tools/chainsmith.md) for the overlapping controller/recipient example.
 
 Use names that the hosts can resolve (DNS or `/etc/hosts`): the certificates and the wal-g endpoint use them. When
 Ansible should connect to an address, add `ansible_host: <ip>` to the host.

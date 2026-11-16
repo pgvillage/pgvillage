@@ -179,13 +179,14 @@ inventory has no database hosts.
 `hosts`:
 
 - Maps `_postgres` to the PgVillage group `hacluster` (standard puts `stolon` and `etcd_master` on `hacluster`).
-- Defines `localhost` in `localhosts`. It must be defined here and not in `inventories/standard`: `inventory_dir`
+- Defines `localhost` in `localhosts` and `chainsmith_controller`. It must be defined here and not in `inventories/standard`: `inventory_dir`
   of `localhost` is the inventory that defines it, and that sets `cluster_name` (and so all resource names) and
   the folder the role writes its [generated files](#generated-files) to.
 - The `backup` group is empty: there is no minio, wal-g writes to the storage account.
 
 `host_vars/localhost` makes Ansible run locally on the control node (`ansible_connection: local`, with the Python
-of `ansible-playbook`), and sets no chainsmith cert files (`chainsmith_cert_files: []`).
+of `ansible-playbook`). It generates certificates as the `chainsmith_controller` but receives them only if added
+to `chainsmith_nodes`; the Azure inventory explicitly includes the database hosts in that group through `hacluster`.
 
 `group_vars/_postgres/.README` is a placeholder, so git creates the folder the role writes `wal-g.yml` and
 `proxy.yml` to.

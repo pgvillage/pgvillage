@@ -46,7 +46,7 @@ picks them for apt (PgVillage `repo.pgvillage.org/apt/<channel>`, and pgdg):
 
 - **Packages**: `stolon`, `wal-g-pg`, `etcd`, `acl` and `postgresql-17` on `hacluster`; `acl` on `backup` (the
   `pgvillage.minio` role installs `rustfs` and `rustfs-cli`);
-  `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `localhosts`.
+  `keepalived`, `haproxy`, `pgroute66` on `router`; `chainsmith` on `chainsmith_controller`; `openssl` on `chainsmith_nodes`.
 - **Users and groups**: `postgres`, `pgbouncer`, `avchecker`, `pgquartz`, `pgfga`, `pgroute66` on `hacluster`;
   `minio` on `backup`; `haproxy`, `keepalived`, `pgroute66` on `router`.
 

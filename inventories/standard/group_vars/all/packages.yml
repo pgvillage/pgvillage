@@ -13,7 +13,8 @@ linux_pgvillage_channel: latest
 
 # The role default, but without minio for the backup hosts: the PgVillage repos (latest) ship
 # RustFS instead, which the pgvillage.minio role installs itself (minio_use_rustfs in minio.yml). The backup hosts keep
-# the package manager specific packages (e.g. acl for apt).
+# the package manager specific packages (e.g. acl for apt). Install Chainsmith on the explicit controller group
+# instead of the linux role's localhosts default, and OpenSSL on all recipients for the certificate expiry check.
 linux_packages: >-
   {{
     _linux_packages.default
@@ -24,4 +25,5 @@ linux_packages: >-
                       | pg_versioned(linux_pg_versions)},
         recursive=True, list_merge='append')
     | combine({'backup': _linux_packages[ansible_facts.pkg_mgr].backup | default([])})
+    | combine({'localhosts': [], 'chainsmith_controller': ['chainsmith'], 'chainsmith_nodes': ['openssl']})
   }}
