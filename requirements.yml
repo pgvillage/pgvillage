@@ -8,10 +8,7 @@ roles:
   - name: pgvillage.avchecker
     version: "v0.2.6"
   - name: pgvillage.chainsmith
-    # Use the explicit controller/recipient groups; replace with a release once these changes are published.
-    src: https://github.com/pgvillage/ansible-role-chainsmith.git
-    scm: git
-    version: fix/chainsmith-localhost-dependency
+    version: "v0.3.1"
   - name: pgvillage.etcd
     version: "v0.2.3"
   - name: pgvillage.firewall

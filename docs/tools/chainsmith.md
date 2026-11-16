@@ -101,9 +101,7 @@ playbook or include `--tags linux,chainsmith`.
 
 ## Migrating an existing inventory
 
-`requirements.yml` temporarily selects `fix/chainsmith-localhost-dependency` from the Chainsmith role's Git
-repository; the previous `v0.3.0` pin does not support these groups. The updated role must be available on that
-branch before installing it on another control node. Replace the branch with a released version when available.
+`requirements.yml` requires `pgvillage.chainsmith` v0.3.1, which supports the explicit inventory groups.
 
 1. Define `chainsmith` with `chainsmith_controller` and `chainsmith_nodes` as child groups, as in the example
    above. Select exactly one controller host.
