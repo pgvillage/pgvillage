@@ -28,5 +28,14 @@ all:
         localhost:
            ansible_connection: local
            ansible_python_interpreter: "{{ansible_playbook_python}}"
+    chainsmith:
+      children:
+        chainsmith_controller:
+          hosts:
+            localhost:
+        chainsmith_nodes:
+          children:
+            hacluster:
+            backup:
   vars:
     ansible_user: vagrant

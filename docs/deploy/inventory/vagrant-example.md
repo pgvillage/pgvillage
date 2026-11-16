@@ -32,6 +32,9 @@ PgBouncer, avchecker, firewall, etcd, nagios, etc.) or from the OS inventory (pa
 | `haproxy`     | `hacluster` (used by the nagios play)      |
 | `backup`      | `minio.local`                              |
 | `localhosts`  | `localhost` (the Ansible host)             |
+| `chainsmith` | parent of `chainsmith_controller` and `chainsmith_nodes` |
+| `chainsmith_controller` | `localhost` (generates certificates) |
+| `chainsmith_nodes` | `hacluster` and `backup` (explicitly selected in `hosts`) |
 
 Ansible logs in as `vagrant` (`ansible_user`).
 
@@ -72,7 +75,8 @@ separate disks.
 
 ## Certificates
 
-Chainsmith creates certificates for the database hosts and the minio host, as in standard: the server certificates of
+Chainsmith runs on `chainsmith_controller` (`localhost`) and creates certificates for `chainsmith_nodes`
+(the database and backup hosts, explicitly selected in this inventory): the server certificates of
 the database hosts are on the data mountpoint (`/data/postgres/data/certs`).
 
 ## Router

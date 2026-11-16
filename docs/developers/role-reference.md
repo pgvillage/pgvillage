@@ -20,6 +20,9 @@ every role in `requirements.yml` it:
 2. reads `meta/main.yml` (`galaxy_info.description`) and `defaults/main.yml`;
 3. writes `reference/roles/<role>.md`, and `reference/roles/index.md` with all roles.
 
+The installer preserves `name`, `src`, `scm` and `version` from `requirements.yml`, so a role selected from a Git
+branch or commit is documented from the same source as a deployment. Prefer released versions once available.
+
 To look at the generated Markdown without mkdocs: `python docs/scripts/role_reference.py <output folder>`.
 
 ## Writing the comments

@@ -56,6 +56,8 @@ class RoleReferenceError(RuntimeError):
 class Role:
     name: str  # e.g. pgvillage.stolon
     version: str
+    src: str | None = None
+    scm: str | None = None
     path: Path | None = None
     repo_url: str | None = None  # e.g. https://github.com/pgvillage/ansible-role-stolon
 
@@ -79,7 +81,7 @@ def read_requirements() -> list[Role]:
         version = item.get("version")
         if not name or not version:
             raise RoleReferenceError(f"{REQUIREMENTS}: every role needs a name and a pinned version, got {item}")
-        roles.append(Role(name=str(name), version=str(version)))
+        roles.append(Role(name=str(name), version=str(version), src=item.get("src"), scm=item.get("scm")))
     return roles
 
 
@@ -103,7 +105,13 @@ def install_roles(roles: list[Role]) -> None:
         )
     for role in missing:
         with tempfile.TemporaryDirectory(prefix="role-reference-") as tmp:
-            cmd = [galaxy, "role", "install", "--force", "--no-deps", "-p", tmp, f"{role.name},{role.version}"]
+            requirement = {"name": role.name, "src": role.src or role.name, "version": role.version}
+            if role.scm:
+                requirement["scm"] = role.scm
+            requirements_file = Path(tmp) / "requirements.yml"
+            with requirements_file.open("w") as stream:
+                YAML().dump({"roles": [requirement]}, stream)
+            cmd = [galaxy, "role", "install", "--force", "--no-deps", "-p", tmp, "-r", str(requirements_file)]
             result = subprocess.run(cmd, check=False, capture_output=True, text=True)
             installed = Path(tmp) / role.name
             if result.returncode != 0 or not (installed / "defaults").is_dir():
@@ -115,6 +123,8 @@ def install_roles(roles: list[Role]) -> None:
             # "- downloading role from https://github.com/<owner>/<repo>/archive/<version>.tar.gz"
             match = re.search(r"downloading role from (https://github\.com/[^/\s]+/[^/\s]+)/archive/", result.stdout)
             repo_url = match.group(1) if match else None
+            if role.src and role.scm == "git":
+                repo_url = role.src.removesuffix(".git")
             if role.path.exists():
                 shutil.rmtree(role.path)
             role.path.parent.mkdir(parents=True, exist_ok=True)

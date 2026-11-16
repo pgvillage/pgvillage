@@ -7,6 +7,11 @@ all:
     localhosts:
     backup:
     hacluster:
+    # The platform inventory selects the controller and certificate recipients.
+    chainsmith:
+      children:
+        chainsmith_controller:
+        chainsmith_nodes:
     # The standard architecture: stolon and etcd run on the database hosts
     stolon:
       children:

@@ -17,8 +17,8 @@ playbook.
 | Order | Step                   | Runs                                  | Groups                                    | Extra tags |
 |-------|------------------------|---------------------------------------|-------------------------------------------|------------|
 | 5     | `rustfs_user`          | `tasks/rustfs_user.yml`               | `backup`                                  | `linux`, `packages`, `chainsmith`, `certificates`, `certs`, `minio` |
-| 10    | `linux`                | `pgvillage.linux`                     | `hacluster`, `backup`, `router`, `localhost` | `packages` |
-| 20    | `chainsmith`           | `pgvillage.chainsmith`                | `hacluster`, `backup`, `router`, `localhost` | `certificates`, `certs` |
+| 10    | `linux`                | `pgvillage.linux`                     | `hacluster`, `backup`, `router`, `localhosts`, `chainsmith` | `packages` |
+| 20    | `chainsmith`           | `pgvillage.chainsmith`                | `chainsmith` | `certificates`, `certs` |
 | 30    | `firewall`             | `pgvillage.firewall`                  | `hacluster`, `backup`, `router`           | `firewalld` |
 | 40    | `etcd`                 | `pgvillage.etcd`                      | `etcd_master`                             | |
 | 50    | `minio`                | `pgvillage.minio`                     | `backup`                                  | |
@@ -35,6 +35,11 @@ playbook.
 
 `rustfs_user` renames the `minio` user of deployments of v2.0.1 and older to `rustfs`, before the linux role and
 chainsmith run (see [The rustfs user](../tools/minio.md#the-rustfs-user)). On other hosts it does nothing.
+
+The `linux` step prepares both Chainsmith groups: it installs `chainsmith` on the controller and `openssl` on
+certificate recipients. The `chainsmith` step selects their parent group `chainsmith` to run on both together. The controller can also be a recipient;
+its inventory name need not be `localhost`. All recipients and the controller must be in the same play batch,
+including with `--limit` or `serial`. See [Chainsmith](../tools/chainsmith.md).
 
 The name of a step is always a tag too, so `--tags stolon,avchecker` runs those two roles (and the steps that have
 these tags), as before.
@@ -88,4 +93,5 @@ Per step:
 
 !!! note
     `minimal.yml`, `rollout_new_certs.yml` and `uninstall.yml` still have a play per role, and don't use
-    `pgvillage_roles`.
+    `pgvillage_roles`. In `minimal.yml`, Linux preparation includes the Chainsmith groups, and certificate generation
+    and deployment run in a separate play on both groups before the cluster service roles.

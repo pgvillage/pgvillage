@@ -8,9 +8,10 @@ roles:
   - name: pgvillage.avchecker
     version: "v0.2.6"
   - name: pgvillage.chainsmith
-    # v0.3.0 and newer make rustfs the owner of the backup certificates (chainsmith_users); tasks/rustfs_user.yml
-    # renames the minio user to rustfs first
-    version: "v0.3.0"
+    # Use the explicit controller/recipient groups; replace with a release once these changes are published.
+    src: https://github.com/pgvillage/ansible-role-chainsmith.git
+    scm: git
+    version: fix/chainsmith-localhost-dependency
   - name: pgvillage.etcd
     version: "v0.2.3"
   - name: pgvillage.firewall

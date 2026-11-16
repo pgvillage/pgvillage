@@ -13,6 +13,11 @@ The default inventory group names chosen for PgVillage are:
 - `hacluster`: This group should hold all PostgreSQL database nodes and will receive PostgreSQL, Stolon, WAL-G and other database server tooling.
 - `backup`: This group can have one backup server. PgVillage will deploy MinIO on it, to be used as an S3 endpoint.
 - `router`: All servers in this group will receive HAProxy, Keepalived and PgRoute66.
+- `chainsmith`: Parent group containing `chainsmith_controller` and `chainsmith_nodes`; selects all Chainsmith hosts.
+- `chainsmith_controller`: Exactly one host that generates the certificate chain.
+- `chainsmith_nodes`: Hosts that receive certificates, explicitly selected in the platform inventory through hosts
+  or child groups such as `hacluster` and `backup`.
+  The controller can also be a recipient. See [Chainsmith](../tools/chainsmith.md).
 
 !!! note
     The servers in the `router` group can be the same servers as in the `hacluster` group.
@@ -38,7 +43,6 @@ Set them in your inventory to the new group name instead:
     etcd_master_group_name: pgnodes
     pgroute66_pgnodes_group: pgnodes
     stolon_host_group: pgnodes
-    chainsmith_nodes: "{{ groups.pgnodes + groups.minio }}"
     ```
 
 ### Step 2: Update values with group names as keys
@@ -75,7 +79,23 @@ As the group names have changed, these folders need to be renamed as well.
 ### Step 4: Update the hosts file
 
 The new groups should be known to Ansible.
-Update the hosts file (`environments/{ENV}/hosts`) as required.
+Update the hosts file (`environments/{ENV}/hosts`) as required. Keep `chainsmith_controller` and `chainsmith_nodes`
+as children of `chainsmith`, and link your renamed service groups to the recipient group instead of overriding
+the `chainsmith_nodes` variable:
+
+```yaml
+all:
+  children:
+    chainsmith:
+      children:
+        chainsmith_nodes:
+          children:
+            pgnodes:
+            minio:
+```
+
+Select exactly one host in `chainsmith_controller`. Its name and connection type are independent of its role as
+controller, and it may also belong to `chainsmith_nodes`.
 
 ### Step 5: Update the playbooks
 
