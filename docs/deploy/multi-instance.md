@@ -40,7 +40,7 @@ setting:
 |-------------------------------|----------------------------------------|-----|
 | The cluster, its ports and directories | `stolon_clusters`             | [stolon](../tools/stolon.md#multi-instance) |
 | Its backups                   | `walg_clusters`                        | [wal-g](../tools/wal-g.md#multi-instance) |
-| Its bucket                    | `minio_buckets`                        | [MinIO](../tools/minio.md#multi-instance) |
+| Its bucket                    | `rustfs_buckets`                       | [RustFS](../tools/rustfs.md#multi-instance) |
 | Its PgBouncer                 | `pgbouncer_instances`                  | [PgBouncer](../tools/pgbouncer.md#multi-instance) |
 | Its ports in the firewall     | `firewall_ports_hacluster`, `firewall_ports_router` | [Firewall](../tools/firewalld.md#multi-instance) |
 | Its availability checks       | `avchecker_cluster_members`, `avchecker_defaults` | [avchecker](../tools/avchecker.md#multi-instance) |

@@ -26,7 +26,7 @@
       {{ _rustfs_user_from }} can't be renamed to {{ _rustfs_user_to }}. RustFS (or MinIO) runs as
       {{ _rustfs_user_from }} and its data is owned by {{ _rustfs_user_from }}. If {{ _rustfs_user_to }} was created by
       a deploy (e.g. by the linux role) and owns nothing, remove it (userdel {{ _rustfs_user_to }}; groupdel
-      {{ _rustfs_user_to }}) and deploy again. See docs/tools/minio.md.
+      {{ _rustfs_user_to }}) and deploy again. See docs/tools/rustfs.md.
     quiet: true
   vars:
     _rustfs_user_from: minio
@@ -40,7 +40,7 @@
     _rustfs_user_old_home: "{{ getent_passwd.minio[4] }}"
     # The home dir moves along when it is named after the user (e.g. /home/minio), but never when it is (or holds) a
     # data dir
-    _rustfs_user_datadirs: "{{ minio_server_datadirs | default(['/var/lib/minio']) | map('regex_replace', '/+$', '') }}"
+    _rustfs_user_datadirs: "{{ rustfs_server_datadirs | default(['/var/lib/minio']) | map('regex_replace', '/+$', '') }}"
     _rustfs_user_move_home: >-
       {{ _rustfs_user_old_home | basename == 'minio'
          and _rustfs_user_old_home not in _rustfs_user_datadirs
@@ -112,8 +112,8 @@
       loop: "{{ _rustfs_user_files }}"
       register: _rustfs_user_file_stats
 
-    # The minio role writes these files again later in the deploy (with minio_user: rustfs), but RustFS starts again
-    # right away, and has to find its certificates then
+    # The rustfs role writes the unit and /etc/default/rustfs again later in the deploy, but RustFS starts again right
+    # away, and has to find its certificates then
     - name: Point User= and Group= in the systemd units to rustfs
       ansible.builtin.replace:
         path: "{{ item.0 }}"

@@ -12,8 +12,9 @@ linux_packages:
     - "postgresql{{ linux_pg_version | replace('.', '') }}"
     - "postgresql{{ linux_pg_version | replace('.', '') }}-server"
     - "postgresql{{ linux_pg_version | replace('.', '') }}-contrib"
-  # RustFS instead of minio, installed by the pgvillage.minio role (see inventories/standard)
-  backup: []
+  backup:
+    - rustfs
+    - rustfs-cli
   router:
     - keepalived
     - haproxy

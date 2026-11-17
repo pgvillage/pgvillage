@@ -5,7 +5,7 @@
   become: true
   gather_facts: true
 
-- name: Install Minio
+- name: Install RustFS
   hosts:
     - backup
   become: true
@@ -14,8 +14,9 @@
     - name: Rename the minio user to rustfs (deployments of v2.0.1 and older)
       ansible.builtin.import_tasks: tasks/rustfs_user.yml
   roles:
-    - pgvillage.minio
+    - pgvillage.rustfs
   tags:
+    - rustfs
     - minio
 
 - name: Install wal-g

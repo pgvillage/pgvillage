@@ -1,6 +1,9 @@
 ---
-# RustFS (pgvillage.minio role): server cert owned by rustfs (in /etc/pki/rustfs, the role default), client certs where
-# mcli looks for them. PgVillage v2.0.1 and older used minio (/etc/pki/minio): tasks/rustfs_user.yml moves them.
+# RustFS (pgvillage.rustfs role): server cert owned by rustfs (in /etc/pki/rustfs, the role default, where the rustfs
+# role copies them from), client certs in .mcli/certs, where the pgvillage.minio role (mcli) of PgVillage v2.0.1 and
+# older had them: rc only uses the CA in it (rustfs_client_ca_bundle in group_vars/all/rustfs.yml), and moving them
+# would make chainsmith issue new certificates for all hosts. PgVillage v2.0.1 and older used minio (/etc/pki/minio):
+# tasks/rustfs_user.yml moves them.
 chainsmith_client_cert_sub_folder: '.mcli/certs'
 chainsmith_client_cert_filename: 'public.crt'
 chainsmith_client_pkey_filename: 'private.key'

@@ -31,7 +31,7 @@ It deploys Rocky Linux EL-9 on AMD64. See also:
 ## What gets created
 
 - A separate resource group (`rg_<cluster name>`)
-- A Storage Account with a container for the backups (wal-g writes to it directly, so there is no minio)
+- A Storage Account with a container for the backups (wal-g writes to it directly, so there is no RustFS)
 - A separate network with a subnet and a Load Balancer, which routes all traffic on a VIP to the database nodes
 - A bastion host, to proxy ssh traffic for Ansible to the database hosts
 - A Virtual Machine Scale Set (VMSS) with 3 database hosts
