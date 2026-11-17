@@ -112,6 +112,26 @@ spec again, e.g. the lines of the pgbouncer role in `pg_hba.conf`.
 The other clusters on the same hosts are not touched. Afterwards the stolon spec shows `initMode: pitr` and the
 `pitrConfig`; that only matters for an init, and the next restore replaces it.
 
+!!! note "Settings that are not in the inventory"
+
+    The restore initializes the cluster with the PostgreSQL settings (`pgParameters`) of the inventory only. Settings
+    that initdb chose at the first init and that are not in the inventory, such as `timezone`, `log_timezone`,
+    `datestyle`, `lc_messages`, `lc_monetary`, `lc_numeric`, `lc_time` and `default_text_search_config`, fall back
+    to the PostgreSQL defaults after the restore (e.g. `TimeZone` `GMT` and `default_text_search_config`
+    `pg_catalog.simple`, instead of the time zone and language of the host). The data is not affected, but
+    applications that depend on the time zone or on the default text search configuration of the server see
+    different results.
+
+    Check them before and after the restore:
+
+    ```bash
+    psql service=cluster1-master -c "SHOW timezone" -c "SHOW default_text_search_config" -c "SHOW lc_messages"
+    ```
+
+    To keep them, set them in your inventory, for all clusters in `stolon_default_custom_config.pgParameters` or per
+    cluster in `stolon_clusters.<cluster>.custom_config.pgParameters` (see [stolon](../../tools/stolon.md)), before
+    the restore, or after it and deploy again.
+
 ### How to check
 
 ```bash
