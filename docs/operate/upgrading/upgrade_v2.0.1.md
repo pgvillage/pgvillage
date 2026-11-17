@@ -215,4 +215,4 @@ After the upgrade:
     ```
 
 - minio keeps running on the backup host. Moving the backups to RustFS is a separate step, with the release after
-  v2.0.1: see [Migrating from the minio role](../../tools/rustfs.md#migrating-from-the-minio-role).
+  v2.0.1: see [Upgrading from v2.0.1 to v2.1.0](upgrade_v2.1.0.md).
