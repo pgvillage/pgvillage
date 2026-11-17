@@ -1,7 +1,8 @@
 # lima
 
 Everything specific to the lima VMs of `lima/up.sh`: the hosts (`hosts`, by their names on the user-v2 network) and the
-VIP with unicast VRRP (`group_vars/all/keepalived.yml`). Use it on top of `inventories/standard` and the OS of the VMs
+VIP with unicast VRRP (`group_vars/all/keepalived.yml`), and fixed S3 keys for the backup host (`group_vars/all/minio.yml`,
+demo only). Use it on top of `inventories/standard` and the OS of the VMs
 (Ubuntu by default):
 
 ```bash
