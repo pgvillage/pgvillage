@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "enabledManagers": ["ansible-galaxy"],
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "enabledManagers": ["ansible-galaxy", "github-actions", "pip_requirements"],
+  "semanticCommits": "enabled",
   "labels": ["dependencies"],
   "packageRules": [
     {
@@ -9,6 +10,16 @@
       "matchManagers": ["ansible-galaxy"],
       "matchPackageNames": ["pgvillage.*"],
       "commitMessageTopic": "role {{depName}}"
+    },
+    {
+      "description": "All GitHub Actions in one PR, kept pinned to a commit SHA with the version in a comment",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    },
+    {
+      "description": "The Python packages of the docs build (docs-requirements.txt) in one PR",
+      "matchManagers": ["pip_requirements"],
+      "groupName": "docs requirements"
     }
   ]
 }
