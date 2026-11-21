@@ -20,7 +20,7 @@ jobs:
   lint:
     # Keep this name: it is the required check until github-settings requires `CI result` instead
     name: Ansible Lint
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -36,7 +36,7 @@ jobs:
   # Broken docs fail the PR instead of the release (build-and-publish-docs.yaml publishes them on a release)
   docs:
     name: Docs build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -57,7 +57,7 @@ jobs:
   # and only passes when every job it needs succeeded (a skipped required check would count as a pass).
   ci-result:
     name: CI result
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - lint
       - docs
