@@ -3,9 +3,14 @@
 # See docs/try-it/lima.md.
 minimumLimaVersion: 2.0.0
 
-# No vmType and mountType: lima chooses per host OS, vz (with virtiofs) on macOS and QEMU on Linux (the e2e tests in
-# CI, tests/e2e/run.sh)
+# No vmType: lima chooses per host OS, vz on macOS and QEMU on Linux (the e2e tests in CI, tests/e2e/run.sh). virtiofs
+# works with both (QEMU needs virtiofsd on the host); sshfs and 9p are not available on Rocky Linux.
+mountType: virtiofs
 disk: 20GiB
+# PgVillage doesn't use containers: skip installing containerd and nerdctl in every VM
+containerd:
+  system: false
+  user: false
 # No home dir mount: only the Ansible VM mounts the repository (lima/up.sh)
 mounts: []
 # user-v2: a network between the VMs (192.168.104.0/24), with names lima-<instance>.internal, and without root
@@ -28,7 +33,7 @@ provision:
   - mode: system
     script: |
       #!/bin/bash
-      set -e
+      set -ex
       if [ ! -f /swapfile ]; then
         dd if=/dev/zero of=/swapfile bs=1M count=1024 status=none
         chmod 0600 /swapfile

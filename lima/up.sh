@@ -38,7 +38,7 @@ done
 
 # A key for the Ansible VM, authorized on all VMs (the user is the same everywhere: yours)
 limactl shell pgv-ansible bash -c '[ -f ~/.ssh/id_ed25519 ] || ssh-keygen -q -t ed25519 -f ~/.ssh/id_ed25519 -N ""'
-PUBKEY=$(limactl shell pgv-ansible cat .ssh/id_ed25519.pub)
+PUBKEY=$(limactl shell --workdir=/ pgv-ansible bash -c 'cat ~/.ssh/id_ed25519.pub')
 for vm in ${VMS}; do
   limactl shell "${vm%%:*}" bash -c "grep -qxF '${PUBKEY}' ~/.ssh/authorized_keys || echo '${PUBKEY}' >>~/.ssh/authorized_keys"
 done

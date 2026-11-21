@@ -112,7 +112,8 @@ jobs:
       - name: Install QEMU and lima
         run: |
           sudo apt-get update -q
-          sudo apt-get install -yq qemu-system-x86 qemu-utils
+          # virtiofsd: lima mounts the repository in the Ansible VM with virtiofs (lima/pgvillage.yaml)
+          sudo apt-get install -yq qemu-system-x86 qemu-utils virtiofsd
           curl -fsSL "https://github.com/lima-vm/lima/releases/download/${LIMA_VERSION}/lima-${LIMA_VERSION#v}-Linux-x86_64.tar.gz" |
             sudo tar -xz -C /usr/local
           limactl --version
