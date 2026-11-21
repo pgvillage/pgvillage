@@ -55,7 +55,7 @@ what is used).
    `~/git/pgvillage` is this repository (a writable virtiofs mount), so you deploy what you have checked out.
 4. Check it: e.g. connect to the read-write route of `cluster1` through the VIP, from a database VM:
    ```bash
-   limactl shell --workdir=/ pgv-db-1 sudo -u postgres psql "host=192.168.104.250 port=35433 dbname=postgres sslmode=require"
+   limactl shell --workdir=/ pgv-db-1 sudo -u postgres psql "host=192.168.104.250 port=15433 dbname=postgres sslmode=require"
    ```
 
 Stop the VMs with `limactl stop <vm>` (`limactl list` shows them), and remove them with

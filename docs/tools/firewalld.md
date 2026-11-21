@@ -36,16 +36,16 @@ both (see [Postgres](#postgres) and [Router](#router)). You can also put all por
       cluster1_postgres:     5433
       cluster1_pgbouncer:    6433
       cluster1_stolonproxy: 25433
-      cluster1_haproxyrw:   35433
-      cluster1_haproxyro:   45433
-      cluster1_haproxysp:   55433
+      cluster1_haproxyrw:   15433
+      cluster1_haproxyro:   16433
+      cluster1_haproxysp:   17433
 
       cluster2_postgres:     5434
       cluster2_pgbouncer:    6434
       cluster2_stolonproxy: 25434
-      cluster2_haproxyrw:   35434
-      cluster2_haproxyro:   45434
-      cluster2_haproxysp:   55434
+      cluster2_haproxyrw:   15434
+      cluster2_haproxyro:   16434
+      cluster2_haproxysp:   17434
 
       etcd_client: 2379
       etcd_server: 2380
@@ -81,13 +81,13 @@ In `firewall_ports_router` you define the following ports (standard takes them f
     ```yaml
     firewall_ports_router:
 
-      cluster1_haproxyrw:   35433
-      cluster1_haproxyro:   45433
-      cluster1_haproxysp:   55433
+      cluster1_haproxyrw:   15433
+      cluster1_haproxyro:   16433
+      cluster1_haproxysp:   17433
 
-      cluster2_haproxyrw:   35434
-      cluster2_haproxyro:   45434
-      cluster2_haproxysp:   55434
+      cluster2_haproxyrw:   15434
+      cluster2_haproxyro:   16434
+      cluster2_haproxysp:   17434
     ```
 
 ### Description
