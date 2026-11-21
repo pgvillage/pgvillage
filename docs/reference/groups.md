@@ -13,11 +13,10 @@ The default inventory group names chosen for PgVillage are:
 - `hacluster`: This group should hold all PostgreSQL database nodes and will receive PostgreSQL, Stolon, WAL-G and other database server tooling.
 - `backup`: This group can have one backup server. PgVillage will deploy RustFS on it, to be used as an S3 endpoint.
 - `router`: All servers in this group will receive HAProxy, Keepalived and PgRoute66.
-- `chainsmith`: Parent group containing `chainsmith_controller` and `chainsmith_nodes`; selects all Chainsmith hosts.
-- `chainsmith_controller`: Exactly one host that generates the certificate chain.
-- `chainsmith_nodes`: Hosts that receive certificates, explicitly selected in the platform inventory through hosts
-  or child groups such as `hacluster` and `backup`.
-  The controller can also be a recipient. See [Chainsmith](../tools/chainsmith.md).
+- `chainsmith_controller` (optional): the one host that generates the certificate chain; default the first host in
+  `localhosts`.
+- `chainsmith_nodes` (optional): the hosts that receive certificates; default the hosts in `hacluster` and `backup`.
+  See [Chainsmith](../tools/chainsmith.md).
 
 !!! note
     The servers in the `router` group can be the same servers as in the `hacluster` group.
@@ -79,23 +78,18 @@ As the group names have changed, these folders need to be renamed as well.
 ### Step 4: Update the hosts file
 
 The new groups should be known to Ansible.
-Update the hosts file (`environments/{ENV}/hosts`) as required. Keep `chainsmith_controller` and `chainsmith_nodes`
-as children of `chainsmith`, and link your renamed service groups to the recipient group instead of overriding
-the `chainsmith_nodes` variable:
+Update the hosts file (`environments/{ENV}/hosts`) as required. The certificate recipients default to `hacluster`
+and `backup`: make your renamed groups children of `chainsmith_nodes` (instead of setting the variable
+`chainsmith_nodes`):
 
 ```yaml
 all:
   children:
-    chainsmith:
+    chainsmith_nodes:
       children:
-        chainsmith_nodes:
-          children:
-            pgnodes:
-            minio:
+        pgnodes:
+        minio:
 ```
-
-Select exactly one host in `chainsmith_controller`. Its name and connection type are independent of its role as
-controller, and it may also belong to `chainsmith_nodes`.
 
 ### Step 5: Update the playbooks
 

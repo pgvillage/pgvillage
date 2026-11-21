@@ -9,25 +9,33 @@
       ansible.builtin.assert:
         that: _cluster_name | length > 5
 
-- name: Prepare minimal deployment hosts
+- name: Prepare minimal
   vars:
     _cluster_name: "{{ cluster_name | default('cluster1') }}"
   hosts:
     - "{{ _cluster_name }}-*"
-    - chainsmith
   become: true
   gather_facts: true
+  pre_tasks:
+    - name: Move the WAL of existing clusters to its subfolder
+      ansible.builtin.import_tasks: tasks/stolon_wal_subfolder.yml
+      tags:
+        - stolon
+        - postgres
+        - postgresql
+        - pg
   roles:
     - role: pgvillage.linux
       tags:
         - linux
         - packages
 
+# The chain covers all hosts, so the controller and all recipients run the role together (as in functional-all.yml);
+# hosts without a chainsmith role skip it
 - name: Generate and deploy certificates
-  hosts:
-    - chainsmith
+  hosts: all:localhost
   become: true
-  gather_facts: false
+  gather_facts: true
   roles:
     - role: pgvillage.chainsmith
       tags:
@@ -42,14 +50,6 @@
     - "{{ _cluster_name }}-*"
   become: true
   gather_facts: false
-  pre_tasks:
-    - name: Move the WAL of existing clusters to its subfolder
-      ansible.builtin.import_tasks: tasks/stolon_wal_subfolder.yml
-      tags:
-        - stolon
-        - postgres
-        - postgresql
-        - pg
   roles:
     - role: pgvillage.firewall
       tags:

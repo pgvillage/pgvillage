@@ -54,6 +54,16 @@ vars beat the inventory, so an inventory that sets one of them is now silently i
 instead (e.g. `linux_packages`, `stolon_package_names`, `avchecker_package_names`). Reading them, as
 `inventories/standard/group_vars/all/packages.yml` does, still works.
 
+### Chainsmith (nothing to change)
+
+pgvillage.chainsmith v0.3.1 adds the optional groups `chainsmith_controller` (the host that generates the certificates)
+and `chainsmith_nodes` (the hosts that receive them). Without them it does what it did: the first host in
+`localhosts` generates, `hacluster` and `backup` receive. Define them only to run chainsmith on another host than
+`localhost`, or to give the controller certificates too; see [Chainsmith](../../tools/chainsmith.md).
+
+With `--limit` or `serial` that leaves the controller or a recipient out of the play, chainsmith now skips with a
+warning instead of failing (or issuing a chain for only part of the hosts).
+
 ## What the first deploy does
 
 Deploy as usual (`functional-all.yml`).

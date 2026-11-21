@@ -45,18 +45,12 @@ The hosts are in these groups (see [Custom group names](../../reference/groups.m
 - `backup`: the backup host (0 or 1). It runs RustFS, an S3 server, for the backups of wal-g.
 - `router` (and `haproxy`): optional, the hosts that run HAProxy, keepalived (the VIP) and pgroute66. They can be the
   database hosts.
-- `localhosts`: `localhost`, the control node, where Ansible runs. It is in your
+- `localhosts`: `localhost`, the control node, where Ansible and chainsmith (the certificates) run. It is in your
   inventory, not in standard: the cluster name is the name of the folder of the inventory that has `localhost`
   (`cluster_name: "{{ inventory_dir | basename }}"`).
-- `chainsmith`: the parent of `chainsmith_controller` and `chainsmith_nodes`. The Chainsmith step selects this group.
-- `chainsmith_controller`: exactly one host that generates the certificate chain. The supplied platform inventories
-  select `localhost`; your inventory can select a host with another name or connection type.
-- `chainsmith_nodes`: certificate recipients, explicitly selected in each platform inventory. Vagrant and Lima
-  include `hacluster` and `backup` as child groups; Azure includes `hacluster`. Add other recipients explicitly,
-  including the controller if it also runs a service that needs certificates.
-
-The Chainsmith groups can overlap. They select responsibilities independently of `localhosts`; see
-[Chainsmith](../../tools/chainsmith.md) for an example and migration instructions.
+- `chainsmith_controller` and `chainsmith_nodes`: optional, the host that generates the certificates (default the
+  first host in `localhosts`) and the hosts that receive them (default `hacluster` and `backup`). The platform
+  inventories define them explicitly. See [Chainsmith](../../tools/chainsmith.md).
 
 ## The steps
 

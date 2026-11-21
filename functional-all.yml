@@ -31,7 +31,10 @@
         tasks: tasks/rustfs_user.yml
         tags: [linux, packages, chainsmith, certificates, certs, rustfs, minio]
       linux: { order: 10, groups: [hacluster, backup, router, localhost], tags: [packages] }
-      chainsmith: { order: 20, groups: [hacluster, backup, router, localhost], tags: [certificates, certs] }
+      chainsmith:
+        order: 20
+        groups: [hacluster, backup, router, localhost, chainsmith_controller, chainsmith_nodes]
+        tags: [certificates, certs]
       reload_new_certs:
         order: 21
         groups: [hacluster, router]

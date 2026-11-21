@@ -1,13 +1,12 @@
 ---
-# The chainsmith parent group contains the two child groups that select the controller (chainsmith_controller) and certificate recipients (chainsmith_nodes).
-# Each platform inventory selects recipient hosts or child groups explicitly. Certificates are valid for all their
-# fqdn's and ips, with client certs for chainsmith_users. A controller that needs certs can join chainsmith_nodes.
+# The pgvillage.chainsmith role defaults generate the chain on the host in chainsmith_controller (else the first host in
+# localhosts), and server certs for all hosts in chainsmith_nodes (else hacluster and backup), valid for all their
+# fqdn's and ips, and client certs for chainsmith_users.
 # Use the inventory ip (ansible_host) instead of the role default (first ip of the host, which can be a NAT address).
 # Without ansible_host (e.g. lima, where hosts are known by name): the address of the default route.
 chainsmith_ips: >-
   {% set nodes = [] %}{% for node in chainsmith_nodes %}{% do nodes.append(hostvars[node].ansible_host
   | default(hostvars[node].ansible_facts.default_ipv4.address)) %}{% endfor %}{{ nodes }}
-# The linux step installs chainsmith on chainsmith_controller and openssl on chainsmith_nodes.
 chainsmith_package_names: []
 # The role default, but with a client cert for rustfs instead of minio on the backup hosts (the user RustFS runs as)
 chainsmith_users:
