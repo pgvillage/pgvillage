@@ -1,0 +1,74 @@
+---
+name: CI run on PR
+on:
+  pull_request:
+    branches: ["main"]
+  # The merge queue runs all checks on the result of the merge, before it lands on main
+  merge_group:
+  push:
+    branches: ["main"]
+
+# A new push to a PR cancels the run of the previous push
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    # Keep this name: it is the required check until github-settings requires `CI result` instead
+    name: Ansible Lint
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@b74fb6f73d234bf92672372cb1c10768e4018d16 # v26.11.0
+        with:
+          args: ""
+          setup_python: "true"
+          working_directory: ""
+          requirements_file: "requirements.yml"
+
+  # Broken docs fail the PR instead of the release (build-and-publish-docs.yaml publishes them on a release)
+  docs:
+    name: Docs build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: docs-requirements.txt
+      - name: Install the docs requirements
+        run: pip install -r docs-requirements.txt
+      - name: Build the docs
+        run: mkdocs build --strict
+        env:
+          DISABLE_MKDOCS_2_WARNING: "true"
+
+  # The only required check of this workflow, so the ruleset doesn't change when jobs are added. It must always run,
+  # and only passes when every job it needs succeeded (a skipped required check would count as a pass).
+  ci-result:
+    name: CI result
+    runs-on: ubuntu-24.04
+    needs:
+      - lint
+      - docs
+    if: always()
+    steps:
+      - name: Evaluate the results
+        env:
+          RESULTS: ${{ toJSON(needs.*.result) }}
+        run: |
+          echo "Results: ${RESULTS}"
+          if [ "$(echo "${RESULTS}" | jq -r 'all(. == "success")')" != true ]; then
+            echo "::error::All CI jobs must succeed"
+            exit 1
+          fi
