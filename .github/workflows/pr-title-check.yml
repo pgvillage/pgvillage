@@ -1,0 +1,26 @@
+name: "Lint PR"
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+  # The title was already checked on the pull request; in the merge queue the check must just pass
+  merge_group:
+
+# IMPORTANT: No checkout actions, scripts, or builds should be added to this workflow. Permissions should always be used
+# with extreme caution. https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request_target
+permissions: {}
+
+jobs:
+  validate:
+    permissions:
+      contents: read
+      pull-requests: read
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      # A step-level condition, so the job reports a normal success in the merge queue
+      - uses: thehanimo/pr-title-checker@b69bc3a841cf4e3cfef2d822625d8c90a588e9da # v2.0.0
+        if: github.event_name != 'merge_group'
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          configuration_path: ".github/pr-title-checker-config.json"
