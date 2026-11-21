@@ -1,13 +1,13 @@
-# PgVillage demo VM for Lima: vz, on the user-v2 network shared by all PgVillage VMs. lima/up.sh creates the VMs from
+# PgVillage demo VM for Lima, on the user-v2 network shared by all PgVillage VMs. lima/up.sh creates the VMs from
 # this template (the OS image, cpus, memory and the repository mount are set there).
 # See docs/try-it/lima.md.
 minimumLimaVersion: 2.0.0
 
-vmType: vz
+# No vmType and mountType: lima chooses per host OS, vz (with virtiofs) on macOS and QEMU on Linux (the e2e tests in
+# CI, tests/e2e/run.sh)
 disk: 20GiB
 # No home dir mount: only the Ansible VM mounts the repository (lima/up.sh)
 mounts: []
-mountType: virtiofs
 # user-v2: a network between the VMs (192.168.104.0/24), with names lima-<instance>.internal, and without root
 # permissions on the Mac (unlike the socket_vmnet networks)
 networks:
