@@ -8,9 +8,7 @@ roles:
   - name: pgvillage.avchecker
     version: "v0.2.6"
   - name: pgvillage.chainsmith
-    # v0.3.0 and newer make rustfs the owner of the backup certificates (chainsmith_users); tasks/rustfs_user.yml
-    # renames the minio user to rustfs first
-    version: "v0.3.0"
+    version: "v0.3.1"
   - name: pgvillage.etcd
     version: "v0.2.3"
   - name: pgvillage.firewall

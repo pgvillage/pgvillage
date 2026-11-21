@@ -10,3 +10,6 @@ ansible-playbook -i inventories/standard -i inventories/os/debian -i inventories
 ```
 
 See the [lima docs](../../../docs/try-it/lima.md).
+
+Under the parent `chainsmith` group, this inventory explicitly selects `localhost` in `chainsmith_controller`
+and `hacluster` and `backup` as children of `chainsmith_nodes`; see [Chainsmith](../../../docs/tools/chainsmith.md).

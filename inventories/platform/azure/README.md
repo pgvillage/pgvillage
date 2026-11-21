@@ -15,3 +15,6 @@ See the [Azure docs](../../../docs/deploy/platforms/azure/index.md) for how to u
 [Azure integration](../../../docs/deploy/platforms/azure/azure.md) for all `azure_` parameters, and the
 changes to deploy on [openSUSE](../../../docs/deploy/platforms/azure/el-vs-suse.md) or
 [ARM64](../../../docs/deploy/platforms/azure/amd-vs-arm.md).
+
+Under the parent `chainsmith` group, this inventory explicitly selects `localhost` in `chainsmith_controller`
+and `hacluster` as a child of `chainsmith_nodes`. Backups use Azure Storage, so there is no backup host to include.
