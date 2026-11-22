@@ -118,6 +118,8 @@ jobs:
             sudo tar -xz -C /usr/local
           limactl --version
       - name: Deploy and check
+        # Below the timeout of the job, so a hanging run still fails this step and the logs get collected
+        timeout-minutes: 70
         env:
           PGV_OS: ${{ matrix.os }}
         run: tests/e2e/run.sh
