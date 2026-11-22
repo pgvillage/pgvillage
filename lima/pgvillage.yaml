@@ -3,9 +3,9 @@
 # See docs/try-it/lima.md.
 minimumLimaVersion: 2.0.0
 
-# No vmType: lima chooses per host OS, vz on macOS and QEMU on Linux (the e2e tests in CI, tests/e2e/run.sh). virtiofs
-# works with both (QEMU needs virtiofsd on the host); sshfs and 9p are not available on Rocky Linux.
-mountType: virtiofs
+# No vmType: lima chooses per host OS, vz on macOS and QEMU on Linux (the e2e tests in CI, tests/e2e/run.sh). Only the
+# Ansible VM mounts something, and lima/up.sh sets its mountType (virtiofs): with QEMU, virtiofs puts all memory of the
+# VM in /dev/shm, which is too small for all VMs on a CI runner.
 disk: 20GiB
 # PgVillage doesn't use containers: skip installing containerd and nerdctl in every VM
 containerd:

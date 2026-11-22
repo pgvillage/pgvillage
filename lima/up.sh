@@ -14,16 +14,17 @@ esac
 LIMA_DIR=$(cd "$(dirname "$0")" && pwd)
 REPO=$(dirname "${LIMA_DIR}")
 
-# name:cpus:memory(GiB). PGV_VMS overrides the sizes (the names must stay), e.g. the e2e test in CI gives more memory.
-VMS=${PGV_VMS:-"pgv-ansible:1:1 pgv-backup:1:1 pgv-db-1:2:2 pgv-db-2:2:2 pgv-db-3:2:2"}
+# name:cpus:memory(GiB)
+VMS="pgv-ansible:1:1 pgv-backup:1:1 pgv-db-1:2:2 pgv-db-2:2:2 pgv-db-3:2:2"
 
 for vm in ${VMS}; do
   IFS=: read -r name cpus memory <<<"${vm}"
   if ! limactl list --quiet | grep -qx "${name}"; then
     set='.mounts=[]'
-    # The repository, so you deploy what you have checked out
+    # The repository, so you deploy what you have checked out. virtiofs works with vz (macOS) and QEMU (Linux, with
+    # virtiofsd); sshfs and 9p are not available on Rocky Linux.
     [ "${name}" = pgv-ansible ] &&
-      set=".mounts=[{\"location\":\"${REPO}\",\"mountPoint\":\"{{.Home}}/git/pgvillage\",\"writable\":true}]"
+      set=".mounts=[{\"location\":\"${REPO}\",\"mountPoint\":\"{{.Home}}/git/pgvillage\",\"writable\":true}] | .mountType=\"virtiofs\""
     # The OS image (only the image, without the default mounts of e.g. template:ubuntu) and pgvillage.yaml
     printf 'base:\n- %s\n- %s\n' "${IMAGE}" "${LIMA_DIR}/pgvillage.yaml" |
       limactl create --tty=false --name="${name}" --cpus="${cpus}" --memory="${memory}" --set="${set}" -
