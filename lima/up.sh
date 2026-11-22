@@ -14,8 +14,8 @@ esac
 LIMA_DIR=$(cd "$(dirname "$0")" && pwd)
 REPO=$(dirname "${LIMA_DIR}")
 
-# name:cpus:memory(GiB)
-VMS="pgv-ansible:1:1 pgv-backup:1:1 pgv-db-1:2:2 pgv-db-2:2:2 pgv-db-3:2:2"
+# name:cpus:memory(GiB). PGV_VMS overrides the sizes (the names must stay), e.g. the e2e test in CI gives more memory.
+VMS=${PGV_VMS:-"pgv-ansible:1:1 pgv-backup:1:1 pgv-db-1:2:2 pgv-db-2:2:2 pgv-db-3:2:2"}
 
 for vm in ${VMS}; do
   IFS=: read -r name cpus memory <<<"${vm}"

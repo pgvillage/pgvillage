@@ -122,9 +122,16 @@ jobs:
         timeout-minutes: 70
         env:
           PGV_OS: ${{ matrix.os }}
-        run: tests/e2e/run.sh
+          # More memory than the local defaults of lima/up.sh (13 of the 16 GiB of the runner)
+          PGV_VMS: pgv-ansible:1:2 pgv-backup:1:2 pgv-db-1:2:3 pgv-db-2:2:3 pgv-db-3:2:3
+        run: |
+          # The memory, swap and I/O of the runner during the run, for the logs
+          mkdir -p "${E2E_LOGDIR}"
+          vmstat -t 30 >"${E2E_LOGDIR}/host-vmstat.log" &
+          tests/e2e/run.sh
       - name: Collect the logs
         if: failure()
+        timeout-minutes: 15
         run: tests/e2e/collect-logs.sh
       - name: Upload the logs
         if: failure()
