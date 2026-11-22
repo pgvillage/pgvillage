@@ -22,8 +22,8 @@ etcd, the backup host, the router hosts and the certificates are shared by all c
 
 | Cluster    | PostgreSQL | stolon proxy | PgBouncer | Router (read-write / read-only / proxy) | Bucket     |
 |------------|------------|--------------|-----------|-----------------------------------------|------------|
-| `cluster1` | 5433       | 25433        | 6433      | 35433 / 45433 / 55433                   | `cluster1` |
-| `cluster2` | 5434       | 25434        | 6434      | 35434 / 45434 / 55434                   | `cluster2` |
+| `cluster1` | 5433       | 25433        | 6433      | 15433 / 16433 / 17433                   | `cluster1` |
+| `cluster2` | 5434       | 25434        | 6434      | 15434 / 16434 / 17434                   | `cluster2` |
 
 The data of a cluster is in `<data mountpoint>/<cluster>`, its wal in `<wal mountpoint>/stolon/<cluster>/wal`.
 

@@ -34,8 +34,8 @@ The ports per cluster:
 
 | Cluster    | PostgreSQL | stolon proxy | PgBouncer | HAProxy on the VIP (rw / ro / proxy) |
 |------------|------------|--------------|-----------|--------------------------------------|
-| `cluster1` | 5433       | 25433        | 6433      | 35433 / 45433 / 55433                |
-| `cluster2` | 5434       | 25434        | 6434      | 35434 / 45434 / 55434                |
+| `cluster1` | 5433       | 25433        | 6433      | 15433 / 16433 / 17433                |
+| `cluster2` | 5434       | 25434        | 6434      | 15434 / 16434 / 17434                |
 
 See [Router](../../deploy/inventory/vagrant-example.md#router).
 
@@ -81,8 +81,8 @@ clusters.
 Through HAProxy on the VIP (read-write goes to the primary, read-only to a standby):
 
 ```bash
-sudo -iu postgres psql "host=172.30.1.30 port=35433 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
-sudo -iu postgres psql "host=172.30.1.30 port=45433 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
+sudo -iu postgres psql "host=172.30.1.30 port=15433 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
+sudo -iu postgres psql "host=172.30.1.30 port=16433 dbname=postgres sslmode=require" -Atc 'select inet_server_addr(), pg_is_in_recovery()'
 ```
 
 ## Other operating systems

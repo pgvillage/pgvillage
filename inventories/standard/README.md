@@ -13,8 +13,8 @@ It is multi-instance: two stolon clusters, `cluster1` and `cluster2`, run side b
 | `cluster2` | 5434     | 25434        | 6434      | `<data mountpoint>/cluster2`, `<wal mountpoint>/stolon/cluster2/wal` | `cluster2` |
 
 The ports are set in `stolon.yml`, `wal-g.yml`, `pgbouncer.yml`, `avchecker.yml` and `firewall.yml` (`pgroute66.yml` and
-`haproxy.yml` take them from `stolon_clusters`: HAProxy on the router listens on 35433/45433/55433 (read-write,
-read-only, stolon proxy) for `cluster1` and 35434/45434/55434 for `cluster2`);
+`haproxy.yml` take them from `stolon_clusters`: HAProxy on the router listens on 15433/16433/17433 (read-write,
+read-only, stolon proxy) for `cluster1` and 15434/16434/17434 for `cluster2`);
 keep them in line when adding or changing a cluster. See
 [multi-instance](../../docs/deploy/multi-instance.md).
 

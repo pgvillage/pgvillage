@@ -147,8 +147,8 @@ the groups, the variables that a layer sets per group, and how to make and keep 
 
   | Cluster    | PostgreSQL | stolon proxy | PgBouncer | Router (read-write / read-only / proxy) | Bucket     |
   |------------|------------|--------------|-----------|-----------------------------------------|------------|
-  | `cluster1` | 5433       | 25433        | 6433      | 35433 / 45433 / 55433                   | `cluster1` |
-  | `cluster2` | 5434       | 25434        | 6434      | 35434 / 45434 / 55434                   | `cluster2` |
+  | `cluster1` | 5433       | 25433        | 6433      | 15433 / 16433 / 17433                   | `cluster1` |
+  | `cluster2` | 5434       | 25434        | 6434      | 15434 / 16434 / 17434                   | `cluster2` |
 
   To add or remove a cluster, see [multi-instance](deploy/multi-instance.md).
 - etcd and stolon (sentinel, keeper, proxy) on the database hosts (`etcd_master` and `stolon` are subgroups of
