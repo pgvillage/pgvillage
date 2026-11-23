@@ -21,9 +21,10 @@ for vm in ${VMS}; do
   IFS=: read -r name cpus memory <<<"${vm}"
   if ! limactl list --quiet | grep -qx "${name}"; then
     set='.mounts=[]'
-    # The repository, so you deploy what you have checked out
+    # The repository, so you deploy what you have checked out. virtiofs works with vz (macOS) and QEMU (Linux, with
+    # virtiofsd); sshfs and 9p are not available on Rocky Linux.
     [ "${name}" = pgv-ansible ] &&
-      set=".mounts=[{\"location\":\"${REPO}\",\"mountPoint\":\"{{.Home}}/git/pgvillage\",\"writable\":true}]"
+      set=".mounts=[{\"location\":\"${REPO}\",\"mountPoint\":\"{{.Home}}/git/pgvillage\",\"writable\":true}] | .mountType=\"virtiofs\""
     # The OS image (only the image, without the default mounts of e.g. template:ubuntu) and pgvillage.yaml
     printf 'base:\n- %s\n- %s\n' "${IMAGE}" "${LIMA_DIR}/pgvillage.yaml" |
       limactl create --tty=false --name="${name}" --cpus="${cpus}" --memory="${memory}" --set="${set}" -
@@ -38,7 +39,7 @@ done
 
 # A key for the Ansible VM, authorized on all VMs (the user is the same everywhere: yours)
 limactl shell pgv-ansible bash -c '[ -f ~/.ssh/id_ed25519 ] || ssh-keygen -q -t ed25519 -f ~/.ssh/id_ed25519 -N ""'
-PUBKEY=$(limactl shell pgv-ansible cat .ssh/id_ed25519.pub)
+PUBKEY=$(limactl shell --workdir=/ pgv-ansible bash -c 'cat ~/.ssh/id_ed25519.pub')
 for vm in ${VMS}; do
   limactl shell "${vm%%:*}" bash -c "grep -qxF '${PUBKEY}' ~/.ssh/authorized_keys || echo '${PUBKEY}' >>~/.ssh/authorized_keys"
 done

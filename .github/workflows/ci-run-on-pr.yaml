@@ -53,6 +53,91 @@ jobs:
         env:
           DISABLE_MKDOCS_2_WARNING: "true"
 
+  # Whether the e2e test is needed on a pull request: only when it changes what gets deployed. The merge queue always
+  # runs it, and a push to main doesn't (the merge queue tested that commit already).
+  changes:
+    name: Changes
+    runs-on: ubuntu-24.04
+    outputs:
+      e2e: ${{ steps.e2e.outputs.e2e }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Decide on the e2e test
+        id: e2e
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          case "${EVENT}" in
+            merge_group) e2e=true ;;
+            pull_request)
+              # The playbooks in the root, and everything they use
+              pattern='^([^/]+\.yml|inventories/.*|tasks/.*|files/.*|config/.*|bin/.*|lima/.*|tests/e2e/.*|requirements\.yml|ansible\.cfg|\.github/workflows/ci-run-on-pr\.yaml)$'
+              if git diff --name-only "${BASE}" HEAD | grep -Eq "${pattern}"; then e2e=true; else e2e=false; fi ;;
+            *) e2e=false ;;
+          esac
+          echo "e2e: ${e2e}"
+          echo "e2e=${e2e}" >>"${GITHUB_OUTPUT}"
+
+  # Deploys a complete PgVillage on lima VMs (3 database hosts, a backup host and the Ansible VM), deploys again
+  # (nothing may change), and checks the clusters: tests/e2e/run.sh. The standard runner has KVM, 4 CPUs and 16 GiB.
+  # If the VMs make this too slow, switch to systemd containers (as the Molecule tests of the roles), Ubuntu only.
+  e2e:
+    name: e2e (${{ matrix.os }})
+    needs: changes
+    if: needs.changes.outputs.e2e == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, el]
+    env:
+      # renovate: datasource=github-releases depName=lima-vm/lima
+      LIMA_VERSION: v2.3.0
+      E2E_LOGDIR: ${{ github.workspace }}/e2e-logs
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Give the runner user access to KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' |
+            sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Install QEMU and lima
+        run: |
+          sudo apt-get update -q
+          # virtiofsd: lima mounts the repository in the Ansible VM with virtiofs (lima/pgvillage.yaml)
+          sudo apt-get install -yq qemu-system-x86 qemu-utils virtiofsd
+          curl -fsSL "https://github.com/lima-vm/lima/releases/download/${LIMA_VERSION}/lima-${LIMA_VERSION#v}-Linux-x86_64.tar.gz" |
+            sudo tar -xz -C /usr/local
+          limactl --version
+      - name: Deploy and check
+        # Below the timeout of the job, so a hanging run still fails this step and the logs get collected
+        timeout-minutes: 70
+        env:
+          PGV_OS: ${{ matrix.os }}
+        run: |
+          # The memory, swap and I/O of the runner during the run, for the logs
+          mkdir -p "${E2E_LOGDIR}"
+          vmstat -t 30 >"${E2E_LOGDIR}/host-vmstat.log" &
+          tests/e2e/run.sh
+      - name: Collect the logs
+        if: failure()
+        timeout-minutes: 15
+        run: tests/e2e/collect-logs.sh
+      - name: Upload the logs
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: e2e-logs-${{ matrix.os }}
+          path: e2e-logs/
+
   # The only required check of this workflow, so the ruleset doesn't change when jobs are added. It must always run,
   # and only passes when every job it needs succeeded (a skipped required check would count as a pass).
   ci-result:
@@ -61,14 +146,20 @@ jobs:
     needs:
       - lint
       - docs
+      - changes
+      - e2e
     if: always()
     steps:
+      # In the merge queue every job must succeed. Elsewhere a job may be skipped (e2e, when a pull request doesn't
+      # change what gets deployed).
       - name: Evaluate the results
         env:
           RESULTS: ${{ toJSON(needs.*.result) }}
+          EVENT: ${{ github.event_name }}
         run: |
-          echo "Results: ${RESULTS}"
-          if [ "$(echo "${RESULTS}" | jq -r 'all(. == "success")')" != true ]; then
+          echo "Results: ${RESULTS} (${EVENT})"
+          if [ "${EVENT}" = merge_group ]; then allowed='. == "success"'; else allowed='. == "success" or . == "skipped"'; fi
+          if [ "$(echo "${RESULTS}" | jq -r "all(${allowed})")" != true ]; then
             echo "::error::All CI jobs must succeed"
             exit 1
           fi

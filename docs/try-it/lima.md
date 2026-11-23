@@ -80,6 +80,11 @@ On every boot, a provisioning script in the template:
 
 Only the Ansible VM mounts something: the repository on `~/git/pgvillage`.
 
+The template sets no VM type: Lima uses `vz` on a Mac and QEMU on Linux. CI uses that to run the same VMs on a Linux
+runner for the end-to-end test: `tests/e2e/run.sh` creates the VMs, deploys `functional-all.yml` twice (the second run
+may change nothing) and checks the clusters with `tests/e2e/verify.yml`. You can run it on your Mac too:
+`PGV_OS=el tests/e2e/run.sh`.
+
 Lima forwards the ports that a VM listens on to `localhost` on your Mac by default. The VMs listen on the same ports
 (PostgreSQL, rpcbind, ...), which gives conflicts, so the template turns that off (`portForwards`).
 

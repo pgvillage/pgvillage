@@ -1,9 +1,17 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
-  "enabledManagers": ["ansible-galaxy", "github-actions", "pip_requirements"],
+  "enabledManagers": ["ansible-galaxy", "github-actions", "pip_requirements", "custom.regex"],
   "semanticCommits": "enabled",
   "labels": ["dependencies"],
+  "customManagers": [
+    {
+      "description": "Versions in workflows with a `# renovate: datasource=... depName=...` comment above them (e.g. LIMA_VERSION of the e2e test)",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/.+\\.ya?ml$/"],
+      "matchStrings": ["# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+\\w+: (?<currentValue>\\S+)"]
+    }
+  ],
   "packageRules": [
     {
       "description": "One PR per pgvillage role, titled after the role",

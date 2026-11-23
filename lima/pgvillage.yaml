@@ -1,13 +1,18 @@
-# PgVillage demo VM for Lima: vz, on the user-v2 network shared by all PgVillage VMs. lima/up.sh creates the VMs from
+# PgVillage demo VM for Lima, on the user-v2 network shared by all PgVillage VMs. lima/up.sh creates the VMs from
 # this template (the OS image, cpus, memory and the repository mount are set there).
 # See docs/try-it/lima.md.
 minimumLimaVersion: 2.0.0
 
-vmType: vz
+# No vmType: lima chooses per host OS, vz on macOS and QEMU on Linux (the e2e tests in CI, tests/e2e/run.sh). Only the
+# Ansible VM mounts something, and lima/up.sh sets its mountType (virtiofs): with QEMU, virtiofs puts all memory of the
+# VM in /dev/shm, which is too small for all VMs on a CI runner.
 disk: 20GiB
+# PgVillage doesn't use containers: skip installing containerd and nerdctl in every VM
+containerd:
+  system: false
+  user: false
 # No home dir mount: only the Ansible VM mounts the repository (lima/up.sh)
 mounts: []
-mountType: virtiofs
 # user-v2: a network between the VMs (192.168.104.0/24), with names lima-<instance>.internal, and without root
 # permissions on the Mac (unlike the socket_vmnet networks)
 networks:
@@ -28,13 +33,19 @@ provision:
   - mode: system
     script: |
       #!/bin/bash
-      set -e
-      if [ ! -f /swapfile ]; then
-        dd if=/dev/zero of=/swapfile bs=1M count=1024 status=none
+      set -ex
+      # The swap file: fallocate is instant, dd writes 1 GiB (minutes on a busy CI runner). dd only when swapon doesn't
+      # take the fallocated file.
+      make_swap() {
+        rm -f /swapfile
+        "$@"
         chmod 0600 /swapfile
         mkswap /swapfile >/dev/null
+      }
+      [ -f /swapfile ] || make_swap fallocate -l 1G /swapfile
+      if ! swapon --show=NAME --noheadings | grep -qx /swapfile; then
+        swapon /swapfile || { make_swap dd if=/dev/zero of=/swapfile bs=1M count=1024 status=none; swapon /swapfile; }
       fi
-      swapon --show=NAME --noheadings | grep -qx /swapfile || swapon /swapfile
       ip=$(ip -4 -o addr show eth0 | awk '{print $4}' | cut -d/ -f1)
       sed -i "/ $(hostname -s).internal /d" /etc/hosts
       echo "${ip} $(hostname -s).internal $(hostname -s)" >>/etc/hosts
