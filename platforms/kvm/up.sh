@@ -15,7 +15,7 @@
 #   PGV_KVM_BRIDGE       bridge of the libvirt network (virbr-pgv)
 #   PGV_KVM_DOMAIN       DNS domain of that network   (pgv.internal)
 #   PGV_KVM_USER         login user in the VMs        ($USER)
-#   PGV_KVM_SSH_KEY      public key for that user     (~/.ssh/id_ed25519.pub)
+#   PGV_KVM_SSH_KEY      public key(s) for that user, one per line (~/.ssh/id_ed25519.pub)
 #   PGV_KVM_MEMORY       memory in MiB                (2048)
 #   PGV_KVM_VCPUS        virtual cpus                 (2)
 #   PGV_KVM_DISK         disk size                    (20G)
@@ -61,7 +61,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     ssh_authorized_keys:
-      - $(cat "${SSH_KEY}")
+$(grep -v '^ *$' "${SSH_KEY}" | sed 's/^/      - /')
 EOF
 
   echo "${VM}: creating"
