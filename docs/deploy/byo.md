@@ -10,7 +10,7 @@ date: 2026-11-01
 
 Bring your own (BYO) means that you provide the machines, and PgVillage deploys on them: physical servers, VMs on KVM,
 VMware or Proxmox, or VMs in a cloud. PgVillage doesn't create them, unlike on [Azure](platforms/azure/index.md),
-[Lima](../try-it/lima.md) or [Vagrant](../try-it/vagrant/index.md). This is how you run PgVillage in production.
+[Lima](../try-it/lima.md), [libvirt](../try-it/libvirt.md) or [Vagrant](../try-it/vagrant/index.md). This is how you run PgVillage in production.
 
 The deploy itself is the same as everywhere: the standard inventory, the inventory of your OS, and an inventory with
 your hosts. [Getting started](../index.md#tldr) has the commands.

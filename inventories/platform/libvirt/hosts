@@ -1,0 +1,29 @@
+---
+# Use on top of standard and the OS of the VMs:
+# -i inventories/standard -i inventories/os/<os> -i inventories/platform/libvirt
+# The VMs of platforms/libvirt/create-demo.sh, by their names in the DNS of the libvirt network (<vm>.pgv.internal). Their
+# addresses come from DHCP, so there is no ansible_host: standard takes the addresses from the facts.
+# The folder name is the cluster name (cluster_name in standard): libvirt.
+all:
+  children:
+    hacluster:
+      hosts:
+        pgv-db-1.pgv.internal:
+        pgv-db-2.pgv.internal:
+        pgv-db-3.pgv.internal:
+    backup:
+      hosts:
+        pgv-backup.pgv.internal:
+    # The router (haproxy, keepalived, pgroute66) runs on the database hosts (stolon and etcd too, see standard)
+    router:
+      children:
+        hacluster:
+    haproxy:
+      children:
+        hacluster:
+    localhosts:
+      hosts:
+        # Defined here (not in standard), so inventory_dir and cluster_name are those of this inventory
+        localhost:
+          ansible_connection: local
+          ansible_python_interpreter: "{{ansible_playbook_python}}"

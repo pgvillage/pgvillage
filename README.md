@@ -31,6 +31,8 @@ ansible-galaxy collection install --requirements-file ./requirements.yml
 
 - We develop on vagrant: see [`platforms/vagrant/`](platforms/vagrant/) and the
   [Vagrant docs](docs/try-it/vagrant/index.md).
+- For a demo on a Linux machine with libvirt (QEMU/KVM): see [`platforms/libvirt/`](platforms/libvirt/) and the
+  [libvirt docs](docs/try-it/libvirt.md).
 - For a demo on Azure please refer to [Azure - deploy](docs/try-it/azure.md).
 - For running on VMWare:
   - this deployment was originally developed against VMWare Virtual Machines, so it will definitely work

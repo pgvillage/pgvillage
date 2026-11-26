@@ -249,6 +249,8 @@ sudo -u postgres psql -h /tmp -p 5433 -c 'select pg_is_in_recovery()' -c 'select
   them.
 - [Vagrant](try-it/vagrant/index.md): a demo environment on your laptop with VirtualBox.
 - [Lima](try-it/lima.md): a demo environment on your Mac with Lima (no VirtualBox, no root permissions).
+- [libvirt](try-it/libvirt.md): a demo environment on a Linux machine with libvirt (QEMU/KVM), deployed from a
+  management VM.
 - [macOS](try-it/vagrant/macos.md): a demo environment on a Mac with Apple silicon, with Lima or Vagrant.
 - [Bring your own machines](deploy/byo.md): what to prepare on your own machines (physical, VMs, cloud VMs).
 - [ARM vs AMD](deploy/os/arm-vs-amd.md): running on ARM64 (aarch64) or AMD64 (x86_64).
