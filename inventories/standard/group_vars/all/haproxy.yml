@@ -6,23 +6,25 @@
 haproxy_timeout_client: 10800s
 haproxy_checkport: "9201"
 
-# The routes of every cluster. The frontend port is port_prefix * 10000 + the Postgres port of the cluster, e.g. for
-# cluster1 (5433): read-write 35433, read-only 45433, stolon proxy 55433. backend: the Postgres port (pg) or the stolon
-# proxy port (proxy) of the cluster. check: the pgroute66 script that decides which servers get traffic.
+# The routes of every cluster. The frontend port is port_offset + the Postgres port of the cluster, e.g. for cluster1
+# (5433): read-write 15433, read-only 16433, stolon proxy 17433. Keep the frontend ports below 32768: from there on
+# Linux hands out ports to outgoing connections (net.ipv4.ip_local_port_range), and when one of those holds a frontend
+# port, HAProxy can't bind it. backend: the Postgres port (pg) or the stolon proxy port (proxy) of the cluster. check:
+# the pgroute66 script that decides which servers get traffic.
 haproxy_routes:
   rw:
     name: ReadWrite
-    port_prefix: 3
+    port_offset: 10000
     backend: pg
     check: /opt/pgroute66/checkpgprimary.sh
   ro:
     name: ReadOnly
-    port_prefix: 4
+    port_offset: 11000
     backend: pg
     check: /opt/pgroute66/checkpgstandby.sh
   proxy:
     name: Proxy
-    port_prefix: 5
+    port_offset: 12000
     backend: proxy
     check: /opt/pgroute66/checkpgprimary.sh
 
@@ -35,7 +37,7 @@ haproxy_config: >-
     {%- set routes = {} -%}
     {%- for key, route in haproxy_routes.items() -%}
       {%- do routes.update({key: {"backend_port": backend_ports[route.backend],
-                                  "frontend_port": route.port_prefix * 10000 + pg_port}}) -%}
+                                  "frontend_port": route.port_offset + pg_port}}) -%}
     {%- endfor -%}
     {%- do config.update({cluster: routes}) -%}
   {%- endfor -%}

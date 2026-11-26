@@ -1,0 +1,144 @@
+---
+# The checks of the e2e test (tests/e2e/run.sh), after functional-all.yml, for every cluster of stolon_clusters:
+# - stolon: the cluster is available, with a healthy master and every keeper healthy;
+# - pgroute66: every router host names the same primary;
+# - through the VIP and HAProxy: a row written on the read-write route can be read on the read-only route (a standby);
+# - wal-g: a backup made on the primary is in the bucket on the backup host (RustFS).
+# Run it with the same inventories as the deploy (docs/try-it/lima.md).
+- name: Check the clusters
+  hosts: hacluster
+  gather_facts: false
+  become: true
+  vars:
+    e2e_clusters: "{{ stolon_clusters.keys() | list }}"
+    e2e_psql: "{{ postgresql_bindir }}/psql"
+    e2e_walg_scripts: /opt/wal-g/scripts
+    # The checks of the whole cluster run on one host
+    e2e_first: "{{ inventory_hostname == groups.hacluster | first }}"
+  tasks:
+    - name: Stolon reports the cluster available, with every keeper healthy
+      ansible.builtin.shell: |
+        set -o pipefail
+        eval "$(sed -e '/#/d;s/^STSENTINEL/export STOLONCTL/' /etc/sysconfig/stolon-stsentinel-{{ item }})"
+        {{ stolon_bin_path | default('/usr/bin') }}/stolonctl status --format json
+      args:
+        executable: /bin/bash
+      register: e2e_stolon
+      changed_when: false
+      loop: "{{ e2e_clusters }}"
+      when: e2e_first
+      retries: 30
+      delay: 10
+      until: >-
+        e2e_stolon.rc == 0
+        and (e2e_stolon.stdout | from_json).cluster.available
+        and (e2e_stolon.stdout | from_json).cluster.master_keeper_uid | length > 0
+        and (e2e_stolon.stdout | from_json).keepers | length == groups.hacluster | length
+        and (e2e_stolon.stdout | from_json).keepers | rejectattr('healthy') | list | length == 0
+        and (e2e_stolon.stdout | from_json).keepers | rejectattr('pg_healthy') | list | length == 0
+
+    - name: Ask pgroute66 for the primary
+      ansible.builtin.uri:
+        url: "http://localhost:{{ pgroute66_port | default(8080) }}/v1/primary?group={{ item }}"
+        return_content: true
+      register: e2e_pgroute66
+      loop: "{{ e2e_clusters }}"
+      retries: 30
+      delay: 10
+      until: e2e_pgroute66.status == 200 and e2e_pgroute66.content | trim | length > 0
+
+    - name: Remember the primary per cluster
+      ansible.builtin.set_fact:
+        e2e_primaries: >-
+          {{ dict(e2e_clusters | zip(e2e_pgroute66.results
+             | map(attribute='content') | map('trim') | map('regex_replace', '^"|"$', ''))) }}
+
+    - name: Every router host names the same primary, which is one of the database hosts
+      ansible.builtin.assert:
+        that:
+          - hostvars[item].e2e_primaries == e2e_primaries
+          - e2e_primaries.values() | difference(groups.hacluster) | length == 0
+        fail_msg: "pgroute66 on {{ item }}: {{ hostvars[item].e2e_primaries }}, on {{ inventory_hostname }}: {{ e2e_primaries }}"
+      loop: "{{ groups.hacluster }}"
+      when: e2e_first
+
+    - name: Write a row through the VIP, on the read-write route
+      ansible.builtin.command:
+        argv:
+          - runuser
+          - -u
+          - postgres
+          - --
+          - "{{ e2e_psql }}"
+          - "host={{ keepalived_vip }} port={{ haproxy_config[item].rw.frontend_port }} dbname=postgres sslmode=require"
+          - --no-psqlrc
+          - --set=ON_ERROR_STOP=1
+          - --command=CREATE TABLE IF NOT EXISTS e2e_check (id serial PRIMARY KEY, at timestamptz DEFAULT now())
+          - --command=INSERT INTO e2e_check DEFAULT VALUES RETURNING id
+          - --tuples-only
+          - --no-align
+      register: e2e_write
+      changed_when: true
+      loop: "{{ e2e_clusters }}"
+      when: e2e_first
+
+    - name: Read the row through the VIP, on the read-only route (a standby)
+      ansible.builtin.command:
+        argv:
+          - runuser
+          - -u
+          - postgres
+          - --
+          - "{{ e2e_psql }}"
+          - "host={{ keepalived_vip }} port={{ haproxy_config[item.item].ro.frontend_port }} dbname=postgres sslmode=require"
+          - --no-psqlrc
+          - --set=ON_ERROR_STOP=1
+          - "--command=SELECT pg_is_in_recovery(), count(*) FROM e2e_check WHERE id = {{ item.stdout_lines | select('match', '^[0-9]+$') | first }}"
+          - --tuples-only
+          - --no-align
+      register: e2e_read
+      changed_when: false
+      loop: "{{ e2e_write.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+      when: e2e_first
+      retries: 12
+      delay: 5
+      until: e2e_read.rc == 0 and e2e_read.stdout | trim == 't|1'
+
+    - name: Make a backup on the primary
+      ansible.builtin.command:
+        argv:
+          - runuser
+          - -u
+          - postgres
+          - --
+          - env
+          - WALG_BACKUP_FORCE=1
+          - "{{ e2e_walg_scripts }}/backup.sh"
+          - "{{ item }}"
+      changed_when: true
+      loop: "{{ e2e_clusters }}"
+      when: e2e_primaries[item] == inventory_hostname
+
+    - name: List the backups on the primary
+      ansible.builtin.command:
+        argv:
+          - runuser
+          - -u
+          - postgres
+          - --
+          - "{{ e2e_walg_scripts }}/list-backups.sh"
+          - "{{ item }}"
+      register: e2e_backups
+      changed_when: false
+      loop: "{{ e2e_clusters }}"
+      when: e2e_primaries[item] == inventory_hostname
+
+    - name: The bucket on the backup host has a backup of every cluster
+      ansible.builtin.assert:
+        that: item.stdout is search('base_')
+        fail_msg: "No backup of {{ item.item }} in the bucket: {{ item.stdout }}"
+      loop: "{{ e2e_backups.results | rejectattr('skipped', 'defined') | list }}"
+      loop_control:
+        label: "{{ item.item }}"

@@ -76,12 +76,17 @@ frontend on the router and a backend with the database hosts (`hacluster`) as se
 [firewall](firewalld.md#multi-instance)). The platform inventory only adds the router hosts (the `router` and `haproxy` groups) and the
 keepalived VIP.
 
-The frontend port is `port_prefix * 10000 + <Postgres port>`:
+The frontend port is `port_offset + <Postgres port>`:
 
 | Cluster    | Postgres | read-write (`rw`) | read-only (`ro`) | stolon proxy (`proxy`) |
 |------------|----------|-------------------|------------------|------------------------|
-| `cluster1` | 5433     | 35433             | 45433            | 55433                  |
-| `cluster2` | 5434     | 35434             | 45434            | 55434                  |
+| `cluster1` | 5433     | 15433             | 16433            | 17433                  |
+| `cluster2` | 5434     | 15434             | 16434            | 17434                  |
+
+The frontend ports stay below 32768. From there on, Linux hands out ports to outgoing connections
+(`net.ipv4.ip_local_port_range`, 32768-60999 by default): when an outgoing connection of e.g. etcd or stolon happens to
+get a frontend port, HAProxy can't bind it and doesn't start. In PgVillage v2.x and older, the frontend ports were
+35433/45433/55433, in that range.
 
 To change the routes, override `haproxy_routes`; to set everything by hand, override `haproxy_config`,
 `haproxy_frontends` and `haproxy_backends` as described below.
@@ -91,7 +96,7 @@ To change the routes, override `haproxy_routes`; to set everything by hand, over
 | Key           | Description |
 |---------------|-------------|
 | `name`        | Route name in the frontend and backend names (`ReadWrite`, `ReadOnly`, `Proxy`). |
-| `port_prefix` | Frontend port: `port_prefix * 10000 + <Postgres port>` (3, 4 and 5). |
+| `port_offset` | Frontend port: `port_offset + <Postgres port>` (10000, 11000 and 12000). Keep the result below 32768. |
 | `backend`     | `pg`: the Postgres port of the keepers, `proxy`: the stolon proxy port. |
 | `check`       | pgroute66 check script that decides which servers get traffic. |
 
@@ -113,13 +118,13 @@ and the frontend port (on the router), e.g.:
       cluster1:
         rw:
           backend_port: "{{ stolon_clusters.cluster1.sysconfig.stkeeper.pg_port }}"
-          frontend_port: 35433
+          frontend_port: 15433
         proxy:
           backend_port: "{{ stolon_clusters.cluster1.sysconfig.stproxy.port }}"
-          frontend_port: 55433
+          frontend_port: 17433
         ro:
           backend_port: "{{ stolon_clusters.cluster1.sysconfig.stkeeper.pg_port }}"
-          frontend_port: 45433
+          frontend_port: 16433
     ```
 
 | Route       | Backend                      | Health check                           |

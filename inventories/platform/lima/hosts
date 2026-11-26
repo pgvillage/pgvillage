@@ -1,8 +1,8 @@
 ---
 # Use on top of standard and the OS of the VMs:
 # -i inventories/standard -i inventories/os/debian (or el) -i inventories/platform/lima
-# The VMs of lima/up.sh, by their names on the lima user-v2 network (lima-<instance>.internal). Their addresses come
-# from DHCP, so there is no ansible_host: standard takes the addresses from the facts.
+# The VMs of platforms/lima/up.sh, by their names on the lima user-v2 network (lima-<instance>.internal). Their
+# addresses come from DHCP, so there is no ansible_host: standard takes the addresses from the facts.
 all:
   children:
     hacluster:

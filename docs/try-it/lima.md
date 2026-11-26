@@ -12,7 +12,7 @@ Run a PgVillage demo environment on your Mac with [Lima](https://lima-vm.io/), a
 [Vagrant](vagrant/index.md). The VMs use Apple's Virtualization framework (`vz`) and the Lima `user-v2` network, so you
 need no VirtualBox, no boxes to build and no root permissions. Everything you need is in this repository:
 
-- `lima/`: the VM template (`pgvillage.yaml`) and `up.sh`, which creates the VMs and prepares the Ansible VM.
+- `platforms/lima/`: the VM template (`pgvillage.yaml`) and `up.sh`, which creates the VMs and prepares the Ansible VM.
 - `inventories/standard`: the standard PgVillage config, shared by all platforms (multi-instance: `cluster1` and
   `cluster2`).
 - `inventories/os/debian` or `inventories/os/el`: the OS of the VMs (Ubuntu by default, which uses the debian OS inventory). See [Debian (including Ubuntu)](../deploy/os/debian.md) and
@@ -39,8 +39,8 @@ what is used).
 1. Install Lima (2.0 or newer): `brew install lima`. No root permissions are needed, also not later on.
 2. Create the VMs:
    ```bash
-   lima/up.sh                 # Ubuntu 26.04
-   PGV_OS=el lima/up.sh       # or Rocky Linux 9
+   platforms/lima/up.sh                 # Ubuntu 26.04
+   PGV_OS=el platforms/lima/up.sh       # or Rocky Linux 9
    ```
    This creates and starts the five VMs, creates the data and wal directories on the database VMs, gives the Ansible
    VM an ssh key that the other VMs accept, and installs Ansible and the roles and collections from `requirements.yml`
@@ -55,7 +55,7 @@ what is used).
    `~/git/pgvillage` is this repository (a writable virtiofs mount), so you deploy what you have checked out.
 4. Check it: e.g. connect to the read-write route of `cluster1` through the VIP, from a database VM:
    ```bash
-   limactl shell --workdir=/ pgv-db-1 sudo -u postgres psql "host=192.168.104.250 port=35433 dbname=postgres sslmode=require"
+   limactl shell --workdir=/ pgv-db-1 sudo -u postgres psql "host=192.168.104.250 port=15433 dbname=postgres sslmode=require"
    ```
 
 Stop the VMs with `limactl stop <vm>` (`limactl list` shows them), and remove them with
@@ -65,8 +65,9 @@ Stop the VMs with `limactl stop <vm>` (`limactl list` shows them), and remove th
 
 ### The VMs
 
-`lima/pgvillage.yaml` is the template for all VMs. `up.sh` combines it with the image of the OS (the `_images/` Lima
-templates: only the image, without Lima's default mount of your home directory) and sets the CPUs and memory per VM.
+`platforms/lima/pgvillage.yaml` is the template for all VMs. `up.sh` combines it with the image of the OS (the
+`_images/` Lima templates: only the image, without Lima's default mount of your home directory) and sets the CPUs and
+memory per VM.
 
 On every boot, a provisioning script in the template:
 
@@ -79,6 +80,11 @@ On every boot, a provisioning script in the template:
 - lets chrony step the clock after a suspend of your Mac (etcd and certificates don't like a clock in the past).
 
 Only the Ansible VM mounts something: the repository on `~/git/pgvillage`.
+
+The template sets no VM type: Lima uses `vz` on a Mac and QEMU on Linux. CI uses that to run the same VMs on a Linux
+runner for the end-to-end test: `tests/e2e/run.sh` creates the VMs, deploys `functional-all.yml` twice (the second run
+may change nothing) and checks the clusters with `tests/e2e/verify.yml`. You can run it on your Mac too:
+`PGV_OS=el tests/e2e/run.sh`.
 
 Lima forwards the ports that a VM listens on to `localhost` on your Mac by default. The VMs listen on the same ports
 (PostgreSQL, rpcbind, ...), which gives conflicts, so the template turns that off (`portForwards`).
