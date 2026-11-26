@@ -57,7 +57,7 @@ jobs:
   # runs it, and a push to main doesn't (the merge queue tested that commit already).
   changes:
     name: Changes
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       e2e: ${{ steps.e2e.outputs.e2e }}
     steps:
@@ -89,7 +89,7 @@ jobs:
     name: e2e (${{ matrix.os }})
     needs: changes
     if: needs.changes.outputs.e2e == 'true'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 90
     strategy:
       fail-fast: false
