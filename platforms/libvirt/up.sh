@@ -41,6 +41,11 @@ fi
 for f in "${IMAGE}" "${SSH_KEY}" ${CLOUD_CONFIG:+"${CLOUD_CONFIG}"}; do
   [ -r "${f}" ] || { echo "Can't read ${f}" >&2; exit 1; }
 done
+# Only public keys: a private key would end up in the VMs' cloud-init data, and nobody could log in
+if grep -v '^ *$' "${SSH_KEY}" | grep -qvE '^(ssh-|ecdsa-|sk-)'; then
+  echo "${SSH_KEY} must hold public keys only (one per line, e.g. ~/.ssh/id_ed25519.pub)" >&2
+  exit 1
+fi
 
 USER_DATA=$(mktemp)
 trap 'rm -f "${USER_DATA}"' EXIT

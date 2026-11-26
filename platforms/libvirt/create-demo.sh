@@ -21,6 +21,12 @@ BRANCH=${PGV_LIBVIRT_BRANCH:-main}
 VM_USER=${PGV_LIBVIRT_USER:-${USER}}
 SSH_KEY=${PGV_LIBVIRT_SSH_KEY:-~/.ssh/id_ed25519.pub}
 
+# Checked here too (up.sh checks it), so the message names your file and not the combined one below
+if grep -v '^ *$' "${SSH_KEY}" | grep -qvE '^(ssh-|ecdsa-|sk-)'; then
+  echo "${SSH_KEY} must hold public keys only (one per line, e.g. ~/.ssh/id_ed25519.pub)" >&2
+  exit 1
+fi
+
 WORK=$(mktemp -d)
 trap 'rm -rf "${WORK}"' EXIT
 

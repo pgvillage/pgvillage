@@ -73,6 +73,8 @@ VMs before you run it again.
 ## Pitfalls
 
 - **No password:** the login user has no password (locked) and root neither: ssh with your key only, no console login.
+- **`PGV_LIBVIRT_SSH_KEY` is the public key** (`.pub`). `up.sh` stops on a file with other lines, such as a private
+  key: that would end up in the VMs' cloud-init data, and no login would work.
 - **No video card = reboot loop** (Rocky 9, SeaBIOS): `up.sh` adds `--video vga`.
 - **cloud-init runs on the first boot only**, and virt-install removes its seed after that boot. If the first boot
   fails, recreate the VM instead of rebooting it.
