@@ -32,7 +32,6 @@ PgBouncer, avchecker, firewall, etcd, nagios, etc.) or from the OS inventory (pa
 | `haproxy`     | `hacluster` (used by the nagios play)      |
 | `backup`      | `minio.local`                              |
 | `localhosts`  | `localhost` (the Ansible host)             |
-| `chainsmith` | parent of `chainsmith_controller` and `chainsmith_nodes` |
 | `chainsmith_controller` | `localhost` (generates certificates) |
 | `chainsmith_nodes` | `hacluster` and `backup` (explicitly selected in `hosts`) |
 

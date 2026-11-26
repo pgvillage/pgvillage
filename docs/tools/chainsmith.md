@@ -31,36 +31,37 @@ Existing inventories keep working without them. The platform inventories in `inv
 explicitly: `localhost` as the controller, and `hacluster` and `backup` (Azure: `hacluster`) as recipients. When you
 define a group, it must not be empty, so `inventories/standard` and the OS layers don't define them.
 
-The controller can have any inventory name, be reached locally or over SSH, and can also receive certificates:
+The two groups are independent: define one or both, at the top level of the inventory. The controller can be any host
+that Ansible reaches, and can also receive certificates. For example, a database host as the controller:
 
 ```yaml
 all:
   children:
-    localhosts:
-      hosts:
-        node-01:
-          ansible_connection: local
-          ansible_python_interpreter: "{{ ansible_playbook_python }}"
     chainsmith_controller:
       hosts:
         node-01:
-    chainsmith_nodes:
-      hosts:
-        node-01:
-      children:
-        hacluster:
     hacluster:
       hosts:
+        node-01:
         node-02:
         node-03:
 ```
 
-Here `node-01` generates the chain and receives certificates; `node-02` and `node-03` receive certificates through
-`hacluster`. Use the same inventory hostname for a machine in every group. Membership in `chainsmith_nodes` does not
-configure a service to use the certificates (e.g. etcd TLS has its own configuration).
+Here `node-01` generates the chain. Without `chainsmith_nodes`, the recipients are `hacluster` and `backup`, so
+`node-01` receives certificates too. Use the same inventory hostname for a machine in every group. Membership in
+`chainsmith_nodes` does not configure a service to use the certificates (e.g. etcd TLS has its own configuration).
 
-The `linux` step installs the chainsmith package on `localhosts` (the default `linux_packages` of the pgvillage.linux
-role). A controller outside `localhosts` needs the package too: add it to `linux_packages` for that host's group.
+The controller needs the chainsmith package. The `linux` step installs it on `localhosts` (`linux_packages`); for
+another controller, let the chainsmith role install it, in the controller's `host_vars`
+(`inventories/standard` sets `chainsmith_package_names: []`):
+
+```yaml
+# host_vars/node-01/chainsmith.yml
+chainsmith_package_names:
+  - chainsmith
+```
+
+The role installs it from the PgVillage repository, which the `linux` step sets up on all PgVillage hosts.
 
 ## What runs where
 
