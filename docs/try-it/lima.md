@@ -23,7 +23,7 @@ need no VirtualBox, no boxes to build and no root permissions. Everything you ne
 
 | VM            | Name on the network          | Groups                                         | Runs |
 |---------------|------------------------------|------------------------------------------------|------|
-| `pgv-ansible` | `lima-pgv-ansible.internal`  | `localhosts` (as `localhost`)                  | Ansible, chainsmith; you deploy from here |
+| `pgv-ansible` | `lima-pgv-ansible.internal`  | `localhosts`, `chainsmith_controller` (as `localhost`)                  | Ansible, chainsmith; you deploy from here |
 | `pgv-db-1`    | `lima-pgv-db-1.internal`     | `hacluster`, `stolon`, `etcd_master`, `router` | etcd, and per cluster: stolon (sentinel, keeper, proxy), PostgreSQL, PgBouncer, wal-g, avchecker; plus HAProxy, keepalived and pgroute66 |
 | `pgv-db-2`    | `lima-pgv-db-2.internal`     | same                                           | same |
 | `pgv-db-3`    | `lima-pgv-db-3.internal`     | same                                           | same |

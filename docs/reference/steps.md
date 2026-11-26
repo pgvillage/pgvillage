@@ -19,7 +19,7 @@ playbook.
 | 0     | `preflight`            | `tasks/preflight.yml`                 | `hacluster`, `backup`, `router`, `etcd_master`, `stolon`, `haproxy`, `localhost` | |
 | 5     | `rustfs_user`          | `tasks/rustfs_user.yml`               | `backup`                                  | `linux`, `packages`, `chainsmith`, `certificates`, `certs`, `rustfs`, `minio` |
 | 10    | `linux`                | `pgvillage.linux`                     | `hacluster`, `backup`, `router`, `localhost` | `packages` |
-| 20    | `chainsmith`           | `pgvillage.chainsmith`                | `hacluster`, `backup`, `router`, `localhost` | `certificates`, `certs` |
+| 20    | `chainsmith`           | `pgvillage.chainsmith`                | `hacluster`, `backup`, `router`, `localhost`, `chainsmith_controller`, `chainsmith_nodes` | `certificates`, `certs` |
 | 21    | `reload_new_certs`     | `tasks/reload_new_certs.yml`          | `hacluster`, `router`                     | `chainsmith`, `certificates`, `certs` |
 | 30    | `firewall`             | `pgvillage.firewall`                  | `hacluster`, `backup`, `router`           | `firewalld` |
 | 40    | `etcd`                 | `pgvillage.etcd`                      | `etcd_master`                             | |

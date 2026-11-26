@@ -176,6 +176,9 @@ and the files in `inventories/standard/group_vars`.
 The control node gets packages from the PgVillage repository too (chainsmith), so it runs the same OS family as the
 hosts. `localhost` must be in your inventory, not in standard: the cluster name comes from its inventory folder.
 
+Chainsmith can also run on another host than `localhost`, or give it certificates too: see the optional groups
+`chainsmith_controller` and `chainsmith_nodes` in [Chainsmith](tools/chainsmith.md).
+
 Use names that the hosts can resolve (DNS or `/etc/hosts`): the certificates and the wal-g endpoint use them. When
 Ansible should connect to an address, add `ansible_host: <ip>` to the host.
 

@@ -10,3 +10,6 @@ ansible-playbook -i inventories/standard -i inventories/os/debian -i inventories
 ```
 
 See the [lima docs](../../../docs/try-it/lima.md).
+
+This inventory selects the chainsmith hosts explicitly (optional, the same as the defaults): `localhost` in `chainsmith_controller`
+and `hacluster` and `backup` as children of `chainsmith_nodes`; see [Chainsmith](../../../docs/tools/chainsmith.md).

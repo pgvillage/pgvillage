@@ -48,6 +48,9 @@ The hosts are in these groups (see [Custom group names](../../reference/groups.m
 - `localhosts`: `localhost`, the control node, where Ansible and chainsmith (the certificates) run. It is in your
   inventory, not in standard: the cluster name is the name of the folder of the inventory that has `localhost`
   (`cluster_name: "{{ inventory_dir | basename }}"`).
+- `chainsmith_controller` and `chainsmith_nodes`: optional, the host that generates the certificates (default the
+  first host in `localhosts`) and the hosts that receive them (default `hacluster` and `backup`). The platform
+  inventories define them explicitly. See [Chainsmith](../../tools/chainsmith.md).
 
 ## The steps
 
@@ -91,8 +94,9 @@ Pick the one that matches your hosts. They have no hosts.
 
 `inventories/platform/azure` is a dynamic inventory: `azure_rm.yml` (the `azure.azcollection.azure_rm` plugin) finds
 the VMs in the resource groups of the cluster, and puts the database hosts of the scale set in the group `_postgres`,
-which `hosts` maps to `hacluster`. `host_vars/localhost` makes `localhost` the control node (a local connection, and no
-certificates of its own). The azure role writes some files into the inventory itself (`group_vars/_postgres`: the
+which `hosts` maps to `hacluster`. `hosts` selects `localhost` as `chainsmith_controller`;
+`host_vars/localhost` sets its local connection. It receives certificates only if added to `chainsmith_nodes`.
+The azure role writes some files into the inventory itself (`group_vars/_postgres`: the
 storage account key for wal-g and the ssh proxy through the bastion). See [Azure integration](../platforms/azure/azure.md).
 
 ## Variables that are set per group

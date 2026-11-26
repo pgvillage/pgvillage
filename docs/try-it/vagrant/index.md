@@ -23,7 +23,7 @@ Run a PgVillage demo environment on your laptop with [Vagrant](https://www.vagra
 
 | Host           | IP            | Groups                                         | Runs |
 |----------------|---------------|------------------------------------------------|------|
-| `ansible.local`| 172.30.1.10   | `localhosts` (as `localhost`)                  | Ansible, chainsmith; you deploy from here |
+| `ansible.local`| 172.30.1.10   | `localhosts`, `chainsmith_controller` (as `localhost`)                  | Ansible, chainsmith; you deploy from here |
 | `db-1.local`   | 172.30.1.31   | `hacluster`, `stolon`, `etcd_master`, `router` | etcd, and per cluster: stolon (sentinel, keeper, proxy), PostgreSQL, PgBouncer, wal-g, avchecker; plus HAProxy, keepalived and pgroute66 |
 | `db-2.local`   | 172.30.1.32   | same                                           | same |
 | `db-3.local`   | 172.30.1.33   | same                                           | same |

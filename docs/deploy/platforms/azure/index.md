@@ -83,8 +83,8 @@ See [Deploy](../../../try-it/azure.md) for the details.
 | File                                  | Purpose                                                                                       |
 |---------------------------------------|-----------------------------------------------------------------------------------------------|
 | `azure_rm.yml`                        | Dynamic inventory: finds the VMs in `pgVillage` and `rg_<cluster name>`, and groups them by the `applicationRole` tag (`_postgres`). |
-| `hosts`                               | Maps `_postgres` to `hacluster` (standard puts `stolon` and `etcd_master` on it).             |
-| `host_vars/localhost/`                | The control node runs Ansible locally and needs no chainsmith cert files.                     |
+| `hosts`                               | Maps `_postgres` to `hacluster` and selects `localhost` as `chainsmith_controller`.             |
+| `host_vars/localhost/`                | Runs Ansible locally on the control node.                     |
 | `group_vars/_postgres/.README`        | Placeholder, Ansible writes files to this folder.                                             |
 | `group_vars/all/azure.yml`            | Azure resources: control node IP, resource group, storage container, and VM size/image/plan.  |
 | `group_vars/all/generic.yml`          | VIP and `pg_hba` for the Azure Load Balancer.                                                 |

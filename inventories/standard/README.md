@@ -21,7 +21,10 @@ keep them in line when adding or changing a cluster. See
 It has no OS specifics and no hosts. `hosts` only has the groups, and the standard architecture: stolon and etcd run on
 the database hosts (`stolon` and `etcd_master` are subgroups of `hacluster`); the platform inventory adds the hosts to
 `hacluster`, `backup` and `localhosts`, and to `router` and `haproxy` when it has a router (it needs a VIP on the
-platform's network, e.g. `inventories/platform/vagrant`). Use it with an OS layer (`inventories/os/el`, `inventories/os/debian`,
+platform's network, e.g. `inventories/platform/vagrant`). A platform
+inventory can select the chainsmith controller and the certificate recipients with the groups `chainsmith_controller`
+and `chainsmith_nodes` (see [Chainsmith](../../docs/tools/chainsmith.md)); standard doesn't define them, as an empty
+group fails. Use it with an OS layer (`inventories/os/el`, `inventories/os/debian`,
 `inventories/os/suse`) and a platform inventory, in this order, so later values win:
 
 ```bash

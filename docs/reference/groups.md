@@ -13,6 +13,10 @@ The default inventory group names chosen for PgVillage are:
 - `hacluster`: This group should hold all PostgreSQL database nodes and will receive PostgreSQL, Stolon, WAL-G and other database server tooling.
 - `backup`: This group can have one backup server. PgVillage will deploy RustFS on it, to be used as an S3 endpoint.
 - `router`: All servers in this group will receive HAProxy, Keepalived and PgRoute66.
+- `chainsmith_controller` (optional): the one host that generates the certificate chain; default the first host in
+  `localhosts`.
+- `chainsmith_nodes` (optional): the hosts that receive certificates; default the hosts in `hacluster` and `backup`.
+  See [Chainsmith](../tools/chainsmith.md).
 
 !!! note
     The servers in the `router` group can be the same servers as in the `hacluster` group.
@@ -38,7 +42,6 @@ Set them in your inventory to the new group name instead:
     etcd_master_group_name: pgnodes
     pgroute66_pgnodes_group: pgnodes
     stolon_host_group: pgnodes
-    chainsmith_nodes: "{{ groups.pgnodes + groups.minio }}"
     ```
 
 ### Step 2: Update values with group names as keys
@@ -75,7 +78,18 @@ As the group names have changed, these folders need to be renamed as well.
 ### Step 4: Update the hosts file
 
 The new groups should be known to Ansible.
-Update the hosts file (`environments/{ENV}/hosts`) as required.
+Update the hosts file (`environments/{ENV}/hosts`) as required. The certificate recipients default to `hacluster`
+and `backup`: make your renamed groups children of `chainsmith_nodes` (instead of setting the variable
+`chainsmith_nodes`):
+
+```yaml
+all:
+  children:
+    chainsmith_nodes:
+      children:
+        pgnodes:
+        minio:
+```
 
 ### Step 5: Update the playbooks
 

@@ -5,6 +5,14 @@ all:
       hosts:
         # leave this is, because it sets inventory_dir
         localhost:
+    # Optional (pgvillage.chainsmith v0.3.1): without these groups chainsmith uses the first host in localhosts and
+    # hacluster + backup
+    chainsmith_controller:
+      hosts:
+        localhost:
+    chainsmith_nodes:
+      children:
+        hacluster:
     backup:
     # The VMs of the scale set (azure_rm keyed group); stolon and etcd run on them (see standard)
     hacluster:
