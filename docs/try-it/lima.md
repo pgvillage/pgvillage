@@ -12,7 +12,7 @@ Run a PgVillage demo environment on your Mac with [Lima](https://lima-vm.io/), a
 [Vagrant](vagrant/index.md). The VMs use Apple's Virtualization framework (`vz`) and the Lima `user-v2` network, so you
 need no VirtualBox, no boxes to build and no root permissions. Everything you need is in this repository:
 
-- `lima/`: the VM template (`pgvillage.yaml`) and `up.sh`, which creates the VMs and prepares the Ansible VM.
+- `platforms/lima/`: the VM template (`pgvillage.yaml`) and `up.sh`, which creates the VMs and prepares the Ansible VM.
 - `inventories/standard`: the standard PgVillage config, shared by all platforms (multi-instance: `cluster1` and
   `cluster2`).
 - `inventories/os/debian` or `inventories/os/el`: the OS of the VMs (Ubuntu by default, which uses the debian OS inventory). See [Debian (including Ubuntu)](../deploy/os/debian.md) and
@@ -39,8 +39,8 @@ what is used).
 1. Install Lima (2.0 or newer): `brew install lima`. No root permissions are needed, also not later on.
 2. Create the VMs:
    ```bash
-   lima/up.sh                 # Ubuntu 26.04
-   PGV_OS=el lima/up.sh       # or Rocky Linux 9
+   platforms/lima/up.sh                 # Ubuntu 26.04
+   PGV_OS=el platforms/lima/up.sh       # or Rocky Linux 9
    ```
    This creates and starts the five VMs, creates the data and wal directories on the database VMs, gives the Ansible
    VM an ssh key that the other VMs accept, and installs Ansible and the roles and collections from `requirements.yml`
@@ -65,8 +65,9 @@ Stop the VMs with `limactl stop <vm>` (`limactl list` shows them), and remove th
 
 ### The VMs
 
-`lima/pgvillage.yaml` is the template for all VMs. `up.sh` combines it with the image of the OS (the `_images/` Lima
-templates: only the image, without Lima's default mount of your home directory) and sets the CPUs and memory per VM.
+`platforms/lima/pgvillage.yaml` is the template for all VMs. `up.sh` combines it with the image of the OS (the
+`_images/` Lima templates: only the image, without Lima's default mount of your home directory) and sets the CPUs and
+memory per VM.
 
 On every boot, a provisioning script in the template:
 

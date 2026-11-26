@@ -1,6 +1,6 @@
 #!/bin/bash
-# End-to-end test of a PgVillage deploy (pgvillage/pgvillage#177): create the lima VMs (lima/up.sh), deploy with
-# functional-all.yml, deploy again (nothing may change), and check the cluster (tests/e2e/verify.yml).
+# End-to-end test of a PgVillage deploy (pgvillage/pgvillage#177): create the lima VMs (platforms/lima/up.sh), deploy
+# with functional-all.yml, deploy again (nothing may change), and check the cluster (tests/e2e/verify.yml).
 # CI runs it per OS (ci-run-on-pr.yaml); locally it works the same: PGV_OS=el tests/e2e/run.sh
 # The output of every step goes to ${E2E_LOGDIR} (default tests/e2e/logs).
 #
@@ -32,7 +32,7 @@ playbook() {
 }
 
 step "Create the VMs (${PGV_OS})"
-"${REPO}/lima/up.sh" 2>&1 | tee "${LOGDIR}/up.log"
+"${REPO}/platforms/lima/up.sh" 2>&1 | tee "${LOGDIR}/up.log"
 
 step "Deploy"
 playbook deploy.log functional-all.yml

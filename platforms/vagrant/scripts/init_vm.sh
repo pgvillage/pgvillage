@@ -5,7 +5,8 @@ set -e
 rm -rf /etc/ssh/ssh_host_*
 /usr/bin/ssh-keygen -A
 
-# One key for all boxes (in vagrant/.ssh on your laptop, not in git), so the Ansible host can log in on all of them
+# One key for all boxes (in platforms/vagrant/.ssh on your laptop, not in git), so the Ansible host can log in on all
+# of them
 mkdir -p /vagrant/.ssh ~vagrant/.ssh
 chown vagrant: ~vagrant/.ssh
 chmod 0700 ~vagrant/.ssh
