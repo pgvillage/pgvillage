@@ -11,7 +11,7 @@ date: 2026-10-30
 Run a PgVillage demo environment on your laptop with [Vagrant](https://www.vagrantup.com/) and
 [VirtualBox](https://www.virtualbox.org/). Everything you need is in this repository:
 
-- `vagrant/`: the `Vagrantfile` and the scripts that prepare the boxes.
+- `platforms/vagrant/`: the `Vagrantfile` and the scripts that prepare the boxes.
 - `inventories/standard`: the standard PgVillage config, shared by all platforms. It is multi-instance: two stolon
   clusters (`cluster1` and `cluster2`) run side by side on the same hosts.
 - `inventories/os/debian`, `inventories/os/el` or `inventories/os/suse`: the OS of the boxes (Ubuntu by default). See
@@ -48,7 +48,7 @@ The database hosts get 2 GB of memory, the others 1 GB, all 2 CPUs: about 9 GB f
 2. Create the box, once: see [Creating the boxes](boxes.md).
 3. Start the boxes:
    ```bash
-   cd vagrant
+   cd platforms/vagrant
    vagrant up
    ```
    This creates the five boxes, gives them a static IP on the private network, seeds `/etc/hosts`, shares one ssh key
@@ -97,7 +97,7 @@ to deploy with:
 | `suse`             | `nibble/suse-16`      | `inventories/os/suse`   |
 
 ```bash
-cd vagrant
+cd platforms/vagrant
 PGV_OS=el vagrant up
 ```
 
@@ -113,6 +113,8 @@ deploy command in [Getting started](#getting-started) uses the right OS inventor
 
 ## The vagrant directory
 
+In `platforms/vagrant/`:
+
 | File                         | What |
 |------------------------------|------|
 | `Vagrantfile`                | The boxes: `ansible`, `minio` and `db-1` to `db-3`, all on the private network `172.30.1.0/24` |
@@ -120,7 +122,8 @@ deploy command in [Getting started](#getting-started) uses the right OS inventor
 | `scripts/set_ip.sh`          | All boxes: the static IP on the private network (with NetworkManager, netplan or wicked) |
 | `scripts/bootstrap.sh`       | Ansible host: Ansible in `~/venv`, the roles and collections from `requirements.yml`, ssh to localhost |
 
-`vagrant up` creates `vagrant/.ssh` (the shared ssh key) and `vagrant/.vagrant`; both are in `.gitignore`.
+`vagrant up` creates `platforms/vagrant/.ssh` (the shared ssh key) and
+`platforms/vagrant/.vagrant`; both are in `.gitignore`.
 
 ## Mac M1+ users
 
@@ -139,7 +142,7 @@ There is no DNS: `scripts/init_vm.sh` seeds the hosts into `/etc/hosts` of every
 ## Starting over
 
 ```bash
-cd vagrant
+cd platforms/vagrant
 vagrant destroy -f
 vagrant up
 ```

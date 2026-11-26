@@ -12,7 +12,7 @@ case "${PGV_OS}" in
   *) echo "PGV_OS must be ubuntu or el, not ${PGV_OS}" >&2; exit 1 ;;
 esac
 LIMA_DIR=$(cd "$(dirname "$0")" && pwd)
-REPO=$(dirname "${LIMA_DIR}")
+REPO=$(cd "${LIMA_DIR}/../.." && pwd)
 
 # name:cpus:memory(GiB)
 VMS="pgv-ansible:1:1 pgv-backup:1:1 pgv-db-1:2:2 pgv-db-2:2:2 pgv-db-3:2:2"
@@ -44,4 +44,5 @@ for vm in ${VMS}; do
   limactl shell "${vm%%:*}" bash -c "grep -qxF '${PUBKEY}' ~/.ssh/authorized_keys || echo '${PUBKEY}' >>~/.ssh/authorized_keys"
 done
 
-limactl shell --workdir=/ pgv-ansible env PGV_OS="${PGV_OS}" bash -c '~/git/pgvillage/vagrant/scripts/bootstrap.sh'
+limactl shell --workdir=/ pgv-ansible env PGV_OS="${PGV_OS}" \
+  bash -c '~/git/pgvillage/platforms/vagrant/scripts/bootstrap.sh'

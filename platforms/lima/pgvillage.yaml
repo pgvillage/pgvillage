@@ -1,17 +1,17 @@
-# PgVillage demo VM for Lima, on the user-v2 network shared by all PgVillage VMs. lima/up.sh creates the VMs from
-# this template (the OS image, cpus, memory and the repository mount are set there).
+# PgVillage demo VM for Lima, on the user-v2 network shared by all PgVillage VMs. platforms/lima/up.sh creates the VMs
+# from this template (the OS image, cpus, memory and the repository mount are set there).
 # See docs/try-it/lima.md.
 minimumLimaVersion: 2.0.0
 
 # No vmType: lima chooses per host OS, vz on macOS and QEMU on Linux (the e2e tests in CI, tests/e2e/run.sh). Only the
-# Ansible VM mounts something, and lima/up.sh sets its mountType (virtiofs): with QEMU, virtiofs puts all memory of the
-# VM in /dev/shm, which is too small for all VMs on a CI runner.
+# Ansible VM mounts something, and platforms/lima/up.sh sets its mountType (virtiofs): with QEMU, virtiofs puts all
+# memory of the VM in /dev/shm, which is too small for all VMs on a CI runner.
 disk: 20GiB
 # PgVillage doesn't use containers: skip installing containerd and nerdctl in every VM
 containerd:
   system: false
   user: false
-# No home dir mount: only the Ansible VM mounts the repository (lima/up.sh)
+# No home dir mount: only the Ansible VM mounts the repository (platforms/lima/up.sh)
 mounts: []
 # user-v2: a network between the VMs (192.168.104.0/24), with names lima-<instance>.internal, and without root
 # permissions on the Mac (unlike the socket_vmnet networks)
