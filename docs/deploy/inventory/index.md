@@ -74,6 +74,8 @@ The platform inventories have hosts. Use them as they are to try PgVillage, or a
 - `inventories/platform/azure`: VMs on Azure, created by the playbooks in `playbooks/azure`. See
   [Azure](#azure) below and the [Azure docs](../platforms/azure/index.md).
 - `inventories/platform/lima`: VMs on your Mac with Lima: the hosts and a VIP. See [Lima](../../try-it/lima.md).
+- `inventories/platform/libvirt`: VMs on a Linux machine with libvirt: the hosts and a VIP. See
+  [libvirt](../../try-it/libvirt.md).
 - `inventories/platform/vagrant`: boxes on your laptop with Vagrant and VirtualBox: the hosts, a second network
   interface, and the router on the database hosts. See [Vagrant](../../try-it/vagrant/index.md) and
   [The vagrant inventory](vagrant-example.md), which explains every setting.

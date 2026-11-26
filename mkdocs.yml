@@ -133,6 +133,7 @@ nav:
   - Getting started: index.md
   - Try it:
       - Lima: try-it/lima.md
+      - libvirt: try-it/libvirt.md
       - Vagrant:
           - try-it/vagrant/index.md
           - Creating the boxes: try-it/vagrant/boxes.md
